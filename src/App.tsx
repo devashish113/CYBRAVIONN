@@ -757,14 +757,16 @@ const Contact = () => {
                   />
                 </div>
 
-                <motion.button 
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  type="submit" 
-                  className="w-full py-3.5 bg-stone-100 text-stone-950 text-xs uppercase tracking-[0.3em] font-bold rounded-lg hover:bg-white transition-all shadow-lg shadow-stone-950/20"
-                >
-                  Send Message
-                </motion.button>
+                <div className="flex justify-center pt-2">
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    type="submit" 
+                    className="w-fit px-12 py-3 bg-white text-stone-950 text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-stone-100 transition-all shadow-xl shadow-stone-950/20"
+                  >
+                    Send Message
+                  </motion.button>
+                </div>
               </form>
             </motion.div>
             
