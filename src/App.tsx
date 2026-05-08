@@ -589,17 +589,23 @@ const Services = () => {
               <motion.div 
                 key={idx}
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 80,
-                  damping: 15,
-                  delay: idx * 0.1 
+                whileInView={{ 
+                  opacity: 1, 
+                  y: [0, -8, 0],
+                  transition: {
+                    y: {
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: idx * 0.2
+                    },
+                    opacity: { duration: 0.8, delay: idx * 0.1 }
+                  }
                 }}
                 viewport={{ once: true, margin: "-50px" }}
                 whileHover={{ 
                   scale: 1.04, 
-                  y: -5,
+                  y: -12,
                   transition: { duration: 0.3 }
                 }}
                 className={`p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border rounded-2xl group transition-all duration-400 cursor-pointer relative overflow-hidden ${
