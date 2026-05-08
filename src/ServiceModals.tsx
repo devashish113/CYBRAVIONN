@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { 
-  ArrowRight, Shield, CheckCircle2, Lock, Cpu, Globe, Search, Users, BarChart3, HardDrive, AlertTriangle, Activity, Database, Server, Network
+  ArrowRight, Shield, CheckCircle2, Lock, Cpu, Globe, Search, Users, BarChart3, HardDrive, AlertTriangle, Activity, Database, Server, Network, Layers
 } from 'lucide-react';
 
 export const GRCModal = ({ data, close }: { data: any; close: () => void }) => {
