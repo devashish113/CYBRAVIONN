@@ -110,8 +110,8 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-transparent pt-32 pb-20">
-      <div className="relative z-20 w-full px-6 md:px-12 lg:px-20 mt-10">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-transparent pt-24 md:pt-32 pb-20">
+      <div className="relative z-20 w-full px-6 md:px-12 lg:px-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -210,7 +210,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-42 bg-transparent border-t border-white/10 relative">
+    <section id="services" className="py-24 md:py-32 bg-transparent border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <div className="max-w-2xl">
@@ -331,7 +331,7 @@ const Services = () => {
 
 const About = () => {
   return (
-    <section id="about" className="py-32 md:py-48 bg-stone-950/20 backdrop-blur-sm border-t border-white/10 relative">
+    <section id="about" className="py-24 md:py-32 bg-stone-950/20 backdrop-blur-sm border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20 max-w-5xl mx-auto text-center">
         <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">
           The Institution
@@ -375,7 +375,7 @@ const About = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-42 bg-transparent relative overflow-hidden border-t border-white/10">
+    <section id="contact" className="py-24 md:py-32 bg-transparent relative overflow-hidden border-t border-white/10">
       {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-stone-900/20 rounded-full blur-[120px] pointer-events-none" />
 
