@@ -219,48 +219,53 @@ const TrackRecord = () => {
       id: 1,
       icon: <TrendingUp className="text-white" size={24} strokeWidth={2.5} />,
       value: "50+",
-      label: "Projects Delivered"
+      label: "Enterprise & SME Projects Delivered"
     },
     {
       id: 2,
       icon: <Users className="text-white" size={24} strokeWidth={2.5} />,
       value: "30+",
-      label: "Happy Clients"
+      label: "Organizations Secured Globally"
     },
     {
       id: 3,
       icon: <Star className="text-white" size={24} strokeWidth={2.5} />,
       value: "95%",
-      label: "Client Satisfaction"
+      label: "Client Retention & Satisfaction"
     },
     {
       id: 4,
       icon: <Headphones className="text-white" size={24} strokeWidth={2.5} />,
       value: "24/7",
-      label: "Expert Support"
+      label: "Advisory & Incident Support"
     }
   ];
 
   return (
     <section className="py-16 md:py-24 bg-transparent border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
-        <h2 className="text-2xl md:text-4xl font-bold text-center text-white mb-10 tracking-tight">Our Track Record</h2>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Proven Results</span>
+          <h2 className="text-3xl md:text-4xl font-serif text-stone-100 tracking-tight">Numbers that speak for themselves.</h2>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {metrics.map((metric) => (
             <motion.div 
               key={metric.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: metric.id * 0.1 }}
+              transition={{ delay: metric.id * 0.1, duration: 0.5 }}
               viewport={{ once: true }}
-              className="bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500 cursor-default"
+              className="bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500 cursor-default"
             >
-              <div className="mb-6 p-4 rounded-2xl bg-white/[0.02] border border-white/5 text-stone-300">
-                {metric.icon}
-              </div>
               <h3 className="text-4xl md:text-5xl font-serif text-stone-100 mb-3 tracking-tight">{metric.value}</h3>
-              <p className="text-stone-400 text-xs md:text-sm uppercase tracking-[0.2em] font-medium">{metric.label}</p>
+              <p className="text-stone-500 text-[10px] md:text-xs uppercase tracking-[0.15em] font-medium leading-relaxed">{metric.label}</p>
             </motion.div>
           ))}
         </div>
@@ -588,44 +593,82 @@ const Services = () => {
 };
 
 const About = () => {
+  const capabilities = [
+    { label: "Risk-driven security strategy", color: "blue" },
+    { label: "Compliance-ready frameworks", color: "orange" },
+    { label: "Cloud-first architecture", color: "blue" },
+    { label: "Intelligence-led threat visibility", color: "orange" }
+  ];
+
   return (
     <section id="about" className="py-24 md:py-32 bg-stone-950/20 backdrop-blur-sm border-t border-white/10 relative">
-      <div className="w-full px-6 md:px-12 lg:px-20 max-w-5xl mx-auto text-center">
-        <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">
-          About Cybravion
-        </span>
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif text-stone-100 mb-12 leading-[1.1] tracking-tight">
-          Secure your cloud. <br className="hidden md:block" />
-          <span className="italic text-stone-300">Reduce risk. Stay compliant.</span>
-        </h2>
-        
-        <div className="space-y-8 text-stone-300 font-light leading-relaxed text-lg md:text-xl max-w-3xl mx-auto">
-          <p>
-            We don't just sell technology—we solve business problems. CYBRAVION acts as your trusted partner, securing your operations so you can focus on growth without fearing the next breach.
-          </p>
-          <p>
-            Whether you need to align with global compliance standards, test your applications for vulnerabilities, or build a resilient cloud architecture, we deliver practical, outcome-driven results.
-          </p>
+      <div className="w-full px-6 md:px-12 lg:px-20 max-w-6xl mx-auto">
+        {/* Top Section */}
+        <div className="text-center mb-20">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold"
+          >
+            About Cybravion
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-6xl lg:text-7xl font-serif text-stone-100 mb-10 leading-[1.1] tracking-tight"
+          >
+            We secure businesses. <br className="hidden md:block" />
+            <span className="italic text-stone-300">Not just networks.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            viewport={{ once: true }}
+            className="text-stone-400 font-light text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+          >
+            CYBRAVION combines governance, testing, architecture, and intelligence under one strategic framework — so your security posture grows with your business.
+          </motion.p>
         </div>
 
-        <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 border-t border-stone-800 pt-16 text-left">
-          <div className="group bg-white/[0.02] border border-white/5 p-10 rounded-3xl hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500">
-            <h4 className="text-stone-100 font-serif text-2xl md:text-3xl mb-6 group-hover:text-white transition-colors">
-              Our Vision
-            </h4>
-            <p className="text-stone-400 text-sm md:text-base leading-relaxed font-light">
-              Enable continuous business innovation through resilient, uncompromising security frameworks.
-            </p>
-          </div>
-          <div className="group bg-white/[0.02] border border-white/5 p-10 rounded-3xl hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500">
-            <h4 className="text-stone-100 font-serif text-2xl md:text-3xl mb-6 group-hover:text-white transition-colors">
-              Our Objective
-            </h4>
-            <p className="text-stone-400 text-sm md:text-base leading-relaxed font-light">
-              Find gaps, fix them fast, and keep you compliant with zero friction to your operations.
-            </p>
-          </div>
+        {/* Capability Bullets */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
+          {capabilities.map((cap, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.4 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-3 bg-white/[0.02] border border-white/5 rounded-2xl p-5 hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500"
+            >
+              <span className={`w-2 h-2 rounded-full shrink-0 ${cap.color === 'blue' ? 'bg-blue-400' : 'bg-orange-400'}`} />
+              <span className="text-stone-300 text-sm font-medium">{cap.label}</span>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Founder Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-start gap-8 md:gap-12"
+        >
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-orange-500/20 border border-white/10 flex items-center justify-center shrink-0">
+            <span className="text-2xl md:text-3xl font-serif text-stone-200">VN</span>
+          </div>
+          <div>
+            <span className="text-xs uppercase tracking-[0.3em] text-stone-500 font-bold block mb-2">Meet the Founder</span>
+            <h4 className="text-xl md:text-2xl font-serif text-stone-100 mb-1">V V Narayan</h4>
+            <p className="text-sm text-stone-500 uppercase tracking-wider font-medium mb-4">Cofounder, CYBRAVION Solutions</p>
+            <p className="text-stone-400 text-sm md:text-base font-light leading-relaxed max-w-xl">
+              "Our goal is straightforward — help organizations navigate cyber and digital risk with practical frameworks, not theoretical advice. We aim to be the partner you trust to keep your operations secure, compliant, and future-ready."
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
