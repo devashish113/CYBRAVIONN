@@ -187,11 +187,11 @@ const TrackRecord = () => {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-transparent border-t border-white/10 relative">
+    <section className="py-16 md:py-24 bg-transparent border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-16 tracking-tight">Our Track Record</h2>
+        <h2 className="text-2xl md:text-4xl font-bold text-center text-white mb-10 tracking-tight">Our Track Record</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {metrics.map((metric) => (
             <motion.div 
               key={metric.id}
@@ -199,13 +199,13 @@ const TrackRecord = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: metric.id * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white/[0.03] border border-white/5 rounded-2xl p-10 flex flex-col items-center justify-center text-center hover:bg-white/[0.05] transition-colors"
+              className="bg-white/[0.03] border border-white/5 rounded-2xl p-6 flex flex-col items-center justify-center text-center hover:bg-white/[0.05] transition-colors"
             >
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center mb-4 shadow-lg shadow-blue-500/20">
                 {metric.icon}
               </div>
-              <h3 className="text-4xl font-bold text-white mb-3">{metric.value}</h3>
-              <p className="text-stone-400 text-sm font-medium">{metric.label}</p>
+              <h3 className="text-3xl font-bold text-white mb-2">{metric.value}</h3>
+              <p className="text-stone-400 text-xs md:text-sm font-medium">{metric.label}</p>
             </motion.div>
           ))}
         </div>
@@ -621,8 +621,8 @@ export default function App() {
         <Navbar />
         <main>
           <Hero />
-          <TrackRecord />
           <Services />
+          <TrackRecord />
           <About />
           <Contact />
         </main>
