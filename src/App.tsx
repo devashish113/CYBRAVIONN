@@ -672,32 +672,32 @@ const Contact = () => {
       <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           <div>
-            <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-stone-500 mb-6 block font-semibold">Partner With Cybravion</span>
-            <h2 className="text-3xl md:text-4xl font-semibold text-stone-100 mb-6 tracking-tight leading-tight">
-              Ready to secure <br /><span className="font-light text-stone-300">your infrastructure?</span>
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-white mb-6 block font-semibold">Partner With Cybravion</span>
+            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-6 tracking-tight leading-tight">
+              Ready to secure <br /><span className="font-light text-stone-200">your infrastructure?</span>
             </h2>
-            <p className="text-stone-400 font-light mb-10 max-w-sm text-sm leading-relaxed">
+            <p className="text-white font-light mb-10 max-w-sm text-sm leading-relaxed opacity-80">
               Align your security posture with your business objectives. Reach out to our advisory team today.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
               <div className="flex items-center gap-5 group cursor-pointer">
-                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-stone-400 group-hover:text-stone-100 group-hover:border-white/20 transition-all duration-500">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.05] transition-all duration-500">
                   <Mail size={18} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-[0.3em] text-stone-500 mb-0.5 font-bold">Email</p>
-                  <p className="text-stone-300 text-base font-light">cybravions@gmail.com</p>
+                  <p className="text-[9px] uppercase tracking-[0.3em] text-white mb-0.5 font-bold opacity-60">Email</p>
+                  <p className="text-white text-base font-light">cybravions@gmail.com</p>
                 </div>
               </div>
               
               <div className="flex items-center gap-5 group cursor-pointer">
-                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-stone-400 group-hover:text-stone-100 group-hover:border-white/20 transition-all duration-500">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.05] transition-all duration-500">
                   <Phone size={18} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-[0.3em] text-stone-500 mb-0.5 font-bold">Phone</p>
-                  <p className="text-stone-300 text-base font-light">+91-9358683634</p>
+                  <p className="text-[9px] uppercase tracking-[0.3em] text-white mb-0.5 font-bold opacity-60">Phone</p>
+                  <p className="text-white text-base font-light">+91-9358683634</p>
                 </div>
               </div>
             </div>
@@ -708,51 +708,51 @@ const Contact = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="bg-white/[0.02] backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-white/5 shadow-2xl relative z-10"
+              className="bg-stone-900/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-white/5 shadow-2xl relative z-10"
             >
               <form action="https://api.web3forms.com/submit" method="POST" className="space-y-6">
                 <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2 group">
-                    <label className="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-bold ml-1 group-focus-within:text-stone-300 transition-colors">Full Name</label>
+                    <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60 group-focus-within:opacity-100 transition-opacity">Full Name</label>
                     <input 
                       type="text" 
                       name="name"
                       required
-                      className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-stone-100 focus:outline-none focus:bg-white/[0.04] focus:border-white/20 transition-all placeholder:text-stone-700 text-sm" 
+                      className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:bg-stone-950/80 focus:border-white/20 transition-all placeholder:text-stone-500 text-sm" 
                       placeholder="John Doe"
                     />
                   </div>
                   <div className="space-y-2 group">
-                    <label className="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-bold ml-1 group-focus-within:text-stone-300 transition-colors">Company</label>
+                    <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60 group-focus-within:opacity-100 transition-opacity">Company</label>
                     <input 
                       type="text" 
                       name="organization"
-                      className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-stone-100 focus:outline-none focus:bg-white/[0.04] focus:border-white/20 transition-all placeholder:text-stone-700 text-sm" 
+                      className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:bg-stone-950/80 focus:border-white/20 transition-all placeholder:text-stone-500 text-sm" 
                       placeholder="Company Name"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2 group">
-                  <label className="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-bold ml-1 group-focus-within:text-stone-300 transition-colors">Email Address</label>
+                  <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60 group-focus-within:opacity-100 transition-opacity">Email Address</label>
                   <input 
                     type="email" 
                     name="email"
                     required
-                    className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-stone-100 focus:outline-none focus:bg-white/[0.04] focus:border-white/20 transition-all placeholder:text-stone-700 text-sm" 
+                    className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:bg-stone-950/80 focus:border-white/20 transition-all placeholder:text-stone-500 text-sm" 
                     placeholder="john@example.com"
                   />
                 </div>
 
                 <div className="space-y-2 group">
-                  <label className="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-bold ml-1 group-focus-within:text-stone-300 transition-colors">Message</label>
+                  <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60 group-focus-within:opacity-100 transition-opacity">Message</label>
                   <textarea 
                     rows={2}
                     name="message"
                     required
-                    className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-stone-100 focus:outline-none focus:bg-white/[0.04] focus:border-white/20 transition-all placeholder:text-stone-700 resize-none text-sm leading-relaxed" 
+                    className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:bg-stone-950/80 focus:border-white/20 transition-all placeholder:text-stone-500 resize-none text-sm leading-relaxed" 
                     placeholder="How can we help?"
                   />
                 </div>
