@@ -1327,8 +1327,8 @@ export default function App() {
           <WhyChooseUs />
           <FounderSection />
           <HowWeWork />
-          <FAQ />
           <Contact />
+          <FAQ />
         </main>
         <SecurityBadge />
         <Footer />
