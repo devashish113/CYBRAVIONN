@@ -127,7 +127,7 @@ const Hero = () => {
           className="max-w-5xl mx-auto flex flex-col items-center text-center relative"
         >
           
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 w-full max-w-7xl mx-auto">
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 w-full max-w-7xl mx-auto">
             {/* Left Column */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl">
               
