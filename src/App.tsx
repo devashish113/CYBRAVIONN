@@ -373,92 +373,172 @@ const Services = () => {
 
   const expertises = [
     {
-      title: "Governance & Compliance",
-      desc: "Align your business with global standards. Pass audits. Reduce regulatory risk.",
-      outcome: "90% of clients achieve compliance readiness within 6 months",
+      title: "Cybersecurity Governance, Risk & Compliance (GRC)",
+      desc: "Establish strong governance structures, enterprise-wide risk visibility, and compliance maturity.",
+      outcome: "Ensure resilience, accountability, and audit readiness for global standards.",
       icon: <Shield className="w-6 h-6" />,
       color: "blue",
-      standards: ["ISO 27001", "NIST CSF", "SOC 2", "GDPR"],
-      whatWeDo: ["Build security policies that actually get followed", "Run enterprise-wide risk assessments", "Prepare you for audits before auditors arrive", "Assess vendor and third-party risk exposure"],
-      process: ["Assess current compliance gaps", "Map controls to required standards", "Implement governance frameworks", "Continuous monitoring & audit support"],
-      impact: ["Reduced regulatory penalties and audit failures", "Clear visibility into enterprise risk posture", "Faster onboarding of compliance-sensitive clients"]
+      standards: ["ISO/IEC 27001", "NIST CSF", "SOC 2", "DPDP Act", "CERT-In"],
+      whatWeDo: [
+        "Develop information security policies, standards, and procedures",
+        "Enterprise risk assessments and risk register management",
+        "ISMS documentation and vendor/third-party risk management",
+        "Business continuity (BCP) and disaster recovery (DRP) planning",
+        "Compliance gap assessments and audit readiness programs"
+      ],
+      process: ["Assess Compliance Gaps", "Map Framework Controls", "Implement Governance", "Continuous Monitoring"],
+      impact: [
+        "Reduced regulatory penalties and audit failures",
+        "Integrated security into business decision-making",
+        "Strengthened security posture and audit readiness"
+      ]
     },
     {
-      title: "Security Testing",
-      desc: "We find security gaps and help you fix them before attackers do.",
-      outcome: "Prevent breaches before they happen",
+      title: "VAPT Coordination & Security Testing",
+      desc: "Identify, prioritize, and address vulnerabilities across applications, networks, and cloud environments.",
+      outcome: "Reduce exploitable attack surfaces and improve security hygiene.",
       icon: <Lock className="w-6 h-6" />,
       color: "orange",
-      standards: ["OWASP Top 10", "PTES", "NIST SP 800-115"],
-      whatWeDo: ["Penetration testing across web, mobile, and APIs", "Network and infrastructure vulnerability scanning", "Cloud environment security validation", "Actionable remediation roadmaps, not just reports"],
-      process: ["Scope & reconnaissance", "Identify exploitable vulnerabilities", "Simulate real-world attack scenarios", "Deliver prioritized fix recommendations"],
-      impact: ["Reduced attack surface across all digital assets", "Confidence before product launches and releases", "Evidence-based security posture for stakeholders"]
+      standards: ["OWASP Top 10", "Vulnerability Lifecycle", "Remediation Governance"],
+      whatWeDo: [
+        "Web and mobile application security testing (VAPT)",
+        "API security testing and network security assessments",
+        "Cloud security reviews and infrastructure validation",
+        "Remediation tracking and security issue prioritization",
+        "Re-testing validation and vulnerability lifecycle management"
+      ],
+      process: ["Scope & Reconnaissance", "Vulnerability Assessment", "Exploitation & Penetration", "Remediation Governance"],
+      impact: [
+        "Proactive identification of exploitable gaps",
+        "Prioritized remediation based on business risk",
+        "Evidence-based security assurance for stakeholders"
+      ]
     },
     {
-      title: "Cloud & Security Architecture",
-      desc: "Build infrastructure that's secure by design, not secured after the fact.",
-      outcome: "Resilient systems from day one",
+      title: "Security Architecture & Assurance",
+      desc: "Embed security-by-design principles into enterprise technology and technology ecosystems.",
+      outcome: "Build resilient infrastructure and secure application foundations.",
       icon: <Cpu className="w-6 h-6" />,
       color: "blue",
-      standards: ["Zero Trust", "CIS Benchmarks", "AWS/Azure Best Practices"],
-      whatWeDo: ["Security architecture review and advisory", "Zero trust implementation guidance", "Identity and access management strategy", "Cloud security posture assessment"],
-      process: ["Evaluate current architecture", "Identify design-level weaknesses", "Recommend security controls", "Validate implementation effectiveness"],
-      impact: ["Fewer architecture-level vulnerabilities", "Secure cloud migration and digital transformation", "Reduced cost of retroactive security fixes"]
+      standards: ["Zero Trust", "CIS Benchmarks", "Security-by-Design"],
+      whatWeDo: [
+        "Enterprise security architecture and network design review",
+        "Cloud security architecture assessment and Zero Trust advisory",
+        "Identity and Access Management (IAM) strategy and reviews",
+        "Data protection architecture and segmentation strategies",
+        "Security assurance validation for digital transformation"
+      ],
+      process: ["Evaluate Ecosystem", "Review Security Design", "Develop Secure Baselines", "Validation Assurance"],
+      impact: [
+        "Controls integrated proactively rather than reactively",
+        "Secure cloud migration and digital transformation",
+        "Fewer architecture-level vulnerabilities and design flaws"
+      ]
     },
     {
-      title: "AI Risk Governance",
-      desc: "Deploy AI responsibly. Manage risk without slowing innovation.",
-      outcome: "Safe AI adoption with stakeholder trust",
+      title: "AI Risk Governance & Digital Trust",
+      desc: "Implement responsible AI governance frameworks and digital trust mechanisms.",
+      outcome: "Balance innovation with accountability and stakeholder trust.",
       icon: <Globe className="w-6 h-6" />,
       color: "orange",
-      standards: ["ISO/IEC 42001", "NIST AI RMF", "EU AI Act"],
-      whatWeDo: ["AI governance framework development", "Ethical risk and bias analysis", "AI security review and model governance", "Responsible AI policy creation"],
-      process: ["Assess AI usage and risk exposure", "Define governance policies", "Implement controls and safeguards", "Monitor and report on AI risk"],
-      impact: ["Compliant AI deployments across the organization", "Reduced liability from AI-related decisions", "Increased stakeholder and customer trust"]
+      standards: ["ISO/IEC 42001", "NIST AI RMF", "Ethical AI"],
+      whatWeDo: [
+        "Alignment support for ISO/IEC 42001 (AI Management System)",
+        "AI governance framework advisory and risk assessment",
+        "Responsible AI policy development and ethical risk analysis",
+        "AI security review and model governance awareness",
+        "Digital trust advisory and AI vendor risk considerations"
+      ],
+      process: ["AI Risk Assessment", "Policy Development", "Governance Implementation", "Digital Trust Review"],
+      impact: [
+        "Safe and compliant AI adoption across the enterprise",
+        "Reduced liability from AI-related decisions",
+        "Enhanced customer and stakeholder confidence in AI"
+      ]
     },
     {
-      title: "Threat Intelligence",
-      desc: "Know what attackers know about you — before they use it.",
-      outcome: "Early threat detection, fewer surprises",
+      title: "OSINT & Threat Intelligence Services",
+      desc: "Enhance situational awareness and strategic decision-making through intelligence-led methodologies.",
+      outcome: "Proactively identify threats and monitor organizational exposure.",
       icon: <Search className="w-6 h-6" />,
       color: "blue",
-      standards: ["MITRE ATT&CK", "OSINT Frameworks", "STIX/TAXII"],
-      whatWeDo: ["Digital footprint and exposure analysis", "Adversary profiling and tracking", "Executive and brand threat monitoring", "Strategic intelligence reporting"],
-      process: ["Map your digital exposure", "Monitor threat landscape", "Correlate intelligence data", "Deliver actionable threat briefs"],
-      impact: ["Proactive threat response instead of reactive", "Protected executive and brand reputation", "Intelligence-led security decision making"]
+      standards: ["OSINT Framework", "Adversary Profiling", "Brand Intelligence"],
+      whatWeDo: [
+        "Digital footprint analysis and structured OSINT investigations",
+        "Executive exposure analysis and threat monitoring",
+        "Adversary profiling and brand intelligence gathering",
+        "Due diligence support and information correlation",
+        "Strategic intelligence reporting and trend monitoring"
+      ],
+      process: ["Footprint Mapping", "Intelligence Gathering", "Adversary Profiling", "Strategic Reporting"],
+      impact: [
+        "Early warning of emerging threats and brand risks",
+        "Intelligence-led risk management and decision support",
+        "Improved situational awareness of organizational exposure"
+      ]
     },
     {
-      title: "Digital Influence",
-      desc: "Protect your brand online. Monitor reputation. Control the narrative.",
-      outcome: "Stronger brand trust and market perception",
+      title: "Social Media Intelligence & Digital Influence",
+      desc: "Enhance digital presence, brand visibility, and strategic online influence.",
+      outcome: "Strengthen market perception and informed digital engagement.",
       icon: <Users className="w-6 h-6" />,
       color: "orange",
-      standards: ["Brand Intelligence", "SOCMINT", "Competitive Analysis"],
-      whatWeDo: ["Digital brand strategy and monitoring", "Social media intelligence gathering", "Competitive and audience analysis", "Reputation risk assessment"],
-      process: ["Audit current digital presence", "Identify reputation risks", "Deploy monitoring systems", "Strategic visibility planning"],
-      impact: ["Faster response to brand threats", "Improved market positioning", "Data-driven engagement decisions"]
+      standards: ["Reputation Monitoring", "Competitive Intelligence", "Digital Strategy"],
+      whatWeDo: [
+        "Digital brand strategy and reputation monitoring",
+        "Social media intelligence and competitive analysis",
+        "Campaign strategy support and audience analysis",
+        "Trend identification and digital reputation risk assessment",
+        "Strategic content visibility and influence planning"
+      ],
+      process: ["Audience Analysis", "Reputation Audit", "Strategy Development", "Campaign Support"],
+      impact: [
+        "Strengthened market perception and brand trust",
+        "Improved reach and audience engagement effectiveness",
+        "Proactive management of digital reputation risks"
+      ]
     },
     {
-      title: "Capability Development",
-      desc: "Your team is your first line of defense. Make them ready.",
-      outcome: "Skilled teams that reduce human risk",
+      title: "Cybersecurity Training & Capability Development",
+      desc: "Strengthen organizational cyber maturity and workforce capability for technical and executive teams.",
+      outcome: "Build skilled teams capable of managing evolving digital risks.",
       icon: <BarChart3 className="w-6 h-6" />,
       color: "blue",
-      standards: ["CISSP", "CISA", "CompTIA Security+", "Custom Programs"],
-      whatWeDo: ["Executive cyber awareness programs", "Technical security workshops", "GRC and risk management training", "Certification pathway support"],
-      process: ["Assess team skill gaps", "Design targeted programs", "Deliver hands-on training", "Measure improvement and readiness"],
-      impact: ["Fewer security incidents caused by human error", "Stronger internal security culture", "Faster incident response times"]
+      standards: ["Certification Pathways", "Cyber Awareness", "Workforce Capability"],
+      whatWeDo: [
+        "Executive and technical cybersecurity awareness programs",
+        "GRC and risk management workshops and training",
+        "Security architecture and OSINT training workshops",
+        "Secure coding awareness and SOC fundamentals training",
+        "Support on training pathways for global certifications"
+      ],
+      process: ["Skill Gap Assessment", "Custom Program Design", "Technical Workshops", "Workforce Validation"],
+      impact: [
+        "Reduced human risk and security incidents",
+        "Enhanced organizational security culture and maturity",
+        "Future-ready workforce with specialized capabilities"
+      ]
     },
     {
-      title: "Product Advisory",
-      desc: "Stop wasting budget on the wrong tools. Invest where it matters.",
-      outcome: "Maximum security ROI from every dollar",
+      title: "Cybersecurity Product Advisory & Deployment",
+      desc: "Evaluate, select, and optimize security technologies aligned with business objectives.",
+      outcome: "Maximize security ROI through informed technology decisions.",
       icon: <HardDrive className="w-6 h-6" />,
       color: "orange",
-      standards: ["Vendor Neutral", "ROI-Driven", "Business-Aligned"],
-      whatWeDo: ["Security product evaluation and selection", "Technology stack assessment", "Deployment coordination and integration", "Post-deployment optimization"],
-      process: ["Understand business requirements", "Evaluate vendor options", "Plan and coordinate deployment", "Optimize and measure ROI"],
-      impact: ["Reduced spend on redundant security tools", "Faster time-to-value on new technology", "Aligned security stack with business goals"]
+      standards: ["ROI Optimization", "Technology Assessment", "Deployment Governance"],
+       whatWeDo: [
+        "Security product advisory and solution evaluation",
+        "Technology stack assessment and custom solution advisory",
+        "Deployment coordination and security tool integration",
+        "Implementation roadmap development and optimization",
+        "Post-deployment guidance and ROI measurement"
+      ],
+      process: ["Requirement Mapping", "Vendor Evaluation", "Deployment Coordination", "Post-Deployment ROI"],
+      impact: [
+        "Efficient allocation of security technology budget",
+        "Seamless integration of new tools into ecosystems",
+        "Optimized technology performance and risk reduction"
+      ]
     }
   ];
 
