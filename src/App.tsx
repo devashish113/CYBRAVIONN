@@ -665,39 +665,39 @@ const About = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-24 md:py-32 bg-transparent relative overflow-hidden border-t border-white/10">
+    <section id="contact" className="py-16 md:py-20 bg-transparent relative overflow-hidden border-t border-white/10">
       {/* Subtle Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-stone-900/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-900/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
-          <div className="py-10">
-            <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">Partner With Cybravion</span>
-            <h2 className="text-4xl md:text-6xl font-semibold text-stone-100 mb-10 tracking-tighter leading-tight">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+          <div>
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-stone-500 mb-6 block font-semibold">Partner With Cybravion</span>
+            <h2 className="text-3xl md:text-4xl font-semibold text-stone-100 mb-6 tracking-tight leading-tight">
               Ready to secure <br /><span className="font-light text-stone-300">your infrastructure?</span>
             </h2>
-            <p className="text-stone-300 font-light mb-16 max-w-md text-lg leading-relaxed">
-              Let's discuss how we can align your security posture with your business objectives. Reach out to our advisory team today.
+            <p className="text-stone-400 font-light mb-10 max-w-sm text-sm leading-relaxed">
+              Align your security posture with your business objectives. Reach out to our advisory team today.
             </p>
 
-            <div className="space-y-10">
-              <div className="flex items-center gap-8 group cursor-pointer">
-                <div className="w-14 h-14 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-stone-300 group-hover:text-stone-100 group-hover:border-white/20 group-hover:bg-white/[0.05] transition-all duration-500">
-                  <Mail size={20} strokeWidth={1.5} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+              <div className="flex items-center gap-5 group cursor-pointer">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-stone-400 group-hover:text-stone-100 group-hover:border-white/20 transition-all duration-500">
+                  <Mail size={18} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-stone-400 mb-1 font-bold">Email</p>
-                  <p className="text-stone-300 text-xl font-light tracking-wide">cybravions@gmail.com</p>
+                  <p className="text-[9px] uppercase tracking-[0.3em] text-stone-500 mb-0.5 font-bold">Email</p>
+                  <p className="text-stone-300 text-base font-light">cybravions@gmail.com</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-8 group cursor-pointer">
-                <div className="w-14 h-14 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-stone-300 group-hover:text-stone-100 group-hover:border-white/20 group-hover:bg-white/[0.05] transition-all duration-500">
-                  <Phone size={20} strokeWidth={1.5} />
+              <div className="flex items-center gap-5 group cursor-pointer">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-stone-400 group-hover:text-stone-100 group-hover:border-white/20 transition-all duration-500">
+                  <Phone size={18} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-stone-400 mb-1 font-bold">Phone</p>
-                  <p className="text-stone-300 text-xl font-light tracking-wide">+91-9358683634</p>
+                  <p className="text-[9px] uppercase tracking-[0.3em] text-stone-500 mb-0.5 font-bold">Phone</p>
+                  <p className="text-stone-300 text-base font-light">+91-9358683634</p>
                 </div>
               </div>
             </div>
@@ -705,64 +705,63 @@ const Contact = () => {
 
           <div className="relative">
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="bg-white/[0.02] backdrop-blur-2xl p-8 md:p-14 rounded-3xl border border-white/5 shadow-2xl relative z-10"
+              className="bg-white/[0.02] backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-white/5 shadow-2xl relative z-10"
             >
-              <form action="https://api.web3forms.com/submit" method="POST" className="space-y-10">
-                {/* Replace YOUR_ACCESS_KEY_HERE with your Web3Forms access key */}
+              <form action="https://api.web3forms.com/submit" method="POST" className="space-y-6">
                 <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                  <div className="space-y-3 group">
-                    <label className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold ml-2 group-focus-within:text-stone-200 transition-colors">Full Name</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2 group">
+                    <label className="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-bold ml-1 group-focus-within:text-stone-300 transition-colors">Full Name</label>
                     <input 
                       type="text" 
                       name="name"
                       required
-                      className="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-4 text-stone-100 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-all placeholder:text-stone-600 text-base" 
+                      className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-stone-100 focus:outline-none focus:bg-white/[0.04] focus:border-white/20 transition-all placeholder:text-stone-700 text-sm" 
                       placeholder="John Doe"
                     />
                   </div>
-                  <div className="space-y-3 group">
-                    <label className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold ml-2 group-focus-within:text-stone-200 transition-colors">Company</label>
+                  <div className="space-y-2 group">
+                    <label className="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-bold ml-1 group-focus-within:text-stone-300 transition-colors">Company</label>
                     <input 
                       type="text" 
                       name="organization"
-                      className="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-4 text-stone-100 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-all placeholder:text-stone-600 text-base" 
+                      className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-stone-100 focus:outline-none focus:bg-white/[0.04] focus:border-white/20 transition-all placeholder:text-stone-700 text-sm" 
                       placeholder="Company Name"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-3 group">
-                  <label className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold ml-2 group-focus-within:text-stone-200 transition-colors">Email Address</label>
+                <div className="space-y-2 group">
+                  <label className="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-bold ml-1 group-focus-within:text-stone-300 transition-colors">Email Address</label>
                   <input 
                     type="email" 
                     name="email"
                     required
-                    className="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-4 text-stone-100 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-all placeholder:text-stone-600 text-base" 
+                    className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-stone-100 focus:outline-none focus:bg-white/[0.04] focus:border-white/20 transition-all placeholder:text-stone-700 text-sm" 
                     placeholder="john@example.com"
                   />
                 </div>
 
-                <div className="space-y-3 group">
-                  <label className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold ml-2 group-focus-within:text-stone-200 transition-colors">Message</label>
+                <div className="space-y-2 group">
+                  <label className="text-[9px] uppercase tracking-[0.3em] text-stone-500 font-bold ml-1 group-focus-within:text-stone-300 transition-colors">Message</label>
                   <textarea 
-                    rows={3}
+                    rows={2}
                     name="message"
                     required
-                    className="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-4 text-stone-100 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-all placeholder:text-stone-600 resize-none text-base leading-relaxed" 
-                    placeholder="How can we help secure your business?"
+                    className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-stone-100 focus:outline-none focus:bg-white/[0.04] focus:border-white/20 transition-all placeholder:text-stone-700 resize-none text-sm leading-relaxed" 
+                    placeholder="How can we help?"
                   />
                 </div>
 
                 <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                   type="submit" 
-                  className="w-full py-3 md:py-5 bg-stone-100 text-stone-950 text-xs md:text-base uppercase tracking-[0.3em] md:tracking-[0.4em] font-bold rounded-xl hover:bg-white transition-all shadow-xl shadow-stone-950/50"
+                  className="w-full py-3.5 bg-stone-100 text-stone-950 text-xs uppercase tracking-[0.3em] font-bold rounded-lg hover:bg-white transition-all shadow-lg shadow-stone-950/20"
                 >
                   Send Message
                 </motion.button>
@@ -770,7 +769,7 @@ const Contact = () => {
             </motion.div>
             
             {/* Decorative element */}
-            <div className="absolute -bottom-4 -right-4 w-full h-full border border-stone-700 rounded-3xl -z-0" />
+            <div className="absolute -bottom-3 -right-3 w-full h-full border border-stone-800 rounded-3xl -z-0" />
           </div>
         </div>
       </div>
