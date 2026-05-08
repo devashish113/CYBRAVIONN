@@ -15,6 +15,7 @@ import {
   HardDrive, 
   BarChart3, 
   ChevronRight,
+  ChevronDown,
   Menu,
   X,
   Mail,
@@ -22,7 +23,19 @@ import {
   ArrowRight,
   TrendingUp,
   Star,
-  Headphones
+  Headphones,
+  CheckCircle2,
+  Zap,
+  Target,
+  Eye,
+  BookOpen,
+  Award,
+  Layers,
+  Brain,
+  Radar,
+  GraduationCap,
+  ShieldCheck,
+  FileCheck
 } from 'lucide-react';
 
 // --- Components ---
@@ -980,6 +993,329 @@ const Contact = () => {
   );
 };
 
+const CTABanner = () => (
+  <section className="py-20 md:py-28 relative overflow-hidden border-t border-white/10">
+    <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-stone-950/60 to-orange-950/40 pointer-events-none" />
+    <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="w-full px-6 md:px-12 lg:px-20 max-w-5xl mx-auto text-center relative z-10">
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 70, damping: 15 }}
+        viewport={{ once: true }}
+        className="text-3xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]"
+      >
+        Secure your infrastructure <br className="hidden md:block" />
+        <span className="font-light text-stone-300">before threats become breaches.</span>
+      </motion.h2>
+      <motion.p
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.8 }}
+        viewport={{ once: true }}
+        className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto mb-10 font-light leading-relaxed"
+      >
+        Don't wait for a breach to take security seriously. Our advisory team helps you build resilience from day one.
+      </motion.p>
+      <motion.a
+        href="#contact"
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+        viewport={{ once: true }}
+        whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(249,115,22,0.4)" }}
+        whileTap={{ scale: 0.95 }}
+        className="inline-flex items-center gap-3 px-10 py-4 bg-orange-500 text-white rounded-full text-sm uppercase tracking-[0.2em] font-bold shadow-xl shadow-orange-500/20 hover:bg-orange-600 transition-all"
+      >
+        Consult an Advisor <ArrowRight size={16} />
+      </motion.a>
+    </div>
+  </section>
+);
+
+const WhyChooseUs = () => {
+  const differentiators = [
+    { icon: <Target className="w-6 h-6" />, title: "Business-First Security", desc: "We align cybersecurity strategy with your business objectives — not just technical checklists.", color: "blue" },
+    { icon: <Layers className="w-6 h-6" />, title: "End-to-End Services", desc: "From advisory and gap assessment through implementation, deployment, and post-deployment optimization.", color: "orange" },
+    { icon: <TrendingUp className="w-6 h-6" />, title: "Outcome-Driven Strategies", desc: "Measurable risk reduction, compliance readiness, and strengthened security posture — not just reports.", color: "blue" },
+    { icon: <Brain className="w-6 h-6" />, title: "Cloud & AI Security Expertise", desc: "Specialized capabilities in cloud architecture, Zero Trust advisory, and AI risk governance frameworks.", color: "orange" },
+    { icon: <Radar className="w-6 h-6" />, title: "Intelligence-Led Decisions", desc: "OSINT, threat intelligence, and adversary profiling fused into actionable strategic risk insights.", color: "blue" }
+  ];
+
+  return (
+    <section className="py-20 md:py-28 bg-transparent border-t border-white/10 relative">
+      <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Why Cybravion</span>
+          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">What sets us apart.</h2>
+          <p className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto font-light">We don't just identify risks — we help you build a resilient, compliant, and future-ready organization.</p>
+        </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {differentiators.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 90, damping: 15, delay: i * 0.08 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.03, y: -4 }}
+              className={`p-6 md:p-8 bg-white/[0.02] backdrop-blur-xl border rounded-2xl group transition-all duration-400 relative overflow-hidden ${
+                item.color === 'blue' ? 'border-blue-500/10 hover:border-blue-500/25' : 'border-orange-500/10 hover:border-orange-500/25'
+              }`}
+            >
+              <div className={`absolute -top-12 -right-12 w-32 h-32 blur-[50px] opacity-0 group-hover:opacity-15 transition-opacity rounded-full pointer-events-none ${
+                item.color === 'blue' ? 'bg-blue-500' : 'bg-orange-500'
+              }`} />
+              <div className={`p-3 w-fit rounded-xl mb-5 ${item.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'}`}>
+                {item.icon}
+              </div>
+              <h3 className="text-lg font-semibold text-stone-100 mb-2">{item.title}</h3>
+              <p className="text-stone-400 text-sm font-light leading-relaxed">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ComplianceStandards = () => {
+  const frameworks = [
+    { name: "ISO/IEC 27001", short: "Information security management system standard for enterprise-wide risk governance.", icon: <ShieldCheck className="w-6 h-6" />, color: "blue" },
+    { name: "NIST CSF", short: "Cybersecurity framework for identifying, protecting, detecting, responding, and recovering.", icon: <Layers className="w-6 h-6" />, color: "orange" },
+    { name: "SOC 2", short: "Trust service criteria for managing customer data — security, availability, confidentiality.", icon: <FileCheck className="w-6 h-6" />, color: "blue" },
+    { name: "DPDP Act", short: "India's Digital Personal Data Protection Act for lawful processing of personal data.", icon: <Lock className="w-6 h-6" />, color: "orange" },
+    { name: "CERT-In", short: "Indian Computer Emergency Response Team advisory compliance for incident reporting.", icon: <Shield className="w-6 h-6" />, color: "blue" }
+  ];
+
+  return (
+    <section className="py-20 md:py-28 bg-stone-950/30 border-t border-white/10 relative">
+      <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Global Frameworks</span>
+          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">Stay compliant. <span className="font-light text-stone-300">Reduce regulatory risk.</span></h2>
+          <p className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto font-light">We align your security posture with globally recognized compliance standards and regulatory requirements.</p>
+        </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {frameworks.map((fw, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              className={`p-6 bg-white/[0.02] border rounded-2xl group cursor-default transition-all duration-400 relative overflow-hidden text-center ${
+                fw.color === 'blue' ? 'border-blue-500/10 hover:border-blue-500/30' : 'border-orange-500/10 hover:border-orange-500/30'
+              }`}
+            >
+              <div className={`mx-auto p-3 w-fit rounded-xl mb-4 ${fw.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'}`}>
+                {fw.icon}
+              </div>
+              <h3 className={`text-base font-bold mb-2 ${fw.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>{fw.name}</h3>
+              <p className="text-stone-400 text-xs font-light leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity">{fw.short}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ThreatIntelHighlight = () => (
+  <section className="py-20 md:py-28 bg-transparent border-t border-white/10 relative overflow-hidden">
+    <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+    <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
+          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-blue-400 mb-6 block font-semibold">Threat Intelligence</span>
+          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6 leading-[1.1]">
+            Know what attackers know <br className="hidden md:block" />
+            <span className="font-light text-stone-300">before they use it.</span>
+          </h2>
+          <p className="text-stone-400 text-base md:text-lg font-light leading-relaxed mb-10 max-w-lg">
+            Our intelligence-led approach combines OSINT, adversary profiling, and strategic monitoring to give you actionable threat visibility — not just data.
+          </p>
+          <ul className="space-y-5">
+            {[
+              { icon: <Eye className="w-5 h-5" />, text: "Real-time threat awareness and exposure monitoring" },
+              { icon: <Radar className="w-5 h-5" />, text: "Proactive risk detection and adversary profiling" },
+              { icon: <Users className="w-5 h-5" />, text: "Executive and brand threat intelligence" },
+              { icon: <Search className="w-5 h-5" />, text: "Structured OSINT investigations and due diligence" }
+            ].map((item, i) => (
+              <motion.li key={i} initial={{ opacity: 0, x: -15 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.1 }} viewport={{ once: true }} className="flex items-center gap-4">
+                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 shrink-0">{item.icon}</div>
+                <span className="text-stone-200 text-sm font-medium">{item.text}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+        <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} viewport={{ once: true }} className="hidden lg:flex items-center justify-center relative">
+          <div className="relative w-80 h-80">
+            <div className="absolute inset-0 border border-blue-500/10 rounded-full" />
+            <div className="absolute inset-6 border border-blue-500/15 rounded-full" />
+            <div className="absolute inset-12 border border-blue-500/20 rounded-full" />
+            <div className="absolute inset-20 border border-blue-500/25 rounded-full bg-blue-500/5 flex items-center justify-center">
+              <Radar className="w-12 h-12 text-blue-400/60" />
+            </div>
+            {[0, 60, 120, 180, 240, 300].map((deg, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2.5 h-2.5 rounded-full bg-blue-400"
+                style={{ top: `${50 + 45 * Math.sin((deg * Math.PI) / 180)}%`, left: `${50 + 45 * Math.cos((deg * Math.PI) / 180)}%` }}
+                animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 2 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
+              />
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  </section>
+);
+
+const TrainingAwareness = () => {
+  const programs = [
+    {
+      icon: <Users className="w-6 h-6" />,
+      title: "Security Awareness",
+      desc: "Organization-wide programs that build a security-first culture — from boardroom to breakroom.",
+      points: ["Executive cyber awareness sessions", "Phishing simulation and social engineering defense", "Security policy communication and adoption"],
+      color: "orange"
+    },
+    {
+      icon: <Cpu className="w-6 h-6" />,
+      title: "Technical Team Training",
+      desc: "Hands-on workshops designed for engineering, DevOps, and security operations teams.",
+      points: ["Secure coding practices and code review", "SOC fundamentals and incident response", "Cloud security and architecture workshops"],
+      color: "blue"
+    },
+    {
+      icon: <GraduationCap className="w-6 h-6" />,
+      title: "Certification Guidance",
+      desc: "Structured pathways to globally recognized cybersecurity certifications.",
+      points: ["CISSP, CISA, and CompTIA Security+ preparation", "GRC and risk management specializations", "Custom enterprise certification programs"],
+      color: "orange"
+    }
+  ];
+
+  return (
+    <section className="py-20 md:py-28 bg-transparent border-t border-white/10 relative">
+      <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Capability Development</span>
+          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">Build a security-aware workforce <br className="hidden md:block" /><span className="font-light text-stone-300">that can defend against modern threats.</span></h2>
+          <p className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto font-light">Your team is your first line of defense. Our training programs transform employees into security assets.</p>
+        </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+          {programs.map((prog, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className={`p-7 bg-white/[0.02] border rounded-2xl relative overflow-hidden group transition-all duration-400 ${
+                prog.color === 'blue' ? 'border-blue-500/10 hover:border-blue-500/25' : 'border-orange-500/10 hover:border-orange-500/25'
+              }`}
+            >
+              <div className={`p-3 w-fit rounded-xl mb-5 ${prog.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'}`}>
+                {prog.icon}
+              </div>
+              <h3 className="text-xl font-semibold text-stone-100 mb-3">{prog.title}</h3>
+              <p className="text-stone-400 text-sm font-light leading-relaxed mb-5">{prog.desc}</p>
+              <ul className="space-y-2.5">
+                {prog.points.map((pt, j) => (
+                  <li key={j} className="flex items-start gap-3 text-stone-300 text-sm font-light">
+                    <CheckCircle2 className={`w-4 h-4 mt-0.5 shrink-0 ${prog.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`} />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+        <div className="text-center">
+          <motion.a
+            href="#services"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-3 px-10 py-4 bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] text-stone-200 rounded-full text-sm uppercase tracking-[0.2em] font-bold transition-all"
+          >
+            Explore Training Programs <ArrowRight size={16} />
+          </motion.a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const FAQ = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const faqs = [
+    { q: "What is VAPT and why is it important?", a: "VAPT (Vulnerability Assessment and Penetration Testing) is a structured approach to identifying and exploiting security weaknesses in your applications, networks, and cloud infrastructure. It helps organizations proactively discover vulnerabilities before attackers do, reducing the risk of data breaches and ensuring compliance with standards like ISO 27001 and SOC 2." },
+    { q: "Do you work with startups and small businesses?", a: "Yes. CYBRAVION works with enterprises, SMEs, startups, and government institutions. Our services are scaled to fit the size and maturity of your organization — from lightweight compliance assessments for early-stage startups to full enterprise GRC programs." },
+    { q: "How long does a security assessment take?", a: "Timelines depend on scope and complexity. A focused VAPT engagement typically takes 1–3 weeks. Comprehensive GRC assessments or security architecture reviews may take 4–8 weeks. We provide a clear timeline during the scoping phase so there are no surprises." },
+    { q: "Do you provide implementation or only consulting?", a: "We provide both. CYBRAVION delivers end-to-end services — from advisory and strategy through to hands-on implementation, deployment coordination, and post-deployment optimization. Our goal is measurable risk reduction, not just reports." },
+    { q: "How do you ensure compliance with ISO and NIST standards?", a: "We conduct gap assessments against your target framework (ISO 27001, NIST CSF, SOC 2, DPDP Act), develop remediation roadmaps, build required documentation (policies, procedures, ISMS), and support you through the audit process. Our approach ensures compliance is embedded into operations, not treated as a one-time project." },
+    { q: "What industries do you serve?", a: "We serve clients across technology, financial services, healthcare, e-commerce, government, education, and critical infrastructure sectors. Our framework-agnostic approach means we adapt to the regulatory and threat landscape specific to your industry." },
+    { q: "How does threat intelligence help my organization?", a: "Threat intelligence provides proactive visibility into emerging threats, adversary tactics, and your organization's digital exposure. Instead of reacting to incidents after they happen, intelligence-led security enables early detection, informed decision-making, and strategic risk mitigation — helping you stay ahead of attackers." }
+  ];
+
+  return (
+    <section id="faq" className="py-20 md:py-28 bg-stone-950/30 border-t border-white/10 relative">
+      <div className="w-full px-6 md:px-12 lg:px-20 max-w-4xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Common Questions</span>
+          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">Frequently asked questions.</h2>
+          <p className="text-stone-400 text-base md:text-lg max-w-xl mx-auto font-light">Clear answers to the questions we hear most from security leaders and decision-makers.</p>
+        </motion.div>
+        <div className="space-y-3">
+          {faqs.map((faq, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              viewport={{ once: true }}
+              className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
+                openIndex === i ? 'border-blue-500/20 bg-white/[0.03]' : 'border-white/5 bg-white/[0.01] hover:bg-white/[0.02]'
+              }`}
+            >
+              <button
+                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                className="w-full flex items-center justify-between p-5 md:p-6 text-left"
+              >
+                <h3 className="text-sm md:text-base font-semibold text-stone-100 pr-4">{faq.q}</h3>
+                <motion.div animate={{ rotate: openIndex === i ? 180 : 0 }} transition={{ duration: 0.3 }}>
+                  <ChevronDown className={`w-5 h-5 shrink-0 transition-colors ${openIndex === i ? 'text-blue-400' : 'text-stone-500'}`} />
+                </motion.div>
+              </button>
+              <AnimatePresence>
+                {openIndex === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 md:px-6 pb-6 text-stone-400 text-sm font-light leading-relaxed">{faq.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Footer = () => {
   return (
     <footer className="bg-stone-950/60 backdrop-blur-md border-t border-white/10 py-10 overflow-hidden relative">
@@ -1054,8 +1390,14 @@ export default function App() {
         <main>
           <Hero />
           <Services />
+          <CTABanner />
           <TrackRecord />
+          <WhyChooseUs />
+          <ComplianceStandards />
           <About />
+          <ThreatIntelHighlight />
+          <TrainingAwareness />
+          <FAQ />
           <Contact />
         </main>
         <Footer />
