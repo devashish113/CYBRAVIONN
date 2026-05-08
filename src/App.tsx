@@ -46,17 +46,17 @@ const Navbar = () => {
   return (
     <nav 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-stone-950/95 backdrop-blur-sm py-4 border-b border-stone-700' : 'bg-transparent py-8'
+        isScrolled ? 'bg-stone-950/95 backdrop-blur-sm py-3 border-b border-stone-700' : 'bg-transparent py-5'
       }`}
     >
       <div className="w-full px-6 md:px-12 lg:px-20 flex justify-between items-center">
-        <a href="#" className="flex flex-col items-center justify-center group">
-          <img src="/logo.png" alt="Cybravion Logo" className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-500 mb-1" />
-          <div className="flex flex-col items-center text-center">
-            <span className="text-lg md:text-xl font-bold tracking-[0.25em] uppercase leading-none">
+        <a href="#" className="flex items-center gap-3 group">
+          <img src="/logo.png" alt="Cybravion Logo" className="h-8 md:h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-500" />
+          <div className="flex flex-col">
+            <span className="font-orbitron text-base md:text-lg font-bold tracking-[0.2em] uppercase leading-none">
               <span className="text-stone-100">CYBR</span><span className="text-blue-500">AVION</span>
             </span>
-            <span className="text-[7px] md:text-[9px] uppercase tracking-[0.4em] font-bold mt-1.5 text-stone-300">
+            <span className="text-[6px] md:text-[8px] uppercase tracking-[0.3em] font-semibold mt-1 text-stone-400">
               SECURE. <span className="text-blue-500">GOVERN.</span> EMPOWER.
             </span>
           </div>
@@ -376,84 +376,71 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-24 md:py-32 bg-transparent border-t border-white/10 relative">
+    <section id="services" className="py-16 md:py-20 bg-transparent border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-6 md:gap-8">
-          <div className="max-w-3xl">
-            <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-6 block font-semibold">Core Capabilities</span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-stone-100 leading-tight">
-              Identify vulnerabilities <br /><span className="italic text-stone-300">before attackers do.</span>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-14 gap-4 md:gap-8">
+          <div className="max-w-2xl">
+            <span className="text-xs uppercase tracking-[0.4em] text-stone-400 mb-4 block font-semibold">Core Capabilities</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-stone-100 leading-tight">
+              Identify vulnerabilities <br /><span className="font-light text-stone-300">before attackers do.</span>
             </h2>
           </div>
-          <div className="md:text-right max-w-sm">
-            <p className="text-stone-300 text-base md:text-lg leading-relaxed font-light">
+          <div className="md:text-right max-w-xs">
+            <p className="text-stone-400 text-sm leading-relaxed">
               Proactive threat management and resilience for the modern enterprise.
             </p>
           </div>
         </div>
 
         {serviceCategories.map((cat, ci) => (
-          <div key={ci} className="mb-16 last:mb-0">
+          <div key={ci} className="mb-8 last:mb-0">
             <motion.h3
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-8 font-semibold flex items-center gap-4"
+              className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-stone-500 mb-4 font-semibold flex items-center gap-3"
             >
-              <span className="w-8 h-px bg-stone-600" />
+              <span className="w-6 h-px bg-stone-600" />
               {cat.label}
             </motion.h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {cat.indices.map((idx) => {
                 const item = expertises[idx];
                 return (
                   <motion.div 
                     key={idx}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: (idx % 2) * 0.15, duration: 0.5, ease: "easeOut" }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    whileHover={{ scale: 1.02, y: -4 }}
-                    className="p-8 md:p-10 bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl group transition-all duration-500 cursor-pointer hover:bg-white/[0.04] hover:border-white/10 relative overflow-hidden"
+                    transition={{ delay: (idx % 4) * 0.08, duration: 0.4 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    whileHover={{ scale: 1.03, y: -3 }}
+                    className="p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl group transition-all duration-400 cursor-pointer hover:bg-white/[0.04] hover:border-white/10 relative overflow-hidden"
                     onClick={() => setActiveBrief(idx)}
                   >
-                    {/* Hover gradient */}
-                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
+                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-400 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
                     
-                    <div className="relative z-10 flex flex-col h-full">
-                      <div className="flex items-start justify-between mb-6">
-                        <div className={`p-3 w-fit rounded-2xl transition-all duration-500 border border-white/5 group-hover:scale-110 ${
-                          item.color === 'blue'
-                            ? 'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20'
-                            : 'bg-orange-500/10 text-orange-400 group-hover:bg-orange-500/20'
-                        }`}>
-                          {item.icon}
-                        </div>
-                        <div className="flex gap-1.5 flex-wrap justify-end max-w-[60%]">
-                          {item.standards.slice(0, 3).map((s, si) => (
-                            <span key={si} className="text-[9px] uppercase tracking-wider text-stone-500 bg-white/[0.03] border border-white/5 rounded-full px-2.5 py-1 font-medium">
-                              {s}
-                            </span>
-                          ))}
-                        </div>
+                    <div className="relative z-10">
+                      <div className={`p-2.5 w-fit rounded-xl mb-4 transition-all duration-400 group-hover:scale-110 ${
+                        item.color === 'blue'
+                          ? 'bg-blue-500/10 text-blue-400'
+                          : 'bg-orange-500/10 text-orange-400'
+                      }`}>
+                        {item.icon}
                       </div>
                       
-                      <h3 className="text-xl md:text-2xl font-serif text-stone-100 mb-3 tracking-tight">{item.title}</h3>
-                      <p className="text-stone-400 text-sm md:text-base font-light leading-relaxed mb-4">
+                      <h3 className="text-base font-semibold text-stone-100 mb-2 leading-snug">{item.title}</h3>
+                      <p className="text-stone-400 text-xs leading-relaxed mb-3">
                         {item.desc}
-                      </p>
-                      <p className={`text-xs font-semibold uppercase tracking-wider mb-8 ${item.color === 'blue' ? 'text-blue-400/70' : 'text-orange-400/70'}`}>
-                        ↗ {item.outcome}
                       </p>
                       
                       <button 
-                        className={`mt-auto flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400/60 group-hover:text-blue-300' : 'text-orange-400/60 group-hover:text-orange-300'}`}
+                        className={`flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400/60 group-hover:text-blue-300' : 'text-orange-400/60 group-hover:text-orange-300'}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           setActiveBrief(idx);
                         }}
                       >
-                        Explore Service <ChevronRight size={12} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+                        Explore <ChevronRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
                       </button>
                     </div>
                   </motion.div>
@@ -649,26 +636,6 @@ const About = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Founder Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-start gap-8 md:gap-12"
-        >
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-orange-500/20 border border-white/10 flex items-center justify-center shrink-0">
-            <span className="text-2xl md:text-3xl font-serif text-stone-200">VN</span>
-          </div>
-          <div>
-            <span className="text-xs uppercase tracking-[0.3em] text-stone-500 font-bold block mb-2">Meet the Founder</span>
-            <h4 className="text-xl md:text-2xl font-serif text-stone-100 mb-1">V V Narayan</h4>
-            <p className="text-sm text-stone-500 uppercase tracking-wider font-medium mb-4">Cofounder, CYBRAVION Solutions</p>
-            <p className="text-stone-400 text-sm md:text-base font-light leading-relaxed max-w-xl">
-              "Our goal is straightforward — help organizations navigate cyber and digital risk with practical frameworks, not theoretical advice. We aim to be the partner you trust to keep your operations secure, compliant, and future-ready."
-            </p>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
@@ -791,17 +758,17 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-stone-950/60 backdrop-blur-md border-t border-white/10 py-10 overflow-hidden relative font-mono">
+    <footer className="bg-stone-950/60 backdrop-blur-md border-t border-white/10 py-10 overflow-hidden relative">
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-start gap-8">
           <div className="max-w-xs">
-            <a href="#" className="flex flex-col items-center mb-6 w-fit opacity-80 hover:opacity-100 transition-opacity">
-              <img src="/logo.png" alt="Cybravion Logo" className="h-10 w-auto object-contain mb-1" />
-              <div className="flex flex-col items-center text-center">
-                <span className="text-lg font-bold tracking-[0.25em] uppercase leading-none">
+            <a href="#" className="flex items-center gap-3 mb-6 w-fit opacity-80 hover:opacity-100 transition-opacity">
+              <img src="/logo.png" alt="Cybravion Logo" className="h-8 w-auto object-contain" />
+              <div className="flex flex-col">
+                <span className="font-orbitron text-sm font-bold tracking-[0.2em] uppercase leading-none">
                   <span className="text-stone-100">CYBR</span><span className="text-blue-500">AVION</span>
                 </span>
-                <span className="text-[7px] uppercase tracking-[0.4em] font-bold mt-1.5 text-stone-300">
+                <span className="text-[6px] uppercase tracking-[0.3em] font-semibold mt-1 text-stone-400">
                   SECURE. <span className="text-blue-500">GOVERN.</span> EMPOWER.
                 </span>
               </div>
