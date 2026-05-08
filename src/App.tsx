@@ -1089,34 +1089,6 @@ const HowWeWork = () => {
   );
 };
 
-const SecurityBadge = () => {
-  const [threatMode, setThreatMode] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 2, duration: 0.8 }}
-      onClick={() => setThreatMode(!threatMode)}
-      className={`fixed bottom-6 right-6 z-40 flex items-center gap-2.5 backdrop-blur-xl border rounded-full px-4 py-2.5 shadow-xl cursor-pointer select-none transition-all duration-500 min-h-[44px] ${
-        threatMode
-          ? 'bg-red-950/90 border-red-500/20 shadow-red-500/10'
-          : 'bg-stone-900/90 border-white/10'
-      }`}
-    >
-      <motion.div
-        className={`w-2 h-2 rounded-full ${threatMode ? 'bg-red-400' : 'bg-emerald-400'}`}
-        animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: threatMode ? 0.8 : 2, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <span className={`text-[10px] uppercase tracking-[0.15em] font-bold transition-colors ${
-        threatMode ? 'text-red-300' : 'text-stone-300'
-      }`}>
-        {threatMode ? 'Threat Detected' : 'System Secure'}
-      </span>
-    </motion.div>
-  );
-};
 
 const Footer = () => {
   return (
@@ -1199,7 +1171,6 @@ export default function App() {
           <Contact />
           <FAQ />
         </main>
-        <SecurityBadge />
         <Footer />
       </div>
     </div>
