@@ -510,7 +510,7 @@ const Services = () => {
                     {expertises[activeBrief].icon}
                   </div>
                   <div>
-                    <h3 className="text-2xl md:text-3xl font-serif text-stone-100 tracking-tight mb-2">{expertises[activeBrief].title}</h3>
+                    <h3 className="text-2xl md:text-3xl font-semibold text-stone-100 tracking-tight mb-2">{expertises[activeBrief].title}</h3>
                     <p className="text-stone-400 text-sm md:text-base font-light">{expertises[activeBrief].desc}</p>
                   </div>
                 </div>
@@ -547,7 +547,7 @@ const Services = () => {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {expertises[activeBrief].process.map((step: string, pi: number) => (
                       <div key={pi} className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 text-center relative">
-                        <span className={`text-2xl font-serif font-bold block mb-2 ${expertises[activeBrief].color === 'blue' ? 'text-blue-400/40' : 'text-orange-400/40'}`}>
+                        <span className={`text-2xl font-bold block mb-2 ${expertises[activeBrief].color === 'blue' ? 'text-blue-400/40' : 'text-orange-400/40'}`}>
                           {String(pi + 1).padStart(2, '0')}
                         </span>
                         <p className="text-stone-300 text-xs font-medium leading-snug">{step}</p>
@@ -626,10 +626,10 @@ const About = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl lg:text-7xl font-serif text-stone-100 mb-10 leading-[1.1] tracking-tight"
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-stone-100 mb-10 leading-[1.1] tracking-tight"
           >
             We secure businesses. <br className="hidden md:block" />
-            <span className="italic text-stone-300">Not just networks.</span>
+            <span className="font-light text-stone-300">Not just networks.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -673,8 +673,8 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
           <div className="py-10">
             <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">Partner With Cybravion</span>
-            <h2 className="text-4xl md:text-6xl font-serif text-stone-100 mb-10 tracking-tighter leading-tight">
-              Ready to secure <br /><span className="italic text-stone-300">your infrastructure?</span>
+            <h2 className="text-4xl md:text-6xl font-semibold text-stone-100 mb-10 tracking-tighter leading-tight">
+              Ready to secure <br /><span className="font-light text-stone-300">your infrastructure?</span>
             </h2>
             <p className="text-stone-300 font-light mb-16 max-w-md text-lg leading-relaxed">
               Let's discuss how we can align your security posture with your business objectives. Reach out to our advisory team today.
