@@ -329,19 +329,27 @@ const TrackRecord = () => {
         </motion.div>
         
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {metrics.map((metric) => (
+          {metrics.map((metric, idx) => (
             <motion.div 
               key={metric.id}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: metric.id * 0.1, duration: 0.5 }}
               viewport={{ once: true }}
-              className="bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500 cursor-default"
+              className={`bg-white/[0.02] backdrop-blur-xl border rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.04] transition-all duration-500 cursor-default relative overflow-hidden group ${
+                idx % 2 === 0 ? 'border-blue-500/10 hover:border-blue-500/30' : 'border-orange-500/10 hover:border-orange-500/30'
+              }`}
             >
-              <h3 className="text-4xl md:text-5xl font-bold text-stone-100 mb-3 tracking-tight font-sans">
+              <div className={`absolute -top-10 -right-10 w-24 h-24 blur-[40px] opacity-10 group-hover:opacity-20 transition-opacity rounded-full pointer-events-none ${
+                idx % 2 === 0 ? 'bg-blue-500' : 'bg-orange-500'
+              }`} />
+              
+              <h3 className={`text-4xl md:text-5xl font-bold mb-3 tracking-tight font-sans ${
+                idx % 2 === 0 ? 'text-blue-400' : 'text-orange-400'
+              }`}>
                 <CountUp value={metric.value} />
               </h3>
-              <p className="text-stone-500 text-[10px] md:text-xs uppercase tracking-[0.15em] font-medium leading-relaxed">{metric.label}</p>
+              <p className="text-stone-400 text-[10px] md:text-xs uppercase tracking-[0.15em] font-medium leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">{metric.label}</p>
             </motion.div>
           ))}
         </div>
@@ -789,8 +797,8 @@ const Contact = () => {
 
             <div className="flex flex-col gap-8">
               {[
-                { icon: <Mail size={20} strokeWidth={1.5} />, label: "Email", value: "cybravions@gmail.com" },
-                { icon: <Phone size={20} strokeWidth={1.5} />, label: "Phone", value: "+91-9358683634" }
+                { icon: <Mail size={20} strokeWidth={1.5} />, label: "Email", value: "cybravions@gmail.com", color: "blue" },
+                { icon: <Phone size={20} strokeWidth={1.5} />, label: "Phone", value: "+91-9358683634", color: "orange" }
               ].map((item, i) => (
                 <motion.div 
                   key={i}
@@ -800,12 +808,14 @@ const Contact = () => {
                   viewport={{ once: true }}
                   className="flex items-center gap-6 group cursor-pointer"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg">
+                  <div className={`w-12 h-12 rounded-2xl bg-white/[0.03] border flex items-center justify-center group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg ${
+                    item.color === 'blue' ? 'text-blue-400 border-blue-500/20 group-hover:border-blue-500/40 shadow-blue-500/5' : 'text-orange-400 border-orange-500/20 group-hover:border-orange-500/40 shadow-orange-500/5'
+                  }`}>
                     {item.icon}
                   </div>
                   <div>
                     <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white mb-1.5 font-bold opacity-50">{item.label}</p>
-                    <p className="text-white text-lg md:text-xl font-light tracking-wide">{item.value}</p>
+                    <p className="text-white text-lg md:text-xl font-light tracking-wide group-hover:text-stone-100 transition-colors">{item.value}</p>
                   </div>
                 </motion.div>
               ))}
@@ -820,9 +830,12 @@ const Contact = () => {
             className="relative"
           >
             <motion.div 
-              className="bg-stone-900/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-white/5 shadow-2xl relative z-10"
+              className="bg-stone-900/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-white/5 shadow-2xl relative z-10 overflow-hidden"
             >
-              <form action="https://api.web3forms.com/submit" method="POST" className="space-y-6">
+              {/* Subtle background glow for form */}
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-500/10 rounded-full blur-[80px] pointer-events-none" />
+
+              <form action="https://api.web3forms.com/submit" method="POST" className="space-y-6 relative z-10">
                 <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -850,7 +863,7 @@ const Contact = () => {
                     onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full bg-stone-950/60 border rounded-lg px-4 py-3 text-white focus:outline-none transition-all placeholder:text-stone-500 resize-none text-sm leading-relaxed ${
-                      focusedField === "message" ? 'border-white/30 bg-stone-950/80 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'border-white/10'
+                      focusedField === "message" ? 'border-orange-500/30 bg-stone-950/80 shadow-[0_0_15px_rgba(249,115,22,0.05)]' : 'border-white/10'
                     }`}
                     placeholder="How can we help?"
                   />
@@ -858,10 +871,10 @@ const Contact = () => {
 
                 <div className="flex justify-center pt-2">
                   <motion.button 
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249,115,22,0.3)" }}
                     whileTap={{ scale: 0.95 }}
                     type="submit" 
-                    className="w-fit px-12 py-3 bg-white text-stone-950 text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-stone-100 transition-all shadow-xl shadow-stone-950/20"
+                    className="w-fit px-12 py-3 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-950/20"
                   >
                     Send Message
                   </motion.button>
