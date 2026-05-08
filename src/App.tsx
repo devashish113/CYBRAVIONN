@@ -664,16 +664,17 @@ export default function App() {
   return (
     <div className="min-h-screen bg-stone-950 scroll-smooth relative">
       {/* Fixed Background Video */}
-      <div className="fixed inset-0 z-0 bg-black">
+      <div className="fixed inset-0 z-0 bg-stone-950">
         <video 
           autoPlay 
           loop 
           muted 
           playsInline
-          className="w-full h-full object-cover pointer-events-none"
+          className="w-full h-full object-cover pointer-events-none opacity-30 mix-blend-luminosity"
         >
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/50 via-transparent to-stone-950/80 pointer-events-none" />
       </div>
 
       <div className="relative z-10">
