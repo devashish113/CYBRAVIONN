@@ -254,13 +254,13 @@ const TrackRecord = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: metric.id * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white/[0.03] border border-white/5 rounded-2xl p-6 flex flex-col items-center justify-center text-center hover:bg-white/[0.05] transition-colors"
+              className="bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500 cursor-default"
             >
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center mb-4 shadow-lg shadow-blue-500/20">
+              <div className="mb-6 p-4 rounded-2xl bg-white/[0.02] border border-white/5 text-stone-300">
                 {metric.icon}
               </div>
-              <h3 className="text-3xl font-bold text-white mb-2">{metric.value}</h3>
-              <p className="text-stone-400 text-xs md:text-sm font-medium">{metric.label}</p>
+              <h3 className="text-4xl md:text-5xl font-serif text-stone-100 mb-3 tracking-tight">{metric.value}</h3>
+              <p className="text-stone-400 text-xs md:text-sm uppercase tracking-[0.2em] font-medium">{metric.label}</p>
             </motion.div>
           ))}
         </div>
@@ -274,60 +274,60 @@ const Services = () => {
 
   const expertises = [
     {
-      title: "Cyber Security GRC",
-      desc: "Establish strong cybersecurity governance, enterprise-wide risk visibility, and compliance maturity.",
+      title: "Governance & Compliance",
+      desc: "Align your business with global compliance standards and mitigate enterprise risk.",
       icon: <Shield className="w-6 h-6" />,
       color: "blue",
-      brief: "CYBRAVION Solutions helps organizations establish strong cybersecurity governance structures, enterprise-wide risk visibility, and compliance maturity aligned with industry standards and regulatory requirements. Our offerings include development of information security policies, enterprise risk assessments, vendor risk assessments, and compliance gap assessments aligning with ISO/IEC 27001, NIST CSF, SOC 2, and GDPR."
+      brief: "We establish strong governance structures that integrate security into your business decisions. From policy development to enterprise risk assessments and compliance readiness (ISO 27001, SOC 2, GDPR), we ensure you meet regulatory requirements without slowing down operations."
     },
     {
-      title: "VAPT Coordination",
-      desc: "Structured vulnerability assessment and penetration testing coordination across all digital assets.",
+      title: "Security Testing",
+      desc: "Find security gaps and fix them before they become breaches.",
       icon: <Lock className="w-6 h-6" />,
       color: "orange",
-      brief: "We support organizations in identifying, prioritizing and addressing security vulnerabilities across applications, networks, cloud environments and digital assets. Services include web and mobile application security testing, API security testing, network security assessment, infrastructure security validation, and vulnerability lifecycle management."
+      brief: "We identify and address vulnerabilities across your applications, networks, and cloud environments. Our targeted penetration testing and vulnerability lifecycle management reduces your exploitable attack surface so you can operate with confidence."
     },
     {
-      title: "Security Architecture",
-      desc: "Security architecture advisory to embed security-by-design principles into technology ecosystems.",
+      title: "Cloud Architecture",
+      desc: "Build resilient infrastructure designed to withstand modern threats.",
       icon: <Cpu className="w-6 h-6" />,
       color: "blue",
-      brief: "CYBRAVION provides security architecture advisory and assurance services focusing on building resilient infrastructure and robust cloud security foundations. Offerings include enterprise security architecture review, zero trust advisory, identity and access management advisory, and security assurance validation for digital transformation projects."
+      brief: "We embed security-by-design principles directly into your technology stack. Whether it's zero trust advisory, identity management, or cloud security validation, we ensure your digital transformation is built on a rock-solid foundation."
     },
     {
       title: "AI Risk Governance",
-      desc: "Implement responsible AI governance frameworks and digital trust mechanisms.",
+      desc: "Deploy AI safely with frameworks that balance innovation and accountability.",
       icon: <Globe className="w-6 h-6" />,
       color: "orange",
-      brief: "As organizations adopt AI-driven technologies, we help implement responsible AI governance frameworks and digital trust mechanisms. Services include alignment support for ISO/IEC 42001 (AI Management System) readiness, AI governance framework advisory, ethical risk analysis, AI security review, and model governance awareness."
+      brief: "As your organization adopts AI technologies, we help you manage the associated risks. We implement responsible AI governance frameworks, ensuring compliance with emerging standards (like ISO/IEC 42001) while building stakeholder trust."
     },
     {
-      title: "OSINT Intelligence",
-      desc: "Enhance organizational situational awareness and threat visibility through Open Source Intelligence.",
+      title: "Threat Intelligence",
+      desc: "Monitor your digital footprint and identify external threats early.",
       icon: <Search className="w-6 h-6" />,
       color: "blue",
-      brief: "We deliver intelligence-led services to enhance organizational situational awareness, threat visibility, and strategic decision-making. Offerings include digital footprint analysis, OSINT investigations, executive exposure analysis, threat monitoring, adversary profiling, brand intelligence, and strategic intelligence reporting."
+      brief: "We provide actionable intelligence to enhance your situational awareness. By analyzing your digital footprint, profiling adversaries, and monitoring brand exposure, we help you proactively address risks before they impact your business."
     },
     {
       title: "Digital Influence",
-      desc: "Enhancing digital presence, brand visibility, audience engagement, and strategic online influence.",
+      desc: "Protect your brand reputation and manage strategic online visibility.",
       icon: <Users className="w-6 h-6" />,
       color: "orange",
-      brief: "CYBRAVION supports organizations in enhancing digital presence, brand visibility, and strategic online influence. Our services include digital brand strategy, reputation monitoring, social media intelligence, competitive intelligence, audience analysis, and strategic content visibility planning to strengthen market perception."
+      brief: "Your digital presence is a critical asset. We monitor your brand's reputation, analyze social media intelligence, and provide strategic content visibility planning to safeguard market perception and maintain audience trust."
     },
     {
       title: "Capability Development",
-      desc: "Structured professional training programs to strengthen organizational cyber maturity.",
+      desc: "Equip your teams with the knowledge to defend against modern risks.",
       icon: <BarChart3 className="w-6 h-6" />,
       color: "blue",
-      brief: "We offer structured professional training programs to strengthen organizational cyber maturity and workforce capability. Training services include cybersecurity awareness, GRC programs, risk management training, security architecture workshops, OSINT training, and support for globally recognized cybersecurity certifications."
+      brief: "We offer professional training programs to elevate your organizational cyber maturity. From executive awareness sessions to technical risk management workshops, we build skilled teams capable of managing evolving threats."
     },
     {
       title: "Product Advisory",
-      desc: "Evaluating, selecting, and optimizing cybersecurity technologies aligned with business objectives.",
+      desc: "Invest in the right security technologies to maximize your ROI.",
       icon: <HardDrive className="w-6 h-6" />,
       color: "orange",
-      brief: "CYBRAVION assists organizations in evaluating, selecting, implementing, and optimizing cybersecurity technologies. Services include security product advisory, solution evaluation, technology assessment, deployment coordination, custom solution advisory, and implementation roadmap development to maximize security ROI."
+      brief: "We help you evaluate, select, and optimize cybersecurity solutions that align with your business objectives. Our deployment coordination and integration support ensures your technology investments actually reduce risk."
     }
   ];
 
@@ -335,15 +335,15 @@ const Services = () => {
     <section id="services" className="py-24 md:py-32 bg-transparent border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-6 md:gap-8">
-          <div className="max-w-2xl">
-            <span className="text-base uppercase tracking-[0.4em] text-stone-300 mb-6 block">Our Expertise</span>
-            <h2 className="text-4xl md:text-6xl font-serif text-stone-100 leading-tight">
-              Sophisticated Protection for <br /><span className="italic">Complex Ecosystems</span>.
+          <div className="max-w-3xl">
+            <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-6 block font-semibold">Core Capabilities</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-stone-100 leading-tight">
+              Identify vulnerabilities <br /><span className="italic text-stone-300">before attackers do.</span>
             </h2>
           </div>
-          <div className="md:text-right">
-            <p className="text-stone-300 max-w-xs text-base leading-relaxed">
-              We bridge the gap between traditional practices and emerging digital risks.
+          <div className="md:text-right max-w-sm">
+            <p className="text-stone-300 text-base md:text-lg leading-relaxed font-light">
+              Proactive threat management and resilience for the modern enterprise.
             </p>
           </div>
         </div>
@@ -354,13 +354,16 @@ const Services = () => {
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -8, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-              className="p-10 bg-white/[0.02] backdrop-blur-md border border-white/5 rounded-2xl group transition-all duration-500 cursor-pointer"
+              transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-50px" }}
+              whileHover={{ y: -8 }}
+              className="p-8 md:p-10 bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl group transition-all duration-500 cursor-pointer hover:bg-white/[0.04] hover:border-white/10 relative overflow-hidden"
               onClick={() => setActiveBrief(i)}
             >
-              <div className={`mb-8 p-3 w-fit rounded-xl transition-all duration-500 ${
+              {/* Subtle hover gradient background */}
+              <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
+              
+              <div className={`relative z-10 mb-8 p-3 w-fit rounded-2xl transition-all duration-500 border border-white/5 ${
                 item.color === 'blue'
                   ? 'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20'
                   : 'bg-orange-500/10 text-orange-400 group-hover:bg-orange-500/20'
@@ -466,37 +469,37 @@ const About = () => {
     <section id="about" className="py-24 md:py-32 bg-stone-950/20 backdrop-blur-sm border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20 max-w-5xl mx-auto text-center">
         <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">
-          The Institution
+          About Cybravion
         </span>
         <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif text-stone-100 mb-12 leading-[1.1] tracking-tight">
-          An intelligence-driven approach to <br className="hidden md:block" />
-          <span className="italic text-stone-300">digital resilience.</span>
+          Secure your cloud. <br className="hidden md:block" />
+          <span className="italic text-stone-300">Reduce risk. Stay compliant.</span>
         </h2>
         
         <div className="space-y-8 text-stone-300 font-light leading-relaxed text-lg md:text-xl max-w-3xl mx-auto">
           <p>
-            In an increasingly interconnected digital environment, CYBRAVION Solutions stands as a premier advisory firm specializing in end-to-end Cyber Security Governance, Risk Management & Compliance.
+            We don't just sell technology—we solve business problems. CYBRAVION acts as your trusted partner, securing your operations so you can focus on growth without fearing the next breach.
           </p>
           <p>
-            Our multidisciplinary approach combines governance excellence, technical security expertise, and risk intelligence to help organizations proactively manage threats and ensure regulatory alignment.
+            Whether you need to align with global compliance standards, test your applications for vulnerabilities, or build a resilient cloud architecture, we deliver practical, outcome-driven results.
           </p>
         </div>
 
-        <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-16 border-t border-stone-800 pt-16 text-left">
-          <div className="group bg-white/[0.02] border border-white/5 p-10 rounded-3xl hover:bg-white/[0.04] transition-colors">
-            <h4 className="text-stone-100 font-serif text-2xl mb-4 group-hover:text-white transition-colors">
+        <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 border-t border-stone-800 pt-16 text-left">
+          <div className="group bg-white/[0.02] border border-white/5 p-10 rounded-3xl hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500">
+            <h4 className="text-stone-100 font-serif text-2xl md:text-3xl mb-6 group-hover:text-white transition-colors">
               Our Vision
             </h4>
-            <p className="text-stone-400 text-sm leading-relaxed uppercase tracking-[0.15em] font-medium">
-              Building a future-ready digital ecosystem where organizations innovate with confidence.
+            <p className="text-stone-400 text-sm md:text-base leading-relaxed font-light">
+              Enable continuous business innovation through resilient, uncompromising security frameworks.
             </p>
           </div>
-          <div className="group bg-white/[0.02] border border-white/5 p-10 rounded-3xl hover:bg-white/[0.04] transition-colors">
-            <h4 className="text-stone-100 font-serif text-2xl mb-4 group-hover:text-white transition-colors">
+          <div className="group bg-white/[0.02] border border-white/5 p-10 rounded-3xl hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500">
+            <h4 className="text-stone-100 font-serif text-2xl md:text-3xl mb-6 group-hover:text-white transition-colors">
               Our Objective
             </h4>
-            <p className="text-stone-400 text-sm leading-relaxed uppercase tracking-[0.15em] font-medium">
-              Empowering entities with practical frameworks and measurable risk reduction.
+            <p className="text-stone-400 text-sm md:text-base leading-relaxed font-light">
+              Find gaps, fix them fast, and keep you compliant with zero friction to your operations.
             </p>
           </div>
         </div>
@@ -514,12 +517,12 @@ const Contact = () => {
       <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
           <div className="py-10">
-            <span className="text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">Contact Us</span>
-            <h2 className="text-4xl md:text-6xl font-serif text-stone-100 mb-12 tracking-tighter leading-tight">
-              Get in touch <br /><span className="italic text-stone-300">with us.</span>
+            <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">Partner With Cybravion</span>
+            <h2 className="text-4xl md:text-6xl font-serif text-stone-100 mb-10 tracking-tighter leading-tight">
+              Ready to secure <br /><span className="italic text-stone-300">your infrastructure?</span>
             </h2>
-            <p className="text-stone-300 font-light mb-16 max-w-sm text-xl leading-relaxed">
-              Fill out the form below to discuss how we can help your business.
+            <p className="text-stone-300 font-light mb-16 max-w-md text-lg leading-relaxed">
+              Let's discuss how we can align your security posture with your business objectives. Reach out to our advisory team today.
             </p>
 
             <div className="space-y-10">
@@ -556,47 +559,47 @@ const Contact = () => {
                 {/* Replace YOUR_ACCESS_KEY_HERE with your Web3Forms access key */}
                 <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  <div className="space-y-3">
-                    <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Full Name</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                  <div className="space-y-3 group">
+                    <label className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold ml-2 group-focus-within:text-stone-200 transition-colors">Full Name</label>
                     <input 
                       type="text" 
                       name="name"
                       required
-                      className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
+                      className="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-4 text-stone-100 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-all placeholder:text-stone-600 text-base" 
                       placeholder="John Doe"
                     />
                   </div>
-                  <div className="space-y-3">
-                    <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Company</label>
+                  <div className="space-y-3 group">
+                    <label className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold ml-2 group-focus-within:text-stone-200 transition-colors">Company</label>
                     <input 
                       type="text" 
                       name="organization"
-                      className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
+                      className="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-4 text-stone-100 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-all placeholder:text-stone-600 text-base" 
                       placeholder="Company Name"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Email Address</label>
+                <div className="space-y-3 group">
+                  <label className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold ml-2 group-focus-within:text-stone-200 transition-colors">Email Address</label>
                   <input 
                     type="email" 
                     name="email"
                     required
-                    className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
+                    className="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-4 text-stone-100 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-all placeholder:text-stone-600 text-base" 
                     placeholder="john@example.com"
                   />
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Message</label>
+                <div className="space-y-3 group">
+                  <label className="text-xs uppercase tracking-[0.3em] text-stone-400 font-bold ml-2 group-focus-within:text-stone-200 transition-colors">Message</label>
                   <textarea 
-                    rows={2}
+                    rows={3}
                     name="message"
                     required
-                    className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 resize-none text-base leading-relaxed" 
-                    placeholder="How can we help you?"
+                    className="w-full bg-white/[0.02] border border-white/10 rounded-xl px-5 py-4 text-stone-100 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-all placeholder:text-stone-600 resize-none text-base leading-relaxed" 
+                    placeholder="How can we help secure your business?"
                   />
                 </div>
 
