@@ -1099,47 +1099,6 @@ const FAQ = () => {
   );
 };
 
-const FounderSection = () => (
-  <section className="py-24 md:py-32 bg-stone-950/50 border-t border-white/10 relative">
-    <div className="w-full px-6 md:px-12 lg:px-20 max-w-5xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-center mb-14"
-      >
-        <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Leadership</span>
-        <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight">Meet the founder.</h2>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        viewport={{ once: true }}
-        className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-12 max-w-3xl mx-auto relative overflow-hidden"
-      >
-        <div className="absolute -top-20 -right-20 w-48 h-48 bg-blue-500/5 rounded-full blur-[80px] pointer-events-none" />
-        <div className="relative z-10">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-              <Award className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-xl md:text-2xl font-semibold text-stone-100">V V Narayan</h3>
-              <p className="text-blue-400 text-sm font-medium">Cofounder, CYBRAVION Solutions</p>
-            </div>
-          </div>
-          <p className="text-stone-300 text-base md:text-lg font-light leading-relaxed mb-6 max-w-xl">
-            "Our mission is to empower organizations with practical security frameworks, measurable risk reduction, and intelligence-led decision support — so they can innovate confidently while remaining secure and compliant."
-          </p>
-          <p className="text-stone-500 text-sm font-medium">
-            Expertise in cloud security, GRC, enterprise systems, and strategic digital resilience.
-          </p>
-        </div>
-      </motion.div>
-    </div>
-  </section>
-);
 
 const HowWeWork = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -1325,7 +1284,6 @@ export default function App() {
           <ComplianceStrip />
           <TrackRecord />
           <WhyChooseUs />
-          <FounderSection />
           <HowWeWork />
           <Contact />
           <FAQ />
