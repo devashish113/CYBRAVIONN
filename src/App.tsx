@@ -490,51 +490,46 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-stone-950/60 backdrop-blur-md border-t border-white/10 py-20 overflow-hidden relative">
+    <footer className="bg-stone-950/60 backdrop-blur-md border-t border-white/10 py-10 overflow-hidden relative font-mono">
       <div className="w-full px-6 md:px-12 lg:px-20">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-8">
           <div className="max-w-xs">
-            <a href="#" className="flex flex-col mb-8">
-              <span className="text-2xl font-serif font-bold tracking-tighter text-stone-100">
+            <a href="#" className="flex flex-col mb-4">
+              <span className="text-lg font-bold tracking-tight text-stone-100">
                 CYBRAVION
               </span>
-              <span className="text-base uppercase tracking-[0.3em] text-stone-200 font-medium">Solutions</span>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 font-medium">Solutions</span>
             </a>
-            <p className="text-stone-300 text-sm leading-relaxed uppercase tracking-widest font-light">
+            <p className="text-stone-400 text-xs leading-relaxed uppercase tracking-widest font-light">
               Integrated cybersecurity, digital intelligence, and resilience services through a business-aligned approach.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-20">
+          <div className="grid grid-cols-2 gap-12">
             <div>
-              <h4 className="text-base uppercase tracking-[0.4em] text-stone-300 mb-6">Expertise</h4>
-              <ul className="space-y-3">
+              <h4 className="text-xs uppercase tracking-[0.4em] text-stone-300 mb-4 font-bold">Expertise</h4>
+              <ul className="space-y-2">
                 {['Cyber GRC', 'VAPT Testing', 'AI Governance', 'OSINT Services'].map(item => (
-                  <li key={item}><a href="#" className="text-stone-400 hover:text-stone-300 text-sm uppercase tracking-widest transition-colors">{item}</a></li>
+                  <li key={item}><a href="#" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">{item}</a></li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 className="text-base uppercase tracking-[0.4em] text-stone-300 mb-6">Inquiry</h4>
-              <ul className="space-y-3">
-                <li><a href="#about" className="text-stone-400 hover:text-stone-300 text-sm uppercase tracking-widest transition-colors">About Us</a></li>
-                <li><a href="#contact" className="text-stone-400 hover:text-stone-300 text-sm uppercase tracking-widest transition-colors">Contact</a></li>
-                <li><a href="#" className="text-stone-400 hover:text-stone-300 text-sm uppercase tracking-widest transition-colors">Privacy Policy</a></li>
+              <h4 className="text-xs uppercase tracking-[0.4em] text-stone-300 mb-4 font-bold">Inquiry</h4>
+              <ul className="space-y-2">
+                <li><a href="#about" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">About Us</a></li>
+                <li><a href="#contact" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">Contact</a></li>
+                <li><a href="#" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">Privacy Policy</a></li>
               </ul>
             </div>
           </div>
         </div>
 
-        <div className="mt-20 pt-8 border-t border-stone-700 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-base uppercase tracking-[0.2em] text-stone-400 text-center w-full">
+        <div className="mt-10 pt-4 border-t border-stone-800 flex justify-center">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-stone-500 text-center">
             © {new Date().getFullYear()} CYBRAVION Solutions. All Rights Reserved.
           </p>
         </div>
-      </div>
-
-      {/* Decorative large text overlay */}
-      <div className="absolute -bottom-10 right-0 text-[15vw] font-serif font-bold text-stone-900/10 select-none pointer-events-none whitespace-nowrap">
-        CYBRAVION SOLUTIONS
       </div>
     </footer>
   );
