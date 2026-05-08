@@ -120,31 +120,48 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-transparent pt-24 md:pt-32 pb-20">
       <div className="relative z-20 w-full px-6 md:px-12 lg:px-20">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
           className="max-w-5xl mx-auto flex flex-col items-center text-center relative"
         >
+          {/* Subtle Background Noise Overlay */}
+          <div className="fixed inset-0 pointer-events-none opacity-[0.02] mix-blend-overlay z-[100]" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
           
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 w-full max-w-7xl mx-auto">
             {/* Left Column */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl">
               
-              <h1 className="mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg">
-                Secure your <br /><span className="italic text-stone-300">digital infrastructure.</span>
-              </h1>
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg"
+              >
+                Secure your <br /><span className="font-light text-stone-300">digital infrastructure.</span>
+              </motion.h1>
               
-              <p className="text-base md:text-lg text-stone-300 mb-12 max-w-xl font-light leading-relaxed drop-shadow-md">
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                className="text-base md:text-lg text-stone-400 mb-12 max-w-xl font-light leading-relaxed drop-shadow-md"
+              >
                 Leading cybersecurity consulting specializing in end-to-end governance, risk management, and strategic digital influence for the modern enterprise.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center lg:justify-start w-full sm:w-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center lg:justify-start w-full sm:w-auto"
+              >
                 <a 
                   href="#services"
                   className="px-6 py-3 md:px-10 md:py-4 bg-white text-stone-950 rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-stone-200 transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                 >
-                  Our Expertise
+                  Explore Expertise
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </a>
                 <a 
@@ -153,7 +170,7 @@ const Hero = () => {
                 >
                   Consult an Advisor
                 </a>
-              </div>
+              </motion.div>
             </div>
 
             {/* Right Column - All 8 Services */}
@@ -194,6 +211,27 @@ const Hero = () => {
   );
 };
 
+const CountUp = ({ value, duration = 2000 }: { value: string, duration?: number }) => {
+  const [count, setCount] = useState(0);
+  const numericValue = parseInt(value.replace(/\D/g, '')) || 0;
+  const suffix = value.replace(/[0-9]/g, '');
+
+  useEffect(() => {
+    let startTime: number | null = null;
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setCount(Math.floor(progress * numericValue));
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [numericValue, duration]);
+
+  return <span>{count}{suffix}</span>;
+};
+
 const TrackRecord = () => {
   const metrics = [
     {
@@ -223,8 +261,12 @@ const TrackRecord = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-transparent border-t border-white/10 relative">
-      <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
+    <section className="py-16 md:py-24 bg-transparent border-t border-white/10 relative overflow-hidden">
+      {/* Cyber Grid Sub-layer */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      
+      <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -232,20 +274,22 @@ const TrackRecord = () => {
           className="text-center mb-12"
         >
           <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Proven Results</span>
-          <h2 className="text-3xl md:text-4xl font-serif text-stone-100 tracking-tight">Numbers that speak for themselves.</h2>
+          <h2 className="text-3xl md:text-4xl font-semibold text-stone-100 tracking-tight">Numbers that speak for themselves.</h2>
         </motion.div>
         
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {metrics.map((metric) => (
             <motion.div 
               key={metric.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: metric.id * 0.1, duration: 0.5 }}
               viewport={{ once: true }}
               className="bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500 cursor-default"
             >
-              <h3 className="text-4xl md:text-5xl font-serif text-stone-100 mb-3 tracking-tight">{metric.value}</h3>
+              <h3 className="text-4xl md:text-5xl font-bold text-stone-100 mb-3 tracking-tight font-sans">
+                <CountUp value={metric.value} />
+              </h3>
               <p className="text-stone-500 text-[10px] md:text-xs uppercase tracking-[0.15em] font-medium leading-relaxed">{metric.label}</p>
             </motion.div>
           ))}
@@ -374,45 +418,58 @@ const Services = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {expertises.map((item, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.05, duration: 0.4 }}
-              viewport={{ once: true, margin: "-30px" }}
-              whileHover={{ scale: 1.03, y: -3 }}
-              className="p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl group transition-all duration-400 cursor-pointer hover:bg-white/[0.04] hover:border-white/10 relative overflow-hidden"
-              onClick={() => setActiveBrief(idx)}
-            >
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-400 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
-              
-              <div className="relative z-10">
-                <div className={`p-2.5 w-fit rounded-xl mb-4 transition-all duration-400 group-hover:scale-110 ${
-                  item.color === 'blue'
-                    ? 'bg-blue-500/10 text-blue-400'
-                    : 'bg-orange-500/10 text-orange-400'
-                }`}>
-                  {item.icon}
+          {expertises.map((item, idx) => {
+            const isFeatured = idx === 0 || idx === 1; // GRC and VAPT featured
+            return (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05, duration: 0.4 }}
+                viewport={{ once: true, margin: "-30px" }}
+                whileHover={{ scale: 1.03, y: -3 }}
+                className={`p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border rounded-2xl group transition-all duration-400 cursor-pointer relative overflow-hidden ${
+                  isFeatured ? 'border-white/20 ring-1 ring-white/10 shadow-[0_0_30px_rgba(255,255,255,0.02)]' : 'border-white/5 hover:border-white/10'
+                } hover:bg-white/[0.04]`}
+                onClick={() => setActiveBrief(idx)}
+              >
+                {/* Glow for featured items */}
+                {isFeatured && (
+                  <div className={`absolute -top-10 -right-10 w-24 h-24 blur-[40px] opacity-20 pointer-events-none rounded-full ${item.color === 'blue' ? 'bg-blue-500' : 'bg-orange-500'}`} />
+                )}
+                
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-400 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
+                
+                <div className="relative z-10">
+                  <div className={`p-2.5 w-fit rounded-xl mb-4 transition-all duration-400 group-hover:scale-110 ${
+                    item.color === 'blue'
+                      ? 'bg-blue-500/10 text-blue-400'
+                      : 'bg-orange-500/10 text-orange-400'
+                  }`}>
+                    {item.icon}
+                  </div>
+                  
+                  <h3 className="text-sm font-semibold text-stone-100 mb-1.5 leading-snug">
+                    {item.title}
+                    {isFeatured && <span className="ml-2 text-[8px] px-1.5 py-0.5 rounded-md bg-white/10 text-white/60 font-bold tracking-tighter align-middle uppercase">Key</span>}
+                  </h3>
+                  <p className="text-stone-400 text-xs leading-relaxed mb-3">
+                    {item.desc}
+                  </p>
+                  
+                  <button 
+                    className={`flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400/60 group-hover:text-blue-300' : 'text-orange-400/60 group-hover:text-orange-300'}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveBrief(idx);
+                    }}
+                  >
+                    Explore <ChevronRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
+                  </button>
                 </div>
-                
-                <h3 className="text-sm font-semibold text-stone-100 mb-1.5 leading-snug">{item.title}</h3>
-                <p className="text-stone-400 text-xs leading-relaxed mb-3">
-                  {item.desc}
-                </p>
-                
-                <button 
-                  className={`flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400/60 group-hover:text-blue-300' : 'text-orange-400/60 group-hover:text-orange-300'}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveBrief(idx);
-                  }}
-                >
-                  Explore <ChevronRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
-                </button>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
