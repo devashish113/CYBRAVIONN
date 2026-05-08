@@ -130,10 +130,6 @@ const Hero = () => {
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 w-full max-w-7xl mx-auto">
             {/* Left Column */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl">
-              <div className="inline-flex items-center gap-2 md:gap-3 mb-8 px-5 py-2.5 border border-white/10 rounded-3xl md:rounded-full bg-black/40 backdrop-blur-md max-w-full shadow-lg">
-                <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shrink-0 shadow-[0_0_8px_rgba(249,115,22,0.8)]" />
-                <span className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] text-stone-200 font-medium leading-relaxed">Global Digital Resilience Authority</span>
-              </div>
               
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg">
                 Defense through <br /><span className="italic text-stone-300">Intelligence.</span>
