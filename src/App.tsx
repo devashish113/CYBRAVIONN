@@ -1355,8 +1355,8 @@ export default function App() {
           <About />
           <ThreatIntelHighlight />
           <TrainingAwareness />
-          <FAQ />
           <Contact />
+          <FAQ />
         </main>
         <Footer />
       </div>
