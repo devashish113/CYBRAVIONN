@@ -19,7 +19,10 @@ import {
   X,
   Mail,
   Phone,
-  ArrowRight
+  ArrowRight,
+  TrendingUp,
+  Star,
+  Headphones
 } from 'lucide-react';
 
 // --- Components ---
@@ -151,6 +154,62 @@ const Hero = () => {
       </div>
 
 
+    </section>
+  );
+};
+
+const TrackRecord = () => {
+  const metrics = [
+    {
+      id: 1,
+      icon: <TrendingUp className="text-white" size={24} strokeWidth={2.5} />,
+      value: "50+",
+      label: "Projects Delivered"
+    },
+    {
+      id: 2,
+      icon: <Users className="text-white" size={24} strokeWidth={2.5} />,
+      value: "30+",
+      label: "Happy Clients"
+    },
+    {
+      id: 3,
+      icon: <Star className="text-white" size={24} strokeWidth={2.5} />,
+      value: "95%",
+      label: "Client Satisfaction"
+    },
+    {
+      id: 4,
+      icon: <Headphones className="text-white" size={24} strokeWidth={2.5} />,
+      value: "24/7",
+      label: "Expert Support"
+    }
+  ];
+
+  return (
+    <section className="py-24 md:py-32 bg-transparent border-t border-white/10 relative">
+      <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
+        <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-16 tracking-tight">Our Track Record</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {metrics.map((metric) => (
+            <motion.div 
+              key={metric.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: metric.id * 0.1 }}
+              viewport={{ once: true }}
+              className="bg-white/[0.03] border border-white/5 rounded-2xl p-10 flex flex-col items-center justify-center text-center hover:bg-white/[0.05] transition-colors"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20">
+                {metric.icon}
+              </div>
+              <h3 className="text-4xl font-bold text-white mb-3">{metric.value}</h3>
+              <p className="text-stone-400 text-sm font-medium">{metric.label}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
@@ -562,6 +621,7 @@ export default function App() {
         <Navbar />
         <main>
           <Hero />
+          <TrackRecord />
           <Services />
           <About />
           <Contact />
