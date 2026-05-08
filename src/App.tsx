@@ -53,6 +53,7 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Services', href: '#services' },
     { name: 'About', href: '#about' },
+    { name: 'FAQ', href: '#faq' },
     { name: 'Contact', href: '#contact' }
   ];
 
@@ -328,7 +329,7 @@ const TrackRecord = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-transparent border-t border-white/10 relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-transparent border-t border-white/10 relative overflow-hidden">
       {/* Cyber Grid Sub-layer */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
            style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
@@ -556,7 +557,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-16 md:py-20 bg-transparent border-t border-white/10 relative">
+    <section id="services" className="py-24 md:py-32 bg-transparent border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-14 gap-4 md:gap-8">
           <div className="max-w-2xl">
@@ -756,7 +757,7 @@ const Services = () => {
                     onClick={() => setActiveBrief(null)}
                     className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    Request Consultation <ArrowRight size={14} />
+                    Request Security Assessment <ArrowRight size={14} />
                   </a>
                   <button 
                     onClick={() => setActiveBrief(null)}
@@ -820,7 +821,7 @@ const About = () => {
         </div>
 
         {/* Capability Bullets */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {capabilities.map((cap, i) => (
             <motion.div
               key={i}
@@ -877,7 +878,7 @@ const Contact = () => {
   );
 
   return (
-    <section id="contact" className="py-16 md:py-20 bg-transparent relative overflow-hidden border-t border-white/10">
+    <section id="contact" className="py-24 md:py-32 bg-transparent relative overflow-hidden border-t border-white/10">
       {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-900/10 rounded-full blur-[100px] pointer-events-none" />
 
@@ -978,7 +979,7 @@ const Contact = () => {
                     type="submit" 
                     className="w-fit px-12 py-3 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-950/20"
                   >
-                    Send Message
+                    Start Securing Today
                   </motion.button>
                 </div>
               </form>
@@ -1275,6 +1276,142 @@ const FAQ = () => {
   );
 };
 
+const FounderSection = () => (
+  <section className="py-24 md:py-32 bg-stone-950/50 border-t border-white/10 relative">
+    <div className="w-full px-6 md:px-12 lg:px-20 max-w-5xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-14"
+      >
+        <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Leadership</span>
+        <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight">Meet the founder.</h2>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        viewport={{ once: true }}
+        className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-12 max-w-3xl mx-auto relative overflow-hidden"
+      >
+        <div className="absolute -top-20 -right-20 w-48 h-48 bg-blue-500/5 rounded-full blur-[80px] pointer-events-none" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+              <Award className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-xl md:text-2xl font-semibold text-stone-100">V V Narayan</h3>
+              <p className="text-blue-400 text-sm font-medium">Cofounder, CYBRAVION Solutions</p>
+            </div>
+          </div>
+          <p className="text-stone-300 text-base md:text-lg font-light leading-relaxed mb-6 max-w-xl">
+            "Our mission is to empower organizations with practical security frameworks, measurable risk reduction, and intelligence-led decision support — so they can innovate confidently while remaining secure and compliant."
+          </p>
+          <p className="text-stone-500 text-sm font-medium">
+            Expertise in cloud security, GRC, enterprise systems, and strategic digital resilience.
+          </p>
+        </div>
+      </motion.div>
+    </div>
+  </section>
+);
+
+const HowWeWork = () => {
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = [
+    { num: "01", title: "Assess", desc: "We evaluate your current security posture, identify compliance gaps, and map your organization's risk landscape against industry frameworks.", icon: <Search className="w-5 h-5" /> },
+    { num: "02", title: "Identify Risks", desc: "Through structured assessments and threat intelligence, we prioritize vulnerabilities and risks based on business impact and exploitability.", icon: <Eye className="w-5 h-5" /> },
+    { num: "03", title: "Implement Controls", desc: "We deploy governance frameworks, security architecture, and technical controls — tailored to your environment and regulatory requirements.", icon: <Shield className="w-5 h-5" /> },
+    { num: "04", title: "Monitor & Improve", desc: "Continuous monitoring, threat intelligence feeds, and periodic reassessment ensure your security posture evolves with emerging threats.", icon: <Radar className="w-5 h-5" /> }
+  ];
+
+  return (
+    <section className="py-24 md:py-32 bg-transparent border-t border-white/10 relative">
+      <div className="w-full px-6 md:px-12 lg:px-20 max-w-6xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Our Process</span>
+          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">How we work.</h2>
+          <p className="text-stone-400 text-base md:text-lg max-w-xl mx-auto font-light">A structured, repeatable methodology that delivers measurable security outcomes.</p>
+        </motion.div>
+
+        {/* Progress bar */}
+        <div className="hidden md:flex items-center justify-center gap-0 mb-14 max-w-2xl mx-auto">
+          {steps.map((step, i) => (
+            <div key={i} className="flex items-center flex-1">
+              <button
+                onClick={() => setActiveStep(i)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 shrink-0 ${
+                  i === activeStep ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30 scale-110' : i < activeStep ? 'bg-blue-500/20 text-blue-400' : 'bg-white/5 text-stone-500'
+                }`}
+              >
+                {step.num}
+              </button>
+              {i < steps.length - 1 && (
+                <div className={`h-px flex-1 transition-colors duration-300 ${i < activeStep ? 'bg-blue-500/40' : 'bg-white/5'}`} />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Step cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {steps.map((step, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              viewport={{ once: true }}
+              onClick={() => setActiveStep(i)}
+              className={`p-6 rounded-2xl border cursor-pointer transition-all duration-400 relative overflow-hidden group ${
+                i === activeStep
+                  ? 'bg-blue-500/5 border-blue-500/25 shadow-lg shadow-blue-500/5'
+                  : 'bg-white/[0.01] border-white/5 hover:border-white/10 hover:bg-white/[0.02]'
+              }`}
+            >
+              <div className={`p-2 w-fit rounded-lg mb-4 transition-colors ${i === activeStep ? 'bg-blue-500/15 text-blue-400' : 'bg-white/5 text-stone-500 group-hover:text-stone-300'}`}>
+                {step.icon}
+              </div>
+              <h3 className={`text-base font-semibold mb-2 transition-colors ${i === activeStep ? 'text-blue-400' : 'text-stone-200'}`}>{step.title}</h3>
+              <AnimatePresence mode="wait">
+                {i === activeStep && (
+                  <motion.p
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-stone-400 text-sm font-light leading-relaxed"
+                  >
+                    {step.desc}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const SecurityBadge = () => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 2, duration: 0.8 }}
+    className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 bg-stone-900/90 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2.5 shadow-xl cursor-default select-none"
+  >
+    <motion.div
+      className="w-2 h-2 rounded-full bg-emerald-400"
+      animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+    />
+    <span className="text-[10px] uppercase tracking-[0.15em] text-stone-300 font-bold">System Secure</span>
+  </motion.div>
+);
+
 const Footer = () => {
   return (
     <footer className="bg-stone-950/60 backdrop-blur-md border-t border-white/10 py-10 overflow-hidden relative">
@@ -1337,11 +1474,11 @@ export default function App() {
           loop 
           muted 
           playsInline
-          className="w-full h-full object-cover pointer-events-none opacity-40"
+          className="w-full h-full object-cover pointer-events-none opacity-25"
         >
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/50 via-transparent to-stone-950/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/30 to-stone-950/90 pointer-events-none" />
       </div>
 
       <div className="relative z-10">
@@ -1351,13 +1488,16 @@ export default function App() {
           <Services />
           <TrackRecord />
           <WhyChooseUs />
+          <FounderSection />
           <ComplianceStandards />
+          <HowWeWork />
           <About />
           <ThreatIntelHighlight />
           <TrainingAwareness />
           <Contact />
           <FAQ />
         </main>
+        <SecurityBadge />
         <Footer />
       </div>
     </div>
