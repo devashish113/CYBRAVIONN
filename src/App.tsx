@@ -378,7 +378,7 @@ const Services = () => {
                   setActiveBrief(i);
                 }}
               >
-                Technical Brief <ChevronRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                Details <ChevronRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </motion.div>
           ))}
