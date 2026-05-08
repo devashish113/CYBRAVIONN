@@ -804,75 +804,6 @@ const Services = () => {
   );
 };
 
-const About = () => {
-  const capabilities = [
-    { label: "Risk-driven security strategy", color: "blue" },
-    { label: "Compliance-ready frameworks", color: "orange" },
-    { label: "Cloud-first architecture", color: "blue" },
-    { label: "Intelligence-led threat visibility", color: "orange" }
-  ];
-
-  return (
-    <section id="about" className="py-24 md:py-32 bg-stone-950/20 backdrop-blur-sm border-t border-white/10 relative">
-      <div className="w-full px-6 md:px-12 lg:px-20 max-w-6xl mx-auto">
-        {/* Top Section */}
-        <div className="text-center mb-20">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold"
-          >
-            About Cybravion
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 70, damping: 15 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-stone-100 mb-10 leading-[1.1] tracking-tight"
-          >
-            We secure businesses. <br className="hidden md:block" />
-            <span className="font-light text-stone-300">Not just networks.</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-stone-400 font-light text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
-          >
-            CYBRAVION combines governance, testing, architecture, and intelligence under one strategic framework — so your security posture grows with your business.
-          </motion.p>
-        </div>
-
-        {/* Capability Bullets */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {capabilities.map((cap, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 100,
-                damping: 15,
-                delay: 0.3 + i * 0.1 
-              }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.04)" }}
-              className="flex items-center gap-3 bg-white/[0.02] border border-white/5 rounded-2xl p-5 hover:border-white/10 transition-all duration-500"
-            >
-              <span className={`w-2 h-2 rounded-full shrink-0 ${cap.color === 'blue' ? 'bg-blue-400' : 'bg-orange-400'}`} />
-              <span className="text-stone-300 text-sm font-medium">{cap.label}</span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const Contact = () => {
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
@@ -1066,202 +997,56 @@ const WhyChooseUs = () => {
   );
 };
 
-const ComplianceStandards = () => {
-  const frameworks = [
-    { name: "ISO/IEC 27001", short: "Information security management system standard for enterprise-wide risk governance.", icon: <ShieldCheck className="w-6 h-6" />, color: "blue" },
-    { name: "NIST CSF", short: "Cybersecurity framework for identifying, protecting, detecting, responding, and recovering.", icon: <Layers className="w-6 h-6" />, color: "orange" },
-    { name: "SOC 2", short: "Trust service criteria for managing customer data — security, availability, confidentiality.", icon: <FileCheck className="w-6 h-6" />, color: "blue" },
-    { name: "DPDP Act", short: "India's Digital Personal Data Protection Act for lawful processing of personal data.", icon: <Lock className="w-6 h-6" />, color: "orange" },
-    { name: "CERT-In", short: "Indian Computer Emergency Response Team advisory compliance for incident reporting.", icon: <Shield className="w-6 h-6" />, color: "blue" }
-  ];
-
-  return (
-    <section className="py-20 md:py-28 bg-stone-950/30 border-t border-white/10 relative">
-      <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Global Frameworks</span>
-          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">Stay compliant. <span className="font-light text-stone-300">Reduce regulatory risk.</span></h2>
-          <p className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto font-light">We align your security posture with globally recognized compliance standards and regulatory requirements.</p>
-        </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {frameworks.map((fw, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className={`p-6 bg-white/[0.02] border rounded-2xl group cursor-default transition-all duration-400 relative overflow-hidden text-center ${
-                fw.color === 'blue' ? 'border-blue-500/10 hover:border-blue-500/30' : 'border-orange-500/10 hover:border-orange-500/30'
-              }`}
-            >
-              <div className={`mx-auto p-3 w-fit rounded-xl mb-4 ${fw.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'}`}>
-                {fw.icon}
-              </div>
-              <h3 className={`text-base font-bold mb-2 ${fw.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>{fw.name}</h3>
-              <p className="text-stone-400 text-xs font-light leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity">{fw.short}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const ThreatIntelHighlight = () => (
-  <section className="py-20 md:py-28 bg-transparent border-t border-white/10 relative overflow-hidden">
-    <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
-    <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-blue-400 mb-6 block font-semibold">Threat Intelligence</span>
-          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6 leading-[1.1]">
-            Know what attackers know <br className="hidden md:block" />
-            <span className="font-light text-stone-300">before they use it.</span>
-          </h2>
-          <p className="text-stone-400 text-base md:text-lg font-light leading-relaxed mb-10 max-w-lg">
-            Our intelligence-led approach combines OSINT, adversary profiling, and strategic monitoring to give you actionable threat visibility — not just data.
-          </p>
-          <ul className="space-y-5">
-            {[
-              { icon: <Eye className="w-5 h-5" />, text: "Real-time threat awareness and exposure monitoring" },
-              { icon: <Radar className="w-5 h-5" />, text: "Proactive risk detection and adversary profiling" },
-              { icon: <Users className="w-5 h-5" />, text: "Executive and brand threat intelligence" },
-              { icon: <Search className="w-5 h-5" />, text: "Structured OSINT investigations and due diligence" }
-            ].map((item, i) => (
-              <motion.li key={i} initial={{ opacity: 0, x: -15 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.1 }} viewport={{ once: true }} className="flex items-center gap-4">
-                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 shrink-0">{item.icon}</div>
-                <span className="text-stone-200 text-sm font-medium">{item.text}</span>
-              </motion.li>
-            ))}
-          </ul>
-        </motion.div>
-        <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} viewport={{ once: true }} className="hidden lg:flex items-center justify-center relative">
-          <div className="relative w-80 h-80">
-            <div className="absolute inset-0 border border-blue-500/10 rounded-full" />
-            <div className="absolute inset-6 border border-blue-500/15 rounded-full" />
-            <div className="absolute inset-12 border border-blue-500/20 rounded-full" />
-            <div className="absolute inset-20 border border-blue-500/25 rounded-full bg-blue-500/5 flex items-center justify-center">
-              <Radar className="w-12 h-12 text-blue-400/60" />
-            </div>
-            {[0, 60, 120, 180, 240, 300].map((deg, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2.5 h-2.5 rounded-full bg-blue-400"
-                style={{ top: `${50 + 45 * Math.sin((deg * Math.PI) / 180)}%`, left: `${50 + 45 * Math.cos((deg * Math.PI) / 180)}%` }}
-                animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 2 + i * 0.3, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
-              />
-            ))}
-          </div>
-        </motion.div>
+const ComplianceStrip = () => (
+  <section className="py-10 md:py-14 border-t border-white/5 relative">
+    <div className="w-full px-6 md:px-12 lg:px-20 max-w-6xl mx-auto">
+      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-6">
+        <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-stone-500 font-semibold">Aligned with global frameworks</span>
+      </motion.div>
+      <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+        {["ISO/IEC 27001", "NIST CSF", "SOC 2", "DPDP Act", "CERT-In"].map((fw, i) => (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.06 }}
+            viewport={{ once: true }}
+            className={`text-[10px] md:text-xs uppercase tracking-wider border rounded-full px-4 py-2 font-bold ${
+              i % 2 === 0 ? 'bg-blue-500/5 border-blue-500/15 text-blue-400' : 'bg-orange-500/5 border-orange-500/15 text-orange-400'
+            }`}
+          >
+            {fw}
+          </motion.span>
+        ))}
       </div>
     </div>
   </section>
 );
 
-const TrainingAwareness = () => {
-  const programs = [
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: "Security Awareness",
-      desc: "Organization-wide programs that build a security-first culture — from boardroom to breakroom.",
-      points: ["Executive cyber awareness sessions", "Phishing simulation and social engineering defense", "Security policy communication and adoption"],
-      color: "orange"
-    },
-    {
-      icon: <Cpu className="w-6 h-6" />,
-      title: "Technical Team Training",
-      desc: "Hands-on workshops designed for engineering, DevOps, and security operations teams.",
-      points: ["Secure coding practices and code review", "SOC fundamentals and incident response", "Cloud security and architecture workshops"],
-      color: "blue"
-    },
-    {
-      icon: <GraduationCap className="w-6 h-6" />,
-      title: "Certification Guidance",
-      desc: "Structured pathways to globally recognized cybersecurity certifications.",
-      points: ["CISSP, CISA, and CompTIA Security+ preparation", "GRC and risk management specializations", "Custom enterprise certification programs"],
-      color: "orange"
-    }
-  ];
-
-  return (
-    <section className="py-20 md:py-28 bg-transparent border-t border-white/10 relative">
-      <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Capability Development</span>
-          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">Build a security-aware workforce <br className="hidden md:block" /><span className="font-light text-stone-300">that can defend against modern threats.</span></h2>
-          <p className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto font-light">Your team is your first line of defense. Our training programs transform employees into security assets.</p>
-        </motion.div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-          {programs.map((prog, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
-              className={`p-7 bg-white/[0.02] border rounded-2xl relative overflow-hidden group transition-all duration-400 ${
-                prog.color === 'blue' ? 'border-blue-500/10 hover:border-blue-500/25' : 'border-orange-500/10 hover:border-orange-500/25'
-              }`}
-            >
-              <div className={`p-3 w-fit rounded-xl mb-5 ${prog.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'}`}>
-                {prog.icon}
-              </div>
-              <h3 className="text-xl font-semibold text-stone-100 mb-3">{prog.title}</h3>
-              <p className="text-stone-400 text-sm font-light leading-relaxed mb-5">{prog.desc}</p>
-              <ul className="space-y-2.5">
-                {prog.points.map((pt, j) => (
-                  <li key={j} className="flex items-start gap-3 text-stone-300 text-sm font-light">
-                    <CheckCircle2 className={`w-4 h-4 mt-0.5 shrink-0 ${prog.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`} />
-                    {pt}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-        <div className="text-center">
-          <motion.a
-            href="#services"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 px-10 py-4 bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] text-stone-200 rounded-full text-sm uppercase tracking-[0.2em] font-bold transition-all"
-          >
-            Explore Training Programs <ArrowRight size={16} />
-          </motion.a>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
   const faqs = [
-    { q: "What is VAPT and why is it important?", a: "VAPT (Vulnerability Assessment and Penetration Testing) is a structured approach to identifying and exploiting security weaknesses in your applications, networks, and cloud infrastructure. It helps organizations proactively discover vulnerabilities before attackers do, reducing the risk of data breaches and ensuring compliance with standards like ISO 27001 and SOC 2." },
-    { q: "Do you work with startups and small businesses?", a: "Yes. CYBRAVION works with enterprises, SMEs, startups, and government institutions. Our services are scaled to fit the size and maturity of your organization — from lightweight compliance assessments for early-stage startups to full enterprise GRC programs." },
-    { q: "How long does a security assessment take?", a: "Timelines depend on scope and complexity. A focused VAPT engagement typically takes 1–3 weeks. Comprehensive GRC assessments or security architecture reviews may take 4–8 weeks. We provide a clear timeline during the scoping phase so there are no surprises." },
-    { q: "Do you provide implementation or only consulting?", a: "We provide both. CYBRAVION delivers end-to-end services — from advisory and strategy through to hands-on implementation, deployment coordination, and post-deployment optimization. Our goal is measurable risk reduction, not just reports." },
-    { q: "How do you ensure compliance with ISO and NIST standards?", a: "We conduct gap assessments against your target framework (ISO 27001, NIST CSF, SOC 2, DPDP Act), develop remediation roadmaps, build required documentation (policies, procedures, ISMS), and support you through the audit process. Our approach ensures compliance is embedded into operations, not treated as a one-time project." },
-    { q: "What industries do you serve?", a: "We serve clients across technology, financial services, healthcare, e-commerce, government, education, and critical infrastructure sectors. Our framework-agnostic approach means we adapt to the regulatory and threat landscape specific to your industry." },
-    { q: "How does threat intelligence help my organization?", a: "Threat intelligence provides proactive visibility into emerging threats, adversary tactics, and your organization's digital exposure. Instead of reacting to incidents after they happen, intelligence-led security enables early detection, informed decision-making, and strategic risk mitigation — helping you stay ahead of attackers." }
+    { q: "What is VAPT and why is it important?", a: "VAPT identifies and exploits security weaknesses across applications, networks, and cloud infrastructure — helping you fix vulnerabilities before attackers find them. It ensures compliance with ISO 27001, SOC 2, and similar standards." },
+    { q: "Do you work with startups and enterprises?", a: "Yes. We serve organizations of all sizes — from lightweight assessments for startups to enterprise-wide GRC programs. Services are scaled to your maturity and budget." },
+    { q: "Do you provide implementation or only consulting?", a: "Both. We deliver end-to-end services — from advisory and strategy through hands-on implementation and post-deployment optimization. Measurable risk reduction, not just reports." },
+    { q: "How long does a security assessment take?", a: "A focused VAPT typically takes 1–3 weeks. Comprehensive GRC or architecture reviews may take 4–8 weeks. We provide clear timelines during scoping." },
+    { q: "How do you ensure compliance with ISO and NIST?", a: "We conduct gap assessments, develop remediation roadmaps, build required documentation, and support you through audit. Compliance is embedded into operations — not a one-time project." },
+    { q: "What industries do you serve?", a: "Technology, financial services, healthcare, e-commerce, government, and critical infrastructure. Our framework-agnostic approach adapts to your industry's regulatory landscape." },
+    { q: "How does threat intelligence help?", a: "It provides proactive visibility into emerging threats and your digital exposure — enabling early detection and strategic risk mitigation instead of reactive incident response." }
   ];
 
+  const visibleFaqs = showAll ? faqs : faqs.slice(0, 4);
+
   return (
-    <section id="faq" className="py-20 md:py-28 bg-stone-950/30 border-t border-white/10 relative">
+    <section id="faq" className="py-16 md:py-24 bg-stone-950/30 border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20 max-w-4xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
           <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Common Questions</span>
-          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">Frequently asked questions.</h2>
-          <p className="text-stone-400 text-base md:text-lg max-w-xl mx-auto font-light">Clear answers to the questions we hear most from security leaders and decision-makers.</p>
+          <h2 className="text-3xl md:text-4xl font-semibold text-stone-100 tracking-tight">Frequently asked questions.</h2>
         </motion.div>
         <div className="space-y-3">
-          {faqs.map((faq, i) => (
+          {visibleFaqs.map((faq, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 15 }}
@@ -1297,6 +1082,18 @@ const FAQ = () => {
             </motion.div>
           ))}
         </div>
+        {!showAll && (
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mt-8">
+            <motion.button
+              onClick={() => setShowAll(true)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] text-stone-300 rounded-full text-xs uppercase tracking-[0.15em] font-bold transition-all min-h-[44px]"
+            >
+              View More FAQs <ChevronDown size={14} />
+            </motion.button>
+          </motion.div>
+        )}
       </div>
     </section>
   );
@@ -1422,24 +1219,6 @@ const HowWeWork = () => {
   );
 };
 
-const MidCTA = ({ label, href = "#contact" }: { label: string; href?: string }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 15 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    className="text-center py-12 border-t border-white/5"
-  >
-    <motion.a
-      href={href}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className="inline-flex items-center gap-3 px-8 py-3.5 bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 text-stone-200 rounded-full text-xs uppercase tracking-[0.2em] font-bold transition-all min-h-[44px]"
-    >
-      {label} <ArrowRight size={14} />
-    </motion.a>
-  </motion.div>
-);
-
 const SecurityBadge = () => {
   const [threatMode, setThreatMode] = useState(false);
 
@@ -1543,18 +1322,13 @@ export default function App() {
         <main>
           <Hero />
           <Services />
+          <ComplianceStrip />
           <TrackRecord />
           <WhyChooseUs />
           <FounderSection />
-          <ComplianceStandards />
           <HowWeWork />
-          <MidCTA label="Request Security Assessment" />
-          <About />
-          <ThreatIntelHighlight />
-          <TrainingAwareness />
-          <MidCTA label="Explore Services" href="#services" />
-          <Contact />
           <FAQ />
+          <Contact />
         </main>
         <SecurityBadge />
         <Footer />
