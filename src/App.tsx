@@ -131,7 +131,7 @@ const Hero = () => {
             {/* Left Column */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl">
               
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg">
+              <h1 className="mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg">
                 Defense through <br /><span className="italic text-stone-300">Intelligence.</span>
               </h1>
               
