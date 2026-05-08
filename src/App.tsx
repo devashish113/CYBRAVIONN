@@ -670,7 +670,7 @@ export default function App() {
           loop 
           muted 
           playsInline
-          className="w-full h-full object-cover pointer-events-none opacity-30 mix-blend-luminosity"
+          className="w-full h-full object-cover pointer-events-none opacity-40"
         >
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
