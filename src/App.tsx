@@ -274,48 +274,54 @@ const Services = () => {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-2xl bg-stone-900 border border-white/10 p-10 md:p-16 rounded-3xl shadow-2xl overflow-hidden"
+              className="relative w-full max-w-2xl max-h-[90vh] flex flex-col bg-stone-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
             >
-              <button 
-                onClick={() => setActiveBrief(null)}
-                className="absolute top-8 right-8 text-stone-300 hover:text-stone-100 p-2 transition-colors"
-              >
-                <X size={24} />
-              </button>
-
-              <div className="flex items-center gap-6 mb-12">
-                <div className="p-4 bg-stone-100 text-stone-950 rounded-2xl shadow-lg">
-                  {expertises[activeBrief].icon}
-                </div>
-                <div>
-                  <span className="text-base uppercase tracking-[0.4em] text-stone-300 block mb-2 font-bold">Service Vertical</span>
-                  <h3 className="text-3xl font-serif text-stone-100 tracking-tight">{expertises[activeBrief].title}</h3>
-                </div>
+              {/* Sticky Header with Close Button */}
+              <div className="absolute top-4 right-4 md:top-8 md:right-8 z-50">
+                <button 
+                  onClick={() => setActiveBrief(null)}
+                  className="text-stone-300 hover:text-stone-100 p-2 bg-stone-900/80 rounded-full backdrop-blur-md transition-colors"
+                >
+                  <X size={24} />
+                </button>
               </div>
 
-              <div className="space-y-8">
-                <div>
-                  <h4 className="text-base uppercase tracking-[0.3em] text-stone-200 mb-4 font-semibold border-b border-stone-600 pb-2">Analysis Summary</h4>
-                  <p className="text-stone-200 text-xl font-light leading-relaxed italic">
-                    "{expertises[activeBrief].desc}"
-                  </p>
+              {/* Scrollable Content */}
+              <div className="p-8 md:p-16 overflow-y-auto relative z-10 w-full">
+                <div className="flex flex-col md:flex-row md:items-center gap-6 mb-8 md:mb-12 mt-4 md:mt-0">
+                  <div className="p-4 bg-stone-100 text-stone-950 rounded-2xl shadow-lg w-fit">
+                    {expertises[activeBrief].icon}
+                  </div>
+                  <div>
+                    <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-300 block mb-2 font-bold">Service Vertical</span>
+                    <h3 className="text-2xl md:text-3xl font-serif text-stone-100 tracking-tight">{expertises[activeBrief].title}</h3>
+                  </div>
                 </div>
 
-                <div>
-                  <h4 className="text-base uppercase tracking-[0.3em] text-stone-200 mb-4 font-semibold border-b border-stone-600 pb-2">Technical Scope</h4>
-                  <p className="text-stone-300 leading-relaxed font-light">
-                    {expertises[activeBrief].brief}
-                  </p>
-                </div>
+                <div className="space-y-6 md:space-y-8">
+                  <div>
+                    <h4 className="text-sm md:text-base uppercase tracking-[0.3em] text-stone-200 mb-4 font-semibold border-b border-stone-600 pb-2">Analysis Summary</h4>
+                    <p className="text-stone-200 text-lg md:text-xl font-light leading-relaxed italic">
+                      "{expertises[activeBrief].desc}"
+                    </p>
+                  </div>
 
-                <div className="pt-8">
-                  <a 
-                    href="#contact"
-                    onClick={() => setActiveBrief(null)}
-                    className="inline-flex items-center gap-3 text-base uppercase tracking-[0.3em] font-bold text-stone-100 hover:gap-5 transition-all group"
-                  >
-                    Request Full Documentation <ArrowRight size={14} />
-                  </a>
+                  <div>
+                    <h4 className="text-sm md:text-base uppercase tracking-[0.3em] text-stone-200 mb-4 font-semibold border-b border-stone-600 pb-2">Technical Scope</h4>
+                    <p className="text-stone-300 leading-relaxed font-light text-sm md:text-base">
+                      {expertises[activeBrief].brief}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 md:pt-8">
+                    <a 
+                      href="#contact"
+                      onClick={() => setActiveBrief(null)}
+                      className="inline-flex items-center gap-3 text-xs md:text-base uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-stone-100 hover:gap-5 transition-all group"
+                    >
+                      Request Documentation <ArrowRight size={14} />
+                    </a>
+                  </div>
                 </div>
               </div>
 
