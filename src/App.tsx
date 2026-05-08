@@ -110,50 +110,39 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-stone-950 pt-32 pb-20">
-      {/* Background: More subtle texture */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-950 via-stone-950/90 to-stone-950 z-10" />
-        <div className="absolute inset-0 bg-stone-950/40 z-0" />
-        <img 
-          src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070" 
-          alt="Digital Texture" 
-          className="w-full h-full object-cover opacity-10 mix-blend-luminosity scale-110"
-          referrerPolicy="no-referrer"
-        />
-      </div>
-
-      <div className="relative z-20 w-full px-6 md:px-12 lg:px-20">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-transparent pt-32 pb-20">
+      <div className="relative z-20 w-full px-6 md:px-12 lg:px-20 mt-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto flex flex-col items-center text-center"
+          className="max-w-5xl mx-auto flex flex-col items-center text-center relative"
         >
-          <div className="inline-flex items-center justify-center gap-2 md:gap-3 mb-10 px-4 py-2 border border-stone-600 rounded-3xl md:rounded-full bg-stone-900/30 backdrop-blur-sm max-w-full">
-            <div className="w-1.5 h-1.5 rounded-full bg-stone-500 animate-pulse shrink-0" />
-            <span className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] text-stone-300 font-medium text-center leading-relaxed">Global Digital Resilience Authority</span>
+          
+          <div className="relative z-10 inline-flex items-center justify-center gap-2 md:gap-3 mb-10 px-5 py-2.5 border border-white/10 rounded-3xl md:rounded-full bg-black/40 backdrop-blur-md max-w-full shadow-lg">
+            <div className="w-1.5 h-1.5 rounded-full bg-stone-300 animate-pulse shrink-0 shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+            <span className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] text-stone-200 font-medium text-center leading-relaxed">Global Digital Resilience Authority</span>
           </div>
           
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-stone-100 mb-8 tracking-tight">
-            Defense through <br /><span className="italic text-stone-200">Intelligence.</span>
+          <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg">
+            Defense through <br /><span className="italic text-stone-300">Intelligence.</span>
           </h1>
           
-          <p className="text-base md:text-lg text-stone-300 mb-12 max-w-xl font-light leading-relaxed">
+          <p className="relative z-10 text-base md:text-lg text-stone-300 mb-12 max-w-2xl font-light leading-relaxed drop-shadow-md">
             Leading cybersecurity consulting specializing in end-to-end governance, risk management, and strategic digital influence for the modern enterprise.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center w-full">
+          <div className="relative z-10 flex flex-col sm:flex-row gap-6 justify-center w-full">
             <a 
               href="#services"
-              className="px-8 py-4 bg-stone-100 text-stone-950 rounded-full text-sm uppercase tracking-[0.2em] font-bold hover:bg-stone-200 transition-all flex items-center justify-center gap-2 group"
+              className="px-10 py-4 bg-white text-stone-950 rounded-full text-sm uppercase tracking-[0.2em] font-bold hover:bg-stone-200 transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
             >
               Our Expertise
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a 
               href="#contact"
-              className="px-8 py-4 border border-stone-600 text-stone-100 rounded-full text-sm uppercase tracking-[0.2em] font-bold hover:border-stone-500 transition-all text-center flex items-center justify-center"
+              className="px-10 py-4 border border-white/20 text-white rounded-full text-sm uppercase tracking-[0.2em] font-bold hover:bg-white/10 transition-all text-center flex items-center justify-center backdrop-blur-md"
             >
               Consult an Advisor
             </a>
@@ -221,7 +210,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-42 bg-stone-950 border-t border-stone-700">
+    <section id="services" className="py-42 bg-transparent border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <div className="max-w-2xl">
@@ -342,7 +331,7 @@ const Services = () => {
 
 const About = () => {
   return (
-    <section id="about" className="py-32 md:py-48 bg-stone-950">
+    <section id="about" className="py-32 md:py-48 bg-stone-950/20 backdrop-blur-sm border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20 max-w-5xl mx-auto text-center">
         <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">
           The Institution
@@ -386,7 +375,7 @@ const About = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-42 bg-stone-950 relative overflow-hidden">
+    <section id="contact" className="py-42 bg-transparent relative overflow-hidden border-t border-white/10">
       {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-stone-900/20 rounded-full blur-[120px] pointer-events-none" />
 
@@ -431,12 +420,17 @@ const Contact = () => {
               viewport={{ once: true }}
               className="bg-white/[0.02] backdrop-blur-2xl p-8 md:p-14 rounded-3xl border border-white/5 shadow-2xl relative z-10"
             >
-              <form className="space-y-10">
+              <form action="https://api.web3forms.com/submit" method="POST" className="space-y-10">
+                {/* Replace YOUR_ACCESS_KEY_HERE with your Web3Forms access key */}
+                <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-3">
                     <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Identity</label>
                     <input 
                       type="text" 
+                      name="name"
+                      required
                       className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
                       placeholder="Principal Name"
                     />
@@ -445,6 +439,7 @@ const Contact = () => {
                     <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Organization</label>
                     <input 
                       type="text" 
+                      name="organization"
                       className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
                       placeholder="Entity Name"
                     />
@@ -455,6 +450,8 @@ const Contact = () => {
                   <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Secure Channel</label>
                   <input 
                     type="email" 
+                    name="email"
+                    required
                     className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
                     placeholder="email@organization.com"
                   />
@@ -464,6 +461,8 @@ const Contact = () => {
                   <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Strategic Inquiry</label>
                   <textarea 
                     rows={4}
+                    name="message"
+                    required
                     className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 resize-none text-base leading-relaxed" 
                     placeholder="Define your requirements..."
                   />
@@ -491,7 +490,7 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-stone-950 border-t border-stone-700 py-20 overflow-hidden relative">
+    <footer className="bg-stone-950/60 backdrop-blur-md border-t border-white/10 py-20 overflow-hidden relative">
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-start gap-12">
           <div className="max-w-xs">
@@ -518,25 +517,18 @@ const Footer = () => {
             <div>
               <h4 className="text-base uppercase tracking-[0.4em] text-stone-300 mb-6">Inquiry</h4>
               <ul className="space-y-3">
-                {['About Us', 'Contact', 'Privacy Policy'].map(item => (
-                  <li key={item}><a href="#" className="text-stone-400 hover:text-stone-300 text-sm uppercase tracking-widest transition-colors">{item}</a></li>
-                ))}
+                <li><a href="#about" className="text-stone-400 hover:text-stone-300 text-sm uppercase tracking-widest transition-colors">About Us</a></li>
+                <li><a href="#contact" className="text-stone-400 hover:text-stone-300 text-sm uppercase tracking-widest transition-colors">Contact</a></li>
+                <li><a href="#" className="text-stone-400 hover:text-stone-300 text-sm uppercase tracking-widest transition-colors">Privacy Policy</a></li>
               </ul>
             </div>
           </div>
         </div>
 
         <div className="mt-20 pt-8 border-t border-stone-700 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-base uppercase tracking-[0.2em] text-stone-400">
+          <p className="text-base uppercase tracking-[0.2em] text-stone-400 text-center w-full">
             © {new Date().getFullYear()} CYBRAVION Solutions. All Rights Reserved.
           </p>
-          <div className="flex gap-8">
-            {['LinkedIn', 'Twitter', 'Medium'].map(item => (
-              <a key={item} href="#" className="text-base uppercase tracking-[0.2em] text-stone-400 hover:text-stone-300 transition-colors">
-                {item}
-              </a>
-            ))}
-          </div>
         </div>
       </div>
 
@@ -550,15 +542,31 @@ const Footer = () => {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-stone-950 scroll-smooth">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
+    <div className="min-h-screen bg-stone-950 scroll-smooth relative">
+      {/* Fixed Background Video */}
+      <div className="fixed inset-0 z-0 bg-black">
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/80 to-stone-950/95 z-10 pointer-events-none" />
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          className="w-full h-full object-cover opacity-50 mix-blend-luminosity scale-105 pointer-events-none"
+        >
+          <source src="/hero-bg.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      <div className="relative z-10">
+        <Navbar />
+        <main>
+          <Hero />
+          <Services />
+          <About />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
