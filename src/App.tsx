@@ -272,62 +272,101 @@ const TrackRecord = () => {
 const Services = () => {
   const [activeBrief, setActiveBrief] = useState<number | null>(null);
 
+  const serviceCategories = [
+    { label: "Governance & Compliance", indices: [0, 1] },
+    { label: "Security & Architecture", indices: [2, 3] },
+    { label: "Intelligence & Influence", indices: [4, 5] },
+    { label: "Growth & Advisory", indices: [6, 7] }
+  ];
+
   const expertises = [
     {
       title: "Governance & Compliance",
-      desc: "Align your business with global compliance standards and mitigate enterprise risk.",
+      desc: "Align your business with global standards. Pass audits. Reduce regulatory risk.",
+      outcome: "90% of clients achieve compliance readiness within 6 months",
       icon: <Shield className="w-6 h-6" />,
       color: "blue",
-      brief: "We establish strong governance structures that integrate security into your business decisions. From policy development to enterprise risk assessments and compliance readiness (ISO 27001, SOC 2, GDPR), we ensure you meet regulatory requirements without slowing down operations."
+      standards: ["ISO 27001", "NIST CSF", "SOC 2", "GDPR"],
+      whatWeDo: ["Build security policies that actually get followed", "Run enterprise-wide risk assessments", "Prepare you for audits before auditors arrive", "Assess vendor and third-party risk exposure"],
+      process: ["Assess current compliance gaps", "Map controls to required standards", "Implement governance frameworks", "Continuous monitoring & audit support"],
+      impact: ["Reduced regulatory penalties and audit failures", "Clear visibility into enterprise risk posture", "Faster onboarding of compliance-sensitive clients"]
     },
     {
       title: "Security Testing",
-      desc: "Find security gaps and fix them before they become breaches.",
+      desc: "We find security gaps and help you fix them before attackers do.",
+      outcome: "Prevent breaches before they happen",
       icon: <Lock className="w-6 h-6" />,
       color: "orange",
-      brief: "We identify and address vulnerabilities across your applications, networks, and cloud environments. Our targeted penetration testing and vulnerability lifecycle management reduces your exploitable attack surface so you can operate with confidence."
+      standards: ["OWASP Top 10", "PTES", "NIST SP 800-115"],
+      whatWeDo: ["Penetration testing across web, mobile, and APIs", "Network and infrastructure vulnerability scanning", "Cloud environment security validation", "Actionable remediation roadmaps, not just reports"],
+      process: ["Scope & reconnaissance", "Identify exploitable vulnerabilities", "Simulate real-world attack scenarios", "Deliver prioritized fix recommendations"],
+      impact: ["Reduced attack surface across all digital assets", "Confidence before product launches and releases", "Evidence-based security posture for stakeholders"]
     },
     {
-      title: "Cloud Architecture",
-      desc: "Build resilient infrastructure designed to withstand modern threats.",
+      title: "Cloud & Security Architecture",
+      desc: "Build infrastructure that's secure by design, not secured after the fact.",
+      outcome: "Resilient systems from day one",
       icon: <Cpu className="w-6 h-6" />,
       color: "blue",
-      brief: "We embed security-by-design principles directly into your technology stack. Whether it's zero trust advisory, identity management, or cloud security validation, we ensure your digital transformation is built on a rock-solid foundation."
+      standards: ["Zero Trust", "CIS Benchmarks", "AWS/Azure Best Practices"],
+      whatWeDo: ["Security architecture review and advisory", "Zero trust implementation guidance", "Identity and access management strategy", "Cloud security posture assessment"],
+      process: ["Evaluate current architecture", "Identify design-level weaknesses", "Recommend security controls", "Validate implementation effectiveness"],
+      impact: ["Fewer architecture-level vulnerabilities", "Secure cloud migration and digital transformation", "Reduced cost of retroactive security fixes"]
     },
     {
       title: "AI Risk Governance",
-      desc: "Deploy AI safely with frameworks that balance innovation and accountability.",
+      desc: "Deploy AI responsibly. Manage risk without slowing innovation.",
+      outcome: "Safe AI adoption with stakeholder trust",
       icon: <Globe className="w-6 h-6" />,
       color: "orange",
-      brief: "As your organization adopts AI technologies, we help you manage the associated risks. We implement responsible AI governance frameworks, ensuring compliance with emerging standards (like ISO/IEC 42001) while building stakeholder trust."
+      standards: ["ISO/IEC 42001", "NIST AI RMF", "EU AI Act"],
+      whatWeDo: ["AI governance framework development", "Ethical risk and bias analysis", "AI security review and model governance", "Responsible AI policy creation"],
+      process: ["Assess AI usage and risk exposure", "Define governance policies", "Implement controls and safeguards", "Monitor and report on AI risk"],
+      impact: ["Compliant AI deployments across the organization", "Reduced liability from AI-related decisions", "Increased stakeholder and customer trust"]
     },
     {
       title: "Threat Intelligence",
-      desc: "Monitor your digital footprint and identify external threats early.",
+      desc: "Know what attackers know about you — before they use it.",
+      outcome: "Early threat detection, fewer surprises",
       icon: <Search className="w-6 h-6" />,
       color: "blue",
-      brief: "We provide actionable intelligence to enhance your situational awareness. By analyzing your digital footprint, profiling adversaries, and monitoring brand exposure, we help you proactively address risks before they impact your business."
+      standards: ["MITRE ATT&CK", "OSINT Frameworks", "STIX/TAXII"],
+      whatWeDo: ["Digital footprint and exposure analysis", "Adversary profiling and tracking", "Executive and brand threat monitoring", "Strategic intelligence reporting"],
+      process: ["Map your digital exposure", "Monitor threat landscape", "Correlate intelligence data", "Deliver actionable threat briefs"],
+      impact: ["Proactive threat response instead of reactive", "Protected executive and brand reputation", "Intelligence-led security decision making"]
     },
     {
       title: "Digital Influence",
-      desc: "Protect your brand reputation and manage strategic online visibility.",
+      desc: "Protect your brand online. Monitor reputation. Control the narrative.",
+      outcome: "Stronger brand trust and market perception",
       icon: <Users className="w-6 h-6" />,
       color: "orange",
-      brief: "Your digital presence is a critical asset. We monitor your brand's reputation, analyze social media intelligence, and provide strategic content visibility planning to safeguard market perception and maintain audience trust."
+      standards: ["Brand Intelligence", "SOCMINT", "Competitive Analysis"],
+      whatWeDo: ["Digital brand strategy and monitoring", "Social media intelligence gathering", "Competitive and audience analysis", "Reputation risk assessment"],
+      process: ["Audit current digital presence", "Identify reputation risks", "Deploy monitoring systems", "Strategic visibility planning"],
+      impact: ["Faster response to brand threats", "Improved market positioning", "Data-driven engagement decisions"]
     },
     {
       title: "Capability Development",
-      desc: "Equip your teams with the knowledge to defend against modern risks.",
+      desc: "Your team is your first line of defense. Make them ready.",
+      outcome: "Skilled teams that reduce human risk",
       icon: <BarChart3 className="w-6 h-6" />,
       color: "blue",
-      brief: "We offer professional training programs to elevate your organizational cyber maturity. From executive awareness sessions to technical risk management workshops, we build skilled teams capable of managing evolving threats."
+      standards: ["CISSP", "CISA", "CompTIA Security+", "Custom Programs"],
+      whatWeDo: ["Executive cyber awareness programs", "Technical security workshops", "GRC and risk management training", "Certification pathway support"],
+      process: ["Assess team skill gaps", "Design targeted programs", "Deliver hands-on training", "Measure improvement and readiness"],
+      impact: ["Fewer security incidents caused by human error", "Stronger internal security culture", "Faster incident response times"]
     },
     {
       title: "Product Advisory",
-      desc: "Invest in the right security technologies to maximize your ROI.",
+      desc: "Stop wasting budget on the wrong tools. Invest where it matters.",
+      outcome: "Maximum security ROI from every dollar",
       icon: <HardDrive className="w-6 h-6" />,
       color: "orange",
-      brief: "We help you evaluate, select, and optimize cybersecurity solutions that align with your business objectives. Our deployment coordination and integration support ensures your technology investments actually reduce risk."
+      standards: ["Vendor Neutral", "ROI-Driven", "Business-Aligned"],
+      whatWeDo: ["Security product evaluation and selection", "Technology stack assessment", "Deployment coordination and integration", "Post-deployment optimization"],
+      process: ["Understand business requirements", "Evaluate vendor options", "Plan and coordinate deployment", "Optimize and measure ROI"],
+      impact: ["Reduced spend on redundant security tools", "Faster time-to-value on new technology", "Aligned security stack with business goals"]
     }
   ];
 
@@ -348,114 +387,198 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {expertises.map((item, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-50px" }}
-              whileHover={{ y: -8 }}
-              className="p-8 md:p-10 bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl group transition-all duration-500 cursor-pointer hover:bg-white/[0.04] hover:border-white/10 relative overflow-hidden"
-              onClick={() => setActiveBrief(i)}
+        {serviceCategories.map((cat, ci) => (
+          <div key={ci} className="mb-16 last:mb-0">
+            <motion.h3
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-8 font-semibold flex items-center gap-4"
             >
-              {/* Subtle hover gradient background */}
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
-              
-              <div className={`relative z-10 mb-8 p-3 w-fit rounded-2xl transition-all duration-500 border border-white/5 ${
-                item.color === 'blue'
-                  ? 'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20'
-                  : 'bg-orange-500/10 text-orange-400 group-hover:bg-orange-500/20'
-              }`}>
-                {item.icon}
-              </div>
-              <h3 className="text-lg md:text-xl font-serif text-stone-100 mb-4 tracking-tight">{item.title}</h3>
-              <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed mb-6 md:mb-8">
-                {item.desc}
-              </p>
-              <button 
-                className="flex items-center gap-2 text-xs md:text-base uppercase tracking-[0.15em] md:tracking-[0.2em] text-stone-400 group-hover:text-stone-200 transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveBrief(i);
-                }}
-              >
-                Details <ChevronRight size={12} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </motion.div>
-          ))}
-        </div>
+              <span className="w-8 h-px bg-stone-600" />
+              {cat.label}
+            </motion.h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {cat.indices.map((idx) => {
+                const item = expertises[idx];
+                return (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: (idx % 2) * 0.15, duration: 0.5, ease: "easeOut" }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    whileHover={{ scale: 1.02, y: -4 }}
+                    className="p-8 md:p-10 bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-3xl group transition-all duration-500 cursor-pointer hover:bg-white/[0.04] hover:border-white/10 relative overflow-hidden"
+                    onClick={() => setActiveBrief(idx)}
+                  >
+                    {/* Hover gradient */}
+                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
+                    
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="flex items-start justify-between mb-6">
+                        <div className={`p-3 w-fit rounded-2xl transition-all duration-500 border border-white/5 group-hover:scale-110 ${
+                          item.color === 'blue'
+                            ? 'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20'
+                            : 'bg-orange-500/10 text-orange-400 group-hover:bg-orange-500/20'
+                        }`}>
+                          {item.icon}
+                        </div>
+                        <div className="flex gap-1.5 flex-wrap justify-end max-w-[60%]">
+                          {item.standards.slice(0, 3).map((s, si) => (
+                            <span key={si} className="text-[9px] uppercase tracking-wider text-stone-500 bg-white/[0.03] border border-white/5 rounded-full px-2.5 py-1 font-medium">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <h3 className="text-xl md:text-2xl font-serif text-stone-100 mb-3 tracking-tight">{item.title}</h3>
+                      <p className="text-stone-400 text-sm md:text-base font-light leading-relaxed mb-4">
+                        {item.desc}
+                      </p>
+                      <p className={`text-xs font-semibold uppercase tracking-wider mb-8 ${item.color === 'blue' ? 'text-blue-400/70' : 'text-orange-400/70'}`}>
+                        ↗ {item.outcome}
+                      </p>
+                      
+                      <button 
+                        className={`mt-auto flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400/60 group-hover:text-blue-300' : 'text-orange-400/60 group-hover:text-orange-300'}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveBrief(idx);
+                        }}
+                      >
+                        Explore Service <ChevronRight size={12} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Technical Brief Modal */}
       <AnimatePresence>
         {activeBrief !== null && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               onClick={() => setActiveBrief(null)}
-              className="absolute inset-0 bg-stone-950/80 backdrop-blur-xl"
+              className="absolute inset-0 bg-stone-950/85 backdrop-blur-xl"
             />
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-2xl max-h-[90vh] flex flex-col bg-stone-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+              exit={{ opacity: 0, scale: 0.95, y: 30 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative w-full max-w-3xl max-h-[90vh] flex flex-col bg-stone-900/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
             >
-              {/* Sticky Header with Close Button */}
-              <div className="absolute top-4 right-4 md:top-8 md:right-8 z-50">
+              {/* Close Button */}
+              <div className="absolute top-4 right-4 md:top-6 md:right-6 z-50">
                 <button 
                   onClick={() => setActiveBrief(null)}
-                  className="text-stone-300 hover:text-stone-100 p-2 bg-stone-900/80 rounded-full backdrop-blur-md transition-colors"
+                  className="text-stone-400 hover:text-stone-100 p-2 bg-stone-800/80 hover:bg-stone-700/80 rounded-full backdrop-blur-md transition-all duration-300"
                 >
-                  <X size={24} />
+                  <X size={20} />
                 </button>
               </div>
 
               {/* Scrollable Content */}
-              <div className="p-8 md:p-16 overflow-y-auto relative z-10 w-full">
-                <div className="flex flex-col md:flex-row md:items-center gap-6 mb-8 md:mb-12 mt-4 md:mt-0">
-                  <div className="p-4 bg-stone-100 text-stone-950 rounded-2xl shadow-lg w-fit">
+              <div className="p-6 md:p-12 overflow-y-auto relative z-10 w-full">
+                {/* Header */}
+                <div className="flex items-start gap-5 mb-10 pr-8">
+                  <div className={`p-4 rounded-2xl shrink-0 ${expertises[activeBrief].color === 'blue' ? 'bg-blue-500/15 text-blue-400' : 'bg-orange-500/15 text-orange-400'}`}>
                     {expertises[activeBrief].icon}
                   </div>
                   <div>
-                    <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-300 block mb-2 font-bold">Service Vertical</span>
-                    <h3 className="text-2xl md:text-3xl font-serif text-stone-100 tracking-tight">{expertises[activeBrief].title}</h3>
+                    <h3 className="text-2xl md:text-3xl font-serif text-stone-100 tracking-tight mb-2">{expertises[activeBrief].title}</h3>
+                    <p className="text-stone-400 text-sm md:text-base font-light">{expertises[activeBrief].desc}</p>
                   </div>
                 </div>
 
-                <div className="space-y-6 md:space-y-8">
-                  <div>
-                    <h4 className="text-sm md:text-base uppercase tracking-[0.3em] text-stone-200 mb-4 font-semibold border-b border-stone-600 pb-2">Analysis Summary</h4>
-                    <p className="text-stone-200 text-lg md:text-xl font-light leading-relaxed italic">
-                      "{expertises[activeBrief].desc}"
-                    </p>
-                  </div>
+                {/* Standards */}
+                <div className="flex flex-wrap gap-2 mb-10">
+                  {expertises[activeBrief].standards.map((s: string, si: number) => (
+                    <span key={si} className="text-[10px] uppercase tracking-wider text-stone-400 bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5 font-semibold">
+                      {s}
+                    </span>
+                  ))}
+                </div>
 
-                  <div>
-                    <h4 className="text-sm md:text-base uppercase tracking-[0.3em] text-stone-200 mb-4 font-semibold border-b border-stone-600 pb-2">Technical Scope</h4>
-                    <p className="text-stone-300 leading-relaxed font-light text-sm md:text-base">
-                      {expertises[activeBrief].brief}
-                    </p>
-                  </div>
+                {/* What We Do */}
+                <div className="mb-10">
+                  <h4 className="text-xs uppercase tracking-[0.3em] text-stone-300 mb-5 font-bold flex items-center gap-3">
+                    <span className="w-5 h-px bg-stone-600" /> What We Do
+                  </h4>
+                  <ul className="space-y-3">
+                    {expertises[activeBrief].whatWeDo.map((item: string, wi: number) => (
+                      <li key={wi} className="flex items-start gap-3 text-stone-300 text-sm md:text-base font-light">
+                        <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${expertises[activeBrief].color === 'blue' ? 'bg-blue-400' : 'bg-orange-400'}`} />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-                  <div className="pt-4 md:pt-8">
-                    <a 
-                      href="#contact"
-                      onClick={() => setActiveBrief(null)}
-                      className="inline-flex items-center gap-3 text-xs md:text-base uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-stone-100 hover:gap-5 transition-all group"
-                    >
-                      Request Documentation <ArrowRight size={14} />
-                    </a>
+                {/* How It Works - Process Flow */}
+                <div className="mb-10">
+                  <h4 className="text-xs uppercase tracking-[0.3em] text-stone-300 mb-5 font-bold flex items-center gap-3">
+                    <span className="w-5 h-px bg-stone-600" /> How It Works
+                  </h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {expertises[activeBrief].process.map((step: string, pi: number) => (
+                      <div key={pi} className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 text-center relative">
+                        <span className={`text-2xl font-serif font-bold block mb-2 ${expertises[activeBrief].color === 'blue' ? 'text-blue-400/40' : 'text-orange-400/40'}`}>
+                          {String(pi + 1).padStart(2, '0')}
+                        </span>
+                        <p className="text-stone-300 text-xs font-medium leading-snug">{step}</p>
+                      </div>
+                    ))}
                   </div>
+                </div>
+
+                {/* Business Impact */}
+                <div className="mb-10">
+                  <h4 className="text-xs uppercase tracking-[0.3em] text-stone-300 mb-5 font-bold flex items-center gap-3">
+                    <span className="w-5 h-px bg-stone-600" /> Business Impact
+                  </h4>
+                  <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6">
+                    <ul className="space-y-3">
+                      {expertises[activeBrief].impact.map((item: string, ii: number) => (
+                        <li key={ii} className="flex items-start gap-3 text-stone-300 text-sm font-light">
+                          <span className="text-green-400 mt-0.5 shrink-0">✓</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a 
+                    href="#contact"
+                    onClick={() => setActiveBrief(null)}
+                    className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-lg shadow-orange-500/10"
+                  >
+                    Request Consultation <ArrowRight size={14} />
+                  </a>
+                  <button 
+                    onClick={() => setActiveBrief(null)}
+                    className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] text-stone-300 rounded-xl text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300"
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
 
-              {/* Aesthetic glass highlight */}
-              <div className="absolute -top-24 -left-24 w-48 h-48 bg-stone-100/5 rounded-full blur-3xl pointer-events-none" />
+              {/* Decorative glow */}
+              <div className={`absolute -top-32 -left-32 w-64 h-64 rounded-full blur-[100px] pointer-events-none ${expertises[activeBrief].color === 'blue' ? 'bg-blue-500/5' : 'bg-orange-500/5'}`} />
             </motion.div>
           </div>
         )}
