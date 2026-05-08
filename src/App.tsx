@@ -1474,11 +1474,11 @@ export default function App() {
           loop 
           muted 
           playsInline
-          className="w-full h-full object-cover pointer-events-none opacity-25"
+          className="w-full h-full object-cover pointer-events-none opacity-35"
         >
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/30 to-stone-950/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/40 via-stone-950/20 to-stone-950/70 pointer-events-none" />
       </div>
 
       <div className="relative z-10">
