@@ -466,7 +466,7 @@ const Contact = () => {
                 <div className="space-y-3">
                   <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Message</label>
                   <textarea 
-                    rows={4}
+                    rows={2}
                     name="message"
                     required
                     className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 resize-none text-base leading-relaxed" 
