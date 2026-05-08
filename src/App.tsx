@@ -132,7 +132,7 @@ const Hero = () => {
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl">
               
               <h1 className="mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg">
-                Defense through <br /><span className="italic text-stone-300">Intelligence.</span>
+                Secure your <br /><span className="italic text-stone-300">digital infrastructure.</span>
               </h1>
               
               <p className="text-base md:text-lg text-stone-300 mb-12 max-w-xl font-light leading-relaxed drop-shadow-md">
@@ -275,51 +275,51 @@ const Services = () => {
   const expertises = [
     {
       title: "Cyber Security GRC",
-      desc: "Governance, Risk & Compliance frameworks aligned with ISO 27001, NIST, and GDPR standards.",
+      desc: "Establish strong cybersecurity governance, enterprise-wide risk visibility, and compliance maturity.",
       icon: <Shield className="w-6 h-6" />,
-      brief: "Our GRC services enable organizations to integrate security into business decision-making. We specialize in information security policies, enterprise risk assessments, ISMS documentation, and audit readiness programs. We support alignment with ISO/IEC 27001, NIST CSF, SOC 2, and GDPR."
+      brief: "CYBRAVION Solutions helps organizations establish strong cybersecurity governance structures, enterprise-wide risk visibility, and compliance maturity aligned with industry standards and regulatory requirements. Our offerings include development of information security policies, enterprise risk assessments, vendor risk assessments, and compliance gap assessments aligning with ISO/IEC 27001, NIST CSF, SOC 2, and GDPR."
     },
     {
       title: "VAPT Coordination",
-      desc: "Comprehensive vulnerability assessment and penetration testing across all digital assets.",
+      desc: "Structured vulnerability assessment and penetration testing coordination across all digital assets.",
       icon: <Lock className="w-6 h-6" />,
-      brief: "We identify and address security vulnerabilities across applications, networks, and cloud environments. Our services include web/mobile testing, API security, infrastructure validation, and vulnerability lifecycle management to reduce exploitable attack surfaces."
+      brief: "We support organizations in identifying, prioritizing and addressing security vulnerabilities across applications, networks, cloud environments and digital assets. Services include web and mobile application security testing, API security testing, network security assessment, infrastructure security validation, and vulnerability lifecycle management."
     },
     {
       title: "Security Architecture",
-      desc: "Deep integration of security-by-design principles into enterprise technology ecosystems.",
+      desc: "Security architecture advisory to embed security-by-design principles into technology ecosystems.",
       icon: <Cpu className="w-6 h-6" />,
-      brief: "We embed security-by-design principles into technology ecosystems. Offerings include zero trust advisory, identity and access management (IAM), data protection architecture, and security assurance validation for complex digital transformation projects."
+      brief: "CYBRAVION provides security architecture advisory and assurance services focusing on building resilient infrastructure and robust cloud security foundations. Offerings include enterprise security architecture review, zero trust advisory, identity and access management advisory, and security assurance validation for digital transformation projects."
     },
     {
       title: "AI Risk Governance",
-      desc: "Implementing responsible AI frameworks and digital trust mechanisms for emerging tech.",
+      desc: "Implement responsible AI governance frameworks and digital trust mechanisms.",
       icon: <Globe className="w-6 h-6" />,
-      brief: "Help organizations implement responsible AI governance. We support ISO/IEC 42001 readiness, AI risk assessments, ethical risk analysis, and model governance awareness to balance innovation with accountability and stakeholder trust."
+      brief: "As organizations adopt AI-driven technologies, we help implement responsible AI governance frameworks and digital trust mechanisms. Services include alignment support for ISO/IEC 42001 (AI Management System) readiness, AI governance framework advisory, ethical risk analysis, AI security review, and model governance awareness."
     },
     {
       title: "OSINT Intelligence",
-      desc: "Threat visibility and situational awareness through structured open-source intelligence.",
+      desc: "Enhance organizational situational awareness and threat visibility through Open Source Intelligence.",
       icon: <Search className="w-6 h-6" />,
-      brief: "Intelligence-led services to enhance situational awareness. We perform digital footprint analysis, adversary profiling, brand intelligence, and threat trend monitoring to proactively identify risks and strengthen decision-making."
+      brief: "We deliver intelligence-led services to enhance organizational situational awareness, threat visibility, and strategic decision-making. Offerings include digital footprint analysis, OSINT investigations, executive exposure analysis, threat monitoring, adversary profiling, brand intelligence, and strategic intelligence reporting."
     },
     {
       title: "Digital Influence",
-      desc: "Reputation monitoring and strategic content visibility to safeguard brand integrity.",
+      desc: "Enhancing digital presence, brand visibility, audience engagement, and strategic online influence.",
       icon: <Users className="w-6 h-6" />,
-      brief: "Enhance digital presence and brand visibility through strategic online influence. Services include reputation monitoring, social media intelligence, audience analysis, and strategic content visibility planning to improve market perception."
+      brief: "CYBRAVION supports organizations in enhancing digital presence, brand visibility, and strategic online influence. Our services include digital brand strategy, reputation monitoring, social media intelligence, competitive intelligence, audience analysis, and strategic content visibility planning to strengthen market perception."
     },
     {
       title: "Capability Development",
-      desc: "Professional cybersecurity training programs designed for technical and executive leadership.",
+      desc: "Structured professional training programs to strengthen organizational cyber maturity.",
       icon: <BarChart3 className="w-6 h-6" />,
-      brief: "Structured professional training for cyber maturity. We offer GRC programs, risk management training, OSINT workshops, and support for globally recognized certifications (CISSP, CISA) designed for technical teams and management."
+      brief: "We offer structured professional training programs to strengthen organizational cyber maturity and workforce capability. Training services include cybersecurity awareness, GRC programs, risk management training, security architecture workshops, OSINT training, and support for globally recognized cybersecurity certifications."
     },
     {
       title: "Product Advisory",
-      desc: "Optimization of security technologies aligned with strategic business objectives.",
+      desc: "Evaluating, selecting, and optimizing cybersecurity technologies aligned with business objectives.",
       icon: <HardDrive className="w-6 h-6" />,
-      brief: "Assisting organizations in evaluating and optimizing cybersecurity technologies. We provide implementation roadmaps, technology assessments, and security tool integration support to maximize security ROI through informed decisions."
+      brief: "CYBRAVION assists organizations in evaluating, selecting, implementing, and optimizing cybersecurity technologies. Services include security product advisory, solution evaluation, technology assessment, deployment coordination, custom solution advisory, and implementation roadmap development to maximize security ROI."
     }
   ];
 
@@ -665,15 +665,14 @@ export default function App() {
     <div className="min-h-screen bg-stone-950 scroll-smooth relative">
       {/* Fixed Background Video */}
       <div className="fixed inset-0 z-0 bg-black">
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/80 to-stone-950/95 z-10 pointer-events-none" />
         <video 
           autoPlay 
           loop 
           muted 
           playsInline
-          className="w-full h-full object-cover opacity-50 mix-blend-luminosity scale-105 pointer-events-none"
+          className="w-full h-full object-cover pointer-events-none"
         >
-          <source src="/hero-bg.mp4" type="video/mp4" />
+          <source src="/hero-video.mp4" type="video/mp4" />
         </video>
       </div>
 
