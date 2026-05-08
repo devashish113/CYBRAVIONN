@@ -212,7 +212,7 @@ const Services = () => {
   return (
     <section id="services" className="py-24 md:py-32 bg-transparent border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-6 md:gap-8">
           <div className="max-w-2xl">
             <span className="text-base uppercase tracking-[0.4em] text-stone-300 mb-6 block">Our Expertise</span>
             <h2 className="text-4xl md:text-6xl font-serif text-stone-100 leading-tight">
