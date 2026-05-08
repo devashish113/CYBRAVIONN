@@ -132,17 +132,17 @@ const Hero = () => {
             Leading cybersecurity consulting specializing in end-to-end governance, risk management, and strategic digital influence for the modern enterprise.
           </p>
 
-          <div className="relative z-10 flex flex-col sm:flex-row gap-6 justify-center w-full">
+          <div className="relative z-10 flex flex-col sm:flex-row gap-4 md:gap-6 justify-center w-full max-w-sm md:max-w-none mx-auto">
             <a 
               href="#services"
-              className="px-10 py-4 bg-white text-stone-950 rounded-full text-sm uppercase tracking-[0.2em] font-bold hover:bg-stone-200 transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+              className="px-6 py-3 md:px-10 md:py-4 bg-white text-stone-950 rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-stone-200 transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
             >
               Our Expertise
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a 
               href="#contact"
-              className="px-10 py-4 border border-white/20 text-white rounded-full text-sm uppercase tracking-[0.2em] font-bold hover:bg-white/10 transition-all text-center flex items-center justify-center backdrop-blur-md"
+              className="px-6 py-3 md:px-10 md:py-4 border border-white/20 text-white rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-white/10 transition-all text-center flex items-center justify-center backdrop-blur-md"
             >
               Consult an Advisor
             </a>
@@ -241,12 +241,12 @@ const Services = () => {
               <div className="text-stone-100 mb-8 p-3 w-fit bg-white/[0.03] border border-white/5 rounded-xl group-hover:bg-stone-100 group-hover:text-stone-950 transition-all duration-500">
                 {item.icon}
               </div>
-              <h3 className="text-xl font-serif text-stone-100 mb-4 tracking-tight">{item.title}</h3>
-              <p className="text-stone-300 text-base font-light leading-relaxed mb-8">
+              <h3 className="text-lg md:text-xl font-serif text-stone-100 mb-4 tracking-tight">{item.title}</h3>
+              <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed mb-6 md:mb-8">
                 {item.desc}
               </p>
               <button 
-                className="flex items-center gap-2 text-base uppercase tracking-[0.2em] text-stone-400 group-hover:text-stone-200 transition-colors"
+                className="flex items-center gap-2 text-xs md:text-base uppercase tracking-[0.15em] md:tracking-[0.2em] text-stone-400 group-hover:text-stone-200 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   setActiveBrief(i);
@@ -478,7 +478,7 @@ const Contact = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit" 
-                  className="w-full py-5 bg-stone-100 text-stone-950 text-base uppercase tracking-[0.4em] font-bold rounded-xl hover:bg-white transition-all shadow-xl shadow-stone-950/50"
+                  className="w-full py-3 md:py-5 bg-stone-100 text-stone-950 text-xs md:text-base uppercase tracking-[0.3em] md:tracking-[0.4em] font-bold rounded-xl hover:bg-white transition-all shadow-xl shadow-stone-950/50"
                 >
                   Send Message
                 </motion.button>
