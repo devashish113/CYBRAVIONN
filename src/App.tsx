@@ -264,10 +264,12 @@ const Hero = () => {
 
 const CountUp = ({ value, duration = 2000 }: { value: string, duration?: number }) => {
   const [count, setCount] = useState(0);
+  const isSpecial = value.includes('/');
   const numericValue = parseInt(value.replace(/\D/g, '')) || 0;
   const suffix = value.replace(/[0-9]/g, '');
 
   useEffect(() => {
+    if (isSpecial) return; // Don't animate complex strings like 24/7
     let startTime: number | null = null;
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
@@ -278,8 +280,9 @@ const CountUp = ({ value, duration = 2000 }: { value: string, duration?: number 
       }
     };
     requestAnimationFrame(animate);
-  }, [numericValue, duration]);
+  }, [numericValue, duration, isSpecial]);
 
+  if (isSpecial) return <span>{value}</span>;
   return <span>{count}{suffix}</span>;
 };
 
