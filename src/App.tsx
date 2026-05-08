@@ -993,47 +993,6 @@ const Contact = () => {
   );
 };
 
-const CTABanner = () => (
-  <section className="py-20 md:py-28 relative overflow-hidden border-t border-white/10">
-    <div className="absolute inset-0 bg-gradient-to-r from-blue-950/40 via-stone-950/60 to-orange-950/40 pointer-events-none" />
-    <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
-    <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px] pointer-events-none" />
-    <div className="w-full px-6 md:px-12 lg:px-20 max-w-5xl mx-auto text-center relative z-10">
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 70, damping: 15 }}
-        viewport={{ once: true }}
-        className="text-3xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]"
-      >
-        Secure your infrastructure <br className="hidden md:block" />
-        <span className="font-light text-stone-300">before threats become breaches.</span>
-      </motion.h2>
-      <motion.p
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.8 }}
-        viewport={{ once: true }}
-        className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto mb-10 font-light leading-relaxed"
-      >
-        Don't wait for a breach to take security seriously. Our advisory team helps you build resilience from day one.
-      </motion.p>
-      <motion.a
-        href="#contact"
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35 }}
-        viewport={{ once: true }}
-        whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(249,115,22,0.4)" }}
-        whileTap={{ scale: 0.95 }}
-        className="inline-flex items-center gap-3 px-10 py-4 bg-orange-500 text-white rounded-full text-sm uppercase tracking-[0.2em] font-bold shadow-xl shadow-orange-500/20 hover:bg-orange-600 transition-all"
-      >
-        Consult an Advisor <ArrowRight size={16} />
-      </motion.a>
-    </div>
-  </section>
-);
-
 const WhyChooseUs = () => {
   const differentiators = [
     { icon: <Target className="w-6 h-6" />, title: "Business-First Security", desc: "We align cybersecurity strategy with your business objectives — not just technical checklists.", color: "blue" },
@@ -1390,7 +1349,6 @@ export default function App() {
         <main>
           <Hero />
           <Services />
-          <CTABanner />
           <TrackRecord />
           <WhyChooseUs />
           <ComplianceStandards />
