@@ -277,48 +277,56 @@ const Services = () => {
       title: "Cyber Security GRC",
       desc: "Establish strong cybersecurity governance, enterprise-wide risk visibility, and compliance maturity.",
       icon: <Shield className="w-6 h-6" />,
+      color: "blue",
       brief: "CYBRAVION Solutions helps organizations establish strong cybersecurity governance structures, enterprise-wide risk visibility, and compliance maturity aligned with industry standards and regulatory requirements. Our offerings include development of information security policies, enterprise risk assessments, vendor risk assessments, and compliance gap assessments aligning with ISO/IEC 27001, NIST CSF, SOC 2, and GDPR."
     },
     {
       title: "VAPT Coordination",
       desc: "Structured vulnerability assessment and penetration testing coordination across all digital assets.",
       icon: <Lock className="w-6 h-6" />,
+      color: "orange",
       brief: "We support organizations in identifying, prioritizing and addressing security vulnerabilities across applications, networks, cloud environments and digital assets. Services include web and mobile application security testing, API security testing, network security assessment, infrastructure security validation, and vulnerability lifecycle management."
     },
     {
       title: "Security Architecture",
       desc: "Security architecture advisory to embed security-by-design principles into technology ecosystems.",
       icon: <Cpu className="w-6 h-6" />,
+      color: "blue",
       brief: "CYBRAVION provides security architecture advisory and assurance services focusing on building resilient infrastructure and robust cloud security foundations. Offerings include enterprise security architecture review, zero trust advisory, identity and access management advisory, and security assurance validation for digital transformation projects."
     },
     {
       title: "AI Risk Governance",
       desc: "Implement responsible AI governance frameworks and digital trust mechanisms.",
       icon: <Globe className="w-6 h-6" />,
+      color: "orange",
       brief: "As organizations adopt AI-driven technologies, we help implement responsible AI governance frameworks and digital trust mechanisms. Services include alignment support for ISO/IEC 42001 (AI Management System) readiness, AI governance framework advisory, ethical risk analysis, AI security review, and model governance awareness."
     },
     {
       title: "OSINT Intelligence",
       desc: "Enhance organizational situational awareness and threat visibility through Open Source Intelligence.",
       icon: <Search className="w-6 h-6" />,
+      color: "blue",
       brief: "We deliver intelligence-led services to enhance organizational situational awareness, threat visibility, and strategic decision-making. Offerings include digital footprint analysis, OSINT investigations, executive exposure analysis, threat monitoring, adversary profiling, brand intelligence, and strategic intelligence reporting."
     },
     {
       title: "Digital Influence",
       desc: "Enhancing digital presence, brand visibility, audience engagement, and strategic online influence.",
       icon: <Users className="w-6 h-6" />,
+      color: "orange",
       brief: "CYBRAVION supports organizations in enhancing digital presence, brand visibility, and strategic online influence. Our services include digital brand strategy, reputation monitoring, social media intelligence, competitive intelligence, audience analysis, and strategic content visibility planning to strengthen market perception."
     },
     {
       title: "Capability Development",
       desc: "Structured professional training programs to strengthen organizational cyber maturity.",
       icon: <BarChart3 className="w-6 h-6" />,
+      color: "blue",
       brief: "We offer structured professional training programs to strengthen organizational cyber maturity and workforce capability. Training services include cybersecurity awareness, GRC programs, risk management training, security architecture workshops, OSINT training, and support for globally recognized cybersecurity certifications."
     },
     {
       title: "Product Advisory",
       desc: "Evaluating, selecting, and optimizing cybersecurity technologies aligned with business objectives.",
       icon: <HardDrive className="w-6 h-6" />,
+      color: "orange",
       brief: "CYBRAVION assists organizations in evaluating, selecting, implementing, and optimizing cybersecurity technologies. Services include security product advisory, solution evaluation, technology assessment, deployment coordination, custom solution advisory, and implementation roadmap development to maximize security ROI."
     }
   ];
@@ -352,7 +360,11 @@ const Services = () => {
               className="p-10 bg-white/[0.02] backdrop-blur-md border border-white/5 rounded-2xl group transition-all duration-500 cursor-pointer"
               onClick={() => setActiveBrief(i)}
             >
-              <div className="text-stone-100 mb-8 p-3 w-fit bg-white/[0.03] border border-white/5 rounded-xl group-hover:bg-stone-100 group-hover:text-stone-950 transition-all duration-500">
+              <div className={`mb-8 p-3 w-fit rounded-xl transition-all duration-500 ${
+                item.color === 'blue'
+                  ? 'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20'
+                  : 'bg-orange-500/10 text-orange-400 group-hover:bg-orange-500/20'
+              }`}>
                 {item.icon}
               </div>
               <h3 className="text-lg md:text-xl font-serif text-stone-100 mb-4 tracking-tight">{item.title}</h3>
