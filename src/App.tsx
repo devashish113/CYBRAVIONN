@@ -87,17 +87,19 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <a 
+          <motion.a 
             href="#contact"
-            className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-sm uppercase tracking-widest font-bold shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-sm uppercase tracking-widest font-bold shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300"
           >
-            Get in Touch
-          </a>
+            Consult an Advisor
+          </motion.a>
         </div>
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden text-stone-100"
+          className="md:hidden text-stone-100 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -111,18 +113,25 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-stone-900 border-b border-stone-600 p-8 md:hidden flex flex-col gap-6"
+            className="absolute top-full left-0 w-full bg-stone-900/98 backdrop-blur-xl border-b border-stone-700 p-8 md:hidden flex flex-col gap-5"
           >
             {navLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href}
-                className="text-base uppercase tracking-widest text-stone-200"
+                className="text-base uppercase tracking-widest text-stone-200 py-2 min-h-[44px] flex items-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
               </a>
             ))}
+            <a 
+              href="#contact"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mt-2 px-6 py-3.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-sm uppercase tracking-widest font-bold text-center min-h-[44px] flex items-center justify-center shadow-lg shadow-orange-500/20"
+            >
+              Consult an Advisor
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
@@ -165,7 +174,7 @@ const FloatingParticles = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-transparent pt-24 md:pt-32 pb-20">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-transparent pt-20 md:pt-32 pb-16 md:pb-20">
       <FloatingParticles />
       <div className="relative z-20 w-full px-6 md:px-12 lg:px-20">
         <div className="max-w-5xl mx-auto flex flex-col items-center text-center relative">
@@ -218,7 +227,7 @@ const Hero = () => {
                   href="#services"
                   whileHover={{ scale: 1.02, brightness: 1.1 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 md:px-10 md:py-4 bg-white text-stone-950 rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                  className="px-6 py-3.5 md:px-10 md:py-4 bg-white text-stone-950 rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)] min-h-[48px] w-full sm:w-auto"
                 >
                   Explore Expertise
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -227,7 +236,7 @@ const Hero = () => {
                   href="#contact"
                   whileHover={{ scale: 1.02, brightness: 1.1 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 md:px-10 md:py-4 bg-orange-500 text-white rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold transition-all text-center flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.2)]"
+                  className="px-6 py-3.5 md:px-10 md:py-4 bg-orange-500 text-white rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold transition-all text-center flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.2)] min-h-[48px] w-full sm:w-auto"
                 >
                   Consult an Advisor
                 </motion.a>
@@ -573,7 +582,7 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-4">
           {expertises.map((item, idx) => {
             const isFeatured = idx === 0 || idx === 1; // GRC and VAPT featured
             return (
@@ -638,6 +647,23 @@ const Services = () => {
             );
           })}
         </div>
+
+        {/* Mid-section CTA */}
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mt-14"
+        >
+          <motion.a
+            href="#contact"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-3 px-8 py-3.5 bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 text-stone-200 rounded-full text-xs uppercase tracking-[0.2em] font-bold transition-all min-h-[44px]"
+          >
+            Request Security Assessment <ArrowRight size={14} />
+          </motion.a>
+        </motion.div>
       </div>
 
       {/* Technical Brief Modal */}
@@ -977,7 +1003,7 @@ const Contact = () => {
                     whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249,115,22,0.3)" }}
                     whileTap={{ scale: 0.95 }}
                     type="submit" 
-                    className="w-fit px-12 py-3 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-950/20"
+                    className="w-fit px-12 py-3.5 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-950/20 min-h-[48px] w-full sm:w-auto"
                   >
                     Start Securing Today
                   </motion.button>
@@ -1248,7 +1274,7 @@ const FAQ = () => {
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between p-5 md:p-6 text-left"
+                className="w-full flex items-center justify-between p-5 md:p-6 text-left min-h-[56px]"
               >
                 <h3 className="text-sm md:text-base font-semibold text-stone-100 pr-4">{faq.q}</h3>
                 <motion.div animate={{ rotate: openIndex === i ? 180 : 0 }} transition={{ duration: 0.3 }}>
@@ -1396,21 +1422,52 @@ const HowWeWork = () => {
   );
 };
 
-const SecurityBadge = () => (
+const MidCTA = ({ label, href = "#contact" }: { label: string; href?: string }) => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 2, duration: 0.8 }}
-    className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 bg-stone-900/90 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2.5 shadow-xl cursor-default select-none"
+    initial={{ opacity: 0, y: 15 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    className="text-center py-12 border-t border-white/5"
   >
-    <motion.div
-      className="w-2 h-2 rounded-full bg-emerald-400"
-      animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-    />
-    <span className="text-[10px] uppercase tracking-[0.15em] text-stone-300 font-bold">System Secure</span>
+    <motion.a
+      href={href}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className="inline-flex items-center gap-3 px-8 py-3.5 bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 text-stone-200 rounded-full text-xs uppercase tracking-[0.2em] font-bold transition-all min-h-[44px]"
+    >
+      {label} <ArrowRight size={14} />
+    </motion.a>
   </motion.div>
 );
+
+const SecurityBadge = () => {
+  const [threatMode, setThreatMode] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 2, duration: 0.8 }}
+      onClick={() => setThreatMode(!threatMode)}
+      className={`fixed bottom-6 right-6 z-40 flex items-center gap-2.5 backdrop-blur-xl border rounded-full px-4 py-2.5 shadow-xl cursor-pointer select-none transition-all duration-500 min-h-[44px] ${
+        threatMode
+          ? 'bg-red-950/90 border-red-500/20 shadow-red-500/10'
+          : 'bg-stone-900/90 border-white/10'
+      }`}
+    >
+      <motion.div
+        className={`w-2 h-2 rounded-full ${threatMode ? 'bg-red-400' : 'bg-emerald-400'}`}
+        animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: threatMode ? 0.8 : 2, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <span className={`text-[10px] uppercase tracking-[0.15em] font-bold transition-colors ${
+        threatMode ? 'text-red-300' : 'text-stone-300'
+      }`}>
+        {threatMode ? 'Threat Detected' : 'System Secure'}
+      </span>
+    </motion.div>
+  );
+};
 
 const Footer = () => {
   return (
@@ -1491,9 +1548,11 @@ export default function App() {
           <FounderSection />
           <ComplianceStandards />
           <HowWeWork />
+          <MidCTA label="Request Security Assessment" />
           <About />
           <ThreatIntelHighlight />
           <TrainingAwareness />
+          <MidCTA label="Explore Services" href="#services" />
           <Contact />
           <FAQ />
         </main>
