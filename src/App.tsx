@@ -116,16 +116,45 @@ const Navbar = () => {
   );
 };
 
+const FloatingParticles = () => {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(6)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-blue-500/20 rounded-full"
+          initial={{ 
+            x: Math.random() * 100 + "%", 
+            y: Math.random() * 100 + "%",
+            opacity: 0 
+          }}
+          animate={{ 
+            y: ["0%", "100%"],
+            opacity: [0, 0.4, 0],
+            scale: [1, 1.5, 1]
+          }}
+          transition={{ 
+            duration: Math.random() * 10 + 20, 
+            repeat: Infinity, 
+            ease: "linear",
+            delay: Math.random() * 5
+          }}
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * -10}%`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-transparent pt-24 md:pt-32 pb-20">
+      <FloatingParticles />
       <div className="relative z-20 w-full px-6 md:px-12 lg:px-20">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="max-w-5xl mx-auto flex flex-col items-center text-center relative"
-        >
+        <div className="max-w-5xl mx-auto flex flex-col items-center text-center relative">
           {/* Subtle Background Noise Overlay */}
           <div className="fixed inset-0 pointer-events-none opacity-[0.02] mix-blend-overlay z-[100]" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
           
@@ -134,42 +163,60 @@ const Hero = () => {
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl">
               
               <motion.h1 
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 80 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 80,
+                  damping: 12,
+                  duration: 0.8
+                }}
                 className="mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg"
               >
                 Secure your <br /><span className="font-light text-stone-300">digital infrastructure.</span>
               </motion.h1>
               
               <motion.p 
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                transition={{ 
+                  duration: 1, 
+                  delay: 0.25, 
+                  ease: [0.21, 0.45, 0.32, 0.9] 
+                }}
                 className="text-base md:text-lg text-stone-400 mb-12 max-w-xl font-light leading-relaxed drop-shadow-md"
               >
                 Leading cybersecurity consulting specializing in end-to-end governance, risk management, and strategic digital influence for the modern enterprise.
               </motion.p>
 
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 15,
+                  delay: 0.45 
+                }}
                 className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center lg:justify-start w-full sm:w-auto"
               >
-                <a 
+                <motion.a 
                   href="#services"
-                  className="px-6 py-3 md:px-10 md:py-4 bg-white text-stone-950 rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-stone-200 transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                  whileHover={{ scale: 1.02, brightness: 1.1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-6 py-3 md:px-10 md:py-4 bg-white text-stone-950 rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                 >
                   Explore Expertise
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </a>
-                <a 
+                </motion.a>
+                <motion.a 
                   href="#contact"
-                  className="px-6 py-3 md:px-10 md:py-4 bg-orange-500 text-white rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-orange-600 transition-all text-center flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.2)]"
+                  whileHover={{ scale: 1.02, brightness: 1.1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-6 py-3 md:px-10 md:py-4 bg-orange-500 text-white rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold transition-all text-center flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.2)]"
                 >
                   Consult an Advisor
-                </a>
+                </motion.a>
               </motion.div>
             </div>
 
@@ -189,10 +236,16 @@ const Hero = () => {
                   <motion.a
                     key={i}
                     href="#services"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + i * 0.08, duration: 0.4 }}
-                    className="bg-white/[0.04] backdrop-blur-md border border-white/8 rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-white/[0.08] hover:border-white/15 transition-all duration-300 group"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ 
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 12,
+                      delay: 0.6 + i * 0.08 
+                    }}
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
+                    className="bg-white/[0.04] backdrop-blur-md border border-white/8 rounded-xl px-4 py-3 flex items-center gap-3 transition-all duration-300 group"
                   >
                     <div className={`shrink-0 ${svc.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>
                       {svc.icon}
@@ -203,10 +256,8 @@ const Hero = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
-
-
     </section>
   );
 };
@@ -423,11 +474,20 @@ const Services = () => {
             return (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05, duration: 0.4 }}
-                viewport={{ once: true, margin: "-30px" }}
-                whileHover={{ scale: 1.03, y: -3 }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 80,
+                  damping: 15,
+                  delay: idx * 0.1 
+                }}
+                viewport={{ once: true, margin: "-50px" }}
+                whileHover={{ 
+                  scale: 1.04, 
+                  y: -5,
+                  transition: { duration: 0.3 }
+                }}
                 className={`p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border rounded-2xl group transition-all duration-400 cursor-pointer relative overflow-hidden ${
                   isFeatured ? 'border-white/20 ring-1 ring-white/10 shadow-[0_0_30px_rgba(255,255,255,0.02)]' : 'border-white/5 hover:border-white/10'
                 } hover:bg-white/[0.04]`}
@@ -441,13 +501,15 @@ const Services = () => {
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-400 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
                 
                 <div className="relative z-10">
-                  <div className={`p-2.5 w-fit rounded-xl mb-4 transition-all duration-400 group-hover:scale-110 ${
+                  <motion.div 
+                    whileHover={{ rotate: 5, scale: 1.1 }}
+                    className={`p-2.5 w-fit rounded-xl mb-4 transition-all duration-400 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] ${
                     item.color === 'blue'
                       ? 'bg-blue-500/10 text-blue-400'
                       : 'bg-orange-500/10 text-orange-400'
                   }`}>
                     {item.icon}
-                  </div>
+                  </motion.div>
                   
                   <h3 className="text-sm font-semibold text-stone-100 mb-1.5 leading-snug">
                     {item.title}
@@ -481,15 +543,19 @@ const Services = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.3 }}
               onClick={() => setActiveBrief(null)}
-              className="absolute inset-0 bg-stone-950/85 backdrop-blur-xl"
+              className="absolute inset-0 bg-stone-950/85 backdrop-blur-md"
             />
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 30 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 100,
+                damping: 18
+              }}
               className="relative w-full max-w-3xl max-h-[90vh] flex flex-col bg-stone-900/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
             >
               {/* Close Button */}
@@ -615,16 +681,17 @@ const About = () => {
         {/* Top Section */}
         <div className="text-center mb-20">
           <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold"
           >
             About Cybravion
           </motion.span>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 70, damping: 15 }}
             viewport={{ once: true }}
             className="text-4xl md:text-6xl lg:text-7xl font-semibold text-stone-100 mb-10 leading-[1.1] tracking-tight"
           >
@@ -634,7 +701,7 @@ const About = () => {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
             viewport={{ once: true }}
             className="text-stone-400 font-light text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
           >
@@ -647,11 +714,17 @@ const About = () => {
           {capabilities.map((cap, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.4 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+                delay: 0.3 + i * 0.1 
+              }}
               viewport={{ once: true }}
-              className="flex items-center gap-3 bg-white/[0.02] border border-white/5 rounded-2xl p-5 hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500"
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.04)" }}
+              className="flex items-center gap-3 bg-white/[0.02] border border-white/5 rounded-2xl p-5 hover:border-white/10 transition-all duration-500"
             >
               <span className={`w-2 h-2 rounded-full shrink-0 ${cap.color === 'blue' ? 'bg-blue-400' : 'bg-orange-400'}`} />
               <span className="text-stone-300 text-sm font-medium">{cap.label}</span>
@@ -664,6 +737,35 @@ const About = () => {
 };
 
 const Contact = () => {
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  const InputField = ({ label, name, type = "text", required = false, placeholder = "" }: any) => (
+    <div className="space-y-2 group relative">
+      <motion.label 
+        initial={false}
+        animate={{ 
+          y: focusedField === name || placeholder ? -2 : 0,
+          opacity: focusedField === name ? 1 : 0.6,
+          scale: focusedField === name ? 1.05 : 1
+        }}
+        className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 transition-all"
+      >
+        {label}
+      </motion.label>
+      <input 
+        type={type} 
+        name={name}
+        required={required}
+        onFocus={() => setFocusedField(name)}
+        onBlur={() => setFocusedField(null)}
+        className={`w-full bg-stone-950/60 border rounded-lg px-4 py-3 text-white focus:outline-none transition-all placeholder:text-stone-500 text-sm ${
+          focusedField === name ? 'border-white/30 bg-stone-950/80 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'border-white/10'
+        }`}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+
   return (
     <section id="contact" className="py-16 md:py-20 bg-transparent relative overflow-hidden border-t border-white/10">
       {/* Subtle Background Glow */}
@@ -671,7 +773,12 @@ const Contact = () => {
 
       <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
             <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-white mb-6 block font-semibold opacity-70">Partner With Cybravion</span>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]">
               Ready to secure <br /><span className="font-light text-stone-300">your infrastructure?</span>
@@ -681,78 +788,70 @@ const Contact = () => {
             </p>
 
             <div className="flex flex-col gap-8">
-              <div className="flex items-center gap-6 group cursor-pointer">
-                <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg">
-                  <Mail size={20} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white mb-1.5 font-bold opacity-50">Email</p>
-                  <p className="text-white text-lg md:text-xl font-light tracking-wide">cybravions@gmail.com</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-6 group cursor-pointer">
-                <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg">
-                  <Phone size={20} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white mb-1.5 font-bold opacity-50">Phone</p>
-                  <p className="text-white text-lg md:text-xl font-light tracking-wide">+91-9358683634</p>
-                </div>
-              </div>
+              {[
+                { icon: <Mail size={20} strokeWidth={1.5} />, label: "Email", value: "cybravions@gmail.com" },
+                { icon: <Phone size={20} strokeWidth={1.5} />, label: "Phone", value: "+91-9358683634" }
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex items-center gap-6 group cursor-pointer"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white mb-1.5 font-bold opacity-50">{item.label}</p>
+                    <p className="text-white text-lg md:text-xl font-light tracking-wide">{item.value}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="relative">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="relative"
+          >
             <motion.div 
-              initial={{ opacity: 0, scale: 0.98 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
               className="bg-stone-900/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-white/5 shadow-2xl relative z-10"
             >
               <form action="https://api.web3forms.com/submit" method="POST" className="space-y-6">
                 <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2 group">
-                    <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60 group-focus-within:opacity-100 transition-opacity">Full Name</label>
-                    <input 
-                      type="text" 
-                      name="name"
-                      required
-                      className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:bg-stone-950/80 focus:border-white/20 transition-all placeholder:text-stone-500 text-sm" 
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div className="space-y-2 group">
-                    <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60 group-focus-within:opacity-100 transition-opacity">Company</label>
-                    <input 
-                      type="text" 
-                      name="organization"
-                      className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:bg-stone-950/80 focus:border-white/20 transition-all placeholder:text-stone-500 text-sm" 
-                      placeholder="Company Name"
-                    />
-                  </div>
+                  <InputField label="Full Name" name="name" required placeholder="John Doe" />
+                  <InputField label="Company" name="organization" placeholder="Company Name" />
                 </div>
 
-                <div className="space-y-2 group">
-                  <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60 group-focus-within:opacity-100 transition-opacity">Email Address</label>
-                  <input 
-                    type="email" 
-                    name="email"
-                    required
-                    className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:bg-stone-950/80 focus:border-white/20 transition-all placeholder:text-stone-500 text-sm" 
-                    placeholder="john@example.com"
-                  />
-                </div>
+                <InputField label="Email Address" name="email" type="email" required placeholder="john@example.com" />
 
-                <div className="space-y-2 group">
-                  <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60 group-focus-within:opacity-100 transition-opacity">Message</label>
+                <div className="space-y-2 group relative">
+                  <motion.label 
+                    initial={false}
+                    animate={{ 
+                      y: focusedField === "message" ? -2 : 0,
+                      opacity: focusedField === "message" ? 1 : 0.6
+                    }}
+                    className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 transition-all"
+                  >
+                    Message
+                  </motion.label>
                   <textarea 
                     rows={2}
                     name="message"
                     required
-                    className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:bg-stone-950/80 focus:border-white/20 transition-all placeholder:text-stone-500 resize-none text-sm leading-relaxed" 
+                    onFocus={() => setFocusedField("message")}
+                    onBlur={() => setFocusedField(null)}
+                    className={`w-full bg-stone-950/60 border rounded-lg px-4 py-3 text-white focus:outline-none transition-all placeholder:text-stone-500 resize-none text-sm leading-relaxed ${
+                      focusedField === "message" ? 'border-white/30 bg-stone-950/80 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'border-white/10'
+                    }`}
                     placeholder="How can we help?"
                   />
                 </div>
@@ -772,7 +871,7 @@ const Contact = () => {
             
             {/* Decorative element */}
             <div className="absolute -bottom-3 -right-3 w-full h-full border border-stone-800 rounded-3xl -z-0" />
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
