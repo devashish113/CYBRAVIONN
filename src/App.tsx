@@ -701,7 +701,7 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-          </div></div>
+          </div>
 
           <div className="relative">
             <motion.div 
