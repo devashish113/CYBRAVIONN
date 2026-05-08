@@ -384,10 +384,10 @@ const Contact = () => {
           <div className="py-10">
             <span className="text-base uppercase tracking-[0.4em] text-stone-400 mb-8 block font-semibold">Contact Us</span>
             <h2 className="text-4xl md:text-6xl font-serif text-stone-100 mb-12 tracking-tighter leading-tight">
-              Commence a <br /><span className="italic text-stone-300">strategic partnership.</span>
+              Get in touch <br /><span className="italic text-stone-300">with us.</span>
             </h2>
             <p className="text-stone-300 font-light mb-16 max-w-sm text-xl leading-relaxed">
-              Reach out to our global advisory team to discuss your security posture and strategic intelligence needs.
+              Fill out the form below to discuss how we can help your business.
             </p>
 
             <div className="space-y-10">
@@ -396,7 +396,7 @@ const Contact = () => {
                   <Mail size={20} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-stone-400 mb-1 font-bold">Secure Communications</p>
+                  <p className="text-sm uppercase tracking-[0.3em] text-stone-400 mb-1 font-bold">Email</p>
                   <p className="text-stone-300 text-xl font-light tracking-wide">cybravions@gmail.com</p>
                 </div>
               </div>
@@ -406,7 +406,7 @@ const Contact = () => {
                   <Phone size={20} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-stone-400 mb-1 font-bold">Direct Liaison</p>
+                  <p className="text-sm uppercase tracking-[0.3em] text-stone-400 mb-1 font-bold">Phone</p>
                   <p className="text-stone-300 text-xl font-light tracking-wide">+91-9358683634</p>
                 </div>
               </div>
@@ -426,45 +426,45 @@ const Contact = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-3">
-                    <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Identity</label>
+                    <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Full Name</label>
                     <input 
                       type="text" 
                       name="name"
                       required
                       className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
-                      placeholder="Principal Name"
+                      placeholder="John Doe"
                     />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Organization</label>
+                    <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Company</label>
                     <input 
                       type="text" 
                       name="organization"
                       className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
-                      placeholder="Entity Name"
+                      placeholder="Company Name"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Secure Channel</label>
+                  <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Email Address</label>
                   <input 
                     type="email" 
                     name="email"
                     required
                     className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 text-base" 
-                    placeholder="email@organization.com"
+                    placeholder="john@example.com"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Strategic Inquiry</label>
+                  <label className="text-sm uppercase tracking-[0.3em] text-stone-400 font-bold ml-1">Message</label>
                   <textarea 
                     rows={4}
                     name="message"
                     required
                     className="w-full bg-transparent border-b border-stone-600 py-4 text-stone-100 focus:outline-none focus:border-stone-400 transition-colors placeholder:text-stone-500 resize-none text-base leading-relaxed" 
-                    placeholder="Define your requirements..."
+                    placeholder="How can we help you?"
                   />
                 </div>
 
@@ -474,7 +474,7 @@ const Contact = () => {
                   type="submit" 
                   className="w-full py-5 bg-stone-100 text-stone-950 text-base uppercase tracking-[0.4em] font-bold rounded-xl hover:bg-white transition-all shadow-xl shadow-stone-950/50"
                 >
-                  Send Inquiry
+                  Send Message
                 </motion.button>
               </form>
             </motion.div>
