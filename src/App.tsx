@@ -35,8 +35,8 @@ import {
   Radar,
   GraduationCap,
   ShieldCheck,
-  FileCheck
 } from 'lucide-react';
+import { ServiceModalRenderer } from './ServiceModals';
 
 // --- Components ---
 
@@ -699,100 +699,11 @@ const Services = () => {
                 </button>
               </div>
 
-              {/* Scrollable Content */}
-              <div className="p-6 md:p-12 overflow-y-auto relative z-10 w-full">
-                {/* Header */}
-                <div className="flex items-start gap-6 mb-10 pr-8">
-                  <div className={`p-5 rounded-2xl shrink-0 shadow-lg ${expertises[activeBrief].color === 'blue' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-orange-500/20 text-orange-400 border border-orange-500/30'}`}>
-                    {expertises[activeBrief].icon}
-                  </div>
-                  <div>
-                    <h3 className={`text-2xl md:text-3xl font-semibold tracking-tight mb-2 ${expertises[activeBrief].color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>{expertises[activeBrief].title}</h3>
-                    <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed">{expertises[activeBrief].desc}</p>
-                  </div>
-                </div>
-
-                {/* Standards */}
-                <div className="flex flex-wrap gap-2.5 mb-10">
-                  {expertises[activeBrief].standards.map((s: string, si: number) => (
-                    <span key={si} className={`text-[10px] uppercase tracking-wider border rounded-full px-4 py-2 font-bold ${
-                      expertises[activeBrief].color === 'blue' ? 'bg-blue-500/10 border-blue-500/20 text-blue-300' : 'bg-orange-500/10 border-orange-500/20 text-orange-300'
-                    }`}>
-                      {s}
-                    </span>
-                  ))}
-                </div>
-
-                {/* What We Do */}
-                <div className="mb-12">
-                  <h4 className="text-xs uppercase tracking-[0.3em] text-white/50 mb-6 font-bold flex items-center gap-3">
-                    <span className={`w-8 h-px ${expertises[activeBrief].color === 'blue' ? 'bg-blue-500/50' : 'bg-orange-500/50'}`} /> What We Do
-                  </h4>
-                  <ul className="space-y-4">
-                    {expertises[activeBrief].whatWeDo.map((item: string, wi: number) => (
-                      <li key={wi} className="flex items-start gap-4 text-stone-200 text-sm md:text-base font-light leading-relaxed">
-                        <span className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 shadow-[0_0_8px_rgba(255,255,255,0.3)] ${expertises[activeBrief].color === 'blue' ? 'bg-blue-400 shadow-blue-400/50' : 'bg-orange-400 shadow-orange-400/50'}`} />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* How It Works - Process Flow */}
-                <div className="mb-12">
-                  <h4 className="text-xs uppercase tracking-[0.3em] text-white/50 mb-6 font-bold flex items-center gap-3">
-                    <span className={`w-8 h-px ${expertises[activeBrief].color === 'blue' ? 'bg-blue-500/50' : 'bg-orange-500/50'}`} /> Strategic Process
-                  </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {expertises[activeBrief].process.map((step: string, pi: number) => (
-                      <div key={pi} className={`bg-white/[0.02] border rounded-2xl p-5 text-center relative group transition-all duration-300 hover:bg-white/[0.05] ${
-                        expertises[activeBrief].color === 'blue' ? 'border-blue-500/10 hover:border-blue-500/30' : 'border-orange-500/10 hover:border-orange-500/30'
-                      }`}>
-                        <span className={`text-3xl font-bold block mb-3 transition-colors ${expertises[activeBrief].color === 'blue' ? 'text-blue-500/30 group-hover:text-blue-500/60' : 'text-orange-500/30 group-hover:text-orange-500/60'}`}>
-                          {String(pi + 1).padStart(2, '0')}
-                        </span>
-                        <p className="text-stone-300 text-xs font-semibold leading-relaxed uppercase tracking-wider">{step}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Business Impact */}
-                <div className="mb-12">
-                  <h4 className="text-xs uppercase tracking-[0.3em] text-white/50 mb-6 font-bold flex items-center gap-3">
-                    <span className={`w-8 h-px ${expertises[activeBrief].color === 'blue' ? 'bg-blue-500/50' : 'bg-orange-500/50'}`} /> Business Impact
-                  </h4>
-                  <div className={`bg-stone-950/40 backdrop-blur-md border rounded-2xl p-6 md:p-8 ${
-                    expertises[activeBrief].color === 'blue' ? 'border-blue-500/10 shadow-[inset_0_0_30px_rgba(59,130,246,0.02)]' : 'border-orange-500/10 shadow-[inset_0_0_30px_rgba(249,115,22,0.02)]'
-                  }`}>
-                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {expertises[activeBrief].impact.map((item: string, ii: number) => (
-                        <li key={ii} className="flex items-start gap-3 text-stone-300 text-sm font-medium">
-                          <span className={`mt-0.5 shrink-0 ${expertises[activeBrief].color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>✓</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <a 
-                    href="#contact"
-                    onClick={() => setActiveBrief(null)}
-                    className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-[0.98]"
-                  >
-                    Request Security Assessment <ArrowRight size={14} />
-                  </a>
-                  <button 
-                    onClick={() => setActiveBrief(null)}
-                    className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] text-stone-300 rounded-full text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:text-white"
-                  >
-                    Close Brief
-                  </button>
-                </div>
-              </div>
+              <ServiceModalRenderer 
+                activeBrief={activeBrief} 
+                data={expertises[activeBrief]} 
+                close={() => setActiveBrief(null)} 
+              />
 
               {/* Decorative glow */}
               <div className={`absolute -top-32 -left-32 w-64 h-64 rounded-full blur-[100px] pointer-events-none ${expertises[activeBrief].color === 'blue' ? 'bg-blue-500/5' : 'bg-orange-500/5'}`} />
