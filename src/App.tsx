@@ -156,53 +156,34 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Right Column - Floating UI Inspiration */}
-            <div className="hidden lg:flex relative w-full max-w-lg h-[500px] items-center justify-center">
-              {/* Decorative abstract elements replacing the lock */}
-              <div className="absolute inset-0 bg-stone-900/30 border border-white/5 rounded-full blur-2xl pointer-events-none mix-blend-screen" />
-              
-              {/* Floating Element 1 */}
-              <motion.div 
-                animate={{ y: [0, -15, 0] }} 
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} 
-                className="absolute top-10 right-10 z-20 bg-stone-900/60 backdrop-blur-md border border-white/10 p-5 rounded-2xl flex items-center gap-4 shadow-2xl"
-              >
-                <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
-                  <Shield size={20} />
-                </div>
-                <div>
-                  <p className="text-stone-100 text-sm font-bold uppercase tracking-wider">Application Security</p>
-                  <p className="text-stone-400 text-xs mt-1">Zero-day vulnerability prevention</p>
-                </div>
-              </motion.div>
-
-              {/* Floating Element 2 */}
-              <motion.div 
-                animate={{ y: [0, 15, 0] }} 
-                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} 
-                className="absolute bottom-20 left-0 z-20 bg-stone-900/60 backdrop-blur-md border border-white/10 p-5 rounded-2xl flex items-center gap-4 shadow-2xl"
-              >
-                <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400">
-                  <Globe size={20} />
-                </div>
-                <div>
-                  <p className="text-stone-100 text-sm font-bold uppercase tracking-wider">Infrastructure Security</p>
-                  <p className="text-stone-400 text-xs mt-1">Cloud architecture protection</p>
-                </div>
-              </motion.div>
-
-              {/* Floating Element 3 */}
-              <motion.div 
-                animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }} 
-                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }} 
-                className="w-48 h-48 rounded-full border border-orange-500/30 flex items-center justify-center bg-stone-950/40 backdrop-blur-xl shadow-[0_0_50px_rgba(249,115,22,0.1)]"
-              >
-                <Lock className="w-16 h-16 text-stone-300" strokeWidth={1} />
-              </motion.div>
-
-              {/* Stars */}
-              <Star className="absolute top-1/4 left-10 text-orange-500/50 fill-orange-500/30 w-6 h-6 animate-pulse" />
-              <Star className="absolute bottom-1/4 right-0 text-blue-500/50 fill-blue-500/30 w-8 h-8 animate-pulse delay-100" />
+            {/* Right Column - All 8 Services */}
+            <div className="hidden lg:flex relative w-full max-w-md">
+              <div className="w-full grid grid-cols-2 gap-3">
+                {[
+                  { icon: <Shield size={16} />, name: "Governance & Compliance", color: "blue" },
+                  { icon: <Lock size={16} />, name: "Security Testing", color: "orange" },
+                  { icon: <Cpu size={16} />, name: "Cloud Architecture", color: "blue" },
+                  { icon: <Globe size={16} />, name: "AI Risk Governance", color: "orange" },
+                  { icon: <Search size={16} />, name: "Threat Intelligence", color: "blue" },
+                  { icon: <Users size={16} />, name: "Digital Influence", color: "orange" },
+                  { icon: <BarChart3 size={16} />, name: "Capability Development", color: "blue" },
+                  { icon: <HardDrive size={16} />, name: "Product Advisory", color: "orange" }
+                ].map((svc, i) => (
+                  <motion.a
+                    key={i}
+                    href="#services"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 + i * 0.08, duration: 0.4 }}
+                    className="bg-white/[0.04] backdrop-blur-md border border-white/8 rounded-xl px-4 py-3 flex items-center gap-3 hover:bg-white/[0.08] hover:border-white/15 transition-all duration-300 group"
+                  >
+                    <div className={`shrink-0 ${svc.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>
+                      {svc.icon}
+                    </div>
+                    <span className="text-stone-300 text-xs font-medium leading-tight group-hover:text-stone-100 transition-colors">{svc.name}</span>
+                  </motion.a>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
