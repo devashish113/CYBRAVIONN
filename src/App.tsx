@@ -670,38 +670,37 @@ const Contact = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-900/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-          <div>
-            <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-white mb-6 block font-semibold">Partner With Cybravion</span>
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-6 tracking-tight leading-tight">
-              Ready to secure <br /><span className="font-light text-stone-200">your infrastructure?</span>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-sta          <div>
+            <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-white mb-6 block font-semibold opacity-70">Partner With Cybravion</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]">
+              Ready to secure <br /><span className="font-light text-stone-300">your infrastructure?</span>
             </h2>
-            <p className="text-white font-light mb-10 max-w-sm text-sm leading-relaxed opacity-80">
+            <p className="text-white font-light mb-12 max-w-md text-base md:text-lg leading-relaxed opacity-80">
               Align your security posture with your business objectives. Reach out to our advisory team today.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-              <div className="flex items-center gap-5 group cursor-pointer">
-                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.05] transition-all duration-500">
-                  <Mail size={18} strokeWidth={1.5} />
+            <div className="flex flex-col gap-8">
+              <div className="flex items-center gap-6 group cursor-pointer">
+                <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg">
+                  <Mail size={20} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-[0.3em] text-white mb-0.5 font-bold opacity-60">Email</p>
-                  <p className="text-white text-base font-light">cybravions@gmail.com</p>
+                  <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white mb-1.5 font-bold opacity-50">Email</p>
+                  <p className="text-white text-lg md:text-xl font-light tracking-wide">cybravions@gmail.com</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-5 group cursor-pointer">
-                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.05] transition-all duration-500">
-                  <Phone size={18} strokeWidth={1.5} />
+              <div className="flex items-center gap-6 group cursor-pointer">
+                <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-white group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg">
+                  <Phone size={20} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-[0.3em] text-white mb-0.5 font-bold opacity-60">Phone</p>
-                  <p className="text-white text-base font-light">+91-9358683634</p>
+                  <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white mb-1.5 font-bold opacity-50">Phone</p>
+                  <p className="text-white text-lg md:text-xl font-light tracking-wide">+91-9358683634</p>
                 </div>
               </div>
             </div>
-          </div>
+          </div></div>
 
           <div className="relative">
             <motion.div 
