@@ -392,63 +392,47 @@ const Services = () => {
           </div>
         </div>
 
-        {serviceCategories.map((cat, ci) => (
-          <div key={ci} className="mb-8 last:mb-0">
-            <motion.h3
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-stone-500 mb-4 font-semibold flex items-center gap-3"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {expertises.map((item, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.05, duration: 0.4 }}
+              viewport={{ once: true, margin: "-30px" }}
+              whileHover={{ scale: 1.03, y: -3 }}
+              className="p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl group transition-all duration-400 cursor-pointer hover:bg-white/[0.04] hover:border-white/10 relative overflow-hidden"
+              onClick={() => setActiveBrief(idx)}
             >
-              <span className="w-6 h-px bg-stone-600" />
-              {cat.label}
-            </motion.h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {cat.indices.map((idx) => {
-                const item = expertises[idx];
-                return (
-                  <motion.div 
-                    key={idx}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: (idx % 4) * 0.08, duration: 0.4 }}
-                    viewport={{ once: true, margin: "-30px" }}
-                    whileHover={{ scale: 1.03, y: -3 }}
-                    className="p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border border-white/5 rounded-2xl group transition-all duration-400 cursor-pointer hover:bg-white/[0.04] hover:border-white/10 relative overflow-hidden"
-                    onClick={() => setActiveBrief(idx)}
-                  >
-                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-400 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
-                    
-                    <div className="relative z-10">
-                      <div className={`p-2.5 w-fit rounded-xl mb-4 transition-all duration-400 group-hover:scale-110 ${
-                        item.color === 'blue'
-                          ? 'bg-blue-500/10 text-blue-400'
-                          : 'bg-orange-500/10 text-orange-400'
-                      }`}>
-                        {item.icon}
-                      </div>
-                      
-                      <h3 className="text-base font-semibold text-stone-100 mb-2 leading-snug">{item.title}</h3>
-                      <p className="text-stone-400 text-xs leading-relaxed mb-3">
-                        {item.desc}
-                      </p>
-                      
-                      <button 
-                        className={`flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400/60 group-hover:text-blue-300' : 'text-orange-400/60 group-hover:text-orange-300'}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveBrief(idx);
-                        }}
-                      >
-                        Explore <ChevronRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
-                      </button>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+              <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-400 bg-gradient-to-br ${item.color === 'blue' ? 'from-blue-500 to-transparent' : 'from-orange-500 to-transparent'}`} />
+              
+              <div className="relative z-10">
+                <div className={`p-2.5 w-fit rounded-xl mb-4 transition-all duration-400 group-hover:scale-110 ${
+                  item.color === 'blue'
+                    ? 'bg-blue-500/10 text-blue-400'
+                    : 'bg-orange-500/10 text-orange-400'
+                }`}>
+                  {item.icon}
+                </div>
+                
+                <h3 className="text-sm font-semibold text-stone-100 mb-1.5 leading-snug">{item.title}</h3>
+                <p className="text-stone-400 text-xs leading-relaxed mb-3">
+                  {item.desc}
+                </p>
+                
+                <button 
+                  className={`flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400/60 group-hover:text-blue-300' : 'text-orange-400/60 group-hover:text-orange-300'}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveBrief(idx);
+                  }}
+                >
+                  Explore <ChevronRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* Technical Brief Modal */}
