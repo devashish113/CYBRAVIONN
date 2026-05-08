@@ -50,8 +50,16 @@ const Navbar = () => {
       }`}
     >
       <div className="w-full px-6 md:px-12 lg:px-20 flex justify-between items-center">
-        <a href="#" className="flex items-center group">
-          <img src="/logo.png" alt="Cybravion Logo" className="h-10 md:h-12 w-auto object-contain group-hover:opacity-90 transition-opacity" />
+        <a href="#" className="flex flex-col items-center justify-center group">
+          <img src="/logo.png" alt="Cybravion Logo" className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-500 mb-1" />
+          <div className="flex flex-col items-center text-center">
+            <span className="text-lg md:text-xl font-bold tracking-[0.25em] uppercase leading-none">
+              <span className="text-stone-100">CYBR</span><span className="text-blue-500">AVION</span>
+            </span>
+            <span className="text-[7px] md:text-[9px] uppercase tracking-[0.4em] font-bold mt-1.5 text-stone-300">
+              SECURE. <span className="text-blue-500">GOVERN.</span> EMPOWER.
+            </span>
+          </div>
         </a>
 
         {/* Desktop Nav */}
@@ -610,8 +618,16 @@ const Footer = () => {
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-start gap-8">
           <div className="max-w-xs">
-            <a href="#" className="flex items-center mb-4">
-              <img src="/logo.png" alt="Cybravion Logo" className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+            <a href="#" className="flex flex-col items-center mb-6 w-fit opacity-80 hover:opacity-100 transition-opacity">
+              <img src="/logo.png" alt="Cybravion Logo" className="h-10 w-auto object-contain mb-1" />
+              <div className="flex flex-col items-center text-center">
+                <span className="text-lg font-bold tracking-[0.25em] uppercase leading-none">
+                  <span className="text-stone-100">CYBR</span><span className="text-blue-500">AVION</span>
+                </span>
+                <span className="text-[7px] uppercase tracking-[0.4em] font-bold mt-1.5 text-stone-300">
+                  SECURE. <span className="text-blue-500">GOVERN.</span> EMPOWER.
+                </span>
+              </div>
             </a>
             <p className="text-stone-400 text-xs leading-relaxed uppercase tracking-widest font-light">
               Integrated cybersecurity, digital intelligence, and resilience services through a business-aligned approach.
