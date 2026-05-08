@@ -50,11 +50,8 @@ const Navbar = () => {
       }`}
     >
       <div className="w-full px-6 md:px-12 lg:px-20 flex justify-between items-center">
-        <a href="#" className="flex flex-col group">
-          <span className="text-xl md:text-xl font-serif font-bold tracking-tight text-stone-100 group-hover:text-stone-200 transition-colors">
-            CYBRAVION
-          </span>
-          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-300 font-medium">Solutions</span>
+        <a href="#" className="flex items-center group">
+          <img src="/logo.png" alt="Cybravion Logo" className="h-10 md:h-12 w-auto object-contain group-hover:opacity-90 transition-opacity" />
         </a>
 
         {/* Desktop Nav */}
@@ -70,7 +67,7 @@ const Navbar = () => {
           ))}
           <a 
             href="#contact"
-            className="px-6 py-2 border border-stone-500 rounded-full text-sm uppercase tracking-widest hover:bg-stone-100 hover:text-stone-950 transition-all duration-300"
+            className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-sm uppercase tracking-widest font-bold shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300"
           >
             Get in Touch
           </a>
@@ -122,33 +119,87 @@ const Hero = () => {
           className="max-w-5xl mx-auto flex flex-col items-center text-center relative"
         >
           
-          <div className="relative z-10 inline-flex items-center justify-center gap-2 md:gap-3 mb-10 px-5 py-2.5 border border-white/10 rounded-3xl md:rounded-full bg-black/40 backdrop-blur-md max-w-full shadow-lg">
-            <div className="w-1.5 h-1.5 rounded-full bg-stone-300 animate-pulse shrink-0 shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-            <span className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] text-stone-200 font-medium text-center leading-relaxed">Global Digital Resilience Authority</span>
-          </div>
-          
-          <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg">
-            Defense through <br /><span className="italic text-stone-300">Intelligence.</span>
-          </h1>
-          
-          <p className="relative z-10 text-base md:text-lg text-stone-300 mb-12 max-w-2xl font-light leading-relaxed drop-shadow-md">
-            Leading cybersecurity consulting specializing in end-to-end governance, risk management, and strategic digital influence for the modern enterprise.
-          </p>
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 w-full max-w-7xl mx-auto">
+            {/* Left Column */}
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl">
+              <div className="inline-flex items-center gap-2 md:gap-3 mb-8 px-5 py-2.5 border border-white/10 rounded-3xl md:rounded-full bg-black/40 backdrop-blur-md max-w-full shadow-lg">
+                <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shrink-0 shadow-[0_0_8px_rgba(249,115,22,0.8)]" />
+                <span className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] text-stone-200 font-medium leading-relaxed">Global Digital Resilience Authority</span>
+              </div>
+              
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg">
+                Defense through <br /><span className="italic text-stone-300">Intelligence.</span>
+              </h1>
+              
+              <p className="text-base md:text-lg text-stone-300 mb-12 max-w-xl font-light leading-relaxed drop-shadow-md">
+                Leading cybersecurity consulting specializing in end-to-end governance, risk management, and strategic digital influence for the modern enterprise.
+              </p>
 
-          <div className="relative z-10 flex flex-col sm:flex-row gap-4 md:gap-6 justify-center w-full max-w-sm md:max-w-none mx-auto">
-            <a 
-              href="#services"
-              className="px-6 py-3 md:px-10 md:py-4 bg-white text-stone-950 rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-stone-200 transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-            >
-              Our Expertise
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a 
-              href="#contact"
-              className="px-6 py-3 md:px-10 md:py-4 border border-white/20 text-white rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-white/10 transition-all text-center flex items-center justify-center backdrop-blur-md"
-            >
-              Consult an Advisor
-            </a>
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center lg:justify-start w-full sm:w-auto">
+                <a 
+                  href="#services"
+                  className="px-6 py-3 md:px-10 md:py-4 bg-white text-stone-950 rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-stone-200 transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                >
+                  Our Expertise
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+                <a 
+                  href="#contact"
+                  className="px-6 py-3 md:px-10 md:py-4 bg-orange-500 text-white rounded-full text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-orange-600 transition-all text-center flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.2)]"
+                >
+                  Consult an Advisor
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column - Floating UI Inspiration */}
+            <div className="hidden lg:flex relative w-full max-w-lg h-[500px] items-center justify-center">
+              {/* Decorative abstract elements replacing the lock */}
+              <div className="absolute inset-0 bg-stone-900/30 border border-white/5 rounded-full blur-2xl pointer-events-none mix-blend-screen" />
+              
+              {/* Floating Element 1 */}
+              <motion.div 
+                animate={{ y: [0, -15, 0] }} 
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} 
+                className="absolute top-10 right-10 z-20 bg-stone-900/60 backdrop-blur-md border border-white/10 p-5 rounded-2xl flex items-center gap-4 shadow-2xl"
+              >
+                <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                  <Shield size={20} />
+                </div>
+                <div>
+                  <p className="text-stone-100 text-sm font-bold uppercase tracking-wider">Application Security</p>
+                  <p className="text-stone-400 text-xs mt-1">Zero-day vulnerability prevention</p>
+                </div>
+              </motion.div>
+
+              {/* Floating Element 2 */}
+              <motion.div 
+                animate={{ y: [0, 15, 0] }} 
+                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }} 
+                className="absolute bottom-20 left-0 z-20 bg-stone-900/60 backdrop-blur-md border border-white/10 p-5 rounded-2xl flex items-center gap-4 shadow-2xl"
+              >
+                <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400">
+                  <Globe size={20} />
+                </div>
+                <div>
+                  <p className="text-stone-100 text-sm font-bold uppercase tracking-wider">Infrastructure Security</p>
+                  <p className="text-stone-400 text-xs mt-1">Cloud architecture protection</p>
+                </div>
+              </motion.div>
+
+              {/* Floating Element 3 */}
+              <motion.div 
+                animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }} 
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }} 
+                className="w-48 h-48 rounded-full border border-orange-500/30 flex items-center justify-center bg-stone-950/40 backdrop-blur-xl shadow-[0_0_50px_rgba(249,115,22,0.1)]"
+              >
+                <Lock className="w-16 h-16 text-stone-300" strokeWidth={1} />
+              </motion.div>
+
+              {/* Stars */}
+              <Star className="absolute top-1/4 left-10 text-orange-500/50 fill-orange-500/30 w-6 h-6 animate-pulse" />
+              <Star className="absolute bottom-1/4 right-0 text-blue-500/50 fill-blue-500/30 w-8 h-8 animate-pulse delay-100" />
+            </div>
           </div>
         </motion.div>
       </div>
@@ -559,11 +610,8 @@ const Footer = () => {
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-start gap-8">
           <div className="max-w-xs">
-            <a href="#" className="flex flex-col mb-4">
-              <span className="text-lg font-bold tracking-tight text-stone-100">
-                CYBRAVION
-              </span>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-stone-400 font-medium">Solutions</span>
+            <a href="#" className="flex items-center mb-4">
+              <img src="/logo.png" alt="Cybravion Logo" className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
             </a>
             <p className="text-stone-400 text-xs leading-relaxed uppercase tracking-widest font-light">
               Integrated cybersecurity, digital intelligence, and resilience services through a business-aligned approach.
