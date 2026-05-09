@@ -220,7 +220,7 @@ const Hero = () => {
                   <motion.span 
                     animate={{ color: ["#d6d3d1", "#ffffff", "#d6d3d1"] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="font-light text-stone-300"
+                    className="font-light bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent"
                   >
                     digital infrastructure.
                   </motion.span>
@@ -1113,7 +1113,11 @@ const HowWeWork = () => {
                 {step.num}
               </button>
               {i < steps.length - 1 && (
-                <div className={`h-px flex-1 transition-colors duration-300 ${i < activeStep ? 'bg-blue-500/40' : 'bg-white/5'}`} />
+                <div className={`h-[2px] flex-1 transition-all duration-500 ${
+                  i < activeStep 
+                    ? 'bg-gradient-to-r from-blue-500 to-orange-500' 
+                    : 'bg-white/5'
+                }`} />
               )}
             </div>
           ))}

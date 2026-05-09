@@ -177,7 +177,7 @@ export const TrainingPage = () => {
             className="text-4xl md:text-6xl font-semibold tracking-tight mb-8"
           >
             Empower your team with <br className="hidden md:block" />
-            <span className="text-stone-400 font-light italic">battle-tested</span> security expertise.
+            <span className="bg-gradient-to-r from-blue-400 to-orange-400 bg-clip-text text-transparent italic font-light">battle-tested</span> security expertise.
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
