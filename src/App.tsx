@@ -189,16 +189,37 @@ const Hero = () => {
               
               <motion.h1 
                 initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 80,
-                  damping: 12,
-                  duration: 0.8
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  textShadow: [
+                    "0 0 15px rgba(255,255,255,0)",
+                    "0 0 25px rgba(59,130,246,0.3)",
+                    "0 0 15px rgba(255,255,255,0)"
+                  ]
                 }}
-                className="mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] text-white mb-8 tracking-tight drop-shadow-lg"
+                transition={{ 
+                  y: { type: "spring", stiffness: 80, damping: 12, duration: 0.8 },
+                  textShadow: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                  opacity: { duration: 0.8 }
+                }}
+                className="mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] text-white mb-8 tracking-tight"
               >
-                Secure your <br /><span className="font-light text-stone-300">digital infrastructure.</span>
+                Secure your <br />
+                <motion.span 
+                  animate={{ 
+                    color: ["#d6d3d1", "#ffffff", "#d6d3d1"],
+                    textShadow: [
+                      "0 0 20px rgba(59,130,246,0)",
+                      "0 0 30px rgba(59,130,246,0.4)",
+                      "0 0 20px rgba(59,130,246,0)"
+                    ]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="font-light text-stone-300"
+                >
+                  digital infrastructure.
+                </motion.span>
               </motion.h1>
               
               <motion.p 
