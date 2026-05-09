@@ -271,44 +271,32 @@ const Hero = () => {
               </motion.div>
             </div>
 
-            {/* Right Column - All 8 Services */}
-            <div className="hidden lg:flex relative w-full max-w-md">
-              <div className="w-full grid grid-cols-2 gap-3">
-                {[
-                  { icon: <Shield size={16} />, name: "Governance & Compliance", color: "blue" },
-                  { icon: <Lock size={16} />, name: "Security Testing", color: "orange" },
-                  { icon: <Cpu size={16} />, name: "Cloud Architecture", color: "blue" },
-                  { icon: <Globe size={16} />, name: "AI Risk Governance", color: "orange" },
-                  { icon: <Search size={16} />, name: "Threat Intelligence", color: "blue" },
-                  { icon: <Users size={16} />, name: "Digital Influence", color: "orange" },
-                  { icon: <BarChart3 size={16} />, name: "Capability Development", color: "blue" },
-                  { icon: <HardDrive size={16} />, name: "Product Advisory", color: "orange" }
-                ].map((svc, i) => (
-                  <motion.a
-                    key={i}
-                    href="#services"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ 
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 12,
-                      delay: 0.6 + i * 0.08 
-                    }}
-                    whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)", filter: "brightness(1.2)" }}
-                    className={`bg-white/[0.04] backdrop-blur-md border rounded-xl px-4 py-3 flex items-center gap-3 transition-all duration-300 group ${
-                      svc.color === 'blue' 
-                        ? 'border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]' 
-                        : 'border-orange-500/20 shadow-[0_0_20px_rgba(249,115,22,0.15)] hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
-                    }`}
-                  >
-                    <div className={`shrink-0 ${svc.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>
-                      {svc.icon}
-                    </div>
-                    <span className="text-stone-300 text-xs font-medium leading-tight group-hover:text-stone-100 transition-colors">{svc.name}</span>
-                  </motion.a>
-                ))}
-              </div>
+            {/* Right Column - 3D Rotating Logo */}
+            <div className="hidden lg:flex relative w-full max-w-md items-center justify-center" style={{ perspective: '1200px' }}>
+              <motion.div 
+                initial={{ opacity: 0, rotateY: -30, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  rotateY: [0, 360],
+                  scale: [0.98, 1.02, 0.98]
+                }}
+                transition={{ 
+                  opacity: { duration: 1.5, delay: 0.6 },
+                  rotateY: { duration: 20, repeat: Infinity, ease: "linear" },
+                  scale: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                }}
+                className="relative z-10 w-full aspect-square flex items-center justify-center"
+              >
+                {/* Orbital Glow Layers */}
+                <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-[110px] animate-pulse" />
+                <div className="absolute inset-20 bg-orange-500/5 rounded-full blur-[90px] animate-pulse delay-700" />
+                
+                <motion.img 
+                  src="/logo.png" 
+                  alt="Cybravion Logo" 
+                  className="w-[85%] h-auto object-contain drop-shadow-[0_0_60px_rgba(59,130,246,0.35)] filter brightness-110"
+                />
+              </motion.div>
             </div>
           </div>
         </div>
