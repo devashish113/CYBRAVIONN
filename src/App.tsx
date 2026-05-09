@@ -600,8 +600,24 @@ const Services = () => {
                 whileInView={{ 
                   opacity: 1, 
                   y: [0, -8, 0],
+                  boxShadow: item.color === 'blue' 
+                    ? ["0 0 20px rgba(59,130,246,0.05)", "0 0 40px rgba(59,130,246,0.25)", "0 0 20px rgba(59,130,246,0.05)"]
+                    : ["0 0 20px rgba(249,115,22,0.05)", "0 0 40px rgba(249,115,22,0.25)", "0 0 20px rgba(249,115,22,0.05)"],
+                  filter: ["brightness(1)", "brightness(1.3)", "brightness(1)"],
                   transition: {
                     y: {
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: idx * 0.2
+                    },
+                    boxShadow: {
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: idx * 0.2
+                    },
+                    filter: {
                       duration: 4,
                       repeat: Infinity,
                       ease: "easeInOut",
