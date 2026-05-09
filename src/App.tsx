@@ -218,9 +218,9 @@ const Hero = () => {
                 >
                   Secure your <br />
                   <motion.span 
-                    animate={{ color: ["#d6d3d1", "#ffffff", "#d6d3d1"] }}
+                    animate={{ opacity: [0.8, 1, 0.8] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="font-light bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent"
+                    className="font-light bg-gradient-to-r from-blue-400 via-stone-100 to-orange-400 bg-clip-text text-transparent"
                   >
                     digital infrastructure.
                   </motion.span>
@@ -605,8 +605,9 @@ const Services = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-14 gap-4 md:gap-8">
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-[0.4em] text-stone-400 mb-4 block font-semibold">Core Capabilities</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-stone-100 leading-tight">
-              Identify vulnerabilities <br /><span className="font-light text-stone-300">before attackers do.</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight">
+              Identify vulnerabilities <br />
+              <span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent font-light">before attackers do.</span>
             </h2>
           </div>
           <div className="md:text-right max-w-xs">
@@ -825,7 +826,8 @@ const Contact = () => {
           >
             <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-white mb-6 block font-semibold opacity-70">Partner With Cybravion</span>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]">
-              Ready to secure <br /><span className="font-light text-stone-300">your infrastructure?</span>
+              Ready to secure <br />
+              <span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent font-light">your infrastructure?</span>
             </h2>
             <p className="text-white font-light mb-12 max-w-md text-base md:text-lg leading-relaxed opacity-80">
               Align your security posture with your business objectives. Reach out to our advisory team today.
@@ -943,7 +945,9 @@ const WhyChooseUs = () => {
       <div className="w-full px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
           <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Why Cybravion</span>
-          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight mb-6">What sets us apart.</h2>
+          <h2 className="text-3xl md:text-5xl font-semibold text-white tracking-tight mb-6">
+            What <span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent italic">sets us apart.</span>
+          </h2>
           <p className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto font-light">We don't just identify risks — we help you build a resilient, compliant, and future-ready organization.</p>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
