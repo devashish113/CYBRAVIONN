@@ -60,7 +60,9 @@ const Navbar = () => {
   return (
     <nav 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-stone-950/95 backdrop-blur-sm py-3 border-b border-stone-700' : 'bg-transparent py-6'
+        isScrolled 
+          ? 'bg-stone-950/95 backdrop-blur-md py-3 border-b border-stone-700 shadow-[0_0_20px_rgba(59,130,246,0.05)]' 
+          : 'bg-transparent py-6'
       }`}
     >
       <div className="w-full px-6 md:px-12 lg:px-20 flex justify-between items-center">
@@ -702,7 +704,11 @@ const Services = () => {
                 stiffness: 100,
                 damping: 18
               }}
-              className="relative w-full max-w-3xl max-h-[90vh] flex flex-col bg-stone-900/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+              className={`relative w-full max-w-3xl max-h-[90vh] flex flex-col bg-stone-900/95 backdrop-blur-2xl border rounded-3xl shadow-2xl overflow-hidden ${
+                expertises[activeBrief].color === 'blue' 
+                  ? 'border-blue-500/20 shadow-[0_0_50px_rgba(59,130,246,0.15)]' 
+                  : 'border-orange-500/20 shadow-[0_0_50px_rgba(249,115,22,0.15)]'
+              }`}
             >
               {/* Close Button */}
               <div className="absolute top-4 right-4 md:top-6 md:right-6 z-50">
@@ -753,7 +759,9 @@ const Contact = () => {
         onFocus={() => setFocusedField(name)}
         onBlur={() => setFocusedField(null)}
         className={`w-full bg-stone-950/60 border rounded-lg px-4 py-3 text-white focus:outline-none transition-all placeholder:text-stone-500 text-sm ${
-          focusedField === name ? 'border-white/30 bg-stone-950/80 shadow-[0_0_15px_rgba(255,255,255,0.05)]' : 'border-white/10'
+          focusedField === name 
+            ? 'border-orange-500/40 bg-stone-950/80 shadow-[0_0_20px_rgba(249,115,22,0.15)] brightness-110' 
+            : 'border-white/10'
         }`}
         placeholder={placeholder}
       />
@@ -816,7 +824,7 @@ const Contact = () => {
             className="relative"
           >
             <motion.div 
-              className="bg-stone-900/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-white/5 shadow-2xl relative z-10 overflow-hidden"
+              className="bg-stone-900/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-orange-500/10 shadow-[0_0_40px_rgba(249,115,22,0.05)] relative z-10 overflow-hidden"
             >
               {/* Subtle background glow for form */}
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-500/10 rounded-full blur-[80px] pointer-events-none" />
@@ -849,7 +857,9 @@ const Contact = () => {
                     onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full bg-stone-950/60 border rounded-lg px-4 py-3 text-white focus:outline-none transition-all placeholder:text-stone-500 resize-none text-sm leading-relaxed ${
-                      focusedField === "message" ? 'border-orange-500/30 bg-stone-950/80 shadow-[0_0_15px_rgba(249,115,22,0.05)]' : 'border-white/10'
+                      focusedField === "message" 
+                        ? 'border-orange-500/40 bg-stone-950/80 shadow-[0_0_20px_rgba(249,115,22,0.15)] brightness-110' 
+                        : 'border-white/10'
                     }`}
                     placeholder="How can we help?"
                   />
