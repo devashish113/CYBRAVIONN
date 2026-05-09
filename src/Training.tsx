@@ -14,7 +14,10 @@ import {
   Shield, 
   Radar, 
   CheckCircle2,
-  X
+  X,
+  Mail,
+  Phone,
+  ArrowRight
 } from 'lucide-react';
 
 const ProgramModal = ({ program, isOpen, onClose }: { program: any, isOpen: boolean, onClose: () => void }) => {
@@ -361,27 +364,103 @@ export const TrainingPage = () => {
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section className="py-24 relative overflow-hidden border-t border-white/5">
-          <div className="absolute inset-0 bg-blue-600/5 backdrop-blur-3xl" />
-          <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
-          <div className="px-6 md:px-12 lg:px-20 max-w-4xl mx-auto text-center relative z-10">
-            <h2 className="text-3xl md:text-5xl font-semibold mb-10 text-white tracking-tight">Elevate your defense posture.</h2>
-            <div className="flex flex-col sm:flex-row gap-5 justify-center">
-              <motion.button 
-                whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(59,130,246,0.3)" }}
-                whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-blue-500 text-white font-bold rounded-full transition-all shadow-lg shadow-blue-500/20"
+        {/* Contact Section */}
+        <section id="contact" className="py-24 md:py-32 bg-transparent relative overflow-hidden border-t border-white/10">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-900/10 rounded-full blur-[100px] pointer-events-none" />
+          
+          <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true }}
               >
-                Request Training Program
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
-                whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-white/5 border border-white/10 text-white font-bold rounded-full transition-all backdrop-blur-md"
+                <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-white mb-6 block font-semibold opacity-70">Capability Development</span>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]">
+                  Ready to empower <br /><span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent font-light">your workforce?</span>
+                </h2>
+                <p className="text-white font-light mb-12 max-w-md text-base md:text-lg leading-relaxed opacity-80">
+                  Request a customized training program tailored to your industry and specific security requirements.
+                </p>
+
+                <div className="flex flex-col gap-8">
+                  {[
+                    { icon: <Mail size={20} strokeWidth={1.5} />, label: "Inquiry Email", value: "cybravions@gmail.com", color: "blue" },
+                    { icon: <Phone size={20} strokeWidth={1.5} />, label: "Direct Support", value: "+91-9358683634", color: "orange" }
+                  ].map((item, i) => (
+                    <motion.div 
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 + i * 0.1 }}
+                      viewport={{ once: true }}
+                      className="flex items-center gap-6 group cursor-pointer"
+                    >
+                      <div className={`w-12 h-12 rounded-2xl bg-white/[0.03] border flex items-center justify-center group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg ${
+                        item.color === 'blue' ? 'text-blue-400 border-blue-500/20 group-hover:border-blue-500/40 shadow-blue-500/5' : 'text-orange-400 border-orange-500/20 group-hover:border-orange-500/40 shadow-orange-500/5'
+                      }`}>
+                        {item.icon}
+                      </div>
+                      <div>
+                        <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white mb-1.5 font-bold opacity-50">{item.label}</p>
+                        <p className="text-white text-lg md:text-xl font-light tracking-wide group-hover:text-stone-100 transition-colors">{item.value}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="relative"
               >
-                Talk to an Expert
-              </motion.button>
+                <motion.div 
+                  className="bg-stone-900/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-orange-500/10 shadow-[0_0_40px_rgba(249,115,22,0.05)] relative z-10 overflow-hidden"
+                >
+                  <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-500/10 rounded-full blur-[80px] pointer-events-none" />
+
+                  <form action="https://api.web3forms.com/submit" method="POST" className="space-y-6 relative z-10">
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+                    <input type="hidden" name="subject" value="New Training Inquiry - Cybravion" />
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2 group relative">
+                        <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60">Full Name</label>
+                        <input type="text" name="name" required placeholder="John Doe" className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/40 focus:shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-all text-sm placeholder:text-stone-500" />
+                      </div>
+                      <div className="space-y-2 group relative">
+                        <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60">Company</label>
+                        <input type="text" name="organization" placeholder="Company Name" className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/40 focus:shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-all text-sm placeholder:text-stone-500" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 group relative">
+                      <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60">Email Address</label>
+                      <input type="email" name="email" required placeholder="john@example.com" className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/40 focus:shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-all text-sm placeholder:text-stone-500" />
+                    </div>
+
+                    <div className="space-y-2 group relative">
+                      <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60">Message</label>
+                      <textarea rows={3} name="message" required placeholder="How can we help with your training needs?" className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/40 focus:shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-all text-sm placeholder:text-stone-500 resize-none" />
+                    </div>
+
+                    <div className="flex justify-center pt-2">
+                      <motion.button 
+                        whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249,115,22,0.3)" }}
+                        whileTap={{ scale: 0.95 }}
+                        type="submit" 
+                        className="w-full sm:w-auto px-12 py-3.5 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-950/20"
+                      >
+                        Request Training Today
+                      </motion.button>
+                    </div>
+                  </form>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </section>
