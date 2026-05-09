@@ -235,7 +235,7 @@ const Hero = () => {
                   delay: 0.25, 
                   ease: [0.21, 0.45, 0.32, 0.9] 
                 }}
-                className="text-base md:text-lg text-stone-400 mb-12 max-w-xl font-light leading-relaxed drop-shadow-md"
+                className="text-lg md:text-xl text-stone-300 mb-12 max-w-xl font-light leading-relaxed drop-shadow-md"
               >
                 Leading cybersecurity consulting specializing in end-to-end governance, risk management, and strategic digital influence for the modern enterprise.
               </motion.p>
@@ -673,22 +673,22 @@ const Services = () => {
                     {item.icon}
                   </motion.div>
                   
-                  <h3 className="text-sm font-semibold text-stone-100 mb-1.5 leading-snug">
+                  <h3 className="text-base md:text-lg font-bold text-white mb-2 leading-tight">
                     {item.title}
-                    {isFeatured && <span className="ml-2 text-[8px] px-1.5 py-0.5 rounded-md bg-white/10 text-white/60 font-bold tracking-tighter align-middle uppercase">Key</span>}
+                    {isFeatured && <span className="ml-2 text-[10px] px-2 py-0.5 rounded-md bg-white/10 text-white/80 font-bold tracking-tighter align-middle uppercase">Key</span>}
                   </h3>
-                  <p className="text-stone-400 text-xs leading-relaxed mb-3">
+                  <p className="text-stone-300 text-sm leading-relaxed mb-4 font-light">
                     {item.desc}
                   </p>
                   
                   <button 
-                    className={`flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400/60 group-hover:text-blue-300' : 'text-orange-400/60 group-hover:text-orange-300'}`}
+                    className={`flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400 group-hover:text-blue-300' : 'text-orange-400 group-hover:text-orange-300'}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setActiveBrief(idx);
                     }}
                   >
-                    Explore <ChevronRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
+                    Explore <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
               </motion.div>
@@ -1174,7 +1174,7 @@ const Footer = () => {
                 </span>
               </div>
             </a>
-            <p className="text-stone-400 text-xs leading-relaxed uppercase tracking-widest font-light">
+            <p className="text-stone-400 text-sm leading-relaxed tracking-wider font-light">
               Integrated cybersecurity, digital intelligence, and resilience services through a business-aligned approach.
             </p>
           </div>
