@@ -267,8 +267,12 @@ const Hero = () => {
                       damping: 12,
                       delay: 0.6 + i * 0.08 
                     }}
-                    whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
-                    className="bg-white/[0.04] backdrop-blur-md border border-white/8 rounded-xl px-4 py-3 flex items-center gap-3 transition-all duration-300 group"
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)", filter: "brightness(1.2)" }}
+                    className={`bg-white/[0.04] backdrop-blur-md border rounded-xl px-4 py-3 flex items-center gap-3 transition-all duration-300 group ${
+                      svc.color === 'blue' 
+                        ? 'border-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:border-blue-500/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.2)]' 
+                        : 'border-orange-500/10 shadow-[0_0_15px_rgba(249,115,22,0.1)] hover:border-orange-500/30 hover:shadow-[0_0_25px_rgba(249,115,22,0.2)]'
+                    }`}
                   >
                     <div className={`shrink-0 ${svc.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>
                       {svc.icon}
@@ -362,8 +366,10 @@ const TrackRecord = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: metric.id * 0.1, duration: 0.5 }}
               viewport={{ once: true }}
-              className={`bg-white/[0.02] backdrop-blur-xl border rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.04] transition-all duration-500 cursor-default relative overflow-hidden group ${
-                idx % 2 === 0 ? 'border-blue-500/10 hover:border-blue-500/30' : 'border-orange-500/10 hover:border-orange-500/30'
+              className={`bg-white/[0.02] backdrop-blur-xl border rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center text-center transition-all duration-500 cursor-default relative overflow-hidden group ${
+                idx % 2 === 0 
+                  ? 'border-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.05)] hover:border-blue-500/40 hover:shadow-[0_0_35px_rgba(59,130,246,0.2)] hover:bg-white/[0.04]' 
+                  : 'border-orange-500/10 shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:border-orange-500/40 hover:shadow-[0_0_35px_rgba(249,115,22,0.2)] hover:bg-white/[0.04]'
               }`}
             >
               <div className={`absolute -top-10 -right-10 w-24 h-24 blur-[40px] opacity-10 group-hover:opacity-20 transition-opacity rounded-full pointer-events-none ${
@@ -606,11 +612,14 @@ const Services = () => {
                 whileHover={{ 
                   scale: 1.04, 
                   y: -12,
+                  filter: "brightness(1.1)",
                   transition: { duration: 0.3 }
                 }}
                 className={`p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border rounded-2xl group transition-all duration-400 cursor-pointer relative overflow-hidden ${
-                  isFeatured ? 'border-white/20 ring-1 ring-white/10 shadow-[0_0_30px_rgba(255,255,255,0.02)]' : 'border-white/5 hover:border-white/10'
-                } hover:bg-white/[0.04]`}
+                  item.color === 'blue'
+                    ? 'border-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.05)] hover:border-blue-500/30 hover:shadow-[0_0_35px_rgba(59,130,246,0.2)]'
+                    : 'border-orange-500/10 shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:border-orange-500/30 hover:shadow-[0_0_35px_rgba(249,115,22,0.2)]'
+                } ${isFeatured ? 'ring-1 ring-white/10' : ''} hover:bg-white/[0.04]`}
                 onClick={() => setActiveBrief(idx)}
               >
                 {/* Glow for featured items */}
@@ -893,9 +902,11 @@ const WhyChooseUs = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 90, damping: 15, delay: i * 0.08 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.03, y: -4 }}
+              whileHover={{ scale: 1.03, y: -4, filter: "brightness(1.1)" }}
               className={`p-6 md:p-8 bg-white/[0.02] backdrop-blur-xl border rounded-2xl group transition-all duration-400 relative overflow-hidden ${
-                item.color === 'blue' ? 'border-blue-500/10 hover:border-blue-500/25' : 'border-orange-500/10 hover:border-orange-500/25'
+                item.color === 'blue' 
+                  ? 'border-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.05)] hover:border-blue-500/30 hover:shadow-[0_0_35px_rgba(59,130,246,0.2)]' 
+                  : 'border-orange-500/10 shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:border-orange-500/30 hover:shadow-[0_0_35px_rgba(249,115,22,0.2)]'
               }`}
             >
               <div className={`absolute -top-12 -right-12 w-32 h-32 blur-[50px] opacity-0 group-hover:opacity-15 transition-opacity rounded-full pointer-events-none ${
@@ -971,7 +982,9 @@ const FAQ = () => {
               transition={{ delay: i * 0.05 }}
               viewport={{ once: true }}
               className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
-                openIndex === i ? 'border-blue-500/20 bg-white/[0.03]' : 'border-white/5 bg-white/[0.01] hover:bg-white/[0.02]'
+                openIndex === i 
+                  ? 'border-blue-500/30 bg-white/[0.04] shadow-[0_0_30px_rgba(59,130,246,0.1)] brightness-110' 
+                  : 'border-white/5 bg-white/[0.01] hover:bg-white/[0.02] hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.02)]'
               }`}
             >
               <button
@@ -1066,8 +1079,8 @@ const HowWeWork = () => {
               onClick={() => setActiveStep(i)}
               className={`p-6 rounded-2xl border cursor-pointer transition-all duration-400 relative overflow-hidden group ${
                 i === activeStep
-                  ? 'bg-blue-500/5 border-blue-500/25 shadow-lg shadow-blue-500/5'
-                  : 'bg-white/[0.01] border-white/5 hover:border-white/10 hover:bg-white/[0.02]'
+                  ? 'bg-blue-500/5 border-blue-500/30 shadow-[0_0_25px_rgba(59,130,246,0.15)] brightness-110'
+                  : 'bg-white/[0.01] border-white/5 hover:border-white/20 hover:bg-white/[0.02] hover:shadow-[0_0_15px_rgba(255,255,255,0.02)]'
               }`}
             >
               <div className={`p-2 w-fit rounded-lg mb-4 transition-colors ${i === activeStep ? 'bg-blue-500/15 text-blue-400' : 'bg-white/5 text-stone-500 group-hover:text-stone-300'}`}>
