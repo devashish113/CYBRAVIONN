@@ -271,8 +271,8 @@ const Hero = () => {
               </motion.div>
             </div>
 
-            {/* Right Column - 3D Rotating Logo */}
-            <div className="hidden lg:flex relative w-full max-w-md items-center justify-center" style={{ perspective: '1200px' }}>
+            {/* Right Column - 3D Rotating Logo (Increased Size & Speed) */}
+            <div className="hidden lg:flex relative w-full max-w-xl items-center justify-center" style={{ perspective: '1200px' }}>
               <motion.div 
                 initial={{ opacity: 0, rotateY: -30, scale: 0.8 }}
                 animate={{ 
@@ -282,19 +282,19 @@ const Hero = () => {
                 }}
                 transition={{ 
                   opacity: { duration: 1.5, delay: 0.6 },
-                  rotateY: { duration: 20, repeat: Infinity, ease: "linear" },
+                  rotateY: { duration: 12, repeat: Infinity, ease: "linear" },
                   scale: { duration: 5, repeat: Infinity, ease: "easeInOut" }
                 }}
                 className="relative z-10 w-full aspect-square flex items-center justify-center"
               >
                 {/* Orbital Glow Layers */}
-                <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-[110px] animate-pulse" />
-                <div className="absolute inset-20 bg-orange-500/5 rounded-full blur-[90px] animate-pulse delay-700" />
+                <div className="absolute inset-0 bg-blue-500/15 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute inset-10 bg-orange-500/5 rounded-full blur-[100px] animate-pulse delay-700" />
                 
                 <motion.img 
                   src="/logo.png" 
                   alt="Cybravion Logo" 
-                  className="w-[85%] h-auto object-contain drop-shadow-[0_0_60px_rgba(59,130,246,0.35)] filter brightness-110"
+                  className="w-full h-auto object-contain drop-shadow-[0_0_80px_rgba(59,130,246,0.4)] filter brightness-110"
                 />
               </motion.div>
             </div>
