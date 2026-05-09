@@ -362,16 +362,26 @@ export const TrainingPage = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 bg-blue-600">
-          <div className="px-6 md:px-12 lg:px-20 max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-5xl font-semibold mb-8 text-white">Elevate your defense posture.</h2>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-10 py-5 bg-white text-blue-600 font-bold rounded-full transition-all shadow-xl">
+        <section className="py-24 relative overflow-hidden border-t border-white/5">
+          <div className="absolute inset-0 bg-blue-600/5 backdrop-blur-3xl" />
+          <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
+          <div className="px-6 md:px-12 lg:px-20 max-w-4xl mx-auto text-center relative z-10">
+            <h2 className="text-3xl md:text-5xl font-semibold mb-10 text-white tracking-tight">Elevate your defense posture.</h2>
+            <div className="flex flex-col sm:flex-row gap-5 justify-center">
+              <motion.button 
+                whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(59,130,246,0.3)" }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-5 bg-blue-500 text-white font-bold rounded-full transition-all shadow-lg shadow-blue-500/20"
+              >
                 Request Training Program
-              </button>
-              <button className="px-10 py-5 bg-blue-700 text-white font-bold rounded-full transition-all border border-blue-500">
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-5 bg-white/5 border border-white/10 text-white font-bold rounded-full transition-all backdrop-blur-md"
+              >
                 Talk to an Expert
-              </button>
+              </motion.button>
             </div>
           </div>
         </section>
