@@ -682,13 +682,13 @@ const Services = () => {
                   </p>
                   
                   <button 
-                    className={`flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 ${item.color === 'blue' ? 'text-blue-400 group-hover:text-blue-300' : 'text-orange-400 group-hover:text-orange-300'}`}
+                    className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-300 ${item.color === 'blue' ? 'border-blue-500/30 text-blue-400 hover:bg-blue-500/10 hover:border-blue-500' : 'border-orange-500/30 text-orange-400 hover:bg-orange-500/10 hover:border-orange-500'}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setActiveBrief(idx);
                     }}
                   >
-                    Explore <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    <ChevronRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
                   </button>
                 </div>
               </motion.div>
