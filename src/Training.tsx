@@ -150,9 +150,9 @@ export const TrainingPage = () => {
   ];
 
   const videos = [
-    { id: "z5nc9MDbvEs", title: "Cybersecurity Basics", desc: "Understanding the fundamental pillars of digital defense." },
-    { id: "6GAn7L2aTiw", title: "VAPT & Hacking", desc: "How penetration testing identifies critical vulnerabilities." },
-    { id: "o0M5_CmsF-w", title: "Employee Awareness", desc: "Why human-centric security is your first line of defense." }
+    { id: "inWWhr5tnEA", title: "Cybersecurity Basics", desc: "Understanding the fundamental pillars of digital defense." },
+    { id: "B7tTQ272OHE", title: "VAPT & Hacking", desc: "How penetration testing identifies critical vulnerabilities." },
+    { id: "wygwHXYj_TI", title: "Employee Awareness", desc: "Why human-centric security is your first line of defense." }
   ];
 
   const processSteps = [
