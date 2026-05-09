@@ -37,6 +37,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { ServiceModalRenderer } from './ServiceModals';
+import { TrainingPage } from './Training';
 
 // --- Components ---
 
@@ -79,21 +80,27 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-12">
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a 
               key={link.name} 
               href={link.href}
-              className="text-sm uppercase tracking-widest text-stone-200 hover:text-stone-100 transition-colors font-medium"
+              className="text-xs uppercase tracking-widest text-stone-300 hover:text-white transition-colors font-medium"
             >
               {link.name}
             </a>
           ))}
+          <a 
+            href="#training"
+            className="text-xs uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors font-bold"
+          >
+            Training
+          </a>
           <motion.a 
             href="#contact"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-sm uppercase tracking-widest font-bold shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300"
+            className="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-xs uppercase tracking-widest font-bold shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300"
           >
             Consult an Advisor
           </motion.a>
@@ -1207,6 +1214,25 @@ const Footer = () => {
 };
 
 export default function App() {
+  const [currentView, setCurrentView] = useState('home');
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash === '#training') {
+        setCurrentView('training');
+        window.scrollTo(0, 0);
+      } else {
+        setCurrentView('home');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // Initial check
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   return (
     <div className="min-h-screen bg-stone-950 scroll-smooth relative">
       {/* Fixed Background Video */}
@@ -1226,14 +1252,20 @@ export default function App() {
       <div className="relative z-10">
         <Navbar />
         <main>
-          <Hero />
-          <Services />
-          <ComplianceStrip />
-          <TrackRecord />
-          <WhyChooseUs />
-          <HowWeWork />
-          <Contact />
-          <FAQ />
+          {currentView === 'training' ? (
+            <TrainingPage />
+          ) : (
+            <>
+              <Hero />
+              <Services />
+              <ComplianceStrip />
+              <TrackRecord />
+              <WhyChooseUs />
+              <HowWeWork />
+              <Contact />
+              <FAQ />
+            </>
+          )}
         </main>
         <Footer />
       </div>
