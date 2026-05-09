@@ -85,14 +85,14 @@ const Navbar = () => {
             <a 
               key={link.name} 
               href={link.href}
-              className="text-xs uppercase tracking-widest text-stone-300 hover:text-white transition-colors font-medium"
+              className="text-sm uppercase tracking-widest text-stone-300 hover:text-white transition-colors font-medium"
             >
               {link.name}
             </a>
           ))}
           <a 
             href="#training"
-            className="text-xs uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors font-bold"
+            className="text-sm uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors font-bold"
           >
             Training
           </a>
@@ -392,12 +392,12 @@ const TrackRecord = () => {
                 idx % 2 === 0 ? 'bg-blue-500' : 'bg-orange-500'
               }`} />
               
-              <h3 className={`text-4xl md:text-5xl font-bold mb-3 tracking-tight font-sans ${
+              <h3 className={`text-5xl md:text-6xl font-bold mb-3 tracking-tight font-sans ${
                 idx % 2 === 0 ? 'text-blue-400' : 'text-orange-400'
               }`}>
                 <CountUp value={metric.value} />
               </h3>
-              <p className="text-stone-400 text-[10px] md:text-xs uppercase tracking-[0.15em] font-medium leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">{metric.label}</p>
+              <p className="text-stone-300 text-xs md:text-sm uppercase tracking-[0.15em] font-medium leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">{metric.label}</p>
             </motion.div>
           ))}
         </div>
@@ -707,9 +707,9 @@ const Services = () => {
             href="#contact"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-3 px-8 py-3.5 bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 text-stone-200 rounded-full text-xs uppercase tracking-[0.2em] font-bold transition-all min-h-[44px]"
+            className="inline-flex items-center gap-3 px-10 py-4 bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-white/20 text-stone-200 rounded-full text-sm uppercase tracking-[0.2em] font-bold transition-all min-h-[48px]"
           >
-            Request Security Assessment <ArrowRight size={14} />
+            Request Security Assessment <ArrowRight size={16} />
           </motion.a>
         </motion.div>
       </div>
@@ -779,7 +779,7 @@ const Contact = () => {
           opacity: focusedField === name ? 1 : 0.6,
           scale: focusedField === name ? 1.05 : 1
         }}
-        className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 transition-all"
+        className="text-[11px] uppercase tracking-[0.3em] text-white font-bold ml-1 transition-all"
       >
         {label}
       </motion.label>
@@ -936,7 +936,7 @@ const WhyChooseUs = () => {
           <h2 className="text-3xl md:text-5xl font-semibold text-white tracking-tight mb-6">
             What <span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent italic">sets us apart.</span>
           </h2>
-          <p className="text-stone-400 text-base md:text-lg max-w-2xl mx-auto font-light">We don't just identify risks — we help you build a resilient, compliant, and future-ready organization.</p>
+          <p className="text-stone-300 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">We don't just identify risks — we help you build a resilient, compliant, and future-ready organization.</p>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {differentiators.map((item, i) => (
@@ -959,8 +959,8 @@ const WhyChooseUs = () => {
               <div className={`p-3 w-fit rounded-xl mb-5 ${item.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'}`}>
                 {item.icon}
               </div>
-              <h3 className="text-lg font-semibold text-stone-100 mb-2">{item.title}</h3>
-              <p className="text-stone-400 text-sm font-light leading-relaxed">{item.desc}</p>
+              <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+              <p className="text-stone-300 text-base font-light leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -1014,8 +1014,8 @@ const FAQ = () => {
     <section id="faq" className="py-16 md:py-24 bg-stone-950/30 border-t border-white/10 relative">
       <div className="w-full px-6 md:px-12 lg:px-20 max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-          <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Common Questions</span>
-          <h2 className="text-3xl md:text-4xl font-semibold text-stone-100 tracking-tight">Frequently asked questions.</h2>
+          <span className="text-sm md:text-base uppercase tracking-[0.4em] text-stone-500 mb-4 block font-semibold">Common Questions</span>
+          <h2 className="text-3xl md:text-5xl font-semibold text-stone-100 tracking-tight">Frequently asked questions.</h2>
         </motion.div>
         <div className="space-y-3">
           {visibleFaqs.map((faq, i) => (
@@ -1033,9 +1033,9 @@ const FAQ = () => {
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between p-5 md:p-6 text-left min-h-[56px]"
+                className="w-full flex items-center justify-between p-6 md:p-8 text-left min-h-[64px]"
               >
-                <h3 className="text-sm md:text-base font-semibold text-stone-100 pr-4">{faq.q}</h3>
+                <h3 className="text-base md:text-lg font-bold text-white pr-4">{faq.q}</h3>
                 <motion.div animate={{ rotate: openIndex === i ? 180 : 0 }} transition={{ duration: 0.3 }}>
                   <ChevronDown className={`w-5 h-5 shrink-0 transition-colors ${openIndex === i ? 'text-blue-400' : 'text-stone-500'}`} />
                 </motion.div>

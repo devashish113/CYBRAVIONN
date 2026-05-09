@@ -208,10 +208,10 @@ export const TrainingPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-stone-400 text-lg md:text-xl max-w-3xl mx-auto mb-12 font-light leading-relaxed"
+              className="text-stone-300 text-xl md:text-2xl max-w-3xl mx-auto mb-12 font-light leading-relaxed"
             >
               Customized cybersecurity training programs for enterprises and growing teams. 
-              <span className="block mt-2 text-stone-500 font-medium italic">No generic courses—only actionable, real-world skills.</span>
+              <span className="block mt-3 text-stone-400 font-medium italic underline underline-offset-4 decoration-blue-500/30">No generic courses—only actionable, real-world skills.</span>
             </motion.p>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -286,11 +286,11 @@ export const TrainingPage = () => {
                     {cat.icon}
                   </motion.div>
                   
-                  <h3 className="text-xl font-semibold mb-2">{cat.title}</h3>
-                  <p className={`text-sm font-bold mb-3 ${cat.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>
+                  <h3 className="text-2xl font-bold mb-3">{cat.title}</h3>
+                  <p className={`text-base font-bold mb-4 ${cat.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>
                     {cat.boldOutcome}
                   </p>
-                  <p className="text-stone-400 text-sm font-light mb-8 leading-relaxed flex-grow">
+                  <p className="text-stone-300 text-base font-light mb-8 leading-relaxed flex-grow">
                     {cat.outcome}
                   </p>
                   
@@ -337,11 +337,11 @@ export const TrainingPage = () => {
                     ></iframe>
                   </div>
                   <div className="p-6">
-                    <h4 className="text-lg font-semibold mb-2 flex items-center gap-2">
-                      <Play className="w-4 h-4 text-orange-500 fill-orange-500/20" />
+                    <h4 className="text-xl font-bold mb-3 flex items-center gap-2 text-white">
+                      <Play className="w-5 h-5 text-orange-500 fill-orange-500/20" />
                       {vid.title}
                     </h4>
-                    <p className="text-stone-500 text-sm font-light italic">{vid.desc}</p>
+                    <p className="text-stone-400 text-base font-light italic leading-relaxed">{vid.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -382,14 +382,14 @@ export const TrainingPage = () => {
                   }`}>
                     {step.icon}
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
+                  <h3 className="text-xl font-bold mb-3 text-white">{step.title}</h3>
                   <AnimatePresence mode="wait">
                     <motion.p 
                       key={activeStep === i ? 'expanded' : 'collapsed'}
                       initial={{ opacity: 0.5 }}
                       animate={{ opacity: 1 }}
-                      className={`text-sm font-light leading-relaxed transition-all ${
-                        activeStep === i ? 'text-stone-300' : 'text-stone-500'
+                      className={`text-base font-light leading-relaxed transition-all ${
+                        activeStep === i ? 'text-stone-100' : 'text-stone-400'
                       }`}
                     >
                       {step.desc}
@@ -434,8 +434,8 @@ export const TrainingPage = () => {
                       <div className={`w-2 h-2 rounded-full ${item.color === 'blue' ? 'bg-blue-500' : 'bg-orange-500'}`} />
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1">{item.title}</h4>
-                      <p className="text-stone-400 text-sm font-light leading-relaxed">{item.desc}</p>
+                      <h4 className="text-lg font-bold mb-2 text-white">{item.title}</h4>
+                      <p className="text-stone-300 text-base font-light leading-relaxed">{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -497,7 +497,7 @@ export const TrainingPage = () => {
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          <p className="px-6 pb-6 text-stone-400 text-sm font-light leading-relaxed border-t border-white/5 pt-4 mx-6">{faq.a}</p>
+                          <p className="px-6 pb-6 text-stone-200 text-base font-light leading-relaxed border-t border-white/5 pt-4 mx-6">{faq.a}</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
