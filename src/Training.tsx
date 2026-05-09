@@ -161,9 +161,9 @@ export const TrainingPage = () => {
       desc: "A comprehensive 15-hour network penetration testing course from freeCodeCamp, covering everything from scanning to exploitation." 
     },
     { 
-      id: "lpa8uy4DyMo", 
-      title: "CISSP Full Course Masterclass", 
-      desc: "An 11-hour professional deep-dive by Edureka into the 8 domains of CISSP, tailored for senior security leaders." 
+      id: "_nyZhYnCNLA", 
+      title: "CISSP Exam Cram Full Course", 
+      desc: "A professional 8-hour masterclass by Pete Zerger covering the latest 2024-2026 CISSP domains for senior security leadership." 
     },
     { 
       id: "EC_bKHXGmYs", 
@@ -176,9 +176,9 @@ export const TrainingPage = () => {
       desc: "Master cloud security with this 11-hour Simplilearn course focused on identity management, VPC security, and cloud compliance." 
     },
     { 
-      id: "M7L7fUu40Lw", 
+      id: "qiQR5rTSshw", 
       title: "Network Security Training", 
-      desc: "A focused 4-hour masterclass on securing organizational networks, firewalls, and intrusion prevention systems." 
+      desc: "A comprehensive 9-hour computer networking and security foundation course from freeCodeCamp, ideal for all security professionals." 
     }
   ];
 
