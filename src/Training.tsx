@@ -150,9 +150,9 @@ export const TrainingPage = () => {
   ];
 
   const videos = [
-    { id: "inWWhr5tnEA", title: "Cybersecurity Basics", desc: "Understanding the fundamental pillars of digital defense." },
-    { id: "B7tTQ272OHE", title: "VAPT & Hacking", desc: "How penetration testing identifies critical vulnerabilities." },
-    { id: "wygwHXYj_TI", title: "Employee Awareness", desc: "Why human-centric security is your first line of defense." }
+    { id: "WO7wP3QaJ_g", title: "Cybersecurity Full Course", desc: "A comprehensive 7-hour masterclass covering the core pillars of digital defense and network security." },
+    { id: "fNzpcB7ODxQ", title: "Ethical Hacking Masterclass", desc: "A deep-dive 12-hour course on penetration testing, VAPT methodologies, and Linux for hackers." },
+    { id: "JswwHeEqBIc", title: "GRC Analyst Training", desc: "A professional-grade 2.5-hour workshop focused on Governance, Risk, and Compliance frameworks." }
   ];
 
   const processSteps = [
