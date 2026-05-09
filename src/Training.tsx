@@ -104,7 +104,8 @@ export const TrainingPage = () => {
       topics: ["Phishing simulation", "Social engineering defense", "Password security", "Safe browsing habits"],
       audience: "All employees, non-technical staff, and interns.",
       duration: "1 Day / Weekly Sprints",
-      mode: "Online / Hybrid"
+      mode: "Online / Hybrid",
+      color: "blue"
     },
     { 
       title: "Technical Training", 
@@ -113,7 +114,8 @@ export const TrainingPage = () => {
       topics: ["VAPT methodologies", "Cloud Security (AWS/Azure)", "SOC operations", "Incident Response"],
       audience: "IT teams, security analysts, developers.",
       duration: "3-5 Days Intensive",
-      mode: "Hands-on Lab / In-person"
+      mode: "Hands-on Lab / In-person",
+      color: "orange"
     },
     { 
       title: "GRC & Compliance", 
@@ -122,7 +124,8 @@ export const TrainingPage = () => {
       topics: ["ISO 27001 internal auditor", "DPDP Act compliance", "NIST Framework mapping", "Risk assessment skills"],
       audience: "Compliance officers, HR, legal, risk managers.",
       duration: "2-4 Days",
-      mode: "Workshop / Hybrid"
+      mode: "Workshop / Hybrid",
+      color: "blue"
     },
     { 
       title: "Executive Training", 
@@ -131,15 +134,16 @@ export const TrainingPage = () => {
       topics: ["Cyber risk reporting", "Crisis management", "Budgeting for security", "Regulatory landscape"],
       audience: "CxOs, Board members, Directors.",
       duration: "Half-day Briefing",
-      mode: "Exclusive Executive Session"
+      mode: "Exclusive Executive Session",
+      color: "orange"
     }
   ];
 
   const processSteps = [
-    { num: "01", title: "Assess", desc: "We evaluate current skill levels and identify knowledge gaps.", icon: <Search className="w-5 h-5" /> },
-    { num: "02", title: "Customize", desc: "Programs are tailored to your industry and specific tech stack.", icon: <Eye className="w-5 h-5" /> },
-    { num: "03", title: "Deliver", desc: "Practical, high-impact training delivered by field experts.", icon: <GraduationCap className="w-5 h-5" /> },
-    { num: "04", title: "Evaluate", desc: "Post-training assessment to measure skill improvement.", icon: <Radar className="w-5 h-5" /> }
+    { num: "01", title: "Assess", desc: "We evaluate current skill levels and identify knowledge gaps.", icon: <Search className="w-5 h-5" />, color: "blue" },
+    { num: "02", title: "Customize", desc: "Programs are tailored to your industry and specific tech stack.", icon: <Eye className="w-5 h-5" />, color: "orange" },
+    { num: "03", title: "Deliver", desc: "Practical, high-impact training delivered by field experts.", icon: <GraduationCap className="w-5 h-5" />, color: "blue" },
+    { num: "04", title: "Evaluate", desc: "Post-training assessment to measure skill improvement.", icon: <Radar className="w-5 h-5" />, color: "orange" }
   ];
 
   const faqs = [
@@ -192,7 +196,7 @@ export const TrainingPage = () => {
             <button className="px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition-all shadow-lg shadow-blue-500/20">
               Explore Programs
             </button>
-            <button className="px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold rounded-full transition-all">
+            <button className="px-8 py-4 bg-orange-500/10 border border-orange-500/20 hover:bg-orange-500/20 text-orange-400 font-bold rounded-full transition-all">
               Request Training
             </button>
           </motion.div>
@@ -209,17 +213,27 @@ export const TrainingPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   viewport={{ once: true }}
-                  className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.04] transition-all group relative overflow-hidden"
+                  className={`p-8 bg-white/[0.02] backdrop-blur-xl border rounded-3xl hover:bg-white/[0.04] transition-all group relative overflow-hidden ${
+                    cat.color === 'blue' 
+                      ? 'border-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.05)] hover:border-blue-500/30' 
+                      : 'border-orange-500/10 shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:border-orange-500/30'
+                  }`}
                 >
-                  <div className="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="p-3 w-fit bg-white/5 rounded-2xl text-blue-400 mb-6 group-hover:bg-blue-500/10 transition-colors">
+                  <div className={`absolute -top-12 -right-12 w-32 h-32 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full ${
+                    cat.color === 'blue' ? 'bg-blue-500/5' : 'bg-orange-500/5'
+                  }`} />
+                  <div className={`p-3 w-fit rounded-2xl mb-6 transition-colors ${
+                    cat.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'
+                  }`}>
                     {cat.icon}
                   </div>
                   <h3 className="text-xl font-semibold mb-3">{cat.title}</h3>
                   <p className="text-stone-400 text-sm font-light mb-6 leading-relaxed">{cat.outcome}</p>
                   <button 
                     onClick={() => setSelectedProgram(cat)}
-                    className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-blue-400 hover:text-blue-300 transition-colors"
+                    className={`flex items-center gap-2 text-xs uppercase tracking-widest font-bold transition-colors ${
+                      cat.color === 'blue' ? 'text-blue-400 hover:text-blue-300' : 'text-orange-400 hover:text-orange-300'
+                    }`}
                   >
                     View Details <ChevronRight className="w-4 h-4" />
                   </button>
@@ -238,9 +252,15 @@ export const TrainingPage = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {processSteps.map((step, i) => (
-                <div key={i} className="p-8 bg-white/[0.01] border border-white/5 rounded-2xl">
-                  <div className="text-3xl font-orbitron font-bold text-white/10 mb-4">{step.num}</div>
-                  <div className="p-2 w-fit bg-blue-500/10 text-blue-400 rounded-lg mb-4">
+                <div key={i} className={`p-8 bg-white/[0.01] border rounded-2xl transition-colors hover:bg-white/[0.03] ${
+                  step.color === 'blue' ? 'border-blue-500/10' : 'border-orange-500/10'
+                }`}>
+                  <div className={`text-3xl font-orbitron font-bold mb-4 transition-colors ${
+                    step.color === 'blue' ? 'text-blue-500/20' : 'text-orange-500/20'
+                  }`}>{step.num}</div>
+                  <div className={`p-2 w-fit rounded-lg mb-4 ${
+                    step.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'
+                  }`}>
                     {step.icon}
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
@@ -258,13 +278,15 @@ export const TrainingPage = () => {
               <h2 className="text-2xl md:text-3xl font-semibold mb-10">Measurable outcomes.</h2>
               <div className="space-y-8">
                 {[
-                  { title: "Improved Security Awareness", desc: "Employees become the strongest link in your defense chain." },
-                  { title: "Reduced Human Risk", desc: "Drastic drop in phishing success and policy violations." },
-                  { title: "Skilled Workforce", desc: "IT teams equipped to handle modern threats independently." }
+                  { title: "Improved Security Awareness", desc: "Employees become the strongest link in your defense chain.", color: "blue" },
+                  { title: "Reduced Human Risk", desc: "Drastic drop in phishing success and policy violations.", color: "orange" },
+                  { title: "Skilled Workforce", desc: "IT teams equipped to handle modern threats independently.", color: "blue" }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-5">
-                    <div className="shrink-0 w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
+                    <div className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
+                      item.color === 'blue' ? 'bg-blue-500/20' : 'bg-orange-500/20'
+                    }`}>
+                      <div className={`w-2 h-2 rounded-full ${item.color === 'blue' ? 'bg-blue-500' : 'bg-orange-500'}`} />
                     </div>
                     <div>
                       <h4 className="font-semibold mb-1">{item.title}</h4>
@@ -278,7 +300,9 @@ export const TrainingPage = () => {
               <h2 className="text-2xl md:text-3xl font-semibold mb-10">Who it's for.</h2>
               <div className="grid grid-cols-2 gap-4">
                 {["Enterprises", "Startups", "IT Teams", "Professionals"].map((target, i) => (
-                  <div key={i} className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl flex items-center justify-center text-center">
+                  <div key={i} className={`p-6 bg-white/[0.02] border rounded-2xl flex items-center justify-center text-center transition-all hover:bg-white/[0.04] ${
+                    i % 2 === 0 ? 'border-blue-500/10' : 'border-orange-500/10'
+                  }`}>
                     <span className="text-stone-300 font-medium">{target}</span>
                   </div>
                 ))}
