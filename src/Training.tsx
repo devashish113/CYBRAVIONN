@@ -149,7 +149,7 @@ export const TrainingPage = () => {
   ];
 
   return (
-    <div className="pt-24 min-h-screen bg-stone-950 text-white relative">
+    <div className="pt-24 min-h-screen bg-transparent text-white relative">
       {/* Background Decor */}
       <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
         <div className="absolute top-1/4 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
