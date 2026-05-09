@@ -187,40 +187,38 @@ const Hero = () => {
             {/* Left Column */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl">
               
-              <motion.h1 
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: 0,
-                  filter: [
-                    "drop-shadow(0 0 0px rgba(59,130,246,0))",
-                    "drop-shadow(0 0 12px rgba(59,130,246,0.5))",
-                    "drop-shadow(0 0 0px rgba(59,130,246,0))"
-                  ]
-                }}
-                transition={{ 
-                  y: { type: "spring", stiffness: 80, damping: 12, duration: 0.8 },
-                  filter: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                  opacity: { duration: 0.8 }
-                }}
-                className="mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] text-white mb-8 tracking-tight"
-              >
-                Secure your <br />
-                <motion.span 
+              <div className="relative group">
+                {/* Spectral Glow Layer */}
+                <motion.div 
                   animate={{ 
-                    color: ["#d6d3d1", "#ffffff", "#d6d3d1"],
-                    filter: [
-                      "drop-shadow(0 0 0px rgba(59,130,246,0))",
-                      "drop-shadow(0 0 20px rgba(59,130,246,0.6))",
-                      "drop-shadow(0 0 0px rgba(59,130,246,0))"
-                    ]
+                    opacity: [0.2, 0.4, 0.2],
+                    scale: [1, 1.1, 1]
                   }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="font-light text-stone-300"
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -inset-10 bg-blue-500/20 blur-[100px] rounded-full pointer-events-none"
+                />
+                
+                <motion.h1 
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 80,
+                    damping: 12,
+                    duration: 0.8
+                  }}
+                  className="relative z-10 mt-8 lg:mt-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] text-white mb-8 tracking-tight drop-shadow-2xl"
                 >
-                  digital infrastructure.
-                </motion.span>
-              </motion.h1>
+                  Secure your <br />
+                  <motion.span 
+                    animate={{ color: ["#d6d3d1", "#ffffff", "#d6d3d1"] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    className="font-light text-stone-300"
+                  >
+                    digital infrastructure.
+                  </motion.span>
+                </motion.h1>
+              </div>
               
               <motion.p 
                 initial={{ opacity: 0, y: 30 }}
@@ -656,9 +654,9 @@ const Services = () => {
                 }}
                 className={`p-5 md:p-6 bg-white/[0.02] backdrop-blur-xl border rounded-2xl group transition-all duration-400 cursor-pointer relative overflow-hidden ${
                   item.color === 'blue'
-                    ? 'border-blue-500/20 shadow-[0_0_25px_rgba(59,130,246,0.1)] hover:border-blue-500/60 hover:shadow-[0_0_45px_rgba(59,130,246,0.4)]'
-                    : 'border-orange-500/20 shadow-[0_0_25px_rgba(249,115,22,0.1)] hover:border-orange-500/60 hover:shadow-[0_0_45px_rgba(249,115,22,0.4)]'
-                } ${isFeatured ? 'ring-2 ring-white/10' : ''} hover:bg-white/[0.04]`}
+                    ? 'border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.2)] hover:border-blue-500/80 hover:shadow-[0_0_50px_rgba(59,130,246,0.5)]'
+                    : 'border-orange-500/30 shadow-[0_0_30px_rgba(249,115,22,0.2)] hover:border-orange-500/80 hover:shadow-[0_0_50px_rgba(249,115,22,0.5)]'
+                } ${isFeatured ? 'ring-2 ring-white/20' : ''} hover:bg-white/[0.05]`}
                 onClick={() => setActiveBrief(idx)}
               >
                 {/* Glow for featured items */}
