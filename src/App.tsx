@@ -35,9 +35,21 @@ import {
   Radar,
   GraduationCap,
   ShieldCheck,
+  Briefcase,
+  Building2,
+  Heart,
+  Landmark,
+  FileText,
+  Download,
+  ExternalLink,
 } from 'lucide-react';
 import { ServiceModalRenderer } from './ServiceModals';
 import { TrainingPage } from './Training';
+import { CompliancePage } from './Compliance';
+import { CaseStudies } from './CaseStudies';
+import { IndustrySolutions } from './IndustrySolutions';
+import { TrustCredibility } from './TrustCredibility';
+import { Insights } from './Insights';
 
 // --- Components ---
 
@@ -55,7 +67,8 @@ const Navbar = () => {
     { name: 'Services', href: '#services' },
     { name: 'About', href: '#about' },
     { name: 'FAQ', href: '#faq' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Contact', href: '#contact' },
+    { name: 'Compliance', href: '#compliance' }
   ];
 
   return (
@@ -869,7 +882,39 @@ const Contact = () => {
                   <InputField label="Company" name="organization" placeholder="Company Name" />
                 </div>
 
-                <InputField label="Email Address" name="email" type="email" required placeholder="john@example.com" />
+                <InputField label="Work Email" name="email" type="email" required placeholder="john@company.com" />
+
+                <div className="space-y-2 group relative">
+                  <motion.label 
+                    initial={false}
+                    animate={{ 
+                      y: focusedField === "requirement" ? -2 : 0,
+                      opacity: focusedField === "requirement" ? 1 : 0.6
+                    }}
+                    className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 transition-all"
+                  >
+                    Requirement
+                  </motion.label>
+                  <select 
+                    name="requirement"
+                    onFocus={() => setFocusedField("requirement")}
+                    onBlur={() => setFocusedField(null)}
+                    className={`w-full bg-stone-950/60 border rounded-lg px-4 py-3 text-white focus:outline-none transition-all text-sm appearance-none cursor-pointer ${
+                      focusedField === "requirement" 
+                        ? 'border-orange-500/40 bg-stone-950/80 shadow-[0_0_20px_rgba(249,115,22,0.15)]' 
+                        : 'border-white/10'
+                    }`}
+                  >
+                    <option value="" className="bg-stone-900">Select a service...</option>
+                    <option value="security-assessment" className="bg-stone-900">Security Assessment (VAPT)</option>
+                    <option value="grc" className="bg-stone-900">GRC & Compliance</option>
+                    <option value="cloud-security" className="bg-stone-900">Cloud Security</option>
+                    <option value="training" className="bg-stone-900">Training & Capability Development</option>
+                    <option value="ai-governance" className="bg-stone-900">AI Risk Governance</option>
+                    <option value="osint" className="bg-stone-900">OSINT & Threat Intelligence</option>
+                    <option value="other" className="bg-stone-900">Other / General Inquiry</option>
+                  </select>
+                </div>
 
                 <div className="space-y-2 group relative">
                   <motion.label 
@@ -893,19 +938,20 @@ const Contact = () => {
                         ? 'border-orange-500/40 bg-stone-950/80 shadow-[0_0_20px_rgba(249,115,22,0.15)] brightness-110' 
                         : 'border-white/10'
                     }`}
-                    placeholder="How can we help?"
+                    placeholder="Briefly describe your security needs..."
                   />
                 </div>
 
-                <div className="flex justify-center pt-2">
+                <div className="flex flex-col items-center gap-3 pt-2">
                   <motion.button 
                     whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249,115,22,0.3)" }}
                     whileTap={{ scale: 0.95 }}
                     type="submit" 
                     className="w-fit px-12 py-3.5 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-950/20 min-h-[48px] w-full sm:w-auto"
                   >
-                    Start Securing Today
+                    Request Security Assessment
                   </motion.button>
+                  <p className="text-stone-600 text-[10px] uppercase tracking-widest font-medium">We respect your privacy. No spam, ever.</p>
                 </div>
               </form>
             </motion.div>
@@ -1193,7 +1239,8 @@ const Footer = () => {
               <ul className="space-y-2">
                 <li><a href="#about" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">About Us</a></li>
                 <li><a href="#contact" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">Contact</a></li>
-                <li><a href="#" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">Privacy Policy</a></li>
+                <li><a href="#compliance" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">Security & Compliance</a></li>
+                <li><a href="#insights" className="text-stone-500 hover:text-stone-300 text-[10px] uppercase tracking-widest transition-colors">Insights</a></li>
               </ul>
             </div>
           </div>
@@ -1217,6 +1264,9 @@ export default function App() {
       const hash = window.location.hash;
       if (hash === '#training') {
         setCurrentView('training');
+        window.scrollTo(0, 0);
+      } else if (hash === '#compliance') {
+        setCurrentView('compliance');
         window.scrollTo(0, 0);
       } else {
         setCurrentView('home');
@@ -1250,14 +1300,19 @@ export default function App() {
         <main>
           {currentView === 'training' ? (
             <TrainingPage />
+          ) : currentView === 'compliance' ? (
+            <CompliancePage />
           ) : (
             <>
               <Hero />
               <Services />
-              <ComplianceStrip />
+              <TrustCredibility />
               <TrackRecord />
+              <CaseStudies />
+              <IndustrySolutions />
               <WhyChooseUs />
               <HowWeWork />
+              <Insights />
               <Contact />
               <FAQ />
             </>
