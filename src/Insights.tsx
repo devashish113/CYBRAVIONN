@@ -80,7 +80,8 @@ export const Insights = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {articles.map((article, i) => (
-            <motion.div
+            <motion.a
+              href="#contact"
               key={i}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -134,7 +135,7 @@ export const Insights = () => {
                   </div>
                 )}
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
 
