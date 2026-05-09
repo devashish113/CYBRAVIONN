@@ -151,34 +151,34 @@ export const TrainingPage = () => {
 
   const videos = [
     { 
-      id: "3Kq1MIfTWCE", 
+      id: "KiEptGbnEBc", 
       title: "CompTIA Security+ Full Course", 
-      desc: "A comprehensive 13-hour masterclass for the SY0-701 certification, covering the foundational knowledge required for a career in cybersecurity." 
+      desc: "The industry-standard SY0-701 certification course by Professor Messer, covering foundational security principles and network defense." 
     },
     { 
-      id: "6uTId_SqeM4", 
+      id: "3Kq1MIfTWCE", 
+      title: "Full Ethical Hacking Masterclass", 
+      desc: "A comprehensive 15-hour network penetration testing course from freeCodeCamp, covering everything from scanning to exploitation." 
+    },
+    { 
+      id: "lpa8uy4DyMo", 
       title: "CISSP Full Course Masterclass", 
-      desc: "A professional 10-hour deep-dive into the 8 domains of CISSP, designed for security leaders and enterprise risk managers." 
+      desc: "An 11-hour professional deep-dive by Edureka into the 8 domains of CISSP, tailored for senior security leaders." 
     },
     { 
-      id: "9neIT9Zp3Xw", 
-      title: "CEH v12 Full Course", 
-      desc: "An intensive 10-hour training on offensive security, penetration testing methodologies, and the latest ethical hacking tools." 
+      id: "EC_bKHXGmYs", 
+      title: "Ethical Hacking (CEH) Full Course", 
+      desc: "A 10-hour intensive workshop by Simplilearn on offensive security, covering the latest CEH v12 methodologies and tools." 
     },
     { 
-      id: "RcvGZp8S39U", 
-      title: "AWS Cloud Security Training", 
-      desc: "Master cloud infrastructure security with this 7-hour workshop focused on identity management, data protection, and AWS compliance." 
-    },
-    { 
-      id: "fNzpcB7ODxQ", 
-      title: "Ethical Hacking in 12 Hours", 
-      desc: "A complete one-shot guide to penetration testing, network security, and hands-on vulnerability assessment." 
+      id: "uQdzcIf_KII", 
+      title: "AWS Security Masterclass", 
+      desc: "Master cloud security with this 11-hour Simplilearn course focused on identity management, VPC security, and cloud compliance." 
     },
     { 
       id: "M7L7fUu40Lw", 
-      title: "Network Security Masterclass", 
-      desc: "A 4-hour deep dive into securing organizational networks, firewalls, VPNs, and intrusion detection systems." 
+      title: "Network Security Training", 
+      desc: "A focused 4-hour masterclass on securing organizational networks, firewalls, and intrusion prevention systems." 
     }
   ];
 
