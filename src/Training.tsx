@@ -150,9 +150,36 @@ export const TrainingPage = () => {
   ];
 
   const videos = [
-    { id: "WO7wP3QaJ_g", title: "Cybersecurity Full Course", desc: "A comprehensive 7-hour masterclass covering the core pillars of digital defense and network security." },
-    { id: "fNzpcB7ODxQ", title: "Ethical Hacking Masterclass", desc: "A deep-dive 12-hour course on penetration testing, VAPT methodologies, and Linux for hackers." },
-    { id: "JswwHeEqBIc", title: "GRC Analyst Training", desc: "A professional-grade 2.5-hour workshop focused on Governance, Risk, and Compliance frameworks." }
+    { 
+      id: "3Kq1MIfTWCE", 
+      title: "CompTIA Security+ Full Course", 
+      desc: "A comprehensive 13-hour masterclass for the SY0-701 certification, covering the foundational knowledge required for a career in cybersecurity." 
+    },
+    { 
+      id: "6uTId_SqeM4", 
+      title: "CISSP Full Course Masterclass", 
+      desc: "A professional 10-hour deep-dive into the 8 domains of CISSP, designed for security leaders and enterprise risk managers." 
+    },
+    { 
+      id: "9neIT9Zp3Xw", 
+      title: "CEH v12 Full Course", 
+      desc: "An intensive 10-hour training on offensive security, penetration testing methodologies, and the latest ethical hacking tools." 
+    },
+    { 
+      id: "RcvGZp8S39U", 
+      title: "AWS Cloud Security Training", 
+      desc: "Master cloud infrastructure security with this 7-hour workshop focused on identity management, data protection, and AWS compliance." 
+    },
+    { 
+      id: "fNzpcB7ODxQ", 
+      title: "Ethical Hacking in 12 Hours", 
+      desc: "A complete one-shot guide to penetration testing, network security, and hands-on vulnerability assessment." 
+    },
+    { 
+      id: "M7L7fUu40Lw", 
+      title: "Network Security Masterclass", 
+      desc: "A 4-hour deep dive into securing organizational networks, firewalls, VPNs, and intrusion detection systems." 
+    }
   ];
 
   const processSteps = [
@@ -315,36 +342,45 @@ export const TrainingPage = () => {
               <h2 className="text-3xl md:text-5xl font-semibold">Learn Cybersecurity in Action.</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {videos.map((vid, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.2 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
-                  className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden shadow-2xl group"
-                >
-                  <div className="aspect-video relative bg-stone-950">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${vid.id}?modestbranding=1&rel=0`}
-                      title={vid.title}
-                      loading="lazy"
-                      className="w-full h-full border-0 grayscale-[40%] group-hover:grayscale-0 transition-all duration-500"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                  <div className="p-6">
-                    <h4 className="text-xl font-bold mb-3 flex items-center gap-2 text-white">
-                      <Play className="w-5 h-5 text-orange-500 fill-orange-500/20" />
-                      {vid.title}
-                    </h4>
-                    <p className="text-stone-400 text-base font-light italic leading-relaxed">{vid.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="relative">
+              <div className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory scrollbar-hide no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {videos.map((vid, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.02 }}
+                    className="min-w-[300px] md:min-w-[400px] bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden shadow-2xl group snap-center"
+                  >
+                    <div className="aspect-video relative bg-stone-950">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${vid.id}?modestbranding=1&rel=0`}
+                        title={vid.title}
+                        loading="lazy"
+                        className="w-full h-full border-0 grayscale-[40%] group-hover:grayscale-0 transition-all duration-500"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                    <div className="p-6">
+                      <h4 className="text-xl font-bold mb-3 flex items-center gap-2 text-white">
+                        <Play className="w-5 h-5 text-orange-500 fill-orange-500/20" />
+                        {vid.title}
+                      </h4>
+                      <p className="text-stone-400 text-base font-light italic leading-relaxed">{vid.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+              
+              {/* Subtle Scroll Indicators */}
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+                {videos.map((_, i) => (
+                  <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                ))}
+              </div>
             </div>
           </div>
         </section>
