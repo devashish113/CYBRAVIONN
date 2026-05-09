@@ -210,14 +210,33 @@ export const TrainingPage = () => {
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  className={`p-8 bg-white/[0.02] backdrop-blur-xl border rounded-3xl hover:bg-white/[0.04] transition-all group relative overflow-hidden ${
+                  whileInView={{ 
+                    opacity: 1, 
+                    y: [0, -8, 0],
+                    boxShadow: cat.color === 'blue' 
+                      ? ["0 0 20px rgba(59,130,246,0.1)", "0 0 50px rgba(59,130,246,0.4)", "0 0 20px rgba(59,130,246,0.1)"]
+                      : ["0 0 20px rgba(249,115,22,0.1)", "0 0 50px rgba(249,115,22,0.4)", "0 0 20px rgba(249,115,22,0.1)"],
+                    filter: ["brightness(1)", "brightness(1.4)", "brightness(1)"],
+                    transition: {
+                      y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 },
+                      boxShadow: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 },
+                      filter: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 },
+                      opacity: { duration: 0.8, delay: i * 0.1 }
+                    }
+                  }}
+                  viewport={{ once: false }}
+                  whileHover={{ 
+                    scale: 1.04, 
+                    y: -12,
+                    filter: "brightness(1.2)",
+                    transition: { duration: 0.3 }
+                  }}
+                  className={`p-8 bg-white/[0.02] backdrop-blur-xl border rounded-3xl cursor-pointer group relative overflow-hidden ${
                     cat.color === 'blue' 
-                      ? 'border-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.05)] hover:border-blue-500/30' 
-                      : 'border-orange-500/10 shadow-[0_0_20px_rgba(249,115,22,0.05)] hover:border-orange-500/30'
+                      ? 'border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.2)] hover:border-blue-500/80 hover:shadow-[0_0_50px_rgba(59,130,246,0.5)]' 
+                      : 'border-orange-500/30 shadow-[0_0_30px_rgba(249,115,22,0.2)] hover:border-orange-500/80 hover:shadow-[0_0_50px_rgba(249,115,22,0.5)]'
                   }`}
+                  onClick={() => setSelectedProgram(cat)}
                 >
                   <div className={`absolute -top-12 -right-12 w-32 h-32 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full ${
                     cat.color === 'blue' ? 'bg-blue-500/5' : 'bg-orange-500/5'
@@ -229,14 +248,13 @@ export const TrainingPage = () => {
                   </div>
                   <h3 className="text-xl font-semibold mb-3">{cat.title}</h3>
                   <p className="text-stone-400 text-sm font-light mb-6 leading-relaxed">{cat.outcome}</p>
-                  <button 
-                    onClick={() => setSelectedProgram(cat)}
+                  <div 
                     className={`flex items-center gap-2 text-xs uppercase tracking-widest font-bold transition-colors ${
-                      cat.color === 'blue' ? 'text-blue-400 hover:text-blue-300' : 'text-orange-400 hover:text-orange-300'
+                      cat.color === 'blue' ? 'text-blue-400 group-hover:text-blue-300' : 'text-orange-400 group-hover:text-orange-300'
                     }`}
                   >
                     View Details <ChevronRight className="w-4 h-4" />
-                  </button>
+                  </div>
                 </motion.div>
               ))}
             </div>
