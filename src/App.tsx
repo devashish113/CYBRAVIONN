@@ -43,7 +43,6 @@ import {
   Download,
   ExternalLink,
 } from 'lucide-react';
-import { Download, ExternalLink } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { ServiceModalRenderer } from './components/ServiceModals';
 import { TrainingPage } from './pages/Training';
