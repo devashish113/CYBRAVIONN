@@ -20,6 +20,7 @@ import {
   ArrowRight,
   Play
 } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const ProgramModal = ({ program, isOpen, onClose }: { program: any, isOpen: boolean, onClose: () => void }) => {
   if (!isOpen) return null;
@@ -201,6 +202,13 @@ export const TrainingPage = () => {
 
   return (
     <div className="pt-24 min-h-screen bg-transparent text-white relative">
+      <Helmet>
+        <title>Cybersecurity Training & Capability Development | CYBRAVION</title>
+        <meta name="description" content="Empower your team with battle-tested security expertise. Custom training programs for cybersecurity awareness, technical skills, GRC, and executive leadership." />
+        <meta name="keywords" content="cybersecurity training, security awareness, technical security training, GRC training, executive cyber risk training, VAPT workshop, CISSP, CEH" />
+        <link rel="canonical" href="https://cybravion.com/#training" />
+      </Helmet>
+
       {/* Background Decor */}
       <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
         <div className="absolute top-1/4 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />

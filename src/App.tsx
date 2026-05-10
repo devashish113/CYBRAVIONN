@@ -43,13 +43,15 @@ import {
   Download,
   ExternalLink,
 } from 'lucide-react';
-import { ServiceModalRenderer } from './ServiceModals';
-import { TrainingPage } from './Training';
-import { CompliancePage } from './Compliance';
-import { CaseStudies } from './CaseStudies';
-import { IndustrySolutions } from './IndustrySolutions';
-import { TrustCredibility } from './TrustCredibility';
-import { Insights } from './Insights';
+import { Download, ExternalLink } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+import { ServiceModalRenderer } from './components/ServiceModals';
+import { TrainingPage } from './pages/Training';
+import { CompliancePage } from './pages/Compliance';
+import { CaseStudies } from './components/CaseStudies';
+import { IndustrySolutions } from './components/IndustrySolutions';
+import { TrustCredibility } from './components/TrustCredibility';
+import { Insights } from './components/Insights';
 
 // --- Components ---
 
@@ -1281,6 +1283,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-stone-950 scroll-smooth relative">
+      <Helmet>
+        <title>CYBRAVION Solutions | Cybersecurity Consulting & Risk Management</title>
+        <meta name="description" content="Enterprise cybersecurity consulting — GRC, VAPT, cloud security, AI governance & threat intelligence. Trusted by 30+ organizations globally." />
+        <meta name="keywords" content="cybersecurity consulting, VAPT services, risk management, ISO 27001, NIST compliance, SOC 2, cloud security, threat intelligence" />
+        <link rel="canonical" href="https://cybravion.com/" />
+      </Helmet>
+
       {/* Fixed Background Video */}
       <div className="fixed inset-0 z-0 bg-stone-950">
         <video 

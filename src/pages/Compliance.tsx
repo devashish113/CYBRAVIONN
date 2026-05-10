@@ -1,9 +1,17 @@
 import { motion } from 'motion/react';
 import { Shield, Lock, FileCheck, CheckCircle2, Server, Key } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 export const CompliancePage = () => {
   return (
     <div className="pt-24 min-h-screen bg-transparent text-white relative">
+      <Helmet>
+        <title>Trust Center & Compliance | CYBRAVION</title>
+        <meta name="description" content="Discover how CYBRAVION secures its operations, protects client data, and aligns with global standards like ISO 27001 and DPDP Act." />
+        <meta name="keywords" content="cybersecurity compliance, trust center, ISO 27001, DPDP Act, data privacy, secure infrastructure, GRC alignment" />
+        <link rel="canonical" href="https://cybravion.com/#compliance" />
+      </Helmet>
+
       <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
         <div className="absolute top-0 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 -right-24 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px]" />
