@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo '⚡ Fast Git Shallow Clone (depth: 1)...'
+                echo '⚡ Fast Git Shallow Clone from GitHub (depth: 1)...'
                 checkout([
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
@@ -23,7 +23,7 @@ pipeline {
                     extensions: [
                         [$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 5]
                     ],
-                    userRemoteConfigs: [[url: '/var/jenkins_home/cybravion.git']]
+                    userRemoteConfigs: [[url: 'https://github.com/devashish113/CYBRAVIONN.git']]
                 ])
             }
         }
