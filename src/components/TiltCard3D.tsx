@@ -1,0 +1,112 @@
+import React, { useRef, useState, MouseEvent } from 'react';
+
+interface TiltCard3DProps {
+  children: React.ReactNode;
+  className?: string;
+  glowColor?: 'cyan' | 'blue' | 'orange' | 'purple';
+  onClick?: () => void;
+}
+
+export const TiltCard3D: React.FC<TiltCard3DProps> = ({
+  children,
+  className = '',
+  glowColor = 'cyan',
+  onClick,
+}) => {
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [glarePos, setGlarePos] = useState({ x: 0, y: 0, opacity: 0 });
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // Smooth tilt angle calculation
+    const rotX = ((y - centerY) / centerY) * -12;
+    const rotY = ((x - centerX) / centerX) * 12;
+
+    setRotateX(rotX);
+    setRotateY(rotY);
+    setGlarePos({ x, y, opacity: 1 });
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+    setGlarePos((prev) => ({ ...prev, opacity: 0 }));
+  };
+
+  const glowStyles = {
+    cyan: {
+      spot: 'rgba(0, 240, 255, 0.22)',
+      border: 'hover:border-cyan-500/60 hover:shadow-[0_0_35px_rgba(0,240,255,0.18)]',
+      accent: 'border-t-cyan-500/40',
+    },
+    blue: {
+      spot: 'rgba(59, 130, 246, 0.22)',
+      border: 'hover:border-blue-500/60 hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]',
+      accent: 'border-t-blue-500/40',
+    },
+    orange: {
+      spot: 'rgba(249, 115, 22, 0.22)',
+      border: 'hover:border-orange-500/60 hover:shadow-[0_0_35px_rgba(249,115,22,0.18)]',
+      accent: 'border-t-orange-500/40',
+    },
+    purple: {
+      spot: 'rgba(139, 92, 246, 0.22)',
+      border: 'hover:border-purple-500/60 hover:shadow-[0_0_35px_rgba(139,92,246,0.18)]',
+      accent: 'border-t-purple-500/40',
+    },
+  };
+
+  const currentTheme = glowStyles[glowColor];
+
+  return (
+    <div
+      style={{ perspective: '1100px' }}
+      className="w-full h-full"
+      onClick={onClick}
+    >
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`,
+          transition: 'transform 0.12s cubic-bezier(0.25, 1, 0.5, 1)',
+          transformStyle: 'preserve-3d',
+        }}
+        className={`relative rounded-3xl bg-stone-950/60 backdrop-blur-2xl border border-stone-800/80 p-8 transition-all duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.6)] overflow-hidden group ${currentTheme.border} ${className}`}
+      >
+        {/* Specular Radial Glare on Cursor */}
+        <div
+          className="pointer-events-none absolute -inset-px transition-opacity duration-300"
+          style={{
+            opacity: glarePos.opacity,
+            background: `radial-gradient(420px circle at ${glarePos.x}px ${glarePos.y}px, ${currentTheme.spot}, transparent 70%)`,
+          }}
+        />
+
+        {/* Ambient Top Rim Highlight */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-stone-400/20 to-transparent group-hover:via-white/40 transition-colors" />
+
+        {/* 3D Depth Content Layer (Floats out on Z axis) */}
+        <div
+          style={{
+            transform: 'translateZ(35px)',
+            transformStyle: 'preserve-3d',
+          }}
+          className="relative z-10 w-full h-full"
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
