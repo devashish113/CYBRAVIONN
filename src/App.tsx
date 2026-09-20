@@ -93,11 +93,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) => {
   };
 
   return (
-    <header>
+    <header className="relative z-50">
       <nav 
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
           isScrolled 
-            ? 'bg-stone-950/95 backdrop-blur-md py-3 border-b border-stone-700 shadow-[0_0_20px_rgba(59,130,246,0.05)]' 
+            ? 'bg-[#05070d]/98 backdrop-blur-xl py-3 border-b border-stone-800 shadow-[0_4px_30px_rgba(0,0,0,0.8)]' 
             : 'bg-transparent py-6'
         }`}
         aria-label="Main navigation"
@@ -153,35 +153,36 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) => {
               <AnimatePresence>
                 {isProductsOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 15 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-80 bg-stone-950/98 backdrop-blur-xl border border-stone-800 rounded-2xl p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] z-50 overflow-hidden"
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ duration: 0.18 }}
+                    style={{ backgroundColor: '#070a12' }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#070a12] border border-cyan-500/30 rounded-2xl p-4 shadow-[0_25px_60px_rgba(0,0,0,1),0_0_30px_rgba(0,240,255,0.1)] z-[999] overflow-hidden"
                   >
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-blue-500/15 rounded-full blur-2xl pointer-events-none" />
 
                     <div className="relative z-10 space-y-2">
-                      <p className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-bold px-3 mb-2" aria-hidden="true">Featured Platform</p>
+                      <p className="text-[10px] uppercase tracking-[0.3em] text-cyan-400 font-bold px-3 mb-2" aria-hidden="true">Featured Platform</p>
                       
                       <a
                         href="https://exceptionmgr.cybravions.online"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-col p-3 rounded-xl hover:bg-white/[0.03] border border-transparent hover:border-white/5 transition-all duration-300 group"
+                        className="flex flex-col p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-cyan-500/40 transition-all duration-300 group"
                       >
                         <div className="flex items-center gap-2 mb-1">
-                          <div className="p-1.5 rounded-lg bg-blue-500/15 text-blue-400 group-hover:bg-blue-500/25 transition-colors">
+                          <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-400 group-hover:bg-cyan-500/25 group-hover:text-cyan-300 transition-colors">
                             <ShieldCheck size={16} />
                           </div>
-                          <span className="text-sm font-bold text-stone-100 group-hover:text-blue-400 transition-colors">
+                          <span className="text-sm font-bold text-stone-100 group-hover:text-cyan-300 transition-colors">
                             AI Exception Manager
                           </span>
                         </div>
                         <p className="text-[11px] text-stone-400 font-light leading-relaxed mb-3">
                           Automated cyber risk assessment, threat intelligence scoring, and exception lifecycle workflows.
                         </p>
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-blue-400 font-semibold group-hover:text-blue-300 transition-colors self-start">
+                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-cyan-400 font-semibold group-hover:text-cyan-300 transition-colors self-start">
                           Launch Dashboard
                           <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
                         </div>
