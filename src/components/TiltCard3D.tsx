@@ -69,7 +69,7 @@ export const TiltCard3D: React.FC<TiltCard3DProps> = ({
 
   return (
     <div
-      style={{ perspective: '1100px' }}
+      style={{ perspective: '1100px', isolation: 'isolate' }}
       className="w-full h-full"
       onClick={onClick}
     >
@@ -82,7 +82,7 @@ export const TiltCard3D: React.FC<TiltCard3DProps> = ({
           transition: 'transform 0.12s cubic-bezier(0.25, 1, 0.5, 1)',
           transformStyle: 'preserve-3d',
         }}
-        className={`relative rounded-3xl bg-stone-950/60 backdrop-blur-2xl border border-stone-800/80 p-8 transition-all duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.6)] overflow-hidden group ${currentTheme.border} ${className}`}
+        className={`relative rounded-3xl bg-stone-950/90 border border-stone-800/80 p-8 transition-all duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.6)] overflow-hidden group ${currentTheme.border} ${className}`}
       >
         {/* Specular Radial Glare on Cursor */}
         <div
@@ -96,14 +96,8 @@ export const TiltCard3D: React.FC<TiltCard3DProps> = ({
         {/* Ambient Top Rim Highlight */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-stone-400/20 to-transparent group-hover:via-white/40 transition-colors" />
 
-        {/* 3D Depth Content Layer (Floats out on Z axis) */}
-        <div
-          style={{
-            transform: 'translateZ(35px)',
-            transformStyle: 'preserve-3d',
-          }}
-          className="relative z-10 w-full h-full"
-        >
+        {/* Content Layer */}
+        <div className="relative z-10 w-full h-full">
           {children}
         </div>
       </div>
