@@ -53,8 +53,7 @@ import { CaseStudies } from './components/CaseStudies';
 import { IndustrySolutions } from './components/IndustrySolutions';
 import { TrustCredibility } from './components/TrustCredibility';
 import { Insights } from './components/Insights';
-import { Scene3D } from './components/Scene3D';
-import { CyberGlobe3D } from './components/CyberGlobe3D';
+import { CyberUniverse3D } from './components/CyberUniverse3D';
 import { TiltCard3D } from './components/TiltCard3D';
 import { ThreatRadar3D } from './components/ThreatRadar3D';
 
@@ -493,9 +492,54 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Right Column: 3D Transparent Globe */}
+          {/* Right Column: Spatial Telemetry HUD over 3D Universe Globe */}
           <div className="lg:col-span-6 flex items-center justify-center relative w-full">
-            <CyberGlobe3D />
+            <TiltCard3D glowColor="blue">
+              <div className="bg-stone-900/50 backdrop-blur-xl border border-cyan-500/30 rounded-3xl p-6 sm:p-8 shadow-[0_0_40px_rgba(0,240,255,0.08)] relative overflow-hidden">
+                <div className="flex items-center justify-between pb-4 border-b border-stone-800">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="text-xs font-mono font-bold tracking-widest text-cyan-300 uppercase">
+                      GLOBAL PERIMETER TELEMETRY
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono text-stone-400 uppercase tracking-widest px-2.5 py-1 rounded-full bg-stone-800/80 border border-stone-700">
+                    LIVE CORE
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 my-6">
+                  <div className="p-3.5 rounded-2xl bg-stone-950/60 border border-stone-800">
+                    <div className="text-[10px] uppercase font-mono text-stone-400">Node Cluster</div>
+                    <div className="text-sm font-semibold text-white mt-1">Tokyo • London • NY</div>
+                    <div className="text-[9px] text-emerald-400 font-mono mt-0.5">● Operational (1.2ms)</div>
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-stone-950/60 border border-stone-800">
+                    <div className="text-[10px] uppercase font-mono text-stone-400">Vectors Blocked</div>
+                    <div className="text-sm font-semibold text-cyan-300 mt-1">99.98%</div>
+                    <div className="text-[9px] text-stone-400 font-mono mt-0.5">Zero Bypass Incidents</div>
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-stone-950/60 border border-stone-800">
+                    <div className="text-[10px] uppercase font-mono text-stone-400">HSM Encryption</div>
+                    <div className="text-sm font-semibold text-white mt-1">Quantum AES-512</div>
+                    <div className="text-[9px] text-purple-400 font-mono mt-0.5">FIPS 140-3 Level 4</div>
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-stone-950/60 border border-stone-800">
+                    <div className="text-[10px] uppercase font-mono text-stone-400">Autonomous Sensors</div>
+                    <div className="text-sm font-semibold text-orange-400 mt-1">1,420 Active</div>
+                    <div className="text-[9px] text-orange-400 font-mono mt-0.5">Real-Time Threat Sweeps</div>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-stone-800/80 flex items-center justify-between text-[11px] text-stone-400 font-light">
+                  <span>Dynamic 3D spatial camera tracking active</span>
+                  <div className="flex items-center gap-1.5 text-cyan-400 font-mono font-semibold text-[10px] uppercase tracking-wider">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                    Spatial Sync
+                  </div>
+                </div>
+              </div>
+            </TiltCard3D>
           </div>
 
         </div>
@@ -1075,8 +1119,8 @@ export default function App() {
         <link rel="canonical" href="https://cybravions.online/" />
       </Helmet>
 
-      {/* Persistent Full-Viewport 3D Background */}
-      <Scene3D />
+      {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
+      <CyberUniverse3D currentView={currentView} />
 
       <div className="relative z-10">
         <Navbar currentView={currentView} setCurrentView={setCurrentView} />
