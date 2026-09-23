@@ -27,7 +27,31 @@ export default defineConfig(({mode}) => {
         '@react-three/postprocessing',
         'three',
         'gsap',
+        'lenis',
       ],
+    },
+    build: {
+      target: 'esnext',
+      minify: 'esbuild',
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 750,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('three') || id.includes('@react-three')) {
+                return 'vendor-three';
+              }
+              if (id.includes('motion') || id.includes('framer-motion') || id.includes('gsap') || id.includes('lenis')) {
+                return 'vendor-animations';
+              }
+              if (id.includes('lucide-react')) {
+                return 'vendor-icons';
+              }
+            }
+          },
+        },
+      },
     },
   };
 });

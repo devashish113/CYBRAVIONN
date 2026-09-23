@@ -50,9 +50,12 @@ import {
 import { Helmet } from 'react-helmet-async';
 import Lenis from 'lenis';
 import { ServiceModalRenderer } from './components/ServiceModals';
-import { TrainingPage } from './pages/Training';
-import { CompliancePage } from './pages/Compliance';
-import { CybravionsAIPage } from './pages/CybravionsAI';
+
+// Route-level dynamic code splitting for sub-pages
+const TrainingPage = React.lazy(() => import('./pages/Training').then(m => ({ default: m.TrainingPage })));
+const CompliancePage = React.lazy(() => import('./pages/Compliance').then(m => ({ default: m.CompliancePage })));
+const CybravionsAIPage = React.lazy(() => import('./pages/CybravionsAI').then(m => ({ default: m.CybravionsAIPage })));
+
 import { CaseStudies } from './components/CaseStudies';
 import { IndustrySolutions } from './components/IndustrySolutions';
 import { TrustCredibility } from './components/TrustCredibility';
@@ -1390,30 +1393,39 @@ export default function App() {
         />
 
         <main id="main-content">
-          {currentView === 'ai' ? (
-            <CybravionsAIPage />
-          ) : currentView === 'training' ? (
-            <TrainingPage />
-          ) : currentView === 'compliance' ? (
-            <CompliancePage />
-          ) : (
-            <>
-              <CyberHeroSlider isDarkMode={isDarkMode} setCurrentView={setCurrentView} />
-              <Services />
-              <div id="radar">
-                <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
-              </div>
-              <EngagementLifecycle isDarkMode={isDarkMode} onConsultClick={scrollToContact} />
-              <TrustCredibility />
-              <CaseStudies />
-              <IndustrySolutions />
-              <GlobalPresence isDarkMode={isDarkMode} />
-              <WhyChooseUs />
-              <Insights />
-              <Contact />
-              <FAQ />
-            </>
-          )}
+          <React.Suspense fallback={
+            <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
+              <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin shadow-[0_0_20px_rgba(37,99,235,0.4)]" />
+              <span className="text-xs font-mono uppercase tracking-widest text-slate-400 dark:text-stone-500">
+                Loading Sovereign Matrix...
+              </span>
+            </div>
+          }>
+            {currentView === 'ai' ? (
+              <CybravionsAIPage />
+            ) : currentView === 'training' ? (
+              <TrainingPage />
+            ) : currentView === 'compliance' ? (
+              <CompliancePage />
+            ) : (
+              <>
+                <CyberHeroSlider isDarkMode={isDarkMode} setCurrentView={setCurrentView} />
+                <Services />
+                <div id="radar">
+                  <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
+                </div>
+                <EngagementLifecycle isDarkMode={isDarkMode} onConsultClick={scrollToContact} />
+                <TrustCredibility />
+                <CaseStudies />
+                <IndustrySolutions />
+                <GlobalPresence isDarkMode={isDarkMode} />
+                <WhyChooseUs />
+                <Insights />
+                <Contact />
+                <FAQ />
+              </>
+            )}
+          </React.Suspense>
         </main>
 
         <Footer setCurrentView={setCurrentView} isDarkMode={isDarkMode} />
