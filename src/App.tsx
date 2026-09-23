@@ -48,6 +48,7 @@ import {
   Moon,
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import Lenis from 'lenis';
 import { ServiceModalRenderer } from './components/ServiceModals';
 import { TrainingPage } from './pages/Training';
 import { CompliancePage } from './pages/Compliance';
@@ -60,6 +61,10 @@ import { CyberUniverse3D } from './components/CyberUniverse3D';
 import { TiltCard3D } from './components/TiltCard3D';
 import { ThreatRadar3D } from './components/ThreatRadar3D';
 import { CyberHeroSlider } from './components/CyberHeroSlider';
+import { CyberCursor } from './components/CyberCursor';
+import { CyberHUDControl } from './components/CyberHUDControl';
+import { SecurityAuditModal } from './components/SecurityAuditModal';
+import { cyberAudio } from './utils/cyberAudio';
 
 // --- Navigation ---
 
@@ -68,9 +73,10 @@ interface NavbarProps {
   setCurrentView: (view: string) => void;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
+  onOpenAuditModal?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode, toggleDarkMode }) => {
+const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode, toggleDarkMode, onOpenAuditModal }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
@@ -1167,6 +1173,7 @@ const Footer = ({ setCurrentView, isDarkMode }: { setCurrentView: (view: string)
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
+  const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('cybravions_theme');
@@ -1176,6 +1183,7 @@ export default function App() {
   });
 
   const toggleDarkMode = () => {
+    cyberAudio.playClick();
     setIsDarkMode(prev => {
       const next = !prev;
       if (typeof window !== 'undefined') {
@@ -1184,6 +1192,30 @@ export default function App() {
       return next;
     });
   };
+
+  // Lenis Luxury Inertial Smooth Scrolling Engine
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5,
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -1215,6 +1247,9 @@ export default function App() {
         <link rel="canonical" href="https://cybravions.online/" />
       </Helmet>
 
+      {/* Luxury Interactive Custom Cursor */}
+      <CyberCursor />
+
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
       <CyberUniverse3D currentView={currentView} isDarkMode={isDarkMode} />
 
@@ -1223,7 +1258,8 @@ export default function App() {
           currentView={currentView} 
           setCurrentView={setCurrentView} 
           isDarkMode={isDarkMode} 
-          toggleDarkMode={toggleDarkMode} 
+          toggleDarkMode={toggleDarkMode}
+          onOpenAuditModal={() => setIsAuditModalOpen(true)}
         />
 
         <main id="main-content">
@@ -1238,7 +1274,7 @@ export default function App() {
               <CyberHeroSlider isDarkMode={isDarkMode} setCurrentView={setCurrentView} />
               <Services />
               <div id="radar">
-                <ThreatRadar3D />
+                <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
               </div>
               <TrustCredibility />
               <CaseStudies />
@@ -1252,6 +1288,19 @@ export default function App() {
         </main>
 
         <Footer setCurrentView={setCurrentView} isDarkMode={isDarkMode} />
+
+        {/* Global Tactical Cyber HUD Toolbar */}
+        <CyberHUDControl 
+          isDarkMode={isDarkMode} 
+          onOpenAuditModal={() => setIsAuditModalOpen(true)} 
+        />
+
+        {/* Interactive Instant Security Posture & Compliance Audit Modal */}
+        <SecurityAuditModal
+          isOpen={isAuditModalOpen}
+          onClose={() => setIsAuditModalOpen(false)}
+          isDarkMode={isDarkMode}
+        />
       </div>
     </div>
   );

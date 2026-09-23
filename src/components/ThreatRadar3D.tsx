@@ -8,11 +8,15 @@ import {
   Globe, 
   Lock, 
   Brain, 
-  ArrowRight,
-  RefreshCw,
-  FileCheck,
-  CheckCircle2
+  ArrowRight, 
+  RefreshCw, 
+  FileCheck, 
+  CheckCircle2, 
+  Zap, 
+  ShieldAlert,
+  Sparkles
 } from 'lucide-react';
+import { cyberAudio } from '../utils/cyberAudio';
 
 interface ThreatVector {
   id: string;
@@ -23,11 +27,17 @@ interface ThreatVector {
   recommendedService: string;
 }
 
-export const ThreatRadar3D: React.FC = () => {
+interface ThreatRadar3DProps {
+  onOpenAuditModal?: () => void;
+}
+
+export const ThreatRadar3D: React.FC<ThreatRadar3DProps> = ({ onOpenAuditModal }) => {
   const [selectedVectors, setSelectedVectors] = useState<string[]>(['cloud', 'api', 'ai']);
   const [industry, setIndustry] = useState<string>('fintech');
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(100);
+  const [isSimulatingAttack, setIsSimulatingAttack] = useState(false);
+  const [attackNeutralized, setAttackNeutralized] = useState(false);
 
   const vectors: ThreatVector[] = [
     { id: 'cloud', name: 'Multi-Cloud Infrastructure', category: 'AWS/GCP/Azure', icon: Cloud, weight: 18, recommendedService: 'Cloud Security Architecture' },
@@ -47,14 +57,27 @@ export const ThreatRadar3D: React.FC = () => {
   };
 
   const toggleVector = (id: string) => {
+    cyberAudio.playClick();
     setSelectedVectors((prev) =>
       prev.includes(id) ? (prev.length > 1 ? prev.filter((v) => v !== id) : prev) : [...prev, id]
     );
   };
 
   const triggerScan = () => {
+    cyberAudio.playRadarSweep();
     setIsScanning(true);
     setScanProgress(0);
+  };
+
+  const triggerAttackSimulation = () => {
+    cyberAudio.playRadarSweep();
+    setIsSimulatingAttack(true);
+    setAttackNeutralized(false);
+    setTimeout(() => {
+      setIsSimulatingAttack(false);
+      setAttackNeutralized(true);
+      cyberAudio.playShieldActivate();
+    }, 1800);
   };
 
   useEffect(() => {
@@ -98,7 +121,7 @@ export const ThreatRadar3D: React.FC = () => {
             Simulate Your Enterprise <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-orange-600 dark:from-blue-400 dark:via-stone-100 dark:to-orange-400">Risk Surface</span>
           </h2>
           <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light">
-            Configure your infrastructure vectors and industry profile to calculate real-time threat exposure and custom remediation roadmaps.
+            Configure your infrastructure vectors and industry profile to calculate real-time threat exposure and simulate autonomous defense neutralization.
           </p>
         </div>
 
@@ -117,7 +140,10 @@ export const ThreatRadar3D: React.FC = () => {
                   <span className="text-xs text-slate-600 dark:text-stone-400 uppercase tracking-wider font-medium">Industry:</span>
                   <select
                     value={industry}
-                    onChange={(e) => setIndustry(e.target.value)}
+                    onChange={(e) => {
+                      cyberAudio.playClick();
+                      setIndustry(e.target.value);
+                    }}
                     className="bg-white dark:bg-stone-950 border border-slate-300 dark:border-stone-700 text-blue-700 dark:text-blue-400 text-xs rounded-xl px-3 py-2 font-semibold focus:outline-none focus:border-blue-500 shadow-sm cursor-pointer"
                   >
                     <option value="fintech">Fintech & Banking</option>
@@ -160,23 +186,34 @@ export const ThreatRadar3D: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-200 dark:border-stone-800 flex items-center justify-between">
+            <div className="pt-4 border-t border-slate-200 dark:border-stone-800 flex flex-wrap items-center justify-between gap-3">
               <span className="text-xs text-slate-600 dark:text-stone-400 font-medium">
                 {selectedVectors.length} vectors active • Dynamic risk telemetry
               </span>
-              <button
-                onClick={triggerScan}
-                disabled={isScanning}
-                className="px-5 py-2.5 rounded-xl bg-blue-500/15 dark:bg-blue-500/20 border border-blue-400 dark:border-blue-500/40 text-blue-700 dark:text-blue-300 hover:bg-blue-600 hover:text-white text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm"
-              >
-                <RefreshCw size={14} className={isScanning ? 'animate-spin' : ''} />
-                {isScanning ? 'Recalibrating...' : 'Recalibrate Scan'}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={triggerAttackSimulation}
+                  disabled={isSimulatingAttack}
+                  className="px-4 py-2.5 rounded-xl bg-orange-500/15 border border-orange-500/40 text-orange-600 dark:text-orange-400 hover:bg-orange-500 hover:text-white text-xs uppercase tracking-wider font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm disabled:opacity-50"
+                >
+                  <Zap size={14} className={isSimulatingAttack ? 'animate-bounce' : ''} />
+                  <span>{isSimulatingAttack ? 'Simulating Infiltration...' : 'Simulate Red Team Breach'}</span>
+                </button>
+                <button
+                  onClick={triggerScan}
+                  disabled={isScanning}
+                  className="px-4 py-2.5 rounded-xl bg-blue-500/15 dark:bg-blue-500/20 border border-blue-400 dark:border-blue-500/40 text-blue-700 dark:text-blue-300 hover:bg-blue-600 hover:text-white text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                >
+                  <RefreshCw size={14} className={isScanning ? 'animate-spin' : ''} />
+                  <span>{isScanning ? 'Scanning...' : 'Recalibrate'}</span>
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Right Column: 3D Telemetry Radar & Score */}
           <div className="lg:col-span-5 bg-white/90 dark:bg-stone-900/60 backdrop-blur-xl border border-slate-200 dark:border-stone-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-[0_10px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.6)] relative overflow-hidden">
+            
             {/* 3D Radar Scanning Overlay */}
             <div className="relative w-full aspect-square max-w-[280px] mx-auto flex items-center justify-center my-2">
               {/* Radar Circles */}
@@ -193,14 +230,34 @@ export const ThreatRadar3D: React.FC = () => {
               <div 
                 className="absolute inset-0 rounded-full origin-center animate-[spin_4s_linear_infinite] pointer-events-none"
                 style={{
-                  background: 'conic-gradient(from 0deg, rgba(59, 130, 246, 0.4) 0deg, rgba(59, 130, 246, 0) 60deg, transparent 360deg)',
+                  background: 'conic-gradient(from 0deg, rgba(37, 99, 235, 0.45) 0deg, rgba(37, 99, 235, 0) 60deg, transparent 360deg)',
                 }}
               />
 
-              {/* Core Score Display */}
-              <div className="relative z-10 flex flex-col items-center justify-center bg-white/95 dark:bg-stone-950/90 border-2 border-blue-500 rounded-full w-28 h-28 shadow-[0_0_30px_rgba(59,130,246,0.25)]">
-                <span className="text-3xl font-bold text-slate-900 dark:text-white">{exposureScore}%</span>
-                <span className="text-[9px] uppercase tracking-widest font-bold text-blue-600 dark:text-blue-400">Threat Index</span>
+              {/* Core Score Display with Attack Simulation Feedback */}
+              <div className={`relative z-10 flex flex-col items-center justify-center bg-white/95 dark:bg-stone-950/90 border-2 rounded-full w-28 h-28 transition-all duration-500 ${
+                isSimulatingAttack 
+                  ? 'border-orange-500 shadow-[0_0_35px_rgba(249,115,22,0.6)] animate-pulse' 
+                  : attackNeutralized
+                  ? 'border-emerald-500 shadow-[0_0_35px_rgba(16,185,129,0.6)]'
+                  : 'border-blue-500 shadow-[0_0_30px_rgba(37,99,235,0.25)]'
+              }`}>
+                {isSimulatingAttack ? (
+                  <>
+                    <ShieldAlert size={24} className="text-orange-500 animate-bounce" />
+                    <span className="text-[8px] uppercase tracking-wider font-bold text-orange-400 mt-1">Breach Test</span>
+                  </>
+                ) : attackNeutralized ? (
+                  <>
+                    <ShieldCheck size={26} className="text-emerald-500" />
+                    <span className="text-[8px] uppercase tracking-wider font-bold text-emerald-400 mt-1">Neutralized</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-3xl font-bold text-slate-900 dark:text-white">{exposureScore}%</span>
+                    <span className="text-[9px] uppercase tracking-widest font-bold text-blue-600 dark:text-blue-400">Threat Index</span>
+                  </>
+                )}
               </div>
             </div>
 
@@ -229,13 +286,28 @@ export const ThreatRadar3D: React.FC = () => {
                 </div>
               </div>
 
-              <a
-                href="#contact"
-                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-400 hover:to-amber-500 text-white text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(249,115,22,0.35)] hover:shadow-[0_0_35px_rgba(249,115,22,0.5)] transition-all mt-4 cursor-pointer"
-              >
-                <span>Request Custom Remediation Scope</span>
-                <ArrowRight size={14} />
-              </a>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
+                {onOpenAuditModal && (
+                  <button
+                    onClick={() => {
+                      cyberAudio.playShieldActivate();
+                      onOpenAuditModal();
+                    }}
+                    className="py-3 px-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-[11px] uppercase tracking-widest font-bold flex items-center justify-center gap-1.5 shadow-md transition-all cursor-pointer"
+                  >
+                    <Sparkles size={13} />
+                    <span>Run Full Audit</span>
+                  </button>
+                )}
+                <a
+                  href="#contact"
+                  onClick={() => cyberAudio.playClick()}
+                  className="py-3 px-4 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-400 hover:to-amber-500 text-white text-[11px] uppercase tracking-widest font-bold flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all cursor-pointer text-center"
+                >
+                  <span>Remediation Plan</span>
+                  <ArrowRight size={13} />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -243,3 +315,4 @@ export const ThreatRadar3D: React.FC = () => {
     </section>
   );
 };
+
