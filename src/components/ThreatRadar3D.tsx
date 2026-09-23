@@ -86,7 +86,7 @@ export const ThreatRadar3D: React.FC = () => {
   return (
     <section className="relative py-24 md:py-32 px-6 md:px-12 lg:px-20 overflow-hidden bg-transparent">
       {/* Subtle depth lighting accent */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-cyan-500/10 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-600/10 rounded-full blur-[180px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col items-center text-center mb-16">

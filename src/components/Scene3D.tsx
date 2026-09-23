@@ -43,11 +43,12 @@ const ParticleMatrix: React.FC<ParticleMatrixProps> = ({ scrollProgress, velocit
     const pos = new Float32Array(PARTICLE_COUNT * 3);
     const col = new Float32Array(PARTICLE_COUNT * 3);
 
-    const cyan = new THREE.Color('#00f0ff');
-    const blue = new THREE.Color('#3b82f6');
+    const deepBlue = new THREE.Color('#1d4ed8');
+    const royalBlue = new THREE.Color('#2563eb');
+    const electricBlue = new THREE.Color('#3b82f6');
     const orange = new THREE.Color('#f97316');
-    const violet = new THREE.Color('#a855f7');
-    const palette = [cyan, cyan, blue, orange, violet];
+    const amber = new THREE.Color('#ea580c');
+    const palette = [deepBlue, royalBlue, electricBlue, orange, amber];
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       // Cylindrical & orbital distribution around the viewport
@@ -191,7 +192,7 @@ const CyberHoloNode: React.FC<CyberMeshProps> = ({ position, scale, speed, type,
             <mesh ref={coreRef} rotation={[Math.PI / 4, 0, 0]}>
               <torusGeometry args={[1.05, 0.012, 16, 64]} />
               <meshBasicMaterial
-                color={color === '#f97316' ? '#00f0ff' : '#f97316'}
+                color={color === '#f97316' ? '#2563eb' : '#f97316'}
                 transparent
                 opacity={0.4}
                 blending={THREE.AdditiveBlending}
@@ -234,7 +235,7 @@ const CyberHoloNode: React.FC<CyberMeshProps> = ({ position, scale, speed, type,
 const FloatingDefenseGrid: React.FC = () => {
   const elements = useMemo(() => {
     const list: CyberMeshProps[] = [];
-    const colors = ['#00f0ff', '#38bdf8', '#f97316', '#a855f7', '#06b6d4'];
+    const colors = ['#2563eb', '#3b82f6', '#f97316', '#ea580c', '#1d4ed8'];
     const types: ('shield' | 'radar-ring' | 'crystal-node')[] = ['shield', 'radar-ring', 'crystal-node'];
 
     for (let i = 0; i < GEOMETRY_COUNT; i++) {
@@ -274,9 +275,9 @@ const ForegroundCyberFloaters: React.FC = () => {
   const { positions, colors } = useMemo(() => {
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
-    const cCyan = new THREE.Color('#00f0ff');
+    const cDeepBlue = new THREE.Color('#1d4ed8');
     const cOrange = new THREE.Color('#f97316');
-    const cBlue = new THREE.Color('#38bdf8');
+    const cBlue = new THREE.Color('#3b82f6');
 
     for (let i = 0; i < count; i++) {
       // Very close to camera (Z: 6 to 11.5), directly in front of the lens
@@ -284,7 +285,7 @@ const ForegroundCyberFloaters: React.FC = () => {
       pos[i * 3 + 1] = (Math.random() - 0.5) * 16;
       pos[i * 3 + 2] = 6 + Math.random() * 5.2;
 
-      const c = i % 4 === 0 ? cOrange : i % 2 === 0 ? cCyan : cBlue;
+      const c = i % 3 === 0 ? cOrange : i % 2 === 0 ? cDeepBlue : cBlue;
       col[i * 3] = c.r;
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
@@ -342,7 +343,7 @@ const CyberGridFloor: React.FC<CyberGridFloorProps> = ({ scrollProgress }) => {
       <mesh ref={meshRef} rotation={[-Math.PI / 2.18, 0, 0]}>
         <planeGeometry args={[75, 75, 36, 36]} />
         <meshBasicMaterial
-          color="#00f0ff"
+          color="#2563eb"
           wireframe
           transparent
           opacity={0.16}
@@ -405,9 +406,9 @@ const CameraRig: React.FC<CameraRigProps> = ({ scrollProgress }) => {
 const SceneLights: React.FC = () => (
   <>
     <ambientLight intensity={0.25} color="#0f172a" />
-    <pointLight position={[12, 10, 10]} intensity={1.0} color="#00f0ff" distance={45} />
+    <pointLight position={[12, 10, 10]} intensity={1.0} color="#2563eb" distance={45} />
     <pointLight position={[-12, -8, -4]} intensity={0.8} color="#f97316" distance={40} />
-    <directionalLight position={[0, 18, 8]} intensity={0.4} color="#38bdf8" />
+    <directionalLight position={[0, 18, 8]} intensity={0.4} color="#3b82f6" />
   </>
 );
 

@@ -83,8 +83,8 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
         setCurrentView('ai');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
-      ctaColor: 'cyan',
-      themeColor: '#06b6d4',
+      ctaColor: 'blue',
+      themeColor: '#1d4ed8',
       diagram: {
         topTitle: 'Corporate Data Boundary',
         topSubtitle: 'Proprietary data & IP workflows',
@@ -109,7 +109,7 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       ctaColor: 'blue',
-      themeColor: '#3b82f6',
+      themeColor: '#2563eb',
       diagram: {
         topTitle: 'Security & Access Policies',
         topSubtitle: 'Live cloud policies & IAM controls',
@@ -152,8 +152,8 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
       pills: ['Dark Web Surveillance', 'Compromised Creds Alert', '24/7 Threat Radar'],
       ctaText: 'View Threat Radar',
       ctaAction: () => handleNavClick('#radar'),
-      ctaColor: 'emerald',
-      themeColor: '#10b981',
+      ctaColor: 'blue',
+      themeColor: '#1d4ed8',
       diagram: {
         topTitle: 'Global Threat Feeds',
         topSubtitle: 'Underground forums & paste dumps',
@@ -174,8 +174,8 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
       pills: ['Least-Privilege Access', 'Multi-Cloud Security', 'Micro-Segmentation'],
       ctaText: 'Explore Cloud Defense',
       ctaAction: () => handleNavClick('#services'),
-      ctaColor: 'purple',
-      themeColor: '#a855f7',
+      ctaColor: 'orange',
+      themeColor: '#ea580c',
       diagram: {
         topTitle: 'Multi-Cloud Workloads',
         topSubtitle: 'AWS, Azure, GCP & hybrid servers',
@@ -200,7 +200,7 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       ctaColor: 'blue',
-      themeColor: '#3b82f6',
+      themeColor: '#2563eb',
       diagram: {
         topTitle: 'Enterprise Workforce',
         topSubtitle: 'Employees, developers & leadership',
@@ -290,14 +290,15 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
       onMouseLeave={() => setIsPaused(false)}
       className="relative min-h-[92vh] lg:min-h-[94vh] flex flex-col justify-center overflow-hidden bg-transparent pt-24 md:pt-32 pb-16 select-none"
     >
-      {/* Dynamic Ambient Aura Backdrop matching slide theme color */}
+      {/* Subtle Royal Blue Left Aura Backdrop */}
       <div 
-        className="absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[140px] opacity-25 pointer-events-none transition-colors duration-1000"
-        style={{ backgroundColor: currentSlide.themeColor }}
+        className="absolute top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[140px] opacity-15 pointer-events-none transition-colors duration-1000"
+        style={{ backgroundColor: isDarkMode ? '#1d4ed8' : '#bfdbfe' }}
       />
+      {/* Subtle Cyber Orange Right Aura Backdrop */}
       <div 
-        className="absolute top-1/2 right-10 w-[450px] h-[450px] rounded-full blur-[150px] opacity-20 pointer-events-none transition-colors duration-1000"
-        style={{ backgroundColor: isDarkMode ? '#1e1b4b' : '#bae6fd' }}
+        className="absolute top-1/2 right-10 w-[450px] h-[450px] rounded-full blur-[150px] opacity-15 pointer-events-none transition-colors duration-1000"
+        style={{ backgroundColor: isDarkMode ? '#ea580c' : '#fed7aa' }}
       />
 
       {/* Grid line overlay */}
@@ -305,7 +306,7 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
         className="absolute inset-0 -z-10 opacity-30 dark:opacity-15 pointer-events-none bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,#000_50%,transparent_85%)]"
         style={{
           backgroundImage: isDarkMode
-            ? 'linear-gradient(rgba(0, 240, 255, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.12) 1px, transparent 1px)'
+            ? 'linear-gradient(rgba(37, 99, 235, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(37, 99, 235, 0.12) 1px, transparent 1px)'
             : 'linear-gradient(rgba(2, 132, 199, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(2, 132, 199, 0.1) 1px, transparent 1px)'
         }}
       />
@@ -317,8 +318,8 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
           aria-label="Previous Slide"
           className={`p-3 rounded-full transition-all duration-300 backdrop-blur-xl flex items-center justify-center cursor-pointer ${
             isDarkMode 
-              ? 'bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-cyan-400 border border-stone-800 hover:border-cyan-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' 
-              : 'bg-white/90 hover:bg-white text-slate-700 hover:text-cyan-600 border border-slate-200 hover:border-cyan-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+              ? 'bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-orange-400 border border-stone-800 hover:border-orange-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' 
+              : 'bg-white/90 hover:bg-white text-slate-700 hover:text-orange-600 border border-slate-200 hover:border-orange-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
           } hover:scale-110 active:scale-95`}
         >
           <ChevronLeft size={22} />
@@ -331,8 +332,8 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
           aria-label="Next Slide"
           className={`p-3 rounded-full transition-all duration-300 backdrop-blur-xl flex items-center justify-center cursor-pointer ${
             isDarkMode 
-              ? 'bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-cyan-400 border border-stone-800 hover:border-cyan-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' 
-              : 'bg-white/90 hover:bg-white text-slate-700 hover:text-cyan-600 border border-slate-200 hover:border-cyan-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+              ? 'bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-orange-400 border border-stone-800 hover:border-orange-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' 
+              : 'bg-white/90 hover:bg-white text-slate-700 hover:text-orange-600 border border-slate-200 hover:border-orange-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
           } hover:scale-110 active:scale-95`}
         >
           <ChevronRight size={22} />

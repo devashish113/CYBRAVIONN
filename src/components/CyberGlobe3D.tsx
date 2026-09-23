@@ -39,7 +39,7 @@ export const CyberGlobe3D: React.FC = () => {
     // A. Outer Geodesic Icosahedron Shield
     const icoGeo = new THREE.IcosahedronGeometry(sphereRadius, 3);
     const wireMat = new THREE.MeshBasicMaterial({
-      color: 0x00f0ff,
+      color: 0x2563eb,
       wireframe: true,
       transparent: true,
       opacity: 0.25,
@@ -50,7 +50,7 @@ export const CyberGlobe3D: React.FC = () => {
     // B. Inner Core Cyber Lattice
     const innerGeo = new THREE.IcosahedronGeometry(sphereRadius * 0.88, 2);
     const innerMat = new THREE.MeshBasicMaterial({
-      color: 0x3b82f6,
+      color: 0x1d4ed8,
       wireframe: true,
       transparent: true,
       opacity: 0.2,
@@ -63,7 +63,7 @@ export const CyberGlobe3D: React.FC = () => {
     const pointPositions = new Float32Array(pointCount * 3);
     const pointColors = new Float32Array(pointCount * 3);
 
-    const cyanColor = new THREE.Color(0x00f0ff);
+    const royalBlueColor = new THREE.Color(0x2563eb);
     const blueColor = new THREE.Color(0x3b82f6);
     const orangeColor = new THREE.Color(0xf97316);
 
@@ -86,8 +86,8 @@ export const CyberGlobe3D: React.FC = () => {
         nodeCoordinates.push(new THREE.Vector3(x, y, z));
       }
 
-      // Palette distribution: mostly cyan/blue with vivid orange focal threats
-      const c = i % 14 === 0 ? orangeColor : i % 2 === 0 ? cyanColor : blueColor;
+      // Palette distribution: royal blue, electric blue, and cyber orange
+      const c = i % 8 === 0 ? orangeColor : i % 2 === 0 ? royalBlueColor : blueColor;
       pointColors[i * 3] = c.r;
       pointColors[i * 3 + 1] = c.g;
       pointColors[i * 3 + 2] = c.b;
@@ -112,7 +112,7 @@ export const CyberGlobe3D: React.FC = () => {
     globeGroup.add(arcGroup);
 
     const arcMaterials = [
-      new THREE.LineBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.45 }),
+      new THREE.LineBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.45 }),
       new THREE.LineBasicMaterial({ color: 0xf97316, transparent: true, opacity: 0.55 }),
     ];
 
@@ -134,7 +134,7 @@ export const CyberGlobe3D: React.FC = () => {
     // E. Orbital Defense Rings
     const ring1Geo = new THREE.TorusGeometry(sphereRadius * 1.32, 0.012, 16, 120);
     const ring1Mat = new THREE.MeshBasicMaterial({
-      color: 0x00f0ff,
+      color: 0x2563eb,
       transparent: true,
       opacity: 0.5,
       blending: THREE.AdditiveBlending,
@@ -158,7 +158,7 @@ export const CyberGlobe3D: React.FC = () => {
     // F. Scanning Radar Plane / Laser Ring
     const scanRingGeo = new THREE.RingGeometry(sphereRadius * 0.94, sphereRadius * 1.06, 64);
     const scanRingMat = new THREE.MeshBasicMaterial({
-      color: 0x00f0ff,
+      color: 0x2563eb,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.35,
@@ -176,7 +176,7 @@ export const CyberGlobe3D: React.FC = () => {
     for (let i = 0; i < 5; i++) {
       const satGeo = new THREE.SphereGeometry(0.045, 12, 12);
       const satMat = new THREE.MeshBasicMaterial({
-        color: i % 2 === 0 ? 0x00f0ff : 0xf97316,
+        color: i % 2 === 0 ? 0x2563eb : 0xf97316,
       });
       const sat = new THREE.Mesh(satGeo, satMat);
       satellites.push(sat);
