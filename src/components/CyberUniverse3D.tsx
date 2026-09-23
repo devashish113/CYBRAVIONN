@@ -34,8 +34,8 @@ function createFadingGrid(isDarkMode: boolean): THREE.Mesh {
   const gridSize = 80;
   const gridDivisions = 60;
   const lineColor = isDarkMode
-    ? new THREE.Color(0x00f0ff)
-    : new THREE.Color(0x0284c7);
+    ? new THREE.Color(0x2563eb)
+    : new THREE.Color(0x1d4ed8);
 
   const vertexShader = `
     varying vec3 vWorldPos;
@@ -212,7 +212,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     scene.add(ambientLight);
 
     const dirLight1 = new THREE.DirectionalLight(
-      isDarkMode ? 0x00f0ff : 0x0284c7,
+      isDarkMode ? 0x3b82f6 : 0x1d4ed8,
       isDarkMode ? 1.8 : 2.2
     );
     dirLight1.position.set(8, 10, 7);
@@ -233,8 +233,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     rimLight.position.set(0, -6, -8);
     scene.add(rimLight);
 
-    // Color Palette
-    const cyan = isDarkMode ? new THREE.Color(0x00f0ff) : new THREE.Color(0x0284c7);
+    // Color Palette: Deep Black, Royal/Sapphire Blue & Cyber Orange
+    const cyan = isDarkMode ? new THREE.Color(0x60a5fa) : new THREE.Color(0x2563eb);
     const blue = isDarkMode ? new THREE.Color(0x2563eb) : new THREE.Color(0x1d4ed8);
     const orange = isDarkMode ? new THREE.Color(0xf97316) : new THREE.Color(0xea580c);
 
@@ -348,7 +348,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 1. Outer Geodesic Wireframe Shield
     const icoGeo = new THREE.IcosahedronGeometry(globeRadius, 3);
     const wireMat = new THREE.MeshBasicMaterial({
-      color: isDarkMode ? 0x00f0ff : 0x0284c7,
+      color: isDarkMode ? 0x3b82f6 : 0x1d4ed8,
       wireframe: true,
       transparent: true,
       opacity: isDarkMode ? 0.22 : 0.12,
@@ -404,7 +404,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     // Center Core Lights to illuminate dual gold/cyan shield from inside
     const coreGlowLight = new THREE.PointLight(
-      isDarkMode ? 0x00f0ff : 0x0284c7,
+      isDarkMode ? 0x3b82f6 : 0x1d4ed8,
       isDarkMode ? 2.8 : 1.8,
       globeRadius * 2.2
     );
@@ -463,11 +463,12 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     globeGroup.add(satGroup);
     const satellites: THREE.Mesh[] = [];
     for (let i = 0; i < 7; i++) {
+      const isBlueSat = i % 2 === 0;
       const satMesh = new THREE.Mesh(
         new THREE.OctahedronGeometry(0.08, 0),
         new THREE.MeshStandardMaterial({
-          color: i % 2 === 0 ? 0x00f0ff : 0xf97316,
-          emissive: i % 2 === 0 ? 0x00f0ff : 0xf97316,
+          color: isBlueSat ? 0x3b82f6 : 0xf97316,
+          emissive: isBlueSat ? 0x3b82f6 : 0xf97316,
           emissiveIntensity: 2.5,
         })
       );
@@ -493,9 +494,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const points = curve.getPoints(48);
       const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
       const arcMat = new THREE.LineBasicMaterial({
-        color: i % 3 === 0 ? 0xf97316 : 0x00f0ff,
+        color: i % 3 === 0 ? 0xf97316 : 0x2563eb,
         transparent: true,
-        opacity: 0.15,
+        opacity: 0.18,
         blending: THREE.AdditiveBlending,
       });
       const arcLine = new THREE.Line(arcGeo, arcMat);
@@ -508,8 +509,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         const packetGeo = new THREE.SphereGeometry(0.035, 6, 6);
         const isOrange = i % 3 === 0;
         const packetMat = new THREE.MeshStandardMaterial({
-          color: isOrange ? 0xf97316 : 0x00f0ff,
-          emissive: isOrange ? 0xf97316 : 0x00f0ff,
+          color: isOrange ? 0xf97316 : 0x3b82f6,
+          emissive: isOrange ? 0xf97316 : 0x3b82f6,
           emissiveIntensity: 3.0,
           transparent: true,
           opacity: 0.9,
