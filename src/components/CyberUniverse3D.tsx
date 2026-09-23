@@ -112,15 +112,15 @@ function createAtmosphereHaze(isDarkMode: boolean): THREE.Mesh {
       vec2 center = vec2(0.5, 0.45);
       float dist = length(vUv - center);
 
-      // Scroll-driven hue shift: blue -> purple -> blue
+      // Scroll-driven hue shift between cyber blue and warm amber/orange
       float hueShift = sin(uScrollProgress * 3.14159) * 0.15;
 
       vec3 colorA = uDarkMode > 0.5
-        ? vec3(0.0, 0.06 + hueShift * 0.3, 0.18 + hueShift)
-        : vec3(0.02 + hueShift * 0.1, 0.08, 0.22);
+        ? vec3(0.01, 0.08, 0.28 + hueShift * 0.2) // Deep cyber blue
+        : vec3(0.02, 0.08, 0.22);
       vec3 colorB = uDarkMode > 0.5
-        ? vec3(0.05 + hueShift, 0.01, 0.12 + hueShift * 0.5)
-        : vec3(0.06, 0.02, 0.14 + hueShift * 0.3);
+        ? vec3(0.32 + hueShift * 0.1, 0.10, 0.01) // Deep cyber orange
+        : vec3(0.18, 0.06, 0.02);
 
       float radial = 1.0 - smoothstep(0.0, 0.75, dist);
       vec3 color = mix(colorB, colorA, radial);
@@ -226,8 +226,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     scene.add(dirLight2);
 
     const rimLight = new THREE.PointLight(
-      isDarkMode ? 0x9333ea : 0x7c3aed,
-      isDarkMode ? 2.2 : 2.6,
+      isDarkMode ? 0xf97316 : 0xea580c,
+      isDarkMode ? 2.5 : 2.0,
       45
     );
     rimLight.position.set(0, -6, -8);
@@ -548,13 +548,13 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         // Smooth exponential falloff — no hard edges
         float glow = exp(-dist * dist * 3.2);
 
-        // Multi-color gradient: core cyan → mid blue → outer purple
-        vec3 cyanCore  = uDarkMode > 0.5 ? vec3(0.0, 0.85, 1.0) : vec3(0.01, 0.52, 0.78);
-        vec3 blueMid   = uDarkMode > 0.5 ? vec3(0.09, 0.24, 0.92) : vec3(0.07, 0.18, 0.72);
-        vec3 purpleOut = uDarkMode > 0.5 ? vec3(0.36, 0.12, 0.72) : vec3(0.30, 0.15, 0.60);
+        // Multi-color gradient: core electric blue → mid blue → outer cyber orange
+        vec3 blueCore   = uDarkMode > 0.5 ? vec3(0.05, 0.50, 1.0) : vec3(0.01, 0.42, 0.88);
+        vec3 blueMid    = uDarkMode > 0.5 ? vec3(0.08, 0.24, 0.85) : vec3(0.05, 0.18, 0.70);
+        vec3 orangeOut  = uDarkMode > 0.5 ? vec3(0.95, 0.45, 0.05) : vec3(0.85, 0.35, 0.02);
 
-        vec3 color = mix(cyanCore, blueMid, smoothstep(0.0, 0.45, dist));
-        color = mix(color, purpleOut, smoothstep(0.35, 0.75, dist));
+        vec3 color = mix(blueCore, blueMid, smoothstep(0.0, 0.45, dist));
+        color = mix(color, orangeOut, smoothstep(0.40, 0.85, dist));
 
         // Subtle breathing pulse
         float pulse = sin(uTime * 0.6) * 0.08 + 1.0;
@@ -785,8 +785,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden transition-colors duration-700"
       style={{
         background: isDarkMode
-          ? 'radial-gradient(ellipse at 50% 25%, #050a16 0%, #02040b 60%, #010103 100%)'
-          : 'radial-gradient(ellipse at 15% 15%, rgba(2, 132, 199, 0.05) 0%, transparent 45%), radial-gradient(ellipse at 85% 35%, rgba(124, 58, 237, 0.04) 0%, transparent 50%), linear-gradient(180deg, #edf2f7 0%, #e2e8f0 50%, #cbd5e1 100%)',
+          ? 'radial-gradient(ellipse at 80% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 45%), radial-gradient(ellipse at 20% 70%, rgba(37, 99, 235, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 30%, #030712 0%, #020408 60%, #000000 100%)'
+          : 'radial-gradient(ellipse at 15% 15%, rgba(2, 132, 199, 0.05) 0%, transparent 45%), radial-gradient(ellipse at 85% 35%, rgba(249, 115, 22, 0.04) 0%, transparent 50%), linear-gradient(180deg, #edf2f7 0%, #e2e8f0 50%, #cbd5e1 100%)',
       }}
       aria-hidden="true"
     />
