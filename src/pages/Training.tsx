@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShieldCheck, 
-  Users, 
   Target, 
   Zap, 
   BookOpen, 
@@ -11,13 +10,11 @@ import {
   GraduationCap, 
   Search, 
   Eye, 
-  Shield, 
   Radar, 
   CheckCircle2,
   X,
   Mail,
   Phone,
-  ArrowRight,
   Play
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
@@ -38,31 +35,31 @@ const ProgramModal = ({ program, isOpen, onClose }: { program: any, isOpen: bool
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative w-full max-w-2xl bg-stone-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden p-8"
+        className="relative w-full max-w-2xl bg-white dark:bg-stone-900 border border-slate-200 dark:border-white/10 rounded-3xl shadow-2xl overflow-hidden p-8 text-slate-900 dark:text-white"
       >
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-full hover:bg-white/5 transition-colors"
+          className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
         >
-          <X className="w-5 h-5 text-stone-400" />
+          <X className="w-5 h-5 text-slate-500 dark:text-stone-400" />
         </button>
 
         <div className="flex items-center gap-4 mb-6">
-          <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-400">
+          <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-600 dark:text-blue-400">
             {program.icon}
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-white">{program.title}</h2>
-            <p className="text-stone-400 text-sm">{program.outcome}</p>
+            <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">{program.title}</h2>
+            <p className="text-slate-600 dark:text-stone-400 text-sm">{program.outcome}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div>
-            <h3 className="text-xs uppercase tracking-widest text-stone-500 font-bold mb-3">What you'll learn</h3>
+            <h3 className="text-xs uppercase tracking-widest text-slate-500 dark:text-stone-500 font-bold mb-3">What you'll learn</h3>
             <ul className="space-y-2">
               {program.topics.map((topic: string, i: number) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-stone-300">
+                <li key={i} className="flex items-start gap-2 text-sm text-slate-700 dark:text-stone-300">
                   <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                   {topic}
                 </li>
@@ -71,24 +68,25 @@ const ProgramModal = ({ program, isOpen, onClose }: { program: any, isOpen: bool
           </div>
           <div className="space-y-6">
             <div>
-              <h3 className="text-xs uppercase tracking-widest text-stone-500 font-bold mb-2">Target Audience</h3>
-              <p className="text-sm text-stone-300">{program.audience}</p>
+              <h3 className="text-xs uppercase tracking-widest text-slate-500 dark:text-stone-500 font-bold mb-2">Target Audience</h3>
+              <p className="text-sm text-slate-700 dark:text-stone-300">{program.audience}</p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <h3 className="text-xs uppercase tracking-widest text-stone-500 font-bold mb-1">Duration</h3>
-                <p className="text-sm text-stone-300">{program.duration}</p>
+                <h3 className="text-xs uppercase tracking-widest text-slate-500 dark:text-stone-500 font-bold mb-1">Duration</h3>
+                <p className="text-sm text-slate-700 dark:text-stone-300">{program.duration}</p>
               </div>
               <div>
-                <h3 className="text-xs uppercase tracking-widest text-stone-500 font-bold mb-1">Mode</h3>
-                <p className="text-sm text-stone-300">{program.mode}</p>
+                <h3 className="text-xs uppercase tracking-widest text-slate-500 dark:text-stone-500 font-bold mb-1">Mode</h3>
+                <p className="text-sm text-slate-700 dark:text-stone-300">{program.mode}</p>
               </div>
             </div>
           </div>
         </div>
 
         <button 
-          className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-500/20"
+          onClick={onClose}
+          className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-500/20 cursor-pointer"
         >
           Request Program Details
         </button>
@@ -201,12 +199,12 @@ export const TrainingPage = () => {
   const visibleFaqs = showAllFaqs ? faqs : faqs.slice(0, 3);
 
   return (
-    <div className="pt-24 min-h-screen bg-transparent text-white relative">
+    <div className="pt-24 min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
       <Helmet>
         <title>Cybersecurity Training & Capability Development | CYBRAVION</title>
         <meta name="description" content="Empower your team with battle-tested security expertise. Custom training programs for cybersecurity awareness, technical skills, GRC, and executive leadership." />
         <meta name="keywords" content="cybersecurity training, security awareness, technical security training, GRC training, executive cyber risk training, VAPT workshop, CISSP, CEH" />
-        <link rel="canonical" href="https://cybravion.com/#training" />
+        <link rel="canonical" href="https://cybravions.online/#training" />
       </Helmet>
 
       {/* Background Decor */}
@@ -226,7 +224,7 @@ export const TrainingPage = () => {
             <motion.span 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-xs uppercase tracking-[0.4em] text-blue-400 font-bold mb-6 block"
+              className="text-xs uppercase tracking-[0.4em] text-blue-600 dark:text-blue-400 font-bold mb-6 block"
             >
               Capability Development
             </motion.span>
@@ -234,19 +232,19 @@ export const TrainingPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight mb-8"
+              className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight mb-8 text-slate-900 dark:text-white"
             >
               Empower your team with <br className="hidden md:block" />
-              <span className="bg-gradient-to-r from-blue-400 to-orange-400 bg-clip-text text-transparent italic font-light">battle-tested</span> security expertise.
+              <span className="bg-gradient-to-r from-blue-600 to-orange-500 dark:from-blue-400 dark:to-orange-400 bg-clip-text text-transparent italic font-light">battle-tested</span> security expertise.
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-stone-300 text-xl md:text-2xl max-w-3xl mx-auto mb-12 font-light leading-relaxed"
+              className="text-slate-700 dark:text-stone-300 text-xl md:text-2xl max-w-3xl mx-auto mb-12 font-light leading-relaxed"
             >
               Customized cybersecurity training programs for enterprises and growing teams. 
-              <span className="block mt-3 text-stone-400 font-medium italic underline underline-offset-4 decoration-blue-500/30">No generic courses—only actionable, real-world skills.</span>
+              <span className="block mt-3 text-slate-600 dark:text-stone-400 font-medium italic underline underline-offset-4 decoration-blue-500/30">No generic courses—only actionable, real-world skills.</span>
             </motion.p>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -254,26 +252,28 @@ export const TrainingPage = () => {
               transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-5 justify-center"
             >
-              <motion.button 
-                whileHover={{ scale: 1.05, brightness: 1.2 }}
+              <motion.a 
+                href="#contact"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-orange-500 text-white font-bold rounded-full transition-all shadow-xl shadow-orange-500/20"
+                className="px-10 py-5 bg-orange-500 text-white font-bold rounded-full transition-all shadow-xl shadow-orange-500/20 cursor-pointer"
               >
                 Request Training
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.05)" }}
+              </motion.a>
+              <motion.a 
+                href="#programs"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-white/5 border border-white/10 text-white font-bold rounded-full transition-all backdrop-blur-md"
+                className="px-10 py-5 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white font-bold rounded-full transition-all backdrop-blur-md cursor-pointer"
               >
                 Explore Programs
-              </motion.button>
+              </motion.a>
             </motion.div>
           </motion.div>
         </section>
 
         {/* Categories */}
-        <section className="py-24 border-t border-white/5 bg-stone-950/40 relative">
+        <section id="programs" className="py-24 border-t border-slate-200/80 dark:border-white/5 bg-slate-100/60 dark:bg-stone-950/40 relative">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {categories.map((cat, i) => (
@@ -282,56 +282,48 @@ export const TrainingPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ 
                     opacity: 1, 
-                    y: [0, -8, 0],
-                    boxShadow: cat.color === 'blue' 
-                      ? ["0 0 20px rgba(59,130,246,0.1)", "0 0 50px rgba(59,130,246,0.4)", "0 0 20px rgba(59,130,246,0.1)"]
-                      : ["0 0 20px rgba(249,115,22,0.1)", "0 0 50px rgba(249,115,22,0.4)", "0 0 20px rgba(249,115,22,0.1)"],
-                    filter: ["brightness(1)", "brightness(1.4)", "brightness(1)"],
-                    transition: {
-                      y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 },
-                      boxShadow: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 },
-                      filter: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 },
-                      opacity: { duration: 0.8, delay: i * 0.1 }
-                    }
+                    y: 0,
+                    transition: { duration: 0.5, delay: i * 0.1 }
                   }}
-                  viewport={{ once: false }}
+                  viewport={{ once: true }}
                   whileHover={{ 
                     scale: 1.03, 
-                    y: -12,
-                    filter: "brightness(1.2)",
-                    transition: { duration: 0.3 }
+                    y: -6,
+                    transition: { duration: 0.25 }
                   }}
-                  className={`p-8 bg-white/[0.02] backdrop-blur-xl border rounded-3xl cursor-pointer group relative overflow-hidden flex flex-col h-full ${
+                  className={`p-8 bg-white/90 dark:bg-white/[0.03] backdrop-blur-xl border rounded-3xl cursor-pointer group relative overflow-hidden flex flex-col h-full shadow-lg dark:shadow-none ${
                     cat.color === 'blue' 
-                      ? 'border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.2)] hover:border-blue-500/80 hover:shadow-[0_0_50px_rgba(59,130,246,0.5)]' 
-                      : 'border-orange-500/30 shadow-[0_0_30px_rgba(249,115,22,0.2)] hover:border-orange-500/80 hover:shadow-[0_0_50px_rgba(249,115,22,0.5)]'
+                      ? 'border-blue-500/30 shadow-[0_4px_25px_rgba(59,130,246,0.12)] hover:border-blue-500/80' 
+                      : 'border-orange-500/30 shadow-[0_4px_25px_rgba(249,115,22,0.12)] hover:border-orange-500/80'
                   }`}
                   onClick={() => setSelectedProgram(cat)}
                 >
                   <div className={`absolute -top-12 -right-12 w-32 h-32 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full ${
-                    cat.color === 'blue' ? 'bg-blue-500/5' : 'bg-orange-500/5'
+                    cat.color === 'blue' ? 'bg-blue-500/10' : 'bg-orange-500/10'
                   }`} />
                   
                   <motion.div 
                     whileHover={{ rotate: 10, scale: 1.1 }}
                     className={`p-3 w-fit rounded-2xl mb-6 transition-colors ${
-                      cat.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'
+                      cat.color === 'blue' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' : 'bg-orange-500/10 text-orange-600 dark:text-orange-400'
                     }`}
                   >
                     {cat.icon}
                   </motion.div>
                   
-                  <h3 className="text-2xl font-bold mb-3">{cat.title}</h3>
-                  <p className={`text-base font-bold mb-4 ${cat.color === 'blue' ? 'text-blue-400' : 'text-orange-400'}`}>
+                  <h3 className="text-2xl font-bold mb-3 text-slate-900 dark:text-white">{cat.title}</h3>
+                  <p className={`text-base font-bold mb-4 ${cat.color === 'blue' ? 'text-blue-600 dark:text-blue-400' : 'text-orange-600 dark:text-orange-400'}`}>
                     {cat.boldOutcome}
                   </p>
-                  <p className="text-stone-300 text-base font-light mb-8 leading-relaxed flex-grow">
+                  <p className="text-slate-600 dark:text-stone-300 text-base font-light mb-8 leading-relaxed flex-grow">
                     {cat.outcome}
                   </p>
                   
                   <div 
                     className={`mt-auto w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 ${
-                      cat.color === 'blue' ? 'border-blue-500/30 text-blue-400 group-hover:bg-blue-500/10 group-hover:border-blue-500' : 'border-orange-500/30 text-orange-400 group-hover:bg-orange-500/10 group-hover:border-orange-500'
+                      cat.color === 'blue' 
+                        ? 'border-blue-500/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500/10 group-hover:border-blue-500' 
+                        : 'border-orange-500/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-500/10 group-hover:border-orange-500'
                     }`}
                   >
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
@@ -343,11 +335,11 @@ export const TrainingPage = () => {
         </section>
 
         {/* Video Section */}
-        <section className="py-24 bg-stone-900/20 border-y border-white/5 relative">
+        <section className="py-24 bg-slate-50 dark:bg-stone-900/20 border-y border-slate-200/80 dark:border-white/5 relative">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="text-xs uppercase tracking-[0.4em] text-orange-500 font-bold mb-4 block underline underline-offset-8 decoration-blue-500/50">Educational Series</span>
-              <h2 className="text-3xl md:text-5xl font-semibold">Learn Cybersecurity in Action.</h2>
+              <span className="text-xs uppercase tracking-[0.4em] text-orange-600 dark:text-orange-500 font-bold mb-4 block underline underline-offset-8 decoration-blue-500/50">Educational Series</span>
+              <h2 className="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white">Learn Cybersecurity in Action.</h2>
             </div>
             
             <div className="relative">
@@ -360,7 +352,7 @@ export const TrainingPage = () => {
                     transition={{ delay: i * 0.1 }}
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.02 }}
-                    className="min-w-[300px] md:min-w-[400px] bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden shadow-2xl group snap-center"
+                    className="min-w-[300px] md:min-w-[400px] bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-lg dark:shadow-2xl group snap-center"
                   >
                     <div className="aspect-video relative bg-stone-950">
                       <iframe
@@ -373,11 +365,11 @@ export const TrainingPage = () => {
                       ></iframe>
                     </div>
                     <div className="p-6">
-                      <h4 className="text-xl font-bold mb-3 flex items-center gap-2 text-white">
+                      <h4 className="text-xl font-bold mb-3 flex items-center gap-2 text-slate-900 dark:text-white">
                         <Play className="w-5 h-5 text-orange-500 fill-orange-500/20" />
                         {vid.title}
                       </h4>
-                      <p className="text-stone-400 text-base font-light italic leading-relaxed">{vid.desc}</p>
+                      <p className="text-slate-600 dark:text-stone-400 text-base font-light italic leading-relaxed">{vid.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -386,7 +378,7 @@ export const TrainingPage = () => {
               {/* Subtle Scroll Indicators */}
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
                 {videos.map((_, i) => (
-                  <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                  <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-white/20" />
                 ))}
               </div>
             </div>
@@ -394,12 +386,11 @@ export const TrainingPage = () => {
         </section>
 
         {/* Process */}
-        <section className="py-24 bg-stone-950/60 relative overflow-hidden">
-          <div className="absolute inset-0 bg-stone-950/80 backdrop-blur-sm pointer-events-none" />
+        <section className="py-24 bg-white/70 dark:bg-stone-950/60 relative overflow-hidden border-b border-slate-200/80 dark:border-white/5">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10">
             <div className="text-center mb-16">
-              <span className="text-xs uppercase tracking-[0.4em] text-stone-500 font-bold mb-4 block">Our Methodology</span>
-              <h2 className="text-3xl md:text-4xl font-semibold">How training works.</h2>
+              <span className="text-xs uppercase tracking-[0.4em] text-slate-500 dark:text-stone-500 font-bold mb-4 block">Our Methodology</span>
+              <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 dark:text-white">How training works.</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {processSteps.map((step, i) => (
@@ -410,30 +401,30 @@ export const TrainingPage = () => {
                   transition={{ delay: i * 0.1 }}
                   viewport={{ once: true }}
                   onClick={() => setActiveStep(activeStep === i ? null : i)}
-                  className={`p-8 bg-white/[0.01] border rounded-2xl transition-all cursor-pointer hover:bg-white/[0.03] ${
+                  className={`p-8 bg-slate-50/80 dark:bg-white/[0.01] border rounded-2xl transition-all cursor-pointer hover:bg-slate-100 dark:hover:bg-white/[0.03] ${
                     activeStep === i 
                       ? (step.color === 'blue' ? 'border-blue-500/60 bg-blue-500/5' : 'border-orange-500/60 bg-orange-500/5')
-                      : (step.color === 'blue' ? 'border-blue-500/10' : 'border-orange-500/10')
+                      : 'border-slate-200 dark:border-white/10'
                   }`}
                 >
                   <div className={`text-3xl font-bold mb-4 transition-colors ${
                     activeStep === i 
-                      ? (step.color === 'blue' ? 'text-blue-500/60' : 'text-orange-500/60')
-                      : (step.color === 'blue' ? 'text-blue-500/20' : 'text-orange-500/20')
+                      ? (step.color === 'blue' ? 'text-blue-500' : 'text-orange-500')
+                      : 'text-slate-400 dark:text-white/20'
                   }`}>{step.num}</div>
                   <div className={`p-2 w-fit rounded-lg mb-4 ${
-                    step.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : 'bg-orange-500/10 text-orange-400'
+                    step.color === 'blue' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' : 'bg-orange-500/10 text-orange-600 dark:text-orange-400'
                   }`}>
                     {step.icon}
                   </div>
-                  <h3 className="text-xl font-bold mb-3 text-white">{step.title}</h3>
+                  <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">{step.title}</h3>
                   <AnimatePresence mode="wait">
                     <motion.p 
                       key={activeStep === i ? 'expanded' : 'collapsed'}
                       initial={{ opacity: 0.5 }}
                       animate={{ opacity: 1 }}
                       className={`text-base font-light leading-relaxed transition-all ${
-                        activeStep === i ? 'text-stone-100' : 'text-stone-400'
+                        activeStep === i ? 'text-slate-900 dark:text-stone-100 font-normal' : 'text-slate-600 dark:text-stone-400'
                       }`}
                     >
                       {step.desc}
@@ -443,7 +434,7 @@ export const TrainingPage = () => {
                     <motion.div 
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
-                      className="mt-4 pt-4 border-t border-white/10 text-xs text-stone-400 italic"
+                      className="mt-4 pt-4 border-t border-slate-200 dark:border-white/10 text-xs text-slate-500 dark:text-stone-400 italic"
                     >
                       Click to collapse details.
                     </motion.div>
@@ -455,10 +446,10 @@ export const TrainingPage = () => {
         </section>
 
         {/* Outcomes & Audience */}
-        <section className="py-24 bg-stone-900/40 relative">
+        <section className="py-24 bg-slate-50/50 dark:bg-stone-900/40 relative">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
             <div>
-              <h2 className="text-2xl md:text-3xl font-semibold mb-10 tracking-tight">Measurable outcomes.</h2>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-10 tracking-tight text-slate-900 dark:text-white">Measurable outcomes.</h2>
               <div className="space-y-8">
                 {[
                   { title: "Improved Security Awareness", desc: "Employees become the strongest link in your defense chain.", color: "blue" },
@@ -478,15 +469,15 @@ export const TrainingPage = () => {
                       <div className={`w-2 h-2 rounded-full ${item.color === 'blue' ? 'bg-blue-500' : 'bg-orange-500'}`} />
                     </div>
                     <div>
-                      <h4 className="text-lg font-bold mb-2 text-white">{item.title}</h4>
-                      <p className="text-stone-300 text-base font-light leading-relaxed">{item.desc}</p>
+                      <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">{item.title}</h4>
+                      <p className="text-slate-600 dark:text-stone-300 text-base font-light leading-relaxed">{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
               </div>
             </div>
             <div>
-              <h2 className="text-2xl md:text-3xl font-semibold mb-10 tracking-tight">Who it's for.</h2>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-10 tracking-tight text-slate-900 dark:text-white">Who it's for.</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
                   { label: "Enterprises", desc: "Train large teams at scale" },
@@ -499,12 +490,12 @@ export const TrainingPage = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`p-6 bg-white/[0.02] border rounded-2xl flex flex-col items-center justify-center text-center transition-all hover:bg-white/[0.04] ${
-                      i % 2 === 0 ? 'border-blue-500/10' : 'border-orange-500/10'
+                    className={`p-6 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center text-center transition-all hover:shadow-md ${
+                      i % 2 === 0 ? 'hover:border-blue-500/40' : 'hover:border-orange-500/40'
                     }`}
                   >
-                    <span className="text-stone-100 font-semibold mb-1">{item.label}</span>
-                    <span className="text-stone-500 text-[10px] uppercase tracking-widest">{item.desc}</span>
+                    <span className="text-slate-900 dark:text-stone-100 font-semibold mb-1">{item.label}</span>
+                    <span className="text-slate-500 dark:text-stone-500 text-[10px] uppercase tracking-widest">{item.desc}</span>
                   </motion.div>
                 ))}
               </div>
@@ -513,9 +504,9 @@ export const TrainingPage = () => {
         </section>
 
         {/* FAQ */}
-        <section className="py-24 border-t border-white/5 bg-stone-950/20">
+        <section className="py-24 border-t border-slate-200/80 dark:border-white/5 bg-slate-100/50 dark:bg-stone-950/20">
           <div className="px-6 md:px-12 lg:px-20 max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-4xl font-semibold mb-10 text-center tracking-tight">Common Questions</h2>
+            <h2 className="text-2xl md:text-4xl font-semibold mb-10 text-center tracking-tight text-slate-900 dark:text-white">Common Questions</h2>
             <div className="space-y-4">
               <AnimatePresence initial={false}>
                 {visibleFaqs.map((faq, i) => (
@@ -524,14 +515,14 @@ export const TrainingPage = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="border border-white/5 rounded-2xl overflow-hidden bg-white/[0.01] hover:bg-white/[0.02] transition-all"
+                    className="border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden bg-white dark:bg-white/[0.01] shadow-sm hover:shadow-md transition-all"
                   >
                     <button 
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                      className="w-full p-6 flex justify-between items-center text-left group"
+                      className="w-full p-6 flex justify-between items-center text-left group cursor-pointer"
                     >
-                      <span className="font-semibold group-hover:text-blue-400 transition-colors">{faq.q}</span>
-                      <ChevronDown className={`w-5 h-5 text-stone-500 transition-transform duration-500 ${openFaq === i ? 'rotate-180 text-blue-500' : ''}`} />
+                      <span className="font-semibold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">{faq.q}</span>
+                      <ChevronDown className={`w-5 h-5 text-slate-500 dark:text-stone-500 transition-transform duration-500 ${openFaq === i ? 'rotate-180 text-blue-500' : ''}`} />
                     </button>
                     <AnimatePresence>
                       {openFaq === i && (
@@ -541,7 +532,7 @@ export const TrainingPage = () => {
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          <p className="px-6 pb-6 text-stone-200 text-base font-light leading-relaxed border-t border-white/5 pt-4 mx-6">{faq.a}</p>
+                          <p className="px-6 pb-6 text-slate-600 dark:text-stone-200 text-base font-light leading-relaxed border-t border-slate-200 dark:border-white/5 pt-4 mx-6">{faq.a}</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -553,7 +544,7 @@ export const TrainingPage = () => {
             <div className="mt-12 text-center">
               <button 
                 onClick={() => setShowAllFaqs(!showAllFaqs)}
-                className="px-8 py-3 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-xs uppercase tracking-widest font-bold rounded-full transition-all"
+                className="px-8 py-3 bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-900 dark:text-white text-xs uppercase tracking-widest font-bold rounded-full transition-all cursor-pointer shadow-sm"
               >
                 {showAllFaqs ? "View Less FAQs" : "View More FAQs"}
               </button>
@@ -562,9 +553,9 @@ export const TrainingPage = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-24 md:py-32 bg-stone-950/80 relative overflow-hidden border-t border-white/10">
-          <div className="absolute inset-0 bg-stone-950/90 backdrop-blur-2xl pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+        <section id="contact" className="py-24 md:py-32 bg-slate-900 dark:bg-stone-950/80 text-white relative overflow-hidden border-t border-slate-800 dark:border-white/10">
+          <div className="absolute inset-0 bg-slate-950/90 dark:bg-stone-950/90 backdrop-blur-2xl pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
           
           <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
@@ -574,11 +565,11 @@ export const TrainingPage = () => {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 viewport={{ once: true }}
               >
-                <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-white mb-6 block font-semibold opacity-70">Capability Development</span>
+                <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-cyan-400 mb-6 block font-semibold">Capability Development</span>
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]">
                   Ready to empower <br /><span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent font-light">your workforce?</span>
                 </h2>
-                <p className="text-white font-light mb-12 max-w-md text-base md:text-lg leading-relaxed opacity-80">
+                <p className="text-stone-300 font-light mb-12 max-w-md text-base md:text-lg leading-relaxed">
                   Request Training Today. Get a customized cybersecurity training program tailored to your team.
                 </p>
 
@@ -588,21 +579,21 @@ export const TrainingPage = () => {
                     { icon: <Phone size={20} strokeWidth={1.5} />, label: "Direct Support", value: "+91-9358683634", color: "orange" }
                   ].map((item, i) => (
                     <motion.div 
-                      key={i}
+                      key={i} 
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 + i * 0.1 }}
                       viewport={{ once: true }}
                       className="flex items-center gap-6 group cursor-pointer"
                     >
-                      <div className={`w-12 h-12 rounded-2xl bg-white/[0.03] border flex items-center justify-center group-hover:bg-white/[0.08] transition-all duration-500 shadow-lg ${
-                        item.color === 'blue' ? 'text-blue-400 border-blue-500/20 group-hover:border-blue-500/40 shadow-blue-500/5' : 'text-orange-400 border-orange-500/20 group-hover:border-orange-500/40 shadow-orange-500/5'
+                      <div className={`w-12 h-12 rounded-2xl bg-white/[0.05] border flex items-center justify-center group-hover:bg-white/[0.12] transition-all duration-500 shadow-lg ${
+                        item.color === 'blue' ? 'text-blue-400 border-blue-500/30' : 'text-orange-400 border-orange-500/30'
                       }`}>
                         {item.icon}
                       </div>
                       <div>
-                        <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white mb-1.5 font-bold opacity-50">{item.label}</p>
-                        <p className="text-white text-lg md:text-xl font-light tracking-wide group-hover:text-stone-100 transition-colors">{item.value}</p>
+                        <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-400 mb-1.5 font-bold">{item.label}</p>
+                        <p className="text-white text-lg md:text-xl font-light tracking-wide group-hover:text-cyan-300 transition-colors">{item.value}</p>
                       </div>
                     </motion.div>
                   ))}
@@ -617,7 +608,7 @@ export const TrainingPage = () => {
                 className="relative"
               >
                 <motion.div 
-                  className="bg-stone-900/40 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-orange-500/10 shadow-[0_0_40px_rgba(249,115,22,0.05)] relative z-10 overflow-hidden"
+                  className="bg-stone-900/70 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-orange-500/20 shadow-[0_0_40px_rgba(249,115,22,0.1)] relative z-10 overflow-hidden"
                 >
                   <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-500/10 rounded-full blur-[80px] pointer-events-none" />
 
@@ -627,31 +618,31 @@ export const TrainingPage = () => {
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2 group relative">
-                        <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60">Full Name</label>
-                        <input type="text" name="name" required placeholder="John Doe" className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/40 focus:shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-all text-sm placeholder:text-stone-500" />
+                        <label className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Full Name</label>
+                        <input type="text" name="name" required placeholder="John Doe" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
                       </div>
                       <div className="space-y-2 group relative">
-                        <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60">Company</label>
-                        <input type="text" name="organization" placeholder="Company Name" className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/40 focus:shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-all text-sm placeholder:text-stone-500" />
+                        <label className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Company</label>
+                        <input type="text" name="organization" placeholder="Company Name" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
                       </div>
                     </div>
 
                     <div className="space-y-2 group relative">
-                      <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60">Email Address</label>
-                      <input type="email" name="email" required placeholder="john@example.com" className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/40 focus:shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-all text-sm placeholder:text-stone-500" />
+                      <label className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Email Address</label>
+                      <input type="email" name="email" required placeholder="john@example.com" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
                     </div>
 
                     <div className="space-y-2 group relative">
-                      <label className="text-[9px] uppercase tracking-[0.3em] text-white font-bold ml-1 opacity-60">Message</label>
-                      <textarea rows={3} name="message" required placeholder="How can we help with your training needs?" className="w-full bg-stone-950/60 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/40 focus:shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-all text-sm placeholder:text-stone-500 resize-none" />
+                      <label className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Message</label>
+                      <textarea rows={3} name="message" required placeholder="How can we help with your training needs?" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500 resize-none" />
                     </div>
 
                     <div className="flex justify-center pt-2">
                       <motion.button 
-                        whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249,115,22,0.3)" }}
+                        whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249,115,22,0.35)" }}
                         whileTap={{ scale: 0.95 }}
                         type="submit" 
-                        className="w-full sm:w-auto px-12 py-3.5 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl shadow-orange-950/20"
+                        className="w-full sm:w-auto px-12 py-3.5 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl cursor-pointer"
                       >
                         Request Training Today
                       </motion.button>

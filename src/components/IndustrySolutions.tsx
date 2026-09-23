@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { 
   Building2, Rocket, Heart, Landmark, ShoppingCart, Server,
   ArrowRight
@@ -56,13 +55,13 @@ export const IndustrySolutions: React.FC = () => {
     <section id="industries" className="py-24 md:py-32 px-6 md:px-12 lg:px-20 relative z-10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-blue-400 mb-3 block font-semibold">
+          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-3 block font-bold">
             Tailored Cyber Blueprints
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
             Security Engineered by Industry
           </h2>
-          <p className="text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light mx-auto">
+          <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light mx-auto">
             Every sector operates under distinct regulatory mandates and threat landscapes. Our frameworks adapt precisely to your operational reality.
           </p>
         </div>
@@ -74,27 +73,27 @@ export const IndustrySolutions: React.FC = () => {
               <TiltCard3D key={i} glowColor={ind.glow}>
                 <div className="flex flex-col h-full justify-between">
                   <div>
-                    <div className="p-3.5 rounded-2xl bg-stone-900 border border-stone-800 text-blue-400 w-fit mb-5">
+                    <div className="p-3.5 rounded-2xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-blue-600 dark:text-blue-400 w-fit mb-5">
                       <Icon size={24} />
                     </div>
 
-                    <h3 className="text-xl font-semibold text-white mb-4">{ind.title}</h3>
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">{ind.title}</h3>
 
                     <div className="space-y-4 mb-6">
                       <div>
-                        <span className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block mb-1">
+                        <span className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-stone-500 font-bold block mb-1">
                           Operational Challenge
                         </span>
-                        <p className="text-xs text-stone-400 font-light leading-relaxed">
+                        <p className="text-xs text-slate-600 dark:text-stone-400 font-light leading-relaxed">
                           {ind.problem}
                         </p>
                       </div>
 
                       <div>
-                        <span className="text-[10px] uppercase tracking-wider text-blue-400 font-semibold block mb-1">
+                        <span className="text-[10px] uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold block mb-1">
                           Cybravion Architecture
                         </span>
-                        <p className="text-xs text-stone-300 font-light leading-relaxed">
+                        <p className="text-xs text-slate-700 dark:text-stone-300 font-light leading-relaxed">
                           {ind.solution}
                         </p>
                       </div>
@@ -103,7 +102,7 @@ export const IndustrySolutions: React.FC = () => {
 
                   <a 
                     href="#contact"
-                    className="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold pt-4 border-t border-stone-800/80 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold pt-4 border-t border-slate-200 dark:border-stone-800/80 transition-colors"
                   >
                     <span>Request Sector Roadmap</span>
                     <ArrowRight size={12} />
