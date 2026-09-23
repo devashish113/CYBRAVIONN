@@ -90,7 +90,6 @@ const Navbar: React.FC<NavbarProps> = ({
   onOpenCommandPalette 
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
@@ -100,10 +99,6 @@ const Navbar: React.FC<NavbarProps> = ({
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalScroll > 0) {
-        setScrollProgress(window.scrollY / totalScroll);
-      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -138,12 +133,6 @@ const Navbar: React.FC<NavbarProps> = ({
         }`}
         aria-label="Main navigation"
       >
-        {/* Subtle Hairline Scroll Progress Bar */}
-        <div 
-          className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 origin-left transition-all duration-75 z-[60]"
-          style={{ width: `${Math.min(100, Math.max(0, scrollProgress * 100))}%` }}
-        />
-
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           {/* Brand Logo Image Only */}
           <a 
