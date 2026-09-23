@@ -62,6 +62,9 @@ import { TiltCard3D } from './components/TiltCard3D';
 import { ThreatRadar3D } from './components/ThreatRadar3D';
 import { CyberHeroSlider } from './components/CyberHeroSlider';
 import { SecurityAuditModal } from './components/SecurityAuditModal';
+import { EngagementLifecycle } from './components/EngagementLifecycle';
+import { GlobalPresence } from './components/GlobalPresence';
+import { CommandPalette } from './components/CommandPalette';
 import { cyberAudio } from './utils/cyberAudio';
 
 // --- Navigation ---
@@ -72,10 +75,19 @@ interface NavbarProps {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   onOpenAuditModal?: () => void;
+  onOpenCommandPalette?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode, toggleDarkMode, onOpenAuditModal }) => {
+const Navbar: React.FC<NavbarProps> = ({ 
+  currentView, 
+  setCurrentView, 
+  isDarkMode, 
+  toggleDarkMode, 
+  onOpenAuditModal,
+  onOpenCommandPalette 
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
@@ -83,7 +95,13 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
   const [isMobileCompanyOpen, setIsMobileCompanyOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        setScrollProgress(window.scrollY / totalScroll);
+      }
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -117,6 +135,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
         }`}
         aria-label="Main navigation"
       >
+        {/* Subtle Hairline Scroll Progress Bar */}
+        <div 
+          className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 origin-left transition-all duration-75 z-[60]"
+          style={{ width: `${Math.min(100, Math.max(0, scrollProgress * 100))}%` }}
+        />
+
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           {/* Brand Logo Image Only */}
           <a 
@@ -386,6 +410,28 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
               </AnimatePresence>
             </div>
 
+            {/* Command Palette Trigger Button (⌘K) */}
+            <motion.button
+              onClick={() => {
+                cyberAudio.playClick();
+                onOpenCommandPalette?.();
+              }}
+              whileTap={{ scale: 0.95 }}
+              className={`hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono transition-all duration-300 cursor-pointer ${
+                isDarkMode 
+                  ? 'bg-stone-900/90 hover:bg-stone-850 border-stone-700/80 text-stone-300 hover:text-white hover:border-blue-500/50 shadow-[0_0_15px_rgba(0,0,0,0.5)]' 
+                  : 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700 hover:text-slate-900 shadow-sm'
+              }`}
+              aria-label="Search and command palette (Ctrl+K)"
+              title="Search and quick actions (Ctrl+K or ⌘K)"
+            >
+              <Search size={13} className="text-blue-500" />
+              <span className="text-[11px] font-sans font-medium">Search</span>
+              <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 font-bold border border-blue-500/20">
+                ⌘K
+              </kbd>
+            </motion.button>
+
             {/* Dark / Light Mode Toggle Button */}
             <motion.button
               onClick={toggleDarkMode}
@@ -437,8 +483,23 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
             </motion.a>
           </div>
 
-          {/* Mobile Right Bar: Theme Toggle + Menu Button */}
+          {/* Mobile Right Bar: Search + Theme Toggle + Menu Button */}
           <div className="flex items-center gap-2 lg:hidden">
+            <button
+              onClick={() => {
+                cyberAudio.playClick();
+                onOpenCommandPalette?.();
+              }}
+              className={`p-2 rounded-full border transition-all cursor-pointer ${
+                isDarkMode
+                  ? 'bg-stone-900 border-stone-700 text-blue-400'
+                  : 'bg-slate-100 border-slate-300 text-blue-600'
+              }`}
+              aria-label="Search and command palette"
+            >
+              <Search size={18} />
+            </button>
+
             <button
               onClick={toggleDarkMode}
               className={`p-2 rounded-full border transition-all cursor-pointer ${
@@ -1220,6 +1281,7 @@ const Footer = ({ setCurrentView, isDarkMode }: { setCurrentView: (view: string)
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('cybravions_theme');
@@ -1238,6 +1300,20 @@ export default function App() {
       return next;
     });
   };
+
+  // Global Keyboard Shortcuts (⌘K or Ctrl+K for Command Palette)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        cyberAudio.playClick();
+        setIsCommandPaletteOpen(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Lenis Luxury Inertial Smooth Scrolling Engine
   useEffect(() => {
@@ -1277,6 +1353,13 @@ export default function App() {
     }
   }, [isDarkMode]);
 
+  const scrollToContact = () => {
+    const el = document.getElementById('contact');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className={`min-h-screen relative overflow-x-hidden font-sans transition-colors duration-500 ${isDarkMode ? 'dark' : 'light'} ${
       currentView === 'ai' 
@@ -1303,6 +1386,7 @@ export default function App() {
           isDarkMode={isDarkMode} 
           toggleDarkMode={toggleDarkMode}
           onOpenAuditModal={() => setIsAuditModalOpen(true)}
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         />
 
         <main id="main-content">
@@ -1319,9 +1403,11 @@ export default function App() {
               <div id="radar">
                 <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
               </div>
+              <EngagementLifecycle isDarkMode={isDarkMode} onConsultClick={scrollToContact} />
               <TrustCredibility />
               <CaseStudies />
               <IndustrySolutions />
+              <GlobalPresence isDarkMode={isDarkMode} />
               <WhyChooseUs />
               <Insights />
               <Contact />
@@ -1331,6 +1417,16 @@ export default function App() {
         </main>
 
         <Footer setCurrentView={setCurrentView} isDarkMode={isDarkMode} />
+
+        {/* Global Keyboard Command Palette & Quick Search (⌘K / Ctrl+K) */}
+        <CommandPalette
+          isOpen={isCommandPaletteOpen}
+          onClose={() => setIsCommandPaletteOpen(false)}
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+          setCurrentView={setCurrentView}
+          onOpenAuditModal={() => setIsAuditModalOpen(true)}
+        />
 
         {/* Interactive Instant Security Posture & Compliance Audit Modal */}
         <SecurityAuditModal
