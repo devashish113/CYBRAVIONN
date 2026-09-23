@@ -11,21 +11,21 @@ const industries = [
     title: "High-Growth Startups",
     problem: "Scaling fast with lean security headcount while under investor and enterprise customer audit pressure.",
     solution: "Rapid SOC 2 & ISO 27001 readiness roadmaps, developer-friendly VAPT, and secure-by-default cloud blueprints.",
-    glow: "cyan" as const
+    glow: "blue" as const
   },
   {
     icon: Building2,
     title: "Global Enterprises",
     problem: "Complex multi-cloud hybrid infrastructure with fragmented risk visibility across multinational business units.",
     solution: "Comprehensive GRC governance, automated continuous compliance telemetry, and executive board reporting.",
-    glow: "blue" as const
+    glow: "orange" as const
   },
   {
     icon: Heart,
     title: "Healthcare & MedTech",
     problem: "Critical electronic health record (EHR) exposure, medical device vulnerabilities, and stringent HIPAA compliance.",
     solution: "HIPAA & DPDP Act gap remediation, data masking governance, and medical API penetration testing.",
-    glow: "purple" as const
+    glow: "blue" as const
   },
   {
     icon: Landmark,
@@ -39,14 +39,14 @@ const industries = [
     title: "E-Commerce & Retail",
     problem: "Mass customer credential stuffing, checkout session hijacking, and high-volume payment data exposure.",
     solution: "API perimeter hardening, bot mitigation governance, and continuous web application penetration testing.",
-    glow: "cyan" as const
+    glow: "blue" as const
   },
   {
     icon: Server,
     title: "Government & Critical Infra",
     problem: "Advanced persistent threats (APTs), sovereign data privacy mandates, and critical utility protection.",
     solution: "NIST CSF alignment, CERT-In compliance protocols, and sovereign cloud security engineering.",
-    glow: "blue" as const
+    glow: "orange" as const
   }
 ];
 

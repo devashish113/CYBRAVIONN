@@ -147,7 +147,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
               <button
                 className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
                   currentView === 'ai' 
-                    ? isDarkMode ? 'text-cyan-300 font-bold' : 'text-cyan-600 font-bold' 
+                    ? isDarkMode ? 'text-blue-400 font-bold' : 'text-blue-600 font-bold' 
                     : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
                 }`}
                 aria-label="Products menu"
@@ -155,7 +155,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                 aria-haspopup="true"
               >
                 <span>Products</span>
-                <ChevronDown size={14} className={`transition-transform duration-300 ${isProductsOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+                <ChevronDown size={14} className={`transition-transform duration-300 ${isProductsOpen ? 'rotate-180 text-blue-400' : ''}`} />
               </button>
 
               {/* Products Dropdown Panel */}
@@ -169,14 +169,14 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                     style={{ backgroundColor: isDarkMode ? '#070a12' : '#ffffff' }}
                     className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-92 rounded-2xl p-4 z-[999] overflow-hidden ${
                       isDarkMode 
-                        ? 'bg-[#070a12] border border-cyan-500/30 shadow-[0_25px_60px_rgba(0,0,0,1),0_0_30px_rgba(0,240,255,0.1)] text-white' 
-                        : 'bg-white border border-cyan-500/40 shadow-[0_25px_60px_rgba(0,0,0,0.12),0_0_30px_rgba(0,200,255,0.08)] text-slate-900'
+                        ? 'bg-[#070a12] border border-blue-500/30 shadow-[0_25px_60px_rgba(0,0,0,1),0_0_30px_rgba(37,99,235,0.15)] text-white' 
+                        : 'bg-white border border-blue-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.12),0_0_30px_rgba(37,99,235,0.08)] text-slate-900'
                     }`}
                   >
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-blue-500/15 rounded-full blur-2xl pointer-events-none" />
 
                     <div className="relative z-10 space-y-2.5">
-                      <p className="text-[10px] uppercase tracking-[0.3em] text-cyan-500 font-bold px-3 mb-1">
+                      <p className="text-[10px] uppercase tracking-[0.3em] text-blue-500 font-bold px-3 mb-1">
                         Sovereign &amp; AI Security Platforms
                       </p>
                       
@@ -189,19 +189,19 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                         }}
                         className={`w-full text-left flex flex-col p-3 rounded-xl border transition-all duration-300 group cursor-pointer ${
                           isDarkMode
-                            ? 'bg-cyan-950/40 hover:bg-cyan-950/80 border-cyan-500/30 hover:border-cyan-400'
-                            : 'bg-cyan-50 hover:bg-cyan-100/70 border-cyan-200 hover:border-cyan-400'
+                            ? 'bg-blue-950/40 hover:bg-blue-950/80 border-blue-500/30 hover:border-blue-400'
+                            : 'bg-blue-50 hover:bg-blue-100/70 border-blue-200 hover:border-blue-400'
                         }`}
                       >
                         <div className="flex items-center gap-2 mb-1">
-                          <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-500 group-hover:bg-cyan-500/30 transition-colors">
+                          <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 group-hover:bg-blue-500/30 transition-colors">
                             <Brain size={16} />
                           </div>
                           <span className={`text-sm font-bold transition-colors flex items-center gap-1.5 ${
-                            isDarkMode ? 'text-white group-hover:text-cyan-300' : 'text-slate-900 group-hover:text-cyan-700'
+                            isDarkMode ? 'text-white group-hover:text-blue-300' : 'text-slate-900 group-hover:text-blue-700'
                           }`}>
                             Cybravions AI
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-400/20 text-cyan-500 border border-cyan-400/30 font-mono font-bold">SOVEREIGN</span>
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-orange-400/20 text-orange-400 border border-orange-400/30 font-mono font-bold">SOVEREIGN</span>
                           </span>
                         </div>
                         <p className={`text-[11px] font-light leading-relaxed mb-2 ${
@@ -209,7 +209,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                         }`}>
                           Air-gapped sovereign agentic AI in-a-box for defense &amp; critical infrastructure.
                         </p>
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-cyan-500 font-semibold group-hover:text-cyan-600 transition-colors self-start">
+                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-blue-500 font-semibold group-hover:text-blue-400 transition-colors self-start">
                           Explore Appliance
                           <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
                         </div>
@@ -227,11 +227,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                         }`}
                       >
                         <div className="flex items-center gap-2 mb-1">
-                          <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 group-hover:bg-cyan-500/25 group-hover:text-cyan-500 transition-colors">
+                          <div className="p-1.5 rounded-lg bg-orange-500/20 text-orange-500 group-hover:bg-orange-500/30 transition-colors">
                             <ShieldCheck size={16} />
                           </div>
                           <span className={`text-sm font-bold transition-colors ${
-                            isDarkMode ? 'text-stone-100 group-hover:text-cyan-300' : 'text-slate-800 group-hover:text-blue-600'
+                            isDarkMode ? 'text-stone-100 group-hover:text-orange-300' : 'text-slate-800 group-hover:text-orange-600'
                           }`}>
                             AI Exception Manager
                           </span>
@@ -241,7 +241,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                         }`}>
                           Automated cyber risk assessment, threat scoring, and governance workflows.
                         </p>
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-blue-500 font-semibold group-hover:text-cyan-500 transition-colors self-start">
+                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-orange-500 font-semibold group-hover:text-orange-400 transition-colors self-start">
                           Launch Dashboard
                           <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
                         </div>
@@ -256,12 +256,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                         }}
                         className={`flex items-center justify-between p-2.5 rounded-xl border transition-all text-xs ${
                           isDarkMode
-                            ? 'bg-white/[0.02] hover:bg-white/[0.06] border-white/5 text-stone-300 hover:text-cyan-300'
-                            : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 hover:text-cyan-600'
+                            ? 'bg-white/[0.02] hover:bg-white/[0.06] border-white/5 text-stone-300 hover:text-blue-300'
+                            : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 hover:text-blue-600'
                         }`}
                       >
                         <div className="flex items-center gap-2">
-                          <Radar size={15} className="text-cyan-500" />
+                          <Radar size={15} className="text-blue-500" />
                           <span className="font-semibold">3D Threat Radar Simulation</span>
                         </div>
                         <ChevronRight size={14} className={isDarkMode ? 'text-stone-500' : 'text-slate-400'} />
@@ -482,7 +482,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                 isDarkMode ? 'bg-stone-950/70 border-stone-800' : 'bg-slate-100 border-slate-200'
               }`}>
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
-                  {isDarkMode ? <Moon size={15} className="text-cyan-400" /> : <Sun size={15} className="text-amber-500" />}
+                  {isDarkMode ? <Moon size={15} className="text-blue-400" /> : <Sun size={15} className="text-amber-500" />}
                   <span>Theme: {isDarkMode ? 'Dark Mode' : 'Light Mode'}</span>
                 </div>
                 <button
@@ -506,12 +506,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center gap-2 text-left cursor-pointer font-bold ${
-                  currentView === 'ai' ? 'text-cyan-400' : isDarkMode ? 'text-cyan-300' : 'text-cyan-600'
+                  currentView === 'ai' ? 'text-blue-400' : isDarkMode ? 'text-blue-300' : 'text-blue-600'
                 }`}
               >
-                <Sparkles size={16} className="text-cyan-400" />
+                <Sparkles size={16} className="text-blue-400" />
                 Cybravions AI
-                <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-400/20 text-cyan-400 border border-cyan-400/30 font-mono">SOVEREIGN</span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-orange-400/20 text-orange-400 border border-orange-400/30 font-mono">SOVEREIGN</span>
               </button>
 
               <a 
@@ -550,14 +550,14 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                       className="pl-4 flex flex-col gap-3 mt-1 overflow-hidden"
                     >
                       <button 
-                        className="flex items-center gap-2 py-2 text-sm text-cyan-500 hover:underline text-left cursor-pointer"
+                        className="flex items-center gap-2 py-2 text-sm text-blue-500 hover:underline text-left cursor-pointer"
                         onClick={() => {
                           setCurrentView('ai');
                           setIsMobileMenuOpen(false);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
-                        <Brain size={16} className="text-cyan-500" />
+                        <Brain size={16} className="text-blue-500" />
                         <span>Cybravions AI (Sovereign In-a-Box)</span>
                       </button>
 
@@ -570,7 +570,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        <ShieldCheck size={14} className="text-blue-500" />
+                        <ShieldCheck size={14} className="text-orange-500" />
                         AI Exception Manager
                         <ExternalLink size={12} className={isDarkMode ? 'text-stone-500' : 'text-slate-400'} />
                       </a>
@@ -581,7 +581,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, isDarkMode
 
               <a 
                 href="#radar"
-                className="text-base uppercase tracking-widest text-cyan-500 py-2 min-h-[44px] flex items-center"
+                className="text-base uppercase tracking-widest text-blue-500 py-2 min-h-[44px] flex items-center"
                 onClick={(e) => {
                   handleNavClick(e, '#radar');
                   setIsMobileMenuOpen(false);
@@ -677,118 +677,123 @@ const Services = () => {
   const expertises = [
     {
       title: "Cyber Security GRC",
-      subtitle: "Governance, Risk & Compliance",
+      subtitle: "Governance, Risk & Compliance Architecture",
       desc: "Establish enterprise-wide risk visibility, regulatory compliance maturity, and audit readiness for global cybersecurity frameworks.",
       icon: Shield,
       glow: "blue" as const,
-      standards: ["ISO 27001", "NIST CSF", "SOC 2 Type II", "DPDP Act"],
+      standards: ["ISO 27001", "NIST CSF 2.0", "SOC 2 Type II", "DPDP & GDPR"],
       whatWeDo: [
         "Information security policies, standards, and ISMS architecture",
-        "Enterprise risk register development and vendor risk assessments",
-        "Business Continuity (BCP) & Disaster Recovery (DRP) planning",
+        "Enterprise risk register development and vendor tiering assessments",
+        "Business Continuity (BCP) & Disaster Recovery (DRP) validation",
         "Comprehensive regulatory audit readiness and mock audits"
       ]
     },
     {
-      title: "VAPT & Offensive Security",
-      subtitle: "Penetration Testing & Red Teaming",
-      desc: "Identify, exploit, and remediate deep vulnerabilities across web applications, mobile platforms, APIs, and cloud networks before attackers do.",
+      title: "Offensive Security & Red Teaming",
+      subtitle: "VAPT & Zero-Day Threat Emulation",
+      desc: "Identify, exploit, and remediate deep vulnerabilities across web applications, mobile platforms, APIs, and cloud networks before adversaries do.",
       icon: Lock,
       glow: "orange" as const,
-      standards: ["OWASP Top 10", "Network Penetration", "API Security", "Red Teaming"],
+      standards: ["OWASP Top 10", "Network Penetration", "API & LLM Security", "Adversary Simulation"],
       whatWeDo: [
         "Web, mobile app, and GraphQL/REST API penetration testing",
-        "Network infrastructure assessment and internal/external testing",
+        "Internal/external network breach simulation and privilege escalation",
         "Cloud configuration audit and microservice boundary validation",
-        "Remediation governance and executive assurance reporting"
+        "Board-ready remediation governance and technical remediation guidance"
       ]
     },
     {
-      title: "Cloud & DevSecOps Security",
+      title: "Cloud & DevSecOps Engineering",
       subtitle: "AWS, Azure & GCP Hardening",
       desc: "Architect resilient multi-cloud environments, automated CI/CD security pipelines, and zero-trust perimeter configurations.",
       icon: Globe,
-      glow: "cyan" as const,
-      standards: ["CIS Benchmarks", "Terraform / IaC", "Kubernetes", "IAM Zero Trust"],
+      glow: "blue" as const,
+      standards: ["CIS Benchmarks", "Terraform / IaC", "Kubernetes Hardening", "IAM Least Privilege"],
       whatWeDo: [
-        "Cloud Security Posture Management (CSPM) implementation",
-        "Infrastructure as Code (IaC) security linting and automated gating",
-        "Kubernetes container security and secrets management",
-        "IAM privilege reduction and least-privilege enforcement"
+        "Cloud Security Posture Management (CSPM) and drift detection",
+        "Infrastructure as Code (IaC) automated gating in CI/CD pipelines",
+        "Kubernetes container security and secrets isolation",
+        "IAM privilege reduction and zero-trust identity enforcement"
       ]
     },
     {
-      title: "AI Governance & LLM Safety",
-      subtitle: "Model Security & Ethical Compliance",
-      desc: "Mitigate model poisoning, prompt injection exploits, data privacy leakages, and non-compliance in enterprise generative AI systems.",
+      title: "AI Governance & LLM Defense",
+      subtitle: "Model Security & Sovereign Safety",
+      desc: "Mitigate model poisoning, prompt injection exploits, training data exfiltration, and compliance breaches across enterprise AI systems.",
       icon: Brain,
-      glow: "purple" as const,
-      standards: ["NIST AI RMF", "EU AI Act", "OWASP for LLM", "Prompt Hardening"],
+      glow: "orange" as const,
+      standards: ["NIST AI RMF", "EU AI Act", "OWASP for LLM", "Prompt Armor"],
       whatWeDo: [
         "LLM red teaming and adversarial prompt injection testing",
-        "Training data privacy and RAG vector store isolation checks",
-        "AI model bias, safety alignment, and ethical auditing",
-        "Enterprise AI usage policies and executive compliance oversight"
+        "Training data privacy and RAG vector store isolation audits",
+        "Model alignment verification and hallucination boundary controls",
+        "Enterprise AI governance framework and executive oversight"
       ]
     },
     {
       title: "Threat Intelligence & OSINT",
-      subtitle: "Dark Web & Brand Protection",
-      desc: "Proactive surveillance of dark web credential dumps, executive identity exposure, leaked infrastructure tokens, and emerging threat actors.",
+      subtitle: "Dark Web & Digital Asset Defense",
+      desc: "Proactive surveillance of dark web credential dumps, executive identity exposure, leaked infrastructure tokens, and active threat actor campaigns.",
       icon: Radar,
-      glow: "cyan" as const,
-      standards: ["MITRE ATT&CK", "OSINT Threat Hunting", "Brand Exposure", "C2 Detection"],
+      glow: "blue" as const,
+      standards: ["MITRE ATT&CK", "Dark Web Recon", "VIP Protection", "C2 Infrastructure Hunting"],
       whatWeDo: [
         "Continuous dark web credential leak and paste-site monitoring",
         "Executive digital footprint protection and VIP threat defense",
-        "Phishing domain detection and automated takedown facilitation",
-        "Tailored threat feeds mapping your industry's attacker vectors"
+        "Malicious infrastructure identification and takedown coordination",
+        "Tailored threat intelligence feeds mapping your attack surface"
       ]
     },
     {
-      title: "Security Architecture & SOC",
-      subtitle: "Zero Trust & Defensive Engineering",
-      desc: "Design zero-trust enterprise security architectures, SIEM/SOAR incident response protocols, and proactive SOC workflows.",
+      title: "Zero Trust Architecture & SOC",
+      subtitle: "Defensive Engineering & Resilience",
+      desc: "Design zero-trust enterprise security perimeters, SIEM/SOAR automated response workflows, and 24/7 SOC operational readiness.",
       icon: Layers,
-      glow: "blue" as const,
-      standards: ["Zero Trust Architecture", "SIEM/SOC Integration", "IR Playbooks", "SOC 2"],
+      glow: "orange" as const,
+      standards: ["Zero Trust Architecture", "SIEM / SOAR Playbooks", "Tabletop Simulations", "SOC 2 Type II"],
       whatWeDo: [
-        "Zero-trust network architecture (ZTNA) implementation",
-        "Security Operations Center (SOC) logging and alert tuning",
-        "Incident response playbooks and crisis tabletop simulations",
-        "Security-by-design reviews for new products and integrations"
+        "Zero-trust network access (ZTNA) and micro-segmentation",
+        "Security Operations Center (SOC) logging and alert fidelity tuning",
+        "Incident response playbooks and executive tabletop crisis drills",
+        "Security-by-design reviews for enterprise digital transformation"
       ]
     }
   ];
 
   return (
-    <section id="services" className="py-24 md:py-32 px-6 md:px-12 lg:px-20 relative z-10 bg-gradient-to-b from-transparent via-slate-100/40 dark:via-[#020510]/40 to-transparent">
+    <section id="services" className="py-24 md:py-32 px-6 md:px-12 lg:px-20 relative z-10 bg-gradient-to-b from-transparent via-slate-100/40 dark:via-[#020510]/60 to-transparent">
       {/* Background Ambient Glows */}
-      <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-tl from-purple-500/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-gradient-to-br from-blue-600/10 to-transparent rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-tl from-orange-500/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-cyan-600 dark:text-cyan-400 mb-3 block font-bold">
-            Enterprise Capabilities
+          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-3 block font-bold">
+            Core Security Capabilities
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Full-Spectrum Cybersecurity Solutions
+            Enterprise-Grade Cyber Defense & Governance
           </h2>
           <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light mx-auto">
-            Engineered to defend modern infrastructure, satisfy rigorous regulatory audits, and reduce enterprise risk.
+            Architected to protect sovereign data, ensure 100% audit readiness, and preempt advanced threat vectors.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {expertises.map((service, idx) => {
             const Icon = service.icon;
+            const isBlue = service.glow === 'blue';
             return (
               <TiltCard3D key={idx} glowColor={service.glow}>
                 <div className="flex flex-col h-full justify-between group">
                   <div>
                     <div className="flex items-center justify-between mb-6">
-                      <div className="p-3.5 rounded-2xl bg-slate-100 dark:bg-gradient-to-br dark:from-white/10 dark:to-white/[0.02] border border-slate-200 dark:border-white/10 text-cyan-600 dark:text-cyan-400 shadow-sm group-hover:scale-110 group-hover:border-cyan-400/50 transition-all duration-300">
+                      <div className={`p-3.5 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 shadow-sm group-hover:scale-110 transition-all duration-300 ${
+                        isBlue 
+                          ? 'text-blue-600 dark:text-blue-400 group-hover:border-blue-500/50 group-hover:bg-blue-500/10' 
+                          : 'text-orange-500 dark:text-orange-400 group-hover:border-orange-500/50 group-hover:bg-orange-500/10'
+                      }`}>
                         <Icon size={24} />
                       </div>
                       <span className="text-[10px] text-slate-400 dark:text-stone-500 uppercase tracking-widest font-semibold font-mono">
@@ -796,10 +801,14 @@ const Services = () => {
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
+                    <h3 className={`text-xl font-semibold text-slate-900 dark:text-white mb-1 transition-colors ${
+                      isBlue ? 'group-hover:text-blue-600 dark:group-hover:text-blue-400' : 'group-hover:text-orange-500 dark:group-hover:text-orange-400'
+                    }`}>
                       {service.title}
                     </h3>
-                    <p className="text-xs text-cyan-600 dark:text-cyan-400 uppercase tracking-wider mb-4 font-semibold">
+                    <p className={`text-xs uppercase tracking-wider mb-4 font-semibold ${
+                      isBlue ? 'text-blue-600 dark:text-blue-400' : 'text-orange-500 dark:text-orange-400'
+                    }`}>
                       {service.subtitle}
                     </p>
                     <p className="text-sm text-slate-600 dark:text-stone-300 font-light leading-relaxed mb-6">
@@ -808,7 +817,7 @@ const Services = () => {
 
                     <div className="flex flex-wrap gap-1.5 mb-6">
                       {service.standards.map((st) => (
-                        <span key={st} className="text-[10px] font-mono bg-slate-100 dark:bg-white/[0.03] hover:bg-cyan-50 dark:hover:bg-cyan-500/10 border border-slate-200 dark:border-white/10 hover:border-cyan-400/40 px-2.5 py-1 rounded-md text-slate-700 dark:text-stone-300 transition-colors">
+                        <span key={st} className="text-[10px] font-mono bg-slate-100 dark:bg-white/[0.03] hover:bg-blue-50 dark:hover:bg-blue-500/10 border border-slate-200 dark:border-white/10 hover:border-blue-500/30 px-2.5 py-1 rounded-md text-slate-700 dark:text-stone-300 transition-colors">
                           {st}
                         </span>
                       ))}
@@ -817,10 +826,14 @@ const Services = () => {
 
                   <button
                     onClick={() => setActiveBrief(idx)}
-                    className="w-full py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-cyan-600 text-white dark:bg-stone-900 dark:hover:bg-cyan-500/20 border border-slate-800 dark:border-stone-700/80 dark:hover:border-cyan-400/60 text-xs font-semibold dark:text-cyan-300 dark:hover:text-white transition-all flex items-center justify-center gap-2 cursor-pointer mt-4 group/btn shadow-md dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
+                    className={`w-full py-3.5 px-4 rounded-xl border text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer mt-4 group/btn shadow-md ${
+                      isBlue
+                        ? 'bg-slate-900 hover:bg-blue-600 text-white dark:bg-stone-900 dark:hover:bg-blue-600/30 border-slate-800 dark:border-stone-700/80 dark:hover:border-blue-500/60 dark:text-blue-300 dark:hover:text-white'
+                        : 'bg-slate-900 hover:bg-orange-600 text-white dark:bg-stone-900 dark:hover:bg-orange-600/30 border-slate-800 dark:border-stone-700/80 dark:hover:border-orange-500/60 dark:text-orange-300 dark:hover:text-white'
+                    }`}
                   >
-                    <span>Inspect Capability Dossier</span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform text-cyan-400" />
+                    <span>View Architecture & Deliverables</span>
+                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
                   </button>
                 </div>
               </TiltCard3D>
@@ -862,10 +875,30 @@ const Services = () => {
 
 const WhyChooseUs = () => {
   const pillars = [
-    { title: "Framework-Agnostic Mastery", desc: "Seamless compliance translation across ISO 27001, SOC 2, NIST CSF, HIPAA, and DPDP Act without redundant audit friction.", icon: ShieldCheck },
-    { title: "Offensive-Defensive Synergy", desc: "Our red-team penetration testing directly informs your defensive architecture and ISMS policies for hardened real-world protection.", icon: Target },
-    { title: "Executive & Board Advisory", desc: "We translate complex CVE telemetry and cyber risks into actionable business metrics for CEOs, boards, and audit committees.", icon: BarChart3 },
-    { title: "Continuous Risk Governance", desc: "Security is not a point-in-time report. We provide ongoing advisory, remediation tracking, and 24/7 incident response readiness.", icon: Zap }
+    { 
+      title: "100% First-Time Audit Certification", 
+      desc: "Proven track record delivering zero-non-conformity compliance across ISO 27001, SOC 2 Type II, NIST CSF, and HIPAA without operational friction.", 
+      icon: ShieldCheck,
+      glow: "blue" as const
+    },
+    { 
+      title: "Offensive-Defensive Synergy", 
+      desc: "Our elite red-team penetration testing directly informs your defensive architecture and ISMS policies for mathematically hardened protection.", 
+      icon: Target,
+      glow: "orange" as const
+    },
+    { 
+      title: "Board-Grade Risk Translation", 
+      desc: "We bridge technical CVE telemetry into strategic business and financial risk models tailored for CEOs, audit committees, and boards of directors.", 
+      icon: BarChart3,
+      glow: "blue" as const
+    },
+    { 
+      title: "Continuous Sovereign Governance", 
+      desc: "Security is not a point-in-time PDF report. We provide ongoing advisory, live risk posture tracking, and rapid zero-day incident response SLAs.", 
+      icon: Zap,
+      glow: "orange" as const
+    }
   ];
 
   return (
@@ -876,17 +909,23 @@ const WhyChooseUs = () => {
             The Cybravion Advantage
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Why Industry Leaders Rely on Cybravion
+            Why High-Consequence Organizations Choose Cybravion
           </h2>
+          <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light mx-auto">
+            Combining offensive intelligence with unyielding regulatory governance to safeguard mission-critical assets.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {pillars.map((p, idx) => {
             const Icon = p.icon;
+            const isBlue = p.glow === 'blue';
             return (
-              <TiltCard3D key={idx} glowColor={idx % 2 === 0 ? "blue" : "purple"}>
+              <TiltCard3D key={idx} glowColor={p.glow}>
                 <div className="flex items-start gap-5">
-                  <div className="p-3.5 rounded-2xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-blue-600 dark:text-blue-400 shrink-0">
+                  <div className={`p-3.5 rounded-2xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 shrink-0 ${
+                    isBlue ? 'text-blue-600 dark:text-blue-400' : 'text-orange-500 dark:text-orange-400'
+                  }`}>
                     <Icon size={24} />
                   </div>
                   <div>
@@ -1140,14 +1179,14 @@ const Footer = ({ setCurrentView, isDarkMode }: { setCurrentView: (view: string)
           <img 
             src="/logo.png" 
             alt="CYBRAVIONS" 
-            className="h-14 md:h-18 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.35)]" 
+            className="h-14 md:h-18 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
           />
         </div>
 
         <div className={`flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-wider ${
           isDarkMode ? 'text-stone-400' : 'text-slate-600'
         }`}>
-          <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-cyan-500 hover:text-cyan-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
+          <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-blue-500 hover:text-blue-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
             <Sparkles size={12} />
             Cybravions AI
           </button>

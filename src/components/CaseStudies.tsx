@@ -12,7 +12,7 @@ const caseStudies = [
     industry: "FinTech Payments",
     icon: Building2,
     title: "Securing Multi-Cloud Rails for a Series B FinTech Platform",
-    glow: "cyan" as const,
+    glow: "blue" as const,
     problem: "A fast-scaling global payments provider lacked automated IAM policy validation, centralized SIEM observability, and failed a preliminary SOC 2 Type II audit.",
     solution: "CYBRAVION engineered a Zero Trust IAM architecture across AWS & Azure, deployed centralized SIEM detection rules, and guided the team to successful SOC 2 Type II certification in 60 days.",
     results: [

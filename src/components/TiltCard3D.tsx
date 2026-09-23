@@ -3,14 +3,14 @@ import React, { useRef, useState, MouseEvent } from 'react';
 interface TiltCard3DProps {
   children: React.ReactNode;
   className?: string;
-  glowColor?: 'cyan' | 'blue' | 'orange' | 'purple';
+  glowColor?: 'blue' | 'orange' | 'purple' | 'cyan';
   onClick?: () => void;
 }
 
 export const TiltCard3D: React.FC<TiltCard3DProps> = ({
   children,
   className = '',
-  glowColor = 'cyan',
+  glowColor = 'blue',
   onClick,
 }) => {
   const cardRef = useRef<HTMLDivElement | null>(null);
@@ -44,10 +44,10 @@ export const TiltCard3D: React.FC<TiltCard3DProps> = ({
 
   const glowStyles = {
     cyan: {
-      spot: 'rgba(0, 240, 255, 0.28)',
-      border: 'hover:border-cyan-400 hover:shadow-[0_15px_45px_rgba(0,240,255,0.22)]',
-      gradient: 'from-cyan-500/15 via-transparent to-blue-500/10',
-      accent: 'border-t-cyan-500/50',
+      spot: 'rgba(59, 130, 246, 0.28)',
+      border: 'hover:border-blue-400 hover:shadow-[0_15px_45px_rgba(59,130,246,0.22)]',
+      gradient: 'from-blue-500/15 via-transparent to-indigo-500/10',
+      accent: 'border-t-blue-500/50',
     },
     blue: {
       spot: 'rgba(59, 130, 246, 0.28)',

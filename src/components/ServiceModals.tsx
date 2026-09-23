@@ -208,7 +208,7 @@ export const OSINTModal = ({ data, close }: { data: any; close: () => void }) =>
   return (
     <div className="p-6 md:p-12 overflow-y-auto relative z-10 w-full h-full text-slate-800 dark:text-stone-200">
       <div className="mb-12 border-b border-slate-200 dark:border-white/5 pb-8">
-        <h3 className="text-3xl font-bold mb-4 flex items-center gap-3 text-cyan-600 dark:text-cyan-400">
+        <h3 className="text-3xl font-bold mb-4 flex items-center gap-3 text-blue-600 dark:text-blue-400">
           <Search className="w-8 h-8" /> {data.title}
         </h3>
         <p className="text-slate-600 dark:text-stone-400 font-mono text-sm font-medium">STATUS: ACTIVE MONITORING // {data.desc}</p>
@@ -216,21 +216,21 @@ export const OSINTModal = ({ data, close }: { data: any; close: () => void }) =>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
         <div className="space-y-4">
-          <h4 className="text-xs uppercase tracking-widest text-cyan-600 dark:text-cyan-400 mb-4 font-bold font-mono">Dossier Directives</h4>
+          <h4 className="text-xs uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-4 font-bold font-mono">Dossier Directives</h4>
           {data.whatWeDo?.map((item: string, i: number) => (
-            <div key={i} className="p-4 bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-cyan-500/20 rounded-xl flex items-center gap-4 hover:border-cyan-400/50 transition-colors shadow-xs">
-              <span className="text-cyan-600 dark:text-cyan-400 font-mono text-xs font-bold">[{String(i + 1).padStart(2, '0')}]</span>
+            <div key={i} className="p-4 bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-blue-500/20 rounded-xl flex items-center gap-4 hover:border-blue-400/50 transition-colors shadow-xs">
+              <span className="text-blue-600 dark:text-blue-400 font-mono text-xs font-bold">[{String(i + 1).padStart(2, '0')}]</span>
               <span className="text-sm text-slate-800 dark:text-stone-300 font-mono">{item}</span>
             </div>
           ))}
         </div>
         
         <div className="bg-slate-50 dark:bg-blue-900/10 border border-slate-200 dark:border-blue-500/20 rounded-2xl p-6 shadow-sm">
-          <h4 className="text-xs uppercase tracking-widest text-cyan-600 dark:text-cyan-400 mb-6 font-bold font-mono">Framework Standards</h4>
+          <h4 className="text-xs uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-6 font-bold font-mono">Framework Standards</h4>
           <div className="space-y-4">
             {data.standards?.map((item: string, i: number) => (
               <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-stone-950 border border-slate-200 dark:border-stone-800">
-                <CheckCircle2 className="w-5 h-5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0" />
                 <p className="text-xs text-slate-800 dark:text-stone-300 font-mono font-medium">{item}</p>
               </div>
             ))}
@@ -239,7 +239,7 @@ export const OSINTModal = ({ data, close }: { data: any; close: () => void }) =>
       </div>
 
       <div className="flex gap-4">
-        <a href="#contact" onClick={close} className="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs uppercase tracking-widest font-bold transition-all font-mono shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+        <a href="#contact" onClick={close} className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs uppercase tracking-widest font-bold transition-all font-mono shadow-[0_0_20px_rgba(37,99,235,0.3)]">
           INITIATE_OSINT
         </a>
       </div>

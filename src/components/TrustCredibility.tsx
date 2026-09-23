@@ -4,12 +4,12 @@ import { ShieldCheck, Award, Quote } from 'lucide-react';
 import { TiltCard3D } from './TiltCard3D';
 
 const certifications = [
-  { name: "ISO/IEC 27001", desc: "Information Security Management", glow: "cyan" as const },
+  { name: "ISO/IEC 27001", desc: "Information Security Management", glow: "blue" as const },
   { name: "SOC 2 Type II", desc: "Trust Service Criteria", glow: "blue" as const },
-  { name: "NIST CSF", desc: "Cybersecurity Framework", glow: "orange" as const },
-  { name: "ISO/IEC 42001", desc: "AI Management System", glow: "purple" as const },
-  { name: "DPDP Act", desc: "Digital Personal Data Protection", glow: "cyan" as const },
-  { name: "CERT-In", desc: "Indian Cybersecurity Directives", glow: "blue" as const }
+  { name: "NIST CSF 2.0", desc: "Cybersecurity Framework", glow: "orange" as const },
+  { name: "ISO/IEC 42001", desc: "AI Management System", glow: "blue" as const },
+  { name: "DPDP & GDPR", desc: "Digital Personal Data Protection", glow: "orange" as const },
+  { name: "CERT-In Directives", desc: "National Cyber Security Mandate", glow: "blue" as const }
 ];
 
 const partnerTech = [
@@ -23,20 +23,20 @@ const partnerTech = [
 
 const testimonials = [
   {
-    quote: "CYBRAVION's GRC team helped us achieve ISO 27001 certification in under 5 months. Their structured approach and deep technical expertise made the entire process seamless.",
-    name: "Head of IT",
+    quote: "CYBRAVION's GRC team helped us achieve ISO 27001 and SOC 2 Type II certification in under 4 months with zero audit non-conformities. Their technical rigor is unmatched.",
+    name: "Head of Information Security",
     company: "Global FinTech Enterprise",
-    glow: "cyan" as const
+    glow: "blue" as const
   },
   {
-    quote: "After their comprehensive VAPT engagement, we remediated 23 critical vulnerabilities we didn't know existed. Their reporting was crystal clear, actionable, and board-ready.",
+    quote: "During their offensive red-team engagement, they uncovered and helped us patch 23 deep architectural vulnerabilities before our Series C audit. The executive reporting was flawless.",
     name: "VP of Engineering",
-    company: "Scale-up SaaS Platform",
+    company: "High-Growth Cloud Platform",
     glow: "orange" as const
   },
   {
-    quote: "The security architecture and threat intelligence advisory transformed our operational posture. Incident containment time dropped by 85% within the first two quarters.",
-    name: "CISO",
+    quote: "Their sovereign security architecture and threat intelligence integration reduced our mean time to detect (MTTD) by over 80%. They are a true force multiplier for our security team.",
+    name: "Chief Information Security Officer",
     company: "Healthcare & MedTech Network",
     glow: "blue" as const
   }
@@ -47,7 +47,7 @@ export const TrustCredibility: React.FC = () => {
     <section className="py-24 md:py-32 px-6 md:px-12 lg:px-20 relative z-10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-cyan-600 dark:text-blue-400 mb-3 block font-bold">
+          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-3 block font-bold">
             Trust &amp; Validation
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
@@ -73,7 +73,7 @@ export const TrustCredibility: React.FC = () => {
           <div className="text-center mb-8">
             <span className="text-xs uppercase text-slate-600 dark:text-stone-400 tracking-widest font-bold flex items-center justify-center gap-2">
               <Award size={16} className="text-orange-500 dark:text-orange-400" />
-              Technology Ecosystem &amp; Platforms
+              Technology Ecosystem &amp; Integration Partners
             </span>
           </div>
 
@@ -81,7 +81,7 @@ export const TrustCredibility: React.FC = () => {
             {partnerTech.map((tech, idx) => (
               <div 
                 key={idx}
-                className="p-4 rounded-2xl bg-white/90 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800 text-center hover:border-cyan-500/40 transition-colors shadow-sm"
+                className="p-4 rounded-2xl bg-white/90 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800 text-center hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-colors shadow-sm"
               >
                 <div className="font-semibold text-sm text-slate-800 dark:text-stone-200">{tech.name}</div>
                 <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">{tech.category}</div>

@@ -68,7 +68,7 @@ export const Insights = () => {
           className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 gap-4"
         >
           <div className="max-w-2xl">
-            <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-cyan-600 dark:text-cyan-400 mb-4 block font-bold">Knowledge Hub</span>
+            <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-blue-600 dark:text-blue-400 mb-4 block font-bold">Knowledge Hub</span>
             <h2 className="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
               Insights & <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-orange-500 dark:from-blue-400 dark:via-white dark:to-orange-400 bg-clip-text text-transparent italic font-light">resources.</span>
             </h2>
@@ -111,7 +111,7 @@ export const Insights = () => {
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 leading-snug group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 {article.title}
               </h3>
               
