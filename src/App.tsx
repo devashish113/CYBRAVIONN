@@ -61,8 +61,6 @@ import { CyberUniverse3D } from './components/CyberUniverse3D';
 import { TiltCard3D } from './components/TiltCard3D';
 import { ThreatRadar3D } from './components/ThreatRadar3D';
 import { CyberHeroSlider } from './components/CyberHeroSlider';
-import { CyberCursor } from './components/CyberCursor';
-import { CyberHUDControl } from './components/CyberHUDControl';
 import { SecurityAuditModal } from './components/SecurityAuditModal';
 import { cyberAudio } from './utils/cyberAudio';
 
@@ -1247,9 +1245,6 @@ export default function App() {
         <link rel="canonical" href="https://cybravions.online/" />
       </Helmet>
 
-      {/* Luxury Interactive Custom Cursor */}
-      <CyberCursor />
-
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
       <CyberUniverse3D currentView={currentView} isDarkMode={isDarkMode} />
 
@@ -1288,12 +1283,6 @@ export default function App() {
         </main>
 
         <Footer setCurrentView={setCurrentView} isDarkMode={isDarkMode} />
-
-        {/* Global Tactical Cyber HUD Toolbar */}
-        <CyberHUDControl 
-          isDarkMode={isDarkMode} 
-          onOpenAuditModal={() => setIsAuditModalOpen(true)} 
-        />
 
         {/* Interactive Instant Security Posture & Compliance Audit Modal */}
         <SecurityAuditModal
