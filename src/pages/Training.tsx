@@ -565,7 +565,7 @@ export const TrainingPage = () => {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 viewport={{ once: true }}
               >
-                <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-cyan-400 mb-6 block font-semibold">Capability Development</span>
+                <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-blue-400 mb-6 block font-semibold">Capability Development</span>
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]">
                   Ready to empower <br /><span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent font-light">your workforce?</span>
                 </h2>
@@ -593,7 +593,7 @@ export const TrainingPage = () => {
                       </div>
                       <div>
                         <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-400 mb-1.5 font-bold">{item.label}</p>
-                        <p className="text-white text-lg md:text-xl font-light tracking-wide group-hover:text-cyan-300 transition-colors">{item.value}</p>
+                        <p className="text-white text-lg md:text-xl font-light tracking-wide group-hover:text-blue-300 transition-colors">{item.value}</p>
                       </div>
                     </motion.div>
                   ))}
