@@ -272,20 +272,28 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/80 backdrop-blur-2xl">
+      <div 
+        onClick={() => {
+          cyberAudio.playClick();
+          onClose();
+        }}
+        className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/80 backdrop-blur-2xl cursor-pointer"
+        aria-label="Click background to close"
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: -10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -10 }}
           transition={{ duration: 0.18 }}
-          className={`w-full max-w-2xl rounded-3xl border shadow-2xl overflow-hidden relative flex flex-col max-h-[75vh] ${
+          onClick={(e) => e.stopPropagation()}
+          className={`w-full max-w-2xl rounded-3xl border shadow-2xl overflow-hidden relative flex flex-col max-h-[75vh] cursor-default ${
             isDarkMode
               ? 'bg-[#090d18]/95 border-stone-800 text-stone-100 shadow-[0_30px_90px_rgba(0,0,0,0.9)]'
               : 'bg-white border-slate-200 text-slate-900 shadow-[0_30px_90px_rgba(0,0,0,0.2)]'
           }`}
           onKeyDown={handleKeyDown}
         >
-          {/* Top Search Input Bar */}
+          {/* Top Search Input Bar with Clear Go Back / Close Button */}
           <div className="p-4 sm:p-5 flex items-center gap-3 border-b border-slate-200 dark:border-stone-800/90 relative">
             <Search size={20} className="text-blue-500 shrink-0" />
             <input
@@ -301,15 +309,32 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             />
             {query && (
               <button
+                type="button"
                 onClick={() => setQuery('')}
-                className="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-stone-200"
+                className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-stone-200"
+                aria-label="Clear search input"
               >
                 <X size={16} />
               </button>
             )}
-            <div className="hidden sm:flex items-center gap-1 text-[10px] font-mono px-2 py-1 rounded bg-slate-100 dark:bg-stone-800 text-slate-500 dark:text-stone-400 border border-slate-200 dark:border-stone-700">
-              <span>ESC</span>
-            </div>
+
+            {/* Clear Go Back / Close Button */}
+            <button
+              type="button"
+              onClick={() => {
+                cyberAudio.playClick();
+                onClose();
+              }}
+              className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-stone-800/90 dark:hover:bg-stone-750 text-slate-700 dark:text-stone-200 hover:text-red-600 dark:hover:text-orange-400 border border-slate-300 dark:border-stone-700 text-xs font-semibold tracking-wider transition-all cursor-pointer shrink-0 shadow-sm"
+              aria-label="Close and go back"
+              title="Close modal (Esc)"
+            >
+              <X size={16} className="text-red-500 dark:text-orange-400" />
+              <span>Go Back</span>
+              <kbd className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-200 dark:bg-stone-900 text-slate-600 dark:text-stone-400 border border-slate-300 dark:border-stone-700 ml-1">
+                ESC
+              </kbd>
+            </button>
           </div>
 
           {/* Results List */}
@@ -380,7 +405,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             )}
           </div>
 
-          {/* Footer Shortcuts */}
+          {/* Footer Shortcuts & Dismiss Button */}
           <div className="p-3 px-5 border-t border-slate-200 dark:border-stone-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-stone-500 font-mono">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
@@ -393,8 +418,18 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 Execute
               </span>
             </div>
-            <div className="flex items-center gap-1">
-              <span>CYBRAVION Command Engine</span>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  cyberAudio.playClick();
+                  onClose();
+                }}
+                className="hover:text-red-500 dark:hover:text-orange-400 font-sans font-medium underline underline-offset-2 cursor-pointer transition-colors"
+              >
+                Cancel / Close
+              </button>
+              <span className="hidden sm:inline-block">CYBRAVION Command Engine</span>
             </div>
           </div>
         </motion.div>
