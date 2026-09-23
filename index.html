@@ -151,14 +151,18 @@
       "name": "Cybersecurity Services",
       "itemListElement": [
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cybersecurity GRC", "description": "Governance, Risk & Compliance consulting including ISO 27001, NIST CSF, SOC 2 compliance" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "VAPT Services", "description": "Vulnerability Assessment and Penetration Testing for applications, networks, and cloud" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cloud Security", "description": "Cloud security architecture, configuration review, and compliance for AWS, Azure, GCP" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI Governance", "description": "AI risk governance, model security, and responsible AI implementation" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Threat Intelligence", "description": "OSINT, dark web monitoring, and strategic threat intelligence services" } }
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "VAPT & Offensive Security", "description": "Vulnerability Assessment, Penetration Testing, and adversary simulation for web, mobile, APIs, and cloud networks" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cloud & DevSecOps Engineering", "description": "Cloud security architecture, IaC automated gating, and Kubernetes hardening for AWS, Azure, GCP" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI Governance & LLM Defense", "description": "AI risk governance, model security, prompt injection prevention, and sovereign AI deployment" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Threat Intelligence & OSINT", "description": "Dark web surveillance, VIP digital footprint protection, and proactive C2 threat hunting" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Zero Trust Architecture & SOC", "description": "Zero Trust Network Access (ZTNA), SIEM/SOAR automated playbooks, and 24/7 SOC operational readiness" } }
       ]
     }
   }
   </script>
+
+  <!-- LLM / AI Search Engine Metadata -->
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM Context Documentation" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/logo.png" />
@@ -189,11 +193,35 @@
       }
     }
   </script>
-
-  <!-- Dependencies are now bundled by Vite from node_modules for R3F compatibility -->
 </head>
 
-<body class="bg-stone-950 text-stone-100 font-sans antialiased overflow-x-hidden selection:bg-cyan-500/30 selection:text-cyan-200">
+<body class="bg-stone-950 text-stone-100 font-sans antialiased overflow-x-hidden selection:bg-blue-600/40 selection:text-orange-200">
+  <!-- Semantic Content Fallback for AI Crawlers and Search Engines -->
+  <noscript>
+    <div style="padding: 2rem; background: #050811; color: #f1f5f9; font-family: sans-serif; max-width: 900px; margin: 0 auto; line-height: 1.6;">
+      <h1 style="color: #60a5fa; font-size: 2rem;">CYBRAVION Solutions — Enterprise Cybersecurity, Sovereign AI & Risk Governance</h1>
+      <p style="font-size: 1.1rem; color: #cbd5e1;">CYBRAVION delivers full-spectrum cybersecurity consulting, offensive red teaming, multi-cloud hardening, and regulatory compliance across ISO 27001, SOC 2 Type II, NIST CSF 2.0, HIPAA, and DPDP Act.</p>
+      
+      <h2 style="color: #f97316; margin-top: 1.5rem;">Core Enterprise Services</h2>
+      <ul>
+        <li><strong>Cyber Security GRC:</strong> Enterprise risk registers, ISO 27001 / SOC 2 certification readiness, ISMS architecture, and BCP/DRP planning.</li>
+        <li><strong>Offensive Security & Red Teaming:</strong> Web/mobile/API penetration testing, cloud infrastructure audits, and active threat emulation.</li>
+        <li><strong>Cloud & DevSecOps Engineering:</strong> AWS, Azure, GCP security architecture, CI/CD automated gating, and Kubernetes hardening.</li>
+        <li><strong>AI Governance & LLM Defense:</strong> NIST AI RMF, EU AI Act, LLM red teaming, and Prompt Armor mitigation.</li>
+        <li><strong>Threat Intelligence & OSINT:</strong> Dark web credential monitoring, VIP executive defense, and brand protection.</li>
+        <li><strong>Zero Trust Architecture & SOC:</strong> ZTNA micro-segmentation, SIEM/SOAR incident response playbooks, and tabletop crisis drills.</li>
+      </ul>
+
+      <h2 style="color: #60a5fa; margin-top: 1.5rem;">Sovereign AI Products</h2>
+      <p><strong>Cybravions AI (Sovereign In-a-Box):</strong> Fully air-gapped, offline agentic AI appliance engineered for defense, government, and high-consequence enterprise infrastructure.</p>
+      <p><strong>AI Exception Manager:</strong> Web-based governance dashboard at <a href="https://exceptionmgr.cybravions.online" style="color: #60a5fa;">https://exceptionmgr.cybravions.online</a>.</p>
+
+      <h2 style="color: #f97316; margin-top: 1.5rem;">Contact & Advisory</h2>
+      <p>Email: <a href="mailto:cybravions@gmail.com" style="color: #60a5fa;">cybravions@gmail.com</a> | Phone: +91-9358683634</p>
+      <p>Official LLM Context Documentation: <a href="/llms.txt" style="color: #60a5fa;">https://cybravions.online/llms.txt</a></p>
+    </div>
+  </noscript>
+
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

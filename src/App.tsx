@@ -1022,6 +1022,7 @@ const Contact = () => {
                 >
                   <input type="hidden" name="access_key" value="8f121d5a-8bc2-4c28-bbbe-5c628e46dc96" />
                   <input type="hidden" name="subject" value="New Advisory Request via Cybravion" />
+                  <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -1030,6 +1031,7 @@ const Contact = () => {
                         type="text"
                         name="name"
                         required
+                        maxLength={100}
                         placeholder="Dr. Alex Vance"
                         className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-blue-500 text-sm shadow-sm"
                       />
@@ -1040,6 +1042,7 @@ const Contact = () => {
                         type="email"
                         name="email"
                         required
+                        maxLength={120}
                         placeholder="alex@enterprise.com"
                         className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-blue-500 text-sm shadow-sm"
                       />
@@ -1067,9 +1070,15 @@ const Contact = () => {
                       name="message"
                       rows={4}
                       required
+                      maxLength={4000}
                       placeholder="Describe your organization's target compliance frameworks, infrastructure scale, or security objectives..."
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-blue-500 text-sm shadow-sm"
                     />
+                  </div>
+
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-stone-400 font-mono">
+                    <ShieldCheck size={14} className="text-blue-500 shrink-0" />
+                    <span>Protected under strict mutual non-disclosure (NDA). Encrypted in transit.</span>
                   </div>
 
                   <button
