@@ -193,7 +193,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isDarkMode ? 0.32 : 0.18,   // strength
+      isDarkMode ? 0.20 : 0.12,   // strength (calibrated softer glow)
       0.6,                        // radius
       0.72                        // threshold
     );
@@ -203,31 +203,31 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     composer.addPass(outputPass);
 
     // =====================================================================
-    // 2. LIGHTING SYSTEM (Vibrant Sapphire Blue + Bottom-Right Cyber Orange)
+    // 2. LIGHTING SYSTEM (Refined Sapphire Blue + Subtle Cyber Accents)
     // =====================================================================
     const ambientLight = new THREE.AmbientLight(
       isDarkMode ? 0x0c1e36 : 0xd6e0eb,
-      isDarkMode ? 0.85 : 1.4
+      isDarkMode ? 0.70 : 1.2
     );
     scene.add(ambientLight);
 
     const dirLight1 = new THREE.DirectionalLight(
       isDarkMode ? 0x3b82f6 : 0x1d4ed8,
-      isDarkMode ? 1.8 : 2.2
+      isDarkMode ? 1.2 : 1.5
     );
     dirLight1.position.set(8, 10, 7);
     scene.add(dirLight1);
 
     const dirLight2 = new THREE.DirectionalLight(
       isDarkMode ? 0x1d4ed8 : 0x4338ca,
-      isDarkMode ? 1.3 : 1.7
+      isDarkMode ? 0.8 : 1.1
     );
     dirLight2.position.set(-8, -6, 5);
     scene.add(dirLight2);
 
     const rimLight = new THREE.PointLight(
       isDarkMode ? 0x1e40af : 0x2563eb,
-      isDarkMode ? 0.8 : 1.0,
+      isDarkMode ? 0.6 : 0.8,
       45
     );
     rimLight.position.set(0, -6, -8);
@@ -336,8 +336,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const isAI = currentView === 'ai';
 
     globeGroup.position.set(
-      isHome ? 2.8 : isAI ? 2.4 : 3.6,
-      isHome ? 0.15 : isAI ? 0.25 : -0.5,
+      isHome ? 4.2 : isAI ? 3.6 : 4.4,
+      isHome ? 0.20 : isAI ? 0.25 : -0.5,
       isHome ? 0.0 : isAI ? 0.0 : -2.0
     );
     globeGroup.scale.setScalar(isHome ? 1.0 : isAI ? 0.95 : 0.8);
@@ -351,7 +351,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       color: isDarkMode ? 0x3b82f6 : 0x1d4ed8,
       wireframe: true,
       transparent: true,
-      opacity: isDarkMode ? 0.22 : 0.12,
+      opacity: isDarkMode ? 0.13 : 0.08,
     });
     const wireSphere = new THREE.Mesh(icoGeo, wireMat);
     globeGroup.add(wireSphere);
@@ -362,7 +362,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       color: isDarkMode ? 0x2563eb : 0x4f46e5,
       wireframe: true,
       transparent: true,
-      opacity: isDarkMode ? 0.18 : 0.10,
+      opacity: isDarkMode ? 0.10 : 0.06,
     });
     const innerSphere = new THREE.Mesh(innerGeo, innerMat);
     globeGroup.add(innerSphere);
@@ -374,7 +374,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       roughness: isDarkMode ? 0.2 : 0.9,
       metalness: isDarkMode ? 0.95 : 0.1,
       transparent: true,
-      opacity: isDarkMode ? 0.25 : 0.05,
+      opacity: isDarkMode ? 0.14 : 0.03,
       depthWrite: false,
     });
     const solidCore = new THREE.Mesh(solidCoreGeo, solidCoreMat);
@@ -391,7 +391,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const shieldMat = new THREE.MeshBasicMaterial({
       map: shieldTex,
       transparent: true,
-      opacity: isDarkMode ? 1.0 : 0.88,
+      opacity: isDarkMode ? 0.38 : 0.30,
       side: THREE.DoubleSide,
       depthWrite: false,
       blending: isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending,
@@ -405,7 +405,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // Center Core Light to illuminate shield with pure sapphire blue
     const coreGlowLight = new THREE.PointLight(
       isDarkMode ? 0x3b82f6 : 0x1d4ed8,
-      isDarkMode ? 2.2 : 1.6,
+      isDarkMode ? 0.65 : 0.45,
       globeRadius * 2.2
     );
     globeGroup.add(coreGlowLight);
@@ -442,10 +442,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
     nodeGeo.setAttribute('color', new THREE.BufferAttribute(nodeColors, 3));
     const nodeMat = new THREE.PointsMaterial({
-      size: 0.065,
+      size: 0.048,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.45,
       blending: THREE.AdditiveBlending,
     });
     const globeNodes = new THREE.Points(nodeGeo, nodeMat);
@@ -462,7 +462,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         new THREE.MeshStandardMaterial({
           color: isBlueSat ? 0x3b82f6 : 0xd97706,
           emissive: isBlueSat ? 0x3b82f6 : 0xd97706,
-          emissiveIntensity: isBlueSat ? 1.8 : 1.0,
+          emissiveIntensity: isBlueSat ? 0.9 : 0.5,
         })
       );
       satellites.push(satMesh);
@@ -489,7 +489,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const arcMat = new THREE.LineBasicMaterial({
         color: i % 3 === 0 ? 0xf97316 : 0x2563eb,
         transparent: true,
-        opacity: 0.18,
+        opacity: 0.08,
         blending: THREE.AdditiveBlending,
       });
       const arcLine = new THREE.Line(arcGeo, arcMat);
@@ -504,9 +504,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         const packetMat = new THREE.MeshStandardMaterial({
           color: isOrange ? 0xf97316 : 0x3b82f6,
           emissive: isOrange ? 0xf97316 : 0x3b82f6,
-          emissiveIntensity: 3.0,
+          emissiveIntensity: 1.4,
           transparent: true,
-          opacity: 0.9,
+          opacity: 0.65,
         });
         const packetMesh = new THREE.Mesh(packetGeo, packetMat);
         globeGroup.add(packetMesh);
@@ -519,6 +519,384 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
       dataStreams.push({ curve, arcLine, packets });
     }
+
+    // =====================================================================
+    // LAYER 2.2: TWIN PRIMARY CYBER DEFENSE GLOBE (Synchronized Parallax)
+    // =====================================================================
+    const globe2Group = new THREE.Group();
+    universeGroup.add(globe2Group);
+
+    const globe2Radius = 1.90;
+
+    // 1. Outer Geodesic Wireframe Shield for Globe 2
+    const icoGeo2 = new THREE.IcosahedronGeometry(globe2Radius, 3);
+    const wireMat2 = new THREE.MeshBasicMaterial({
+      color: isDarkMode ? 0x60a5fa : 0x2563eb,
+      wireframe: true,
+      transparent: true,
+      opacity: isDarkMode ? 0.11 : 0.07,
+    });
+    const wireSphere2 = new THREE.Mesh(icoGeo2, wireMat2);
+    globe2Group.add(wireSphere2);
+
+    // 2. Inner Hex Shield for Globe 2
+    const innerGeo2 = new THREE.IcosahedronGeometry(globe2Radius * 0.88, 2);
+    const innerMat2 = new THREE.MeshBasicMaterial({
+      color: isDarkMode ? 0x3b82f6 : 0x4f46e5,
+      wireframe: true,
+      transparent: true,
+      opacity: isDarkMode ? 0.09 : 0.05,
+    });
+    const innerSphere2 = new THREE.Mesh(innerGeo2, innerMat2);
+    globe2Group.add(innerSphere2);
+
+    // 3. Adaptive Solid Core for Globe 2
+    const solidCoreGeo2 = new THREE.SphereGeometry(globe2Radius * 0.82, 32, 32);
+    const solidCoreMat2 = new THREE.MeshStandardMaterial({
+      color: isDarkMode ? 0x02040a : 0x0284c7,
+      roughness: isDarkMode ? 0.2 : 0.9,
+      metalness: isDarkMode ? 0.95 : 0.1,
+      transparent: true,
+      opacity: isDarkMode ? 0.12 : 0.03,
+      depthWrite: false,
+    });
+    const solidCore2 = new THREE.Mesh(solidCoreGeo2, solidCoreMat2);
+    globe2Group.add(solidCore2);
+
+    // 3.5 Center Inner Cyber Shield for Globe 2
+    const shieldWidth2 = globe2Radius * 0.72;
+    const shieldHeight2 = globe2Radius * 0.78;
+    const shieldGeo2 = new THREE.PlaneGeometry(shieldWidth2, shieldHeight2);
+    const shieldMat2 = new THREE.MeshBasicMaterial({
+      map: shieldTex,
+      transparent: true,
+      opacity: isDarkMode ? 0.32 : 0.25,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+      blending: isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending,
+    });
+    const shieldMesh2 = new THREE.Mesh(shieldGeo2, shieldMat2);
+    shieldMesh2.onBeforeRender = (_renderer, _scene, cam) => {
+      shieldMesh2.quaternion.copy(cam.quaternion);
+    };
+    globe2Group.add(shieldMesh2);
+
+    // Center Core Light for Globe 2
+    const coreGlowLight2 = new THREE.PointLight(
+      isDarkMode ? 0x3b82f6 : 0x1d4ed8,
+      isDarkMode ? 0.50 : 0.35,
+      globe2Radius * 2.2
+    );
+    globe2Group.add(coreGlowLight2);
+
+    // 4. Point cloud nodes on Globe 2 surface (320 nodes)
+    const nodeCount2 = 320;
+    const nodePositions2 = new Float32Array(nodeCount2 * 3);
+    const nodeColors2 = new Float32Array(nodeCount2 * 3);
+
+    for (let i = 0; i < nodeCount2; i++) {
+      const phi = Math.acos(-1 + (2 * i) / nodeCount2);
+      const theta = Math.sqrt(nodeCount2 * Math.PI) * phi;
+      const r = globe2Radius * (1 + (Math.random() - 0.5) * 0.03);
+      const x = r * Math.cos(theta) * Math.sin(phi);
+      const y = r * Math.sin(theta) * Math.sin(phi);
+      const z = r * Math.cos(phi);
+
+      nodePositions2[i * 3] = x;
+      nodePositions2[i * 3 + 1] = y;
+      nodePositions2[i * 3 + 2] = z;
+
+      const c = i % 18 === 0 ? orange : i % 2 === 0 ? cyan : blue;
+      nodeColors2[i * 3] = c.r;
+      nodeColors2[i * 3 + 1] = c.g;
+      nodeColors2[i * 3 + 2] = c.b;
+    }
+
+    const nodeGeo2 = new THREE.BufferGeometry();
+    nodeGeo2.setAttribute('position', new THREE.BufferAttribute(nodePositions2, 3));
+    nodeGeo2.setAttribute('color', new THREE.BufferAttribute(nodeColors2, 3));
+    const nodeMat2 = new THREE.PointsMaterial({
+      size: 0.045,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.40,
+      blending: THREE.AdditiveBlending,
+    });
+    const globeNodes2 = new THREE.Points(nodeGeo2, nodeMat2);
+    globe2Group.add(globeNodes2);
+
+    // 5. Orbiting Satellites on Globe 2 (5 Satellites)
+    const satGroup2 = new THREE.Group();
+    globe2Group.add(satGroup2);
+    const satellites2: THREE.Mesh[] = [];
+    for (let i = 0; i < 5; i++) {
+      const isBlueSat = i % 2 === 0;
+      const satMesh2 = new THREE.Mesh(
+        new THREE.OctahedronGeometry(0.07, 0),
+        new THREE.MeshStandardMaterial({
+          color: isBlueSat ? 0x60a5fa : 0xd97706,
+          emissive: isBlueSat ? 0x60a5fa : 0xd97706,
+          emissiveIntensity: isBlueSat ? 0.8 : 0.5,
+        })
+      );
+      satellites2.push(satMesh2);
+      satGroup2.add(satMesh2);
+    }
+
+    // 6. Dual Core Inter-Globe Quantum Synapse Laser Beam
+    const dualCoreCurve = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(4.2, 0.20, 0),
+      new THREE.Vector3(0.0, 3.4, -1.0),
+      new THREE.Vector3(-4.5, 0.40, -3.2)
+    );
+    const dualCorePts = dualCoreCurve.getPoints(36);
+    const dualCoreLineGeo = new THREE.BufferGeometry().setFromPoints(dualCorePts);
+    const dualCoreLineMat = new THREE.LineBasicMaterial({
+      color: 0x60a5fa,
+      transparent: true,
+      opacity: isDarkMode ? 0.12 : 0.06,
+      blending: THREE.AdditiveBlending,
+    });
+    const dualCoreLine = new THREE.Line(dualCoreLineGeo, dualCoreLineMat);
+    universeGroup.add(dualCoreLine);
+
+    const dualCorePacketGeo = new THREE.SphereGeometry(0.045, 8, 8);
+    const dualCorePacketMat = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: 0x38bdf8,
+      emissiveIntensity: 1.5,
+      transparent: true,
+      opacity: 0.75,
+    });
+    const dualCorePacket = new THREE.Mesh(dualCorePacketGeo, dualCorePacketMat);
+    universeGroup.add(dualCorePacket);
+    let dualCoreProgress = 0;
+
+    // =====================================================================
+    // LAYER 2.5: MULTI-DEPTH SENTINEL GLOBE CONSTELLATION NETWORK
+    // =====================================================================
+    interface SentinelGlobe {
+      group: THREE.Group;
+      basePos: THREE.Vector3;
+      rotSpeedY: number;
+      rotSpeedX: number;
+      wireMesh: THREE.Mesh;
+      innerMesh: THREE.Mesh;
+      depthFactor: number;
+      satellites: THREE.Mesh[];
+    }
+
+    // Widely dispersed along distant outer corners & depth horizons
+    const sentinelConfigs = [
+      // Sentinel 1: Far Top-Left Horizon (North-West Sky)
+      {
+        pos: new THREE.Vector3(-10.5, 5.5, -11.0),
+        scale: 0.32,
+        opacity: isDarkMode ? 0.08 : 0.04,
+        rotY: 0.06,
+        rotX: 0.02,
+        depthFactor: 0.028,
+        hasSatellites: true,
+      },
+      // Sentinel 2: Far Bottom-Left Floor (South-West Corner)
+      {
+        pos: new THREE.Vector3(-9.8, -5.8, -12.5),
+        scale: 0.28,
+        opacity: isDarkMode ? 0.07 : 0.03,
+        rotY: -0.05,
+        rotX: 0.02,
+        depthFactor: 0.022,
+        hasSatellites: true,
+      },
+      // Sentinel 3: Far Top-Right Horizon (North-East Sky)
+      {
+        pos: new THREE.Vector3(11.0, 5.2, -13.0),
+        scale: 0.30,
+        opacity: isDarkMode ? 0.07 : 0.03,
+        rotY: -0.04,
+        rotX: 0.03,
+        depthFactor: 0.020,
+        hasSatellites: false,
+      },
+      // Sentinel 4: Far Bottom-Right Flank (South-East Deep Void)
+      {
+        pos: new THREE.Vector3(10.2, -5.6, -14.0),
+        scale: 0.26,
+        opacity: isDarkMode ? 0.06 : 0.03,
+        rotY: 0.04,
+        rotX: -0.02,
+        depthFactor: 0.016,
+        hasSatellites: false,
+      },
+      // Sentinel 5: High Zenith Sky Perimeter (Deep Top Void)
+      {
+        pos: new THREE.Vector3(0.0, 7.8, -17.5),
+        scale: 0.22,
+        opacity: isDarkMode ? 0.05 : 0.02,
+        rotY: 0.03,
+        rotX: 0.01,
+        depthFactor: 0.012,
+        hasSatellites: false,
+      },
+      // Sentinel 6: Deep South Nadir Horizon (Deep Bottom Void)
+      {
+        pos: new THREE.Vector3(1.5, -8.2, -18.5),
+        scale: 0.20,
+        opacity: isDarkMode ? 0.04 : 0.02,
+        rotY: -0.03,
+        rotX: 0.01,
+        depthFactor: 0.010,
+        hasSatellites: false,
+      },
+      // Sentinel 7: Far Western Periphery (Deep Far-Left Void)
+      {
+        pos: new THREE.Vector3(-14.0, 0.5, -16.5),
+        scale: 0.22,
+        opacity: isDarkMode ? 0.05 : 0.02,
+        rotY: 0.05,
+        rotX: -0.01,
+        depthFactor: 0.012,
+        hasSatellites: true,
+      },
+    ];
+
+    const sentinelGlobes: SentinelGlobe[] = [];
+
+    sentinelConfigs.forEach((cfg) => {
+      const sGroup = new THREE.Group();
+      sGroup.position.copy(cfg.pos);
+      sGroup.scale.setScalar(cfg.scale);
+      universeGroup.add(sGroup);
+
+      // Outer wireframe (shares icoGeo)
+      const sWireMat = new THREE.MeshBasicMaterial({
+        color: isDarkMode ? 0x3b82f6 : 0x1d4ed8,
+        wireframe: true,
+        transparent: true,
+        opacity: cfg.opacity * 0.75,
+      });
+      const sWire = new THREE.Mesh(icoGeo, sWireMat);
+      sGroup.add(sWire);
+
+      // Inner wireframe (shares innerGeo)
+      const sInnerMat = new THREE.MeshBasicMaterial({
+        color: isDarkMode ? 0x2563eb : 0x4f46e5,
+        wireframe: true,
+        transparent: true,
+        opacity: cfg.opacity * 0.50,
+      });
+      const sInner = new THREE.Mesh(innerGeo, sInnerMat);
+      sGroup.add(sInner);
+
+      // Shared node cloud
+      const sNodeMat = new THREE.PointsMaterial({
+        size: 0.038,
+        vertexColors: true,
+        transparent: true,
+        opacity: cfg.opacity * 1.4,
+        blending: THREE.AdditiveBlending,
+      });
+      const sNodes = new THREE.Points(nodeGeo, sNodeMat);
+      sGroup.add(sNodes);
+
+      // Inner Cyber Shield Emblem for Sentinel Globe
+      const sShieldMat = new THREE.MeshBasicMaterial({
+        map: shieldTex,
+        transparent: true,
+        opacity: isDarkMode ? Math.min(0.26, cfg.opacity * 1.8) : cfg.opacity * 1.2,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+        blending: isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending,
+      });
+      const sShield = new THREE.Mesh(shieldGeo, sShieldMat);
+      sShield.onBeforeRender = (_renderer, _scene, cam) => {
+        sShield.quaternion.copy(cam.quaternion);
+      };
+      sGroup.add(sShield);
+
+      // Sentinel Core Illumination
+      const sCoreLight = new THREE.PointLight(
+        isDarkMode ? 0x3b82f6 : 0x1d4ed8,
+        cfg.opacity * 2.0,
+        globeRadius * 2.0
+      );
+      sGroup.add(sCoreLight);
+
+      // Orbiting sentinel satellites
+      const sSats: THREE.Mesh[] = [];
+      if (cfg.hasSatellites) {
+        for (let s = 0; s < 3; s++) {
+          const sSat = new THREE.Mesh(
+            new THREE.OctahedronGeometry(0.06, 0),
+            new THREE.MeshStandardMaterial({
+              color: 0x3b82f6,
+              emissive: 0x3b82f6,
+              emissiveIntensity: 0.7,
+            })
+          );
+          sSats.push(sSat);
+          sGroup.add(sSat);
+        }
+      }
+
+      sentinelGlobes.push({
+        group: sGroup,
+        basePos: cfg.pos.clone(),
+        rotSpeedY: cfg.rotY,
+        rotSpeedX: cfg.rotX,
+        wireMesh: sWire,
+        innerMesh: sInner,
+        depthFactor: cfg.depthFactor,
+        satellites: sSats,
+      });
+    });
+
+    // Inter-Globe Constellation Data Backbone Laser Beams
+    interface InterNodeBeam {
+      curve: THREE.QuadraticBezierCurve3;
+      arcLine: THREE.Line;
+      packetMesh: THREE.Mesh;
+      progress: number;
+      speed: number;
+    }
+
+    const interNodeBeams: InterNodeBeam[] = [];
+
+    sentinelConfigs.forEach((cfg, idx) => {
+      const start = new THREE.Vector3(2.8, 0.15, 0);
+      const end = cfg.pos.clone();
+      const mid = start.clone().add(end).multiplyScalar(0.5).add(new THREE.Vector3(0, 1.0, 1.2));
+      const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+      const pts = curve.getPoints(36);
+      const bGeo = new THREE.BufferGeometry().setFromPoints(pts);
+      const bMat = new THREE.LineBasicMaterial({
+        color: 0x3b82f6,
+        transparent: true,
+        opacity: isDarkMode ? 0.06 : 0.03,
+        blending: THREE.AdditiveBlending,
+      });
+      const arcLine = new THREE.Line(bGeo, bMat);
+      universeGroup.add(arcLine);
+
+      const pGeo = new THREE.SphereGeometry(0.04, 6, 6);
+      const pMat = new THREE.MeshStandardMaterial({
+        color: 0x60a5fa,
+        emissive: 0x60a5fa,
+        emissiveIntensity: 1.2,
+        transparent: true,
+        opacity: 0.6,
+      });
+      const packetMesh = new THREE.Mesh(pGeo, pMat);
+      universeGroup.add(packetMesh);
+
+      interNodeBeams.push({
+        curve,
+        arcLine,
+        packetMesh,
+        progress: 0.25 * idx,
+        speed: 0.002 + idx * 0.0008,
+      });
+    });
 
     // =====================================================================
     // VOLUMETRIC GLOW AURA (radial gradient — no hard edges)
@@ -553,7 +931,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         // Subtle breathing pulse
         float pulse = sin(uTime * 0.6) * 0.06 + 1.0;
 
-        float alpha = glow * (uDarkMode > 0.5 ? 0.04 : 0.02) * pulse;
+        float alpha = glow * (uDarkMode > 0.5 ? 0.010 : 0.006) * pulse;
 
         // Kill fully transparent fragments
         if (alpha < 0.002) discard;
@@ -584,14 +962,54 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     globeGroup.add(glowPlane);
 
     // =====================================================================
-    // SCROLL-DRIVEN 3D CAMERA & SPATIAL WAYPOINTS (unchanged)
+    // SCROLL-DRIVEN 3D CAMERA & SPATIAL WAYPOINTS (Synchronized Dual Core)
     // =====================================================================
     const cameraWaypoints = [
-      { scroll: 0.0,  pos: new THREE.Vector3(0, 0.2, 9.2),    look: new THREE.Vector3(0.5, 0, 0),     globePos: new THREE.Vector3(2.8, 0.15, 0),     globeScale: 1.0 },
-      { scroll: 0.25, pos: new THREE.Vector3(2.6, -0.4, 6.2),  look: new THREE.Vector3(1.2, 0, 0),     globePos: new THREE.Vector3(3.2, -0.3, -2.0),  globeScale: 0.95 },
-      { scroll: 0.50, pos: new THREE.Vector3(-2.8, -0.4, 5.0), look: new THREE.Vector3(-1.5, -0.5, -2), globePos: new THREE.Vector3(-3.0, -0.5, -3.0), globeScale: 0.85 },
-      { scroll: 0.75, pos: new THREE.Vector3(0, 2.5, 6.8),    look: new THREE.Vector3(0, 1.0, -4.0),   globePos: new THREE.Vector3(0, 1.2, -4.5),      globeScale: 0.80 },
-      { scroll: 1.0,  pos: new THREE.Vector3(0, 0, 6.0),      look: new THREE.Vector3(0, 0, 0),        globePos: new THREE.Vector3(2.4, 0, -2.0),      globeScale: 0.85 },
+      {
+        scroll: 0.0,
+        pos: new THREE.Vector3(0, 0.2, 9.2),
+        look: new THREE.Vector3(0.0, 0, 0),
+        globePos: new THREE.Vector3(4.2, 0.20, 0.0),
+        globeScale: 1.0,
+        globe2Pos: new THREE.Vector3(-4.5, 0.40, -3.2),
+        globe2Scale: 0.92,
+      },
+      {
+        scroll: 0.25,
+        pos: new THREE.Vector3(1.8, -0.4, 6.5),
+        look: new THREE.Vector3(0.6, 0, 0),
+        globePos: new THREE.Vector3(4.6, -0.4, -1.8),
+        globeScale: 0.95,
+        globe2Pos: new THREE.Vector3(-4.8, 0.8, -4.0),
+        globe2Scale: 0.86,
+      },
+      {
+        scroll: 0.50,
+        pos: new THREE.Vector3(-1.8, -0.4, 5.5),
+        look: new THREE.Vector3(-0.6, -0.5, -2),
+        globePos: new THREE.Vector3(-4.4, -0.6, -2.5),
+        globeScale: 0.85,
+        globe2Pos: new THREE.Vector3(4.4, 0.6, -4.5),
+        globe2Scale: 0.80,
+      },
+      {
+        scroll: 0.75,
+        pos: new THREE.Vector3(0, 2.5, 6.8),
+        look: new THREE.Vector3(0, 1.0, -4.0),
+        globePos: new THREE.Vector3(4.2, 1.4, -3.8),
+        globeScale: 0.80,
+        globe2Pos: new THREE.Vector3(-4.2, -1.4, -5.2),
+        globe2Scale: 0.75,
+      },
+      {
+        scroll: 1.0,
+        pos: new THREE.Vector3(0, 0, 6.0),
+        look: new THREE.Vector3(0, 0, 0),
+        globePos: new THREE.Vector3(4.0, 0.1, -1.8),
+        globeScale: 0.85,
+        globe2Pos: new THREE.Vector3(-4.2, 0.4, -3.6),
+        globe2Scale: 0.80,
+      },
     ];
 
     let currentScrollProgress = 0;
@@ -600,6 +1018,33 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     let mouseY = 0;
     let targetMouseX = 0;
     let targetMouseY = 0;
+
+    // Dynamic Responsive Scaling Multipliers
+    let responsiveScale1 = 1.0;
+    let responsiveScale2 = 0.90;
+    let responsiveOffset1X = 0;
+    let responsiveOffset2X = 0;
+
+    const updateResponsiveFactors = () => {
+      const w = window.innerWidth;
+      if (w < 640) {
+        responsiveScale1 = 0.62;
+        responsiveScale2 = 0.50;
+        responsiveOffset1X = -0.5;
+        responsiveOffset2X = 0.4;
+      } else if (w < 1024) {
+        responsiveScale1 = 0.80;
+        responsiveScale2 = 0.70;
+        responsiveOffset1X = -0.25;
+        responsiveOffset2X = 0.2;
+      } else {
+        responsiveScale1 = 1.0;
+        responsiveScale2 = 0.90;
+        responsiveOffset1X = 0;
+        responsiveOffset2X = 0;
+      }
+    };
+    updateResponsiveFactors();
 
     const handleScroll = () => {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -615,6 +1060,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const handleResize = () => {
       if (!container) return;
+      updateResponsiveFactors();
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -643,8 +1089,17 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const curLook = new THREE.Vector3().lerpVectors(p1.look, p2.look, easeT);
       const curGlobePos = new THREE.Vector3().lerpVectors(p1.globePos, p2.globePos, easeT);
       const curGlobeScale = THREE.MathUtils.lerp(p1.globeScale, p2.globeScale, easeT);
+      const curGlobe2Pos = new THREE.Vector3().lerpVectors(p1.globe2Pos, p2.globe2Pos, easeT);
+      const curGlobe2Scale = THREE.MathUtils.lerp(p1.globe2Scale, p2.globe2Scale, easeT);
 
-      return { pos: curPos, look: curLook, globePos: curGlobePos, globeScale: curGlobeScale };
+      return {
+        pos: curPos,
+        look: curLook,
+        globePos: curGlobePos,
+        globeScale: curGlobeScale,
+        globe2Pos: curGlobe2Pos,
+        globe2Scale: curGlobe2Scale,
+      };
     };
 
     // =====================================================================
@@ -673,19 +1128,33 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       camera.position.y -= mouseY * 0.3;
       camera.lookAt(currentCameraLook);
 
-      // Globe continuous rotation & scroll response
+      // --- Globe 1 Animation & Sync ---
       globeGroup.rotation.y = elapsed * 0.10 + currentScrollProgress * Math.PI;
       globeGroup.rotation.x = currentScrollProgress * 0.5;
       wireSphere.rotation.x = elapsed * 0.04;
       innerSphere.rotation.y = -elapsed * 0.06;
 
-      // Smoothly update globe position and scale based on scroll
-      globeGroup.position.lerp(camTarget.globePos, 0.08);
+      const targetPos1 = camTarget.globePos.clone();
+      targetPos1.x += responsiveOffset1X;
+      globeGroup.position.lerp(targetPos1, 0.08);
       globeGroup.position.x += mouseX * 0.2;
       globeGroup.position.y -= mouseY * 0.15;
-      globeGroup.scale.setScalar(camTarget.globeScale);
+      globeGroup.scale.setScalar(camTarget.globeScale * responsiveScale1);
 
-      // Satellites orbiting in true 3D space
+      // --- Globe 2 (Twin Defense Core) Animation & Sync ---
+      globe2Group.rotation.y = elapsed * 0.08 + currentScrollProgress * Math.PI;
+      globe2Group.rotation.x = currentScrollProgress * 0.4;
+      wireSphere2.rotation.x = -elapsed * 0.035;
+      innerSphere2.rotation.y = elapsed * 0.05;
+
+      const targetPos2 = camTarget.globe2Pos.clone();
+      targetPos2.x += responsiveOffset2X;
+      globe2Group.position.lerp(targetPos2, 0.08);
+      globe2Group.position.x += mouseX * 0.12;
+      globe2Group.position.y -= mouseY * 0.09;
+      globe2Group.scale.setScalar(camTarget.globe2Scale * responsiveScale2);
+
+      // Globe 1 Satellites
       satellites.forEach((sat, i) => {
         const satAngle = elapsed * (0.30 + i * 0.06) + (i * Math.PI) / 3.5;
         const satRadius = globeRadius * (1.3 + (i % 3) * 0.18);
@@ -698,22 +1167,79 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         sat.rotation.y += 0.04;
       });
 
-      // ── Animated Data-Stream Packets ──
+      // Globe 2 Satellites
+      satellites2.forEach((sat, i) => {
+        const satAngle = elapsed * (0.28 + i * 0.07) + (i * Math.PI) / 2.5;
+        const satRadius = globe2Radius * (1.25 + (i % 2) * 0.2);
+        sat.position.set(
+          Math.cos(satAngle) * satRadius,
+          Math.sin(satAngle * 1.2) * (satRadius * 0.5),
+          Math.sin(satAngle) * satRadius
+        );
+        sat.rotation.x += 0.03;
+        sat.rotation.y += 0.04;
+      });
+
+      // Update Dual-Core Quantum Synapse Bridge
+      dualCoreProgress = (dualCoreProgress + 0.005) % 1;
+      const g1World = globeGroup.position.clone();
+      const g2World = globe2Group.position.clone();
+      const midBridge = g1World.clone().add(g2World).multiplyScalar(0.5).add(new THREE.Vector3(0, 3.2, -0.5));
+      dualCoreCurve.v0.copy(g1World);
+      dualCoreCurve.v1.copy(midBridge);
+      dualCoreCurve.v2.copy(g2World);
+
+      const bridgePoints = dualCoreCurve.getPoints(36);
+      dualCoreLine.geometry.setFromPoints(bridgePoints);
+      const packetPos = dualCoreCurve.getPointAt(dualCoreProgress);
+      dualCorePacket.position.copy(packetPos);
+
+      // ── Animated Data-Stream Packets (Globe 1) ──
       dataStreams.forEach((stream) => {
         stream.packets.forEach((packet) => {
           packet.progress += packet.speed;
           if (packet.progress > 1) packet.progress -= 1;
           const pt = stream.curve.getPointAt(packet.progress);
           packet.mesh.position.copy(pt);
-          // Pulse glow based on position
           const mat = packet.mesh.material as THREE.MeshStandardMaterial;
-          mat.emissiveIntensity = 2.5 + Math.sin(elapsed * 4 + packet.progress * 10) * 1.0;
+          mat.emissiveIntensity = 1.2 + Math.sin(elapsed * 4 + packet.progress * 10) * 0.4;
         });
       });
 
-      // ── Volumetric Glow Gradient & Core Light Update ──
+      // ── Sentinel Globes Constellation Animation ──
+      sentinelGlobes.forEach((sg, i) => {
+        sg.group.rotation.y = elapsed * sg.rotSpeedY + currentScrollProgress * 0.4;
+        sg.group.rotation.x = elapsed * sg.rotSpeedX;
+        sg.wireMesh.rotation.y = -elapsed * 0.03;
+        sg.innerMesh.rotation.x = elapsed * 0.02;
+
+        sg.group.position.x = sg.basePos.x + mouseX * sg.depthFactor * 16;
+        sg.group.position.y = sg.basePos.y - mouseY * sg.depthFactor * 12 + Math.sin(elapsed * 0.6 + i * 1.5) * 0.12;
+
+        sg.satellites.forEach((sat, si) => {
+          const sAngle = elapsed * (0.35 + si * 0.10) + (si * Math.PI) / 1.5;
+          const sRad = globeRadius * (1.25 + si * 0.18);
+          sat.position.set(
+            Math.cos(sAngle) * sRad,
+            Math.sin(sAngle * 1.2) * (sRad * 0.45),
+            Math.sin(sAngle) * sRad
+          );
+          sat.rotation.x += 0.03;
+        });
+      });
+
+      // ── Inter-Globe Data Stream Packets ──
+      interNodeBeams.forEach((beam) => {
+        beam.progress += beam.speed;
+        if (beam.progress > 1) beam.progress -= 1;
+        const pt = beam.curve.getPointAt(beam.progress);
+        beam.packetMesh.position.copy(pt);
+      });
+
+      // ── Volumetric Glow Gradient & Core Lights Update ──
       glowMat.uniforms.uTime.value = elapsed;
-      coreGlowLight.intensity = (isDarkMode ? 2.2 : 1.4) + Math.sin(elapsed * 2.0) * 0.3;
+      coreGlowLight.intensity = (isDarkMode ? 0.65 : 0.45) + Math.sin(elapsed * 2.0) * 0.10;
+      coreGlowLight2.intensity = (isDarkMode ? 0.50 : 0.35) + Math.sin(elapsed * 2.0 + 1.0) * 0.08;
 
       // ── Flow-Field Particle Animation ──
       const posArray = particleGeo.attributes.position.array as Float32Array;
@@ -778,8 +1304,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden transition-colors duration-700"
       style={{
         background: isDarkMode
-          ? 'radial-gradient(circle at 100% 100%, rgba(255, 107, 0, 0.36) 0%, rgba(249, 115, 22, 0.22) 5%, rgba(234, 88, 12, 0.12) 12%, rgba(234, 88, 12, 0.05) 20%, rgba(234, 88, 12, 0.01) 28%, transparent 36%), radial-gradient(ellipse at 15% 45%, rgba(37, 99, 235, 0.12) 0%, transparent 55%), radial-gradient(ellipse at 50% 30%, #030714 0%, #01030a 60%, #000000 100%)'
-          : 'radial-gradient(circle at 100% 100%, rgba(255, 107, 0, 0.22) 0%, rgba(249, 115, 22, 0.14) 5%, rgba(234, 88, 12, 0.07) 12%, rgba(234, 88, 12, 0.02) 20%, transparent 32%), radial-gradient(ellipse at 15% 25%, rgba(2, 132, 199, 0.06) 0%, transparent 50%), linear-gradient(180deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
+          ? 'radial-gradient(circle at 100% 100%, rgba(255, 107, 0, 0.20) 0%, rgba(249, 115, 22, 0.12) 5%, rgba(234, 88, 12, 0.06) 12%, rgba(234, 88, 12, 0.02) 20%, transparent 30%), radial-gradient(ellipse at 15% 45%, rgba(37, 99, 235, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 30%, #02040b 0%, #010206 60%, #000000 100%)'
+          : 'radial-gradient(circle at 100% 100%, rgba(255, 107, 0, 0.14) 0%, rgba(249, 115, 22, 0.08) 5%, rgba(234, 88, 12, 0.04) 12%, rgba(234, 88, 12, 0.01) 20%, transparent 28%), radial-gradient(ellipse at 15% 25%, rgba(2, 132, 199, 0.04) 0%, transparent 50%), linear-gradient(180deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
       }}
       aria-hidden="true"
     />
