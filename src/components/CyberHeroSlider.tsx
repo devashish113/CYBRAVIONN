@@ -280,38 +280,6 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
         </button>
       </div>
 
-      {/* TOP PILLAR SWITCHER TABS (Smart Space Utilization) */}
-      <div className="w-full max-w-5xl mx-auto px-4 mb-8 sm:mb-10 relative z-20">
-        <div className={`p-1.5 rounded-2xl border backdrop-blur-xl flex items-center justify-start sm:justify-center gap-1.5 overflow-x-auto no-scrollbar ${
-          isDarkMode
-            ? 'bg-stone-950/80 border-stone-800/80 shadow-[0_4px_30px_rgba(0,0,0,0.6)]'
-            : 'bg-white/80 border-slate-200 shadow-sm'
-        }`}>
-          {slides.map((slide, idx) => {
-            const isActive = idx === currentIndex;
-            const TabIcon = slide.icon;
-            return (
-              <button
-                key={slide.id}
-                onClick={() => goToSlide(idx)}
-                className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 flex items-center gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
-                  isActive
-                    ? isDarkMode
-                      ? 'bg-gradient-to-r from-blue-600/30 to-orange-500/20 text-white border border-blue-500/40 shadow-[0_0_20px_rgba(37,99,235,0.25)]'
-                      : 'bg-blue-50 text-blue-700 border border-blue-200 shadow-sm'
-                    : isDarkMode
-                      ? 'text-stone-400 hover:text-stone-200 hover:bg-stone-900/50 border border-transparent'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
-                }`}
-              >
-                <TabIcon size={14} className={isActive ? 'text-blue-500 dark:text-blue-400' : 'opacity-60'} />
-                <span>{slide.tabLabel}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       {/* MAIN CENTERED HERO SLIDE CONTENT */}
       <div className="relative z-10 w-full px-6 sm:px-12 md:px-16 max-w-5xl mx-auto flex-1 flex flex-col justify-center items-center text-center">
         <AnimatePresence mode="wait" custom={direction}>
