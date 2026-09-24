@@ -231,19 +231,15 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
       onMouseLeave={() => setIsPaused(false)}
       className="relative min-h-[90vh] lg:min-h-[92vh] flex flex-col justify-between overflow-hidden bg-transparent pt-28 md:pt-36 pb-12 select-none"
     >
-      {/* Subtle Royal Blue & Cyber Orange Ambient Backdrops */}
+      {/* Subtle Deep Sapphire Ambient Backdrop */}
       <div 
-        className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[160px] opacity-15 pointer-events-none transition-colors duration-1000"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full blur-[180px] opacity-15 pointer-events-none transition-colors duration-1000"
         style={{ backgroundColor: isDarkMode ? '#1d4ed8' : '#bfdbfe' }}
-      />
-      <div 
-        className="absolute top-1/2 right-1/4 w-[500px] h-[500px] rounded-full blur-[160px] opacity-12 pointer-events-none transition-colors duration-1000"
-        style={{ backgroundColor: isDarkMode ? '#ea580c' : '#fed7aa' }}
       />
 
       {/* Grid line overlay */}
       <div 
-        className="absolute inset-0 -z-10 opacity-25 dark:opacity-10 pointer-events-none bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,#000_60%,transparent_90%)]"
+        className="absolute inset-0 -z-10 opacity-20 dark:opacity-10 pointer-events-none bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,#000_60%,transparent_90%)]"
         style={{
           backgroundImage: isDarkMode
             ? 'linear-gradient(rgba(37, 99, 235, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(37, 99, 235, 0.12) 1px, transparent 1px)'
@@ -258,8 +254,8 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
           aria-label="Previous Slide"
           className={`p-3 rounded-full transition-all duration-300 backdrop-blur-xl flex items-center justify-center cursor-pointer ${
             isDarkMode 
-              ? 'bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-orange-400 border border-stone-800 hover:border-orange-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' 
-              : 'bg-white/90 hover:bg-white text-slate-700 hover:text-orange-600 border border-slate-200 hover:border-orange-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+              ? 'bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-blue-400 border border-stone-800 hover:border-blue-500/40 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' 
+              : 'bg-white/90 hover:bg-white text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-500/40 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
           } hover:scale-110 active:scale-95`}
         >
           <ChevronLeft size={22} />
@@ -272,8 +268,8 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
           aria-label="Next Slide"
           className={`p-3 rounded-full transition-all duration-300 backdrop-blur-xl flex items-center justify-center cursor-pointer ${
             isDarkMode 
-              ? 'bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-orange-400 border border-stone-800 hover:border-orange-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' 
-              : 'bg-white/90 hover:bg-white text-slate-700 hover:text-orange-600 border border-slate-200 hover:border-orange-500/50 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+              ? 'bg-stone-900/80 hover:bg-stone-800 text-stone-300 hover:text-blue-400 border border-stone-800 hover:border-blue-500/40 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' 
+              : 'bg-white/90 hover:bg-white text-slate-700 hover:text-blue-600 border border-slate-200 hover:border-blue-500/40 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
           } hover:scale-110 active:scale-95`}
         >
           <ChevronRight size={22} />
@@ -293,15 +289,15 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
             className="flex flex-col items-center max-w-4xl"
           >
             {/* Category Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-[11px] sm:text-xs uppercase tracking-[0.25em] font-mono font-bold text-orange-600 dark:text-orange-400 border border-orange-500/20 bg-orange-500/5 mb-6">
-              <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-[11px] sm:text-xs uppercase tracking-[0.25em] font-mono font-bold text-blue-500 dark:text-blue-400 border border-blue-500/20 bg-blue-500/5 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
               <span>{currentSlide.tag}</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] text-slate-900 dark:text-white mb-6 tracking-tight">
               {currentSlide.titlePart1} <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-blue-700 via-sky-600 to-orange-600 dark:from-blue-400 dark:via-sky-300 dark:to-orange-400 bg-clip-text text-transparent drop-shadow-sm dark:drop-shadow-[0_0_35px_rgba(249,115,22,0.25)]">
+              <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-blue-400 dark:from-blue-400 dark:via-sky-300 dark:to-indigo-400 bg-clip-text text-transparent drop-shadow-sm dark:drop-shadow-[0_0_20px_rgba(37,99,235,0.25)]">
                 {currentSlide.titleGradient}
               </span>
             </h1>
@@ -322,7 +318,7 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
                       : 'bg-white/95 border-slate-200 text-slate-800 shadow-sm'
                   }`}
                 >
-                  <span className="w-4 h-4 rounded-full bg-orange-500/20 text-orange-500 dark:text-orange-400 flex items-center justify-center font-bold">
+                  <span className="w-4 h-4 rounded-full bg-blue-500/15 text-blue-500 dark:text-blue-400 flex items-center justify-center font-bold">
                     <Check size={12} className="stroke-[3]" />
                   </span>
                   <span>{pill}</span>
@@ -336,7 +332,7 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={currentSlide.ctaAction}
-                className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 group min-h-[50px] cursor-pointer text-white shadow-lg bg-gradient-to-r from-blue-600 via-sky-500 to-orange-500 hover:from-blue-500 hover:via-sky-400 hover:to-orange-400 shadow-blue-500/20 hover:shadow-orange-500/30"
+                className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 group min-h-[50px] cursor-pointer text-white shadow-lg bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-[0_0_20px_rgba(37,99,235,0.3)]"
               >
                 <span>{currentSlide.ctaText}</span>
                 <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />

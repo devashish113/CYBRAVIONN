@@ -76,7 +76,7 @@ function createFadingGrid(isDarkMode: boolean): THREE.Mesh {
     fragmentShader,
     uniforms: {
       uColor: { value: lineColor },
-      uOpacity: { value: isDarkMode ? 0.22 : 0.30 },
+      uOpacity: { value: isDarkMode ? 0.15 : 0.20 },
       uGridSize: { value: gridSize },
       uDivisions: { value: gridDivisions },
     },
@@ -116,11 +116,11 @@ function createAtmosphereHaze(isDarkMode: boolean): THREE.Mesh {
       float hueShift = sin(uScrollProgress * 3.14159) * 0.15;
 
       vec3 colorA = uDarkMode > 0.5
-        ? vec3(0.01, 0.08, 0.28 + hueShift * 0.2) // Deep cyber blue
-        : vec3(0.02, 0.08, 0.22);
+        ? vec3(0.01, 0.05, 0.20 + hueShift * 0.1) // Deep cyber sapphire
+        : vec3(0.02, 0.06, 0.18);
       vec3 colorB = uDarkMode > 0.5
-        ? vec3(0.32 + hueShift * 0.1, 0.10, 0.01) // Deep cyber orange
-        : vec3(0.18, 0.06, 0.02);
+        ? vec3(0.002, 0.015, 0.06) // Deep obsidian space
+        : vec3(0.01, 0.03, 0.10);
 
       float radial = 1.0 - smoothstep(0.0, 0.75, dist);
       vec3 color = mix(colorB, colorA, radial);
@@ -128,7 +128,7 @@ function createAtmosphereHaze(isDarkMode: boolean): THREE.Mesh {
       // Subtle pulsing
       float pulse = sin(uTime * 0.5) * 0.008 + 1.0;
 
-      float alpha = radial * radial * radial * (uDarkMode > 0.5 ? 0.08 : 0.025) * pulse;
+      float alpha = radial * radial * (uDarkMode > 0.5 ? 0.04 : 0.015) * pulse;
       gl_FragColor = vec4(color, alpha);
     }
   `;
@@ -164,8 +164,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // =====================================================================
     const scene = new THREE.Scene();
     scene.fog = isDarkMode
-      ? new THREE.FogExp2(0x02050e, 0.022)
-      : new THREE.FogExp2(0xf1f5f9, 0.015);
+      ? new THREE.FogExp2(0x02050e, 0.012)
+      : new THREE.FogExp2(0xf1f5f9, 0.010);
 
     const camera = new THREE.PerspectiveCamera(
       42,
@@ -193,7 +193,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isDarkMode ? 0.35 : 0.18,   // strength
+      isDarkMode ? 0.32 : 0.18,   // strength
       0.6,                        // radius
       0.72                        // threshold
     );
@@ -203,10 +203,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     composer.addPass(outputPass);
 
     // =====================================================================
-    // 2. LIGHTING SYSTEM (tuned for balanced subtle contrast)
+    // 2. LIGHTING SYSTEM (Vibrant Sapphire Blue + Bottom-Right Cyber Orange)
     // =====================================================================
     const ambientLight = new THREE.AmbientLight(
-      isDarkMode ? 0x060f1e : 0xd6e0eb,
+      isDarkMode ? 0x0c1e36 : 0xd6e0eb,
       isDarkMode ? 0.85 : 1.4
     );
     scene.add(ambientLight);
@@ -226,8 +226,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     scene.add(dirLight2);
 
     const rimLight = new THREE.PointLight(
-      isDarkMode ? 0xf97316 : 0xea580c,
-      isDarkMode ? 2.5 : 2.0,
+      isDarkMode ? 0x1e40af : 0x2563eb,
+      isDarkMode ? 0.8 : 1.0,
       45
     );
     rimLight.position.set(0, -6, -8);
@@ -402,20 +402,13 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
     globeGroup.add(shieldMesh);
 
-    // Center Core Lights to illuminate dual gold/cyan shield from inside
+    // Center Core Light to illuminate shield with pure sapphire blue
     const coreGlowLight = new THREE.PointLight(
       isDarkMode ? 0x3b82f6 : 0x1d4ed8,
-      isDarkMode ? 2.8 : 1.8,
+      isDarkMode ? 2.2 : 1.6,
       globeRadius * 2.2
     );
     globeGroup.add(coreGlowLight);
-
-    const coreAmberLight = new THREE.PointLight(
-      0xf97316,
-      isDarkMode ? 2.5 : 1.5,
-      globeRadius * 1.6
-    );
-    globeGroup.add(coreAmberLight);
 
     // 4. Point cloud nodes on globe surface (380 nodes)
     const nodeCount = 380;
@@ -467,9 +460,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const satMesh = new THREE.Mesh(
         new THREE.OctahedronGeometry(0.08, 0),
         new THREE.MeshStandardMaterial({
-          color: isBlueSat ? 0x3b82f6 : 0xf97316,
-          emissive: isBlueSat ? 0x3b82f6 : 0xf97316,
-          emissiveIntensity: 2.5,
+          color: isBlueSat ? 0x3b82f6 : 0xd97706,
+          emissive: isBlueSat ? 0x3b82f6 : 0xd97706,
+          emissiveIntensity: isBlueSat ? 1.8 : 1.0,
         })
       );
       satellites.push(satMesh);
@@ -549,18 +542,18 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         // Smooth exponential falloff — no hard edges
         float glow = exp(-dist * dist * 3.2);
 
-        // Multi-color gradient: core electric blue → mid blue → outer cyber orange
-        vec3 blueCore   = uDarkMode > 0.5 ? vec3(0.05, 0.50, 1.0) : vec3(0.01, 0.42, 0.88);
-        vec3 blueMid    = uDarkMode > 0.5 ? vec3(0.08, 0.24, 0.85) : vec3(0.05, 0.18, 0.70);
-        vec3 orangeOut  = uDarkMode > 0.5 ? vec3(0.95, 0.45, 0.05) : vec3(0.85, 0.35, 0.02);
+        // Pure sapphire & electric blue gradient for center globe aura
+        vec3 blueCore = uDarkMode > 0.5 ? vec3(0.05, 0.45, 0.95) : vec3(0.01, 0.42, 0.88);
+        vec3 blueMid  = uDarkMode > 0.5 ? vec3(0.04, 0.18, 0.70) : vec3(0.03, 0.14, 0.60);
+        vec3 blueEdge = uDarkMode > 0.5 ? vec3(0.01, 0.06, 0.30) : vec3(0.01, 0.05, 0.20);
 
-        vec3 color = mix(blueCore, blueMid, smoothstep(0.0, 0.45, dist));
-        color = mix(color, orangeOut, smoothstep(0.40, 0.85, dist));
+        vec3 color = mix(blueCore, blueMid, smoothstep(0.0, 0.50, dist));
+        color = mix(color, blueEdge, smoothstep(0.45, 0.90, dist));
 
         // Subtle breathing pulse
-        float pulse = sin(uTime * 0.6) * 0.08 + 1.0;
+        float pulse = sin(uTime * 0.6) * 0.06 + 1.0;
 
-        float alpha = glow * (uDarkMode > 0.5 ? 0.09 : 0.035) * pulse;
+        float alpha = glow * (uDarkMode > 0.5 ? 0.04 : 0.02) * pulse;
 
         // Kill fully transparent fragments
         if (alpha < 0.002) discard;
@@ -720,8 +713,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
       // ── Volumetric Glow Gradient & Core Light Update ──
       glowMat.uniforms.uTime.value = elapsed;
-      coreGlowLight.intensity = (isDarkMode ? 2.8 : 1.8) + Math.sin(elapsed * 2.0) * 0.4;
-      coreAmberLight.intensity = (isDarkMode ? 2.5 : 1.5) + Math.cos(elapsed * 2.0) * 0.4;
+      coreGlowLight.intensity = (isDarkMode ? 2.2 : 1.4) + Math.sin(elapsed * 2.0) * 0.3;
 
       // ── Flow-Field Particle Animation ──
       const posArray = particleGeo.attributes.position.array as Float32Array;
@@ -786,8 +778,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden transition-colors duration-700"
       style={{
         background: isDarkMode
-          ? 'radial-gradient(ellipse at 80% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 45%), radial-gradient(ellipse at 20% 70%, rgba(37, 99, 235, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 30%, #030712 0%, #020408 60%, #000000 100%)'
-          : 'radial-gradient(ellipse at 15% 15%, rgba(2, 132, 199, 0.05) 0%, transparent 45%), radial-gradient(ellipse at 85% 35%, rgba(249, 115, 22, 0.04) 0%, transparent 50%), linear-gradient(180deg, #edf2f7 0%, #e2e8f0 50%, #cbd5e1 100%)',
+          ? 'radial-gradient(circle at 100% 100%, rgba(255, 107, 0, 0.36) 0%, rgba(249, 115, 22, 0.22) 5%, rgba(234, 88, 12, 0.12) 12%, rgba(234, 88, 12, 0.05) 20%, rgba(234, 88, 12, 0.01) 28%, transparent 36%), radial-gradient(ellipse at 15% 45%, rgba(37, 99, 235, 0.12) 0%, transparent 55%), radial-gradient(ellipse at 50% 30%, #030714 0%, #01030a 60%, #000000 100%)'
+          : 'radial-gradient(circle at 100% 100%, rgba(255, 107, 0, 0.22) 0%, rgba(249, 115, 22, 0.14) 5%, rgba(234, 88, 12, 0.07) 12%, rgba(234, 88, 12, 0.02) 20%, transparent 32%), radial-gradient(ellipse at 15% 25%, rgba(2, 132, 199, 0.06) 0%, transparent 50%), linear-gradient(180deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
       }}
       aria-hidden="true"
     />

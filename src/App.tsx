@@ -1371,6 +1371,8 @@ export default function App() {
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
       <CyberUniverse3D currentView={currentView} isDarkMode={isDarkMode} />
 
+
+
       <div className="relative z-10">
         <Navbar 
           currentView={currentView} 
