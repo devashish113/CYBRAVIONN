@@ -289,15 +289,17 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
             className="flex flex-col items-center max-w-4xl"
           >
             {/* Category Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-[11px] sm:text-xs uppercase tracking-[0.25em] font-mono font-bold text-blue-500 dark:text-blue-400 border border-blue-500/20 bg-blue-500/5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-              <span>{currentSlide.tag}</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] sm:text-xs uppercase tracking-[0.25em] font-mono font-bold border border-blue-500/30 dark:border-blue-500/40 bg-gradient-to-r from-blue-500/10 via-sky-500/5 to-orange-500/10 mb-6 shadow-[0_0_20px_rgba(249,115,22,0.12)]">
+              <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-orange-500 animate-pulse" />
+              <span className="bg-gradient-to-r from-blue-600 via-sky-500 to-orange-500 dark:from-sky-400 dark:via-blue-300 dark:to-orange-400 bg-clip-text text-transparent">
+                {currentSlide.tag}
+              </span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] text-slate-900 dark:text-white mb-6 tracking-tight">
               {currentSlide.titlePart1} <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-blue-400 dark:from-blue-400 dark:via-sky-300 dark:to-indigo-400 bg-clip-text text-transparent drop-shadow-sm dark:drop-shadow-[0_0_20px_rgba(37,99,235,0.25)]">
+              <span className="bg-gradient-to-r from-blue-600 via-sky-400 via-amber-500 to-orange-500 dark:from-sky-400 dark:via-blue-400 dark:via-amber-400 dark:to-orange-500 bg-clip-text text-transparent drop-shadow-sm dark:drop-shadow-[0_0_25px_rgba(249,115,22,0.30)]">
                 {currentSlide.titleGradient}
               </span>
             </h1>
@@ -314,11 +316,11 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
                   key={idx}
                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold tracking-wide border transition-all ${
                     isDarkMode
-                      ? 'bg-stone-900/90 border-stone-800 text-stone-200 shadow-sm'
-                      : 'bg-white/95 border-slate-200 text-slate-800 shadow-sm'
+                      ? 'bg-stone-900/90 border-stone-800 hover:border-orange-500/30 text-stone-200 shadow-sm'
+                      : 'bg-white/95 border-slate-200 hover:border-orange-500/30 text-slate-800 shadow-sm'
                   }`}
                 >
-                  <span className="w-4 h-4 rounded-full bg-blue-500/15 text-blue-500 dark:text-blue-400 flex items-center justify-center font-bold">
+                  <span className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-500/20 to-orange-500/20 text-orange-500 dark:text-orange-400 flex items-center justify-center font-bold border border-orange-500/30">
                     <Check size={12} className="stroke-[3]" />
                   </span>
                   <span>{pill}</span>
@@ -332,7 +334,7 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={currentSlide.ctaAction}
-                className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 group min-h-[50px] cursor-pointer text-white shadow-lg bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-[0_0_20px_rgba(37,99,235,0.3)]"
+                className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 group min-h-[50px] cursor-pointer text-white shadow-lg bg-gradient-to-r from-blue-600 via-blue-500 to-orange-500 hover:from-blue-500 hover:to-orange-400 shadow-[0_0_25px_rgba(249,115,22,0.35)]"
               >
                 <span>{currentSlide.ctaText}</span>
                 <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />
