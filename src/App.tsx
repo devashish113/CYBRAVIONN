@@ -46,6 +46,7 @@ import {
   Terminal,
   Sun,
   Moon,
+  Gamepad2,
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Lenis from 'lenis';
@@ -55,6 +56,8 @@ import { ServiceModalRenderer } from './components/ServiceModals';
 const TrainingPage = React.lazy(() => import('./pages/Training').then(m => ({ default: m.TrainingPage })));
 const CompliancePage = React.lazy(() => import('./pages/Compliance').then(m => ({ default: m.CompliancePage })));
 const CybravionsAIPage = React.lazy(() => import('./pages/CybravionsAI').then(m => ({ default: m.CybravionsAIPage })));
+const CyberVersePage = React.lazy(() => import('./pages/CyberVerse').then(m => ({ default: m.CyberVersePage })));
+const ExceptionManagerPage = React.lazy(() => import('./pages/ExceptionManager').then(m => ({ default: m.ExceptionManagerPage })));
 
 import { CaseStudies } from './components/CaseStudies';
 import { IndustrySolutions } from './components/IndustrySolutions';
@@ -174,114 +177,233 @@ const Navbar: React.FC<NavbarProps> = ({
                 <ChevronDown size={14} className={`transition-transform duration-300 ${isProductsOpen ? 'rotate-180 text-blue-400' : ''}`} />
               </button>
 
-              {/* Products Dropdown Panel */}
+              {/* Products Dropdown Mega-Menu (Horizontal 2-Column Grid) */}
               <AnimatePresence>
                 {isProductsOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.18 }}
-                    style={{ backgroundColor: isDarkMode ? '#070a12' : '#ffffff' }}
-                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-92 rounded-2xl p-4 z-[999] overflow-hidden ${
+                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    style={{ backgroundColor: isDarkMode ? '#070a14' : '#ffffff' }}
+                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[620px] rounded-2xl p-4 z-[999] overflow-hidden ${
                       isDarkMode 
-                        ? 'bg-[#070a12] border border-blue-500/30 shadow-[0_25px_60px_rgba(0,0,0,1),0_0_30px_rgba(37,99,235,0.15)] text-white' 
-                        : 'bg-white border border-blue-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.12),0_0_30px_rgba(37,99,235,0.08)] text-slate-900'
+                        ? 'bg-[#070a14]/98 border border-blue-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(37,99,235,0.15)] text-white backdrop-blur-2xl' 
+                        : 'bg-white border border-blue-500/25 shadow-[0_25px_60px_rgba(0,0,0,0.15),0_0_30px_rgba(37,99,235,0.08)] text-slate-900'
                     }`}
                   >
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-blue-500/15 rounded-full blur-2xl pointer-events-none" />
+                    {/* Atmospheric glow */}
+                    <div className="absolute -top-12 -left-12 w-44 h-44 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute -bottom-12 -right-12 w-44 h-44 bg-orange-500/15 rounded-full blur-3xl pointer-events-none" />
 
-                    <div className="relative z-10 space-y-2.5">
-                      <p className="text-[10px] uppercase tracking-[0.3em] text-blue-500 font-bold px-3 mb-1">
-                        Sovereign &amp; AI Security Platforms
-                      </p>
-                      
-                      {/* Product 1: Cybravions AI */}
-                      <button
-                        onClick={() => {
-                          setCurrentView('ai');
-                          setIsProductsOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                        className={`w-full text-left flex flex-col p-3 rounded-xl border transition-all duration-300 group cursor-pointer ${
-                          isDarkMode
-                            ? 'bg-blue-950/40 hover:bg-blue-950/80 border-blue-500/30 hover:border-blue-400'
-                            : 'bg-blue-50 hover:bg-blue-100/70 border-blue-200 hover:border-blue-400'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2 mb-1">
-                          <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 group-hover:bg-blue-500/30 transition-colors">
-                            <Brain size={16} />
+                    <div className="relative z-10 space-y-3">
+                      {/* Top Header Row */}
+                      <div className="flex items-center justify-between px-1 pb-1 border-b border-slate-200/80 dark:border-stone-800/80">
+                        <span className="text-[10px] uppercase tracking-[0.25em] text-blue-600 dark:text-blue-400 font-bold flex items-center gap-1.5">
+                          <Sparkles size={11} className="text-orange-500" />
+                          Sovereign Platforms &amp; Security Engines
+                        </span>
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                          4 Products
+                        </span>
+                      </div>
+
+                      {/* 2x2 Grid Layout */}
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {/* Product 1: Cybravions CyberVerse */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('cyberverse');
+                            setIsProductsOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3 rounded-xl border transition-all duration-300 group cursor-pointer flex flex-col justify-between ${
+                            currentView === 'cyberverse'
+                              ? isDarkMode
+                                ? 'bg-orange-950/40 border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.15)]'
+                                : 'bg-orange-50 border-orange-300 shadow-sm'
+                              : isDarkMode
+                              ? 'bg-white/[0.02] hover:bg-orange-950/25 border-stone-800/90 hover:border-orange-500/40'
+                              : 'bg-slate-50/80 hover:bg-orange-50/70 border-slate-200/80 hover:border-orange-300'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-1 mb-1.5">
+                              <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded-lg bg-orange-500/15 text-orange-400 border border-orange-500/25 group-hover:scale-105 transition-transform">
+                                  <Gamepad2 size={15} />
+                                </div>
+                                <span className={`text-xs font-bold transition-colors ${
+                                  isDarkMode ? 'text-stone-100 group-hover:text-orange-300' : 'text-slate-900 group-hover:text-orange-600'
+                                }`}>
+                                  CyberVerse
+                                </span>
+                              </div>
+                              <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30 shrink-0">
+                                GAMIFIED RPG
+                              </span>
+                            </div>
+                            <p className={`text-[11px] font-light leading-snug line-clamp-2 ${
+                              isDarkMode ? 'text-stone-400' : 'text-slate-600'
+                            }`}>
+                              Story-driven CyberSec &amp; AI arena with Kali labs, 10 Guilds &amp; CTF leagues.
+                            </p>
                           </div>
-                          <span className={`text-sm font-bold transition-colors flex items-center gap-1.5 ${
-                            isDarkMode ? 'text-white group-hover:text-blue-300' : 'text-slate-900 group-hover:text-blue-700'
-                          }`}>
-                            Cybravions AI
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-orange-400/20 text-orange-400 border border-orange-400/30 font-mono font-bold">SOVEREIGN</span>
-                          </span>
-                        </div>
-                        <p className={`text-[11px] font-light leading-relaxed mb-2 ${
-                          isDarkMode ? 'text-stone-300' : 'text-slate-600'
-                        }`}>
-                          Air-gapped sovereign agentic AI in-a-box for defense &amp; critical infrastructure.
-                        </p>
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-blue-500 font-semibold group-hover:text-blue-400 transition-colors self-start">
-                          Explore Appliance
-                          <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
-                        </div>
-                      </button>
-
-                      {/* Product 2: AI Exception Manager */}
-                      <a
-                        href="https://exceptionmgr.cybravions.online"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex flex-col p-3 rounded-xl border transition-all duration-300 group ${
-                          isDarkMode
-                            ? 'bg-white/[0.03] hover:bg-white/[0.07] border-white/5 hover:border-blue-500/40'
-                            : 'bg-slate-50 hover:bg-slate-100 border-slate-200 hover:border-blue-400'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2 mb-1">
-                          <div className="p-1.5 rounded-lg bg-orange-500/20 text-orange-500 group-hover:bg-orange-500/30 transition-colors">
-                            <ShieldCheck size={16} />
+                          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-orange-500 font-semibold group-hover:text-orange-400 transition-colors mt-2.5">
+                            <span>Enter RPG Battleground</span>
+                            <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
                           </div>
-                          <span className={`text-sm font-bold transition-colors ${
-                            isDarkMode ? 'text-stone-100 group-hover:text-orange-300' : 'text-slate-800 group-hover:text-orange-600'
-                          }`}>
-                            AI Exception Manager
-                          </span>
-                        </div>
-                        <p className={`text-[11px] font-light leading-relaxed mb-2 ${
-                          isDarkMode ? 'text-stone-400' : 'text-slate-500'
-                        }`}>
-                          Automated cyber risk assessment, threat scoring, and governance workflows.
-                        </p>
-                        <div className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-orange-500 font-semibold group-hover:text-orange-400 transition-colors self-start">
-                          Launch Dashboard
-                          <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform duration-300" />
-                        </div>
-                      </a>
+                        </button>
 
-                      {/* Product 3: 3D Radar */}
-                      <a
-                        href="#radar"
-                        onClick={(e) => {
-                          handleNavClick(e, '#radar');
-                          setIsProductsOpen(false);
-                        }}
-                        className={`flex items-center justify-between p-2.5 rounded-xl border transition-all text-xs ${
-                          isDarkMode
-                            ? 'bg-white/[0.02] hover:bg-white/[0.06] border-white/5 text-stone-300 hover:text-blue-300'
-                            : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 hover:text-blue-600'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <Radar size={15} className="text-blue-500" />
-                          <span className="font-semibold">3D Threat Radar Simulation</span>
-                        </div>
-                        <ChevronRight size={14} className={isDarkMode ? 'text-stone-500' : 'text-slate-400'} />
-                      </a>
+                        {/* Product 2: Cybravions AI */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('ai');
+                            setIsProductsOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3 rounded-xl border transition-all duration-300 group cursor-pointer flex flex-col justify-between ${
+                            currentView === 'ai'
+                              ? isDarkMode
+                                ? 'bg-blue-950/40 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
+                                : 'bg-blue-50 border-blue-300 shadow-sm'
+                              : isDarkMode
+                              ? 'bg-white/[0.02] hover:bg-blue-950/25 border-stone-800/90 hover:border-blue-500/40'
+                              : 'bg-slate-50/80 hover:bg-blue-50/70 border-slate-200/80 hover:border-blue-300'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-1 mb-1.5">
+                              <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded-lg bg-blue-500/15 text-blue-400 border border-blue-500/25 group-hover:scale-105 transition-transform">
+                                  <Brain size={15} />
+                                </div>
+                                <span className={`text-xs font-bold transition-colors ${
+                                  isDarkMode ? 'text-stone-100 group-hover:text-blue-300' : 'text-slate-900 group-hover:text-blue-600'
+                                }`}>
+                                  Cybravions AI
+                                </span>
+                              </div>
+                              <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 shrink-0">
+                                SOVEREIGN
+                              </span>
+                            </div>
+                            <p className={`text-[11px] font-light leading-snug line-clamp-2 ${
+                              isDarkMode ? 'text-stone-400' : 'text-slate-600'
+                            }`}>
+                              Air-gapped offline agentic AI in-a-box for defense &amp; critical infrastructure.
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-blue-500 font-semibold group-hover:text-blue-400 transition-colors mt-2.5">
+                            <span>Explore Sovereign Appliance</span>
+                            <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </button>
+
+                        {/* Product 3: AI Exception Manager */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('exception-manager');
+                            setIsProductsOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3 rounded-xl border transition-all duration-300 group cursor-pointer flex flex-col justify-between ${
+                            currentView === 'exception-manager'
+                              ? isDarkMode
+                                ? 'bg-amber-950/40 border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
+                                : 'bg-amber-50 border-amber-300 shadow-sm'
+                              : isDarkMode
+                              ? 'bg-white/[0.02] hover:bg-amber-950/25 border-stone-800/90 hover:border-amber-500/40'
+                              : 'bg-slate-50/80 hover:bg-amber-50/70 border-slate-200/80 hover:border-amber-300'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-1 mb-1.5">
+                              <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded-lg bg-amber-500/15 text-amber-400 border border-amber-500/25 group-hover:scale-105 transition-transform">
+                                  <ShieldCheck size={15} />
+                                </div>
+                                <span className={`text-xs font-bold transition-colors ${
+                                  isDarkMode ? 'text-stone-100 group-hover:text-amber-300' : 'text-slate-900 group-hover:text-amber-600'
+                                }`}>
+                                  Exception Manager
+                                </span>
+                              </div>
+                              <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 shrink-0">
+                                AI GOVERNANCE
+                              </span>
+                            </div>
+                            <p className={`text-[11px] font-light leading-snug line-clamp-2 ${
+                              isDarkMode ? 'text-stone-400' : 'text-slate-600'
+                            }`}>
+                              Automated cyber risk assessment, threat scoring &amp; governance workflows.
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-amber-500 font-semibold group-hover:text-amber-400 transition-colors mt-2.5">
+                            <span>Explore Risk Engine</span>
+                            <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </button>
+
+                        {/* Product 4: 3D Threat Radar */}
+                        <a
+                          href="#radar"
+                          onClick={(e) => {
+                            handleNavClick(e, '#radar');
+                            setIsProductsOpen(false);
+                          }}
+                          className={`p-3 rounded-xl border transition-all duration-300 group flex flex-col justify-between ${
+                            isDarkMode
+                              ? 'bg-white/[0.02] hover:bg-white/[0.06] border-stone-800/90 hover:border-cyan-500/40'
+                              : 'bg-slate-50/80 hover:bg-cyan-50/60 border-slate-200/80 hover:border-cyan-300'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-1 mb-1.5">
+                              <div className="flex items-center gap-2">
+                                <div className="p-1.5 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/25 group-hover:scale-105 transition-transform">
+                                  <Radar size={15} />
+                                </div>
+                                <span className={`text-xs font-bold transition-colors ${
+                                  isDarkMode ? 'text-stone-100 group-hover:text-cyan-300' : 'text-slate-900 group-hover:text-cyan-600'
+                                }`}>
+                                  3D Threat Radar
+                                </span>
+                              </div>
+                              <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shrink-0">
+                                3D LIVE
+                              </span>
+                            </div>
+                            <p className={`text-[11px] font-light leading-snug line-clamp-2 ${
+                              isDarkMode ? 'text-stone-400' : 'text-slate-600'
+                            }`}>
+                              Simulate red-team attacks and inspect real-time packet telemetry.
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-cyan-500 font-semibold group-hover:text-cyan-400 transition-colors mt-2.5">
+                            <span>Open 3D Simulator</span>
+                            <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </a>
+                      </div>
+
+                      {/* Bottom Quick-Action Bar */}
+                      <div className="pt-2 px-1 border-t border-slate-200/70 dark:border-stone-800/70 flex items-center justify-between text-[11px]">
+                        <span className={`font-light ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
+                          Looking for custom air-gapped deployments?
+                        </span>
+                        <a
+                          href="#contact"
+                          onClick={(e) => {
+                            handleNavClick(e, '#contact');
+                            setIsProductsOpen(false);
+                          }}
+                          className="font-semibold text-orange-500 hover:text-orange-400 flex items-center gap-1 transition-colors"
+                        >
+                          <span>Consult Architect</span>
+                          <ArrowRight size={11} />
+                        </a>
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -603,6 +725,18 @@ const Navbar: React.FC<NavbarProps> = ({
                       className="pl-4 flex flex-col gap-3 mt-1 overflow-hidden"
                     >
                       <button 
+                        className="flex items-center gap-2 py-2 text-sm text-orange-500 hover:underline text-left cursor-pointer font-bold"
+                        onClick={() => {
+                          setCurrentView('cyberverse');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <Gamepad2 size={16} className="text-orange-500" />
+                        <span>Cybravions CyberVerse (Gamified RPG)</span>
+                      </button>
+
+                      <button 
                         className="flex items-center gap-2 py-2 text-sm text-blue-500 hover:underline text-left cursor-pointer"
                         onClick={() => {
                           setCurrentView('ai');
@@ -614,19 +748,17 @@ const Navbar: React.FC<NavbarProps> = ({
                         <span>Cybravions AI (Sovereign In-a-Box)</span>
                       </button>
 
-                      <a 
-                        href="https://exceptionmgr.cybravions.online"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex items-center gap-2 py-2 text-sm ${
-                          isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'
-                        }`}
-                        onClick={() => setIsMobileMenuOpen(false)}
+                      <button 
+                        className="flex items-center gap-2 py-2 text-sm text-amber-500 hover:underline text-left cursor-pointer"
+                        onClick={() => {
+                          setCurrentView('exception-manager');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
                       >
-                        <ShieldCheck size={14} className="text-orange-500" />
-                        AI Exception Manager
-                        <ExternalLink size={12} className={isDarkMode ? 'text-stone-500' : 'text-slate-400'} />
-                      </a>
+                        <ShieldCheck size={16} className="text-amber-500" />
+                        <span>AI Exception Manager (Risk Governance)</span>
+                      </button>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -1248,6 +1380,10 @@ const Footer = ({ setCurrentView, isDarkMode }: { setCurrentView: (view: string)
         <div className={`flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-wider ${
           isDarkMode ? 'text-stone-400' : 'text-slate-600'
         }`}>
+          <button onClick={() => { setCurrentView('cyberverse'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-orange-500 hover:text-orange-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
+            <Gamepad2 size={13} />
+            CyberVerse (RPG)
+          </button>
           <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-blue-500 hover:text-blue-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
             <Sparkles size={12} />
             Cybravions AI
@@ -1256,7 +1392,9 @@ const Footer = ({ setCurrentView, isDarkMode }: { setCurrentView: (view: string)
           <a href="#radar" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>3D Radar</a>
           <button onClick={() => { setCurrentView('compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Compliance</button>
           <button onClick={() => { setCurrentView('training'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Training</button>
-          <a href="https://exceptionmgr.cybravions.online" target="_blank" rel="noopener noreferrer" className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Exception Manager</a>
+          <button onClick={() => { setCurrentView('exception-manager'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>
+            Exception Manager
+          </button>
           <a href="#contact" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Contact</a>
         </div>
 
@@ -1354,7 +1492,11 @@ export default function App() {
 
   return (
     <div className={`min-h-screen relative overflow-x-hidden font-sans transition-colors duration-500 ${isDarkMode ? 'dark' : 'light'} ${
-      currentView === 'ai' 
+      currentView === 'exception-manager'
+        ? isDarkMode ? 'bg-[#030612] text-stone-100 theme-exception' : 'bg-[#f8fafc] text-slate-900 theme-exception'
+        : currentView === 'cyberverse'
+        ? isDarkMode ? 'bg-[#030612] text-stone-100 theme-cyberverse' : 'bg-[#f8fafc] text-slate-900 theme-cyberverse'
+        : currentView === 'ai' 
         ? isDarkMode ? 'bg-[#030712] text-slate-100 theme-ai' : 'bg-[#f8fafc] text-slate-900 theme-ai' 
         : currentView === 'compliance'
         ? isDarkMode ? 'bg-[#060913] text-stone-100 theme-compliance' : 'bg-[#f8fafc] text-slate-900 theme-compliance'
@@ -1392,7 +1534,19 @@ export default function App() {
               </span>
             </div>
           }>
-            {currentView === 'ai' ? (
+            {currentView === 'exception-manager' ? (
+              <ExceptionManagerPage 
+                setCurrentView={setCurrentView} 
+                isDarkMode={isDarkMode} 
+                onOpenConsultation={() => setIsAuditModalOpen(true)} 
+              />
+            ) : currentView === 'cyberverse' ? (
+              <CyberVersePage 
+                setCurrentView={setCurrentView} 
+                isDarkMode={isDarkMode} 
+                onOpenConsultation={() => setIsAuditModalOpen(true)} 
+              />
+            ) : currentView === 'ai' ? (
               <CybravionsAIPage />
             ) : currentView === 'training' ? (
               <TrainingPage />

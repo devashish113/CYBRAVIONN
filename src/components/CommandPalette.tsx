@@ -19,7 +19,8 @@ import {
   X,
   Phone,
   HelpCircle,
-  Award
+  Award,
+  Gamepad2
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
 
@@ -118,6 +119,19 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       }
     },
     {
+      id: 'cyberverse',
+      category: 'Sovereign Products',
+      title: 'Cybravions CyberVerse (Gamified CyberSec & AI Platform)',
+      subtitle: '10 CyberSec Guilds, CTF Boss Fights, Adversarial AI labs & Inter-College Leagues',
+      icon: Gamepad2,
+      badge: 'Gamified RPG',
+      action: () => {
+        onClose();
+        setCurrentView('cyberverse');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
       id: 'sovereign-ai',
       category: 'Sovereign Products',
       title: 'Cybravions AI (Sovereign In-a-Box)',
@@ -133,10 +147,23 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     {
       id: 'exception-mgr',
       category: 'Sovereign Products',
-      title: 'AI Exception Manager Dashboard',
-      subtitle: 'Continuous cyber risk exception tracker & governance portal',
+      title: 'AI Exception Manager & Risk Governance',
+      subtitle: 'Deterministic risk engine, 100K+ precedent matching, and online ML retraining',
+      icon: ShieldCheck,
+      badge: 'Risk Engine',
+      action: () => {
+        onClose();
+        setCurrentView('exception-manager');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'exception-mgr-live',
+      category: 'Live Cloud Portals',
+      title: 'Launch Live Exception Manager Portal (exceptionmgr.cybravions.online)',
+      subtitle: 'Open active production dashboard in new tab',
       icon: ExternalLink,
-      badge: 'Live App',
+      badge: 'Live Portal',
       action: () => {
         window.open('https://exceptionmgr.cybravions.online', '_blank', 'noopener,noreferrer');
         onClose();
