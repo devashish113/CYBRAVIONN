@@ -21,11 +21,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: [
-      '@react-three/fiber',
-      '@react-three/drei',
-      '@react-three/postprocessing',
       'three',
-      'gsap',
       'lenis',
     ],
   },
@@ -38,10 +34,10 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('three') || id.includes('@react-three')) {
+            if (id.includes('three')) {
               return 'vendor-three';
             }
-            if (id.includes('motion') || id.includes('framer-motion') || id.includes('gsap') || id.includes('lenis')) {
+            if (id.includes('motion') || id.includes('lenis')) {
               return 'vendor-animations';
             }
             if (id.includes('lucide-react')) {

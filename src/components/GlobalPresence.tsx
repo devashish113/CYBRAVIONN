@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
-import { Globe, MapPin, ShieldCheck, ArrowRight, Building2, CheckCircle2 } from 'lucide-react';
+import { Globe, MapPin, ShieldCheck, ArrowRight } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
 
 interface RegionData {

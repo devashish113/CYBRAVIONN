@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { ShieldCheck, Award, Quote } from 'lucide-react';
 import { TiltCard3D } from './TiltCard3D';
 

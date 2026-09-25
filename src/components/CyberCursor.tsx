@@ -27,6 +27,12 @@ export const CyberCursor: React.FC = () => {
       dotX.set(e.clientX);
       dotY.set(e.clientY);
       if (!isVisible) setIsVisible(true);
+
+      const target = e.target as HTMLElement;
+      if (target) {
+        const isInteractive = target.closest('button, a, input, textarea, select, [role="button"], .interactive-node');
+        setIsHovered(!!isInteractive);
+      }
     };
 
     const onMouseDown = () => setIsClicking(true);
@@ -34,15 +40,7 @@ export const CyberCursor: React.FC = () => {
     const onMouseLeave = () => setIsVisible(false);
     const onMouseEnter = () => setIsVisible(true);
 
-    const checkHoverable = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target) return;
-      const isInteractive = target.closest('button, a, input, textarea, select, [role="button"], .interactive-node');
-      setIsHovered(!!isInteractive);
-    };
-
     window.addEventListener('mousemove', onMouseMove, { passive: true });
-    window.addEventListener('mousemove', checkHoverable, { passive: true });
     window.addEventListener('mousedown', onMouseDown);
     window.addEventListener('mouseup', onMouseUp);
     document.addEventListener('mouseleave', onMouseLeave);
@@ -50,7 +48,6 @@ export const CyberCursor: React.FC = () => {
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mousemove', checkHoverable);
       window.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('mouseup', onMouseUp);
       document.removeEventListener('mouseleave', onMouseLeave);
