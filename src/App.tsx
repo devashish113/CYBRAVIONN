@@ -70,6 +70,7 @@ import { CyberHeroSlider } from './components/CyberHeroSlider';
 import { SecurityAuditModal } from './components/SecurityAuditModal';
 import { EngagementLifecycle } from './components/EngagementLifecycle';
 import { GlobalPresence } from './components/GlobalPresence';
+import { OfficeLocationMap } from './components/OfficeLocationMap';
 import { CommandPalette } from './components/CommandPalette';
 import { cyberAudio } from './utils/cyberAudio';
 
@@ -1101,7 +1102,7 @@ const WhyChooseUs = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {pillars.map((p, idx) => {
             const Icon = p.icon;
             const isBlue = p.glow === 'blue';
@@ -1121,6 +1122,34 @@ const WhyChooseUs = () => {
               </TiltCard3D>
             );
           })}
+        </div>
+
+        {/* Corporate Entity Verification Banner */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-900/90 border border-slate-200 dark:border-stone-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                GOVERNMENT OF INDIA MCA REGISTERED
+              </span>
+              <span className="text-xs font-mono text-blue-600 dark:text-blue-400 font-bold">
+                CIN: U62099DL2026PTC470901
+              </span>
+            </div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              CYBRAVION SOLUTIONS PRIVATE LIMITED
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-stone-400 max-w-2xl font-light">
+              Registered Office: H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi 110030
+            </p>
+          </div>
+
+          <a
+            href="#office-location"
+            className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shrink-0 shadow-sm cursor-pointer"
+          >
+            <span>View Headquarters Map</span>
+            <ArrowRight size={13} />
+          </a>
         </div>
       </div>
     </section>
@@ -1146,41 +1175,55 @@ const Contact = () => {
               Initiate a Confidential Security Briefing
             </h2>
             <p className="text-slate-600 dark:text-stone-300 font-light text-base leading-relaxed mb-8">
-              Speak with our senior cybersecurity advisors to scope your VAPT assessment, design an ISO 27001 / SOC 2 compliance roadmap, or evaluate AI governance controls.
+              Speak with our senior cybersecurity advisors to scope your VAPT assessment, design an ISO 27001 / SOC 2 compliance roadmap, or evaluate AI governance controls under mutual NDA.
             </p>
 
             <div className="space-y-4 mb-8">
               <div className="flex items-center gap-3.5 text-slate-700 dark:text-stone-300">
-                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-blue-600 dark:text-blue-400">
+                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-blue-600 dark:text-blue-400 shrink-0">
                   <Mail size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Official Email</div>
-                  <a href="mailto:cybravions@gmail.com" className="text-sm text-slate-900 dark:text-stone-200 hover:text-blue-600 dark:hover:text-white transition-colors font-medium">
-                    cybravions@gmail.com
-                  </a>
+                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Official Communications</div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
+                    <a href="mailto:cybravions@gmail.com" className="text-sm text-slate-900 dark:text-stone-200 hover:text-blue-600 dark:hover:text-white transition-colors font-medium">
+                      cybravions@gmail.com
+                    </a>
+                    <span className="hidden sm:inline text-slate-400">·</span>
+                    <a href="mailto:support@cybravions.com" className="text-sm text-slate-600 dark:text-stone-400 hover:text-blue-600 dark:hover:text-white transition-colors">
+                      support@cybravions.com
+                    </a>
+                  </div>
                 </div>
               </div>
 
               <div className="flex items-center gap-3.5 text-slate-700 dark:text-stone-300">
-                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-blue-600 dark:text-blue-400">
+                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-emerald-600 dark:text-emerald-400 shrink-0">
                   <Phone size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Direct Contact</div>
-                  <a href="tel:+919358683634" className="text-sm text-slate-900 dark:text-stone-200 hover:text-blue-600 dark:hover:text-white transition-colors font-medium">
-                    +91-9358683634
-                  </a>
+                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Direct Phone / Hotline</div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
+                    <a href="tel:+917258880881" className="text-sm text-slate-900 dark:text-stone-200 hover:text-emerald-600 dark:hover:text-white transition-colors font-bold font-mono">
+                      +91-7258880881
+                    </a>
+                    <span className="hidden sm:inline text-slate-400">·</span>
+                    <a href="tel:+919358683634" className="text-sm text-slate-600 dark:text-stone-400 hover:text-emerald-600 dark:hover:text-white transition-colors font-mono">
+                      +91-9358683634
+                    </a>
+                  </div>
                 </div>
               </div>
 
               <div className="flex items-center gap-3.5 text-slate-700 dark:text-stone-300">
-                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-blue-600 dark:text-blue-400">
-                  <Globe size={18} />
+                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-orange-600 dark:text-orange-400 shrink-0">
+                  <MapPin size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Coverage</div>
-                  <span className="text-sm font-medium text-slate-900 dark:text-stone-200">Global Enterprise Advisory (Worldwide)</span>
+                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Registered Headquarters</div>
+                  <a href="#office-location" className="text-xs sm:text-sm text-slate-900 dark:text-stone-200 hover:text-orange-500 transition-colors font-medium">
+                    H. IN.KH.NO.293 S/F Western Marg, Saidulajab, New Delhi 110030 (Near Kher Singh Estate)
+                  </a>
                 </div>
               </div>
             </div>
@@ -1398,8 +1441,16 @@ const Footer = ({ setCurrentView, isDarkMode }: { setCurrentView: (view: string)
           <a href="#contact" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Contact</a>
         </div>
 
-        <div className={`text-xs font-sans ${isDarkMode ? 'text-stone-500' : 'text-slate-400'}`}>
-          © {new Date().getFullYear()} CYBRAVION Solutions. All rights reserved.
+        <div className={`text-xs font-sans text-center md:text-right ${isDarkMode ? 'text-stone-500' : 'text-slate-400'} space-y-1`}>
+          <div className="font-semibold text-slate-800 dark:text-stone-300">
+            CYBRAVION SOLUTIONS PRIVATE LIMITED
+          </div>
+          <div className="text-[11px] font-mono">
+            CIN: U62099DL2026PTC470901 · Regd. Office: New Delhi 110030, India
+          </div>
+          <div className="text-[10px]">
+            © {new Date().getFullYear()} CYBRAVION Solutions. All rights reserved.
+          </div>
         </div>
       </div>
     </footer>
@@ -1566,6 +1617,7 @@ export default function App() {
                 <GlobalPresence isDarkMode={isDarkMode} />
                 <WhyChooseUs />
                 <Insights />
+                <OfficeLocationMap isDarkMode={isDarkMode} />
                 <Contact />
                 <FAQ />
               </>

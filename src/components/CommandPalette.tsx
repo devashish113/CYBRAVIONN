@@ -20,7 +20,8 @@ import {
   Phone,
   HelpCircle,
   Award,
-  Gamepad2
+  Gamepad2,
+  MapPin
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
 
@@ -229,6 +230,20 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         onClose();
         setCurrentView('home');
         const el = document.getElementById('contact');
+        el?.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'office-map',
+      category: 'Direct Engagement',
+      title: 'Registered Headquarters & Interactive Map',
+      subtitle: 'Saidulajab, Western Marg, New Delhi 110030 (GPS: 28.5194° N, 77.2011° E)',
+      icon: MapPin,
+      badge: 'New Delhi HQ',
+      action: () => {
+        onClose();
+        setCurrentView('home');
+        const el = document.getElementById('office-location');
         el?.scrollIntoView({ behavior: 'smooth' });
       }
     },
