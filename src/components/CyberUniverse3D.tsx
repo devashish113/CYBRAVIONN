@@ -157,6 +157,83 @@ function createAtmosphereHaze(isDarkMode: boolean): THREE.Mesh {
   return hazeMesh;
 }
 
+/* ─────────────────── Device Capability Profiler ─────────────────── */
+type DeviceTier = 'low-end' | 'normal' | 'high-end';
+
+interface DeviceProfile {
+  tier: DeviceTier;
+  dpr: number;
+  useBloom: boolean;
+  antialias: boolean;
+  particleCount: number;
+  nodeCount: number;
+  nodeCount2: number;
+  sentinelLimit: number;
+}
+
+function getDeviceProfile(): DeviceProfile {
+  if (typeof window === 'undefined') {
+    return {
+      tier: 'normal',
+      dpr: 1.0,
+      useBloom: false,
+      antialias: false,
+      particleCount: 120,
+      nodeCount: 140,
+      nodeCount2: 100,
+      sentinelLimit: 3,
+    };
+  }
+
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    window.innerWidth < 768;
+
+  const cores = navigator.hardwareConcurrency || 4;
+  const memory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 4;
+  const nativeDPR = window.devicePixelRatio || 1;
+
+  // Tier 0: Low-End Mobile / Constrained Device (Strict 1.0 DPR to prevent 4x fill-rate explosion)
+  if (isMobile && (cores <= 4 || memory <= 3 || window.innerWidth < 480)) {
+    return {
+      tier: 'low-end',
+      dpr: 1.0, // Fixed 1x DPR
+      useBloom: false, // Bypass expensive multi-pass Gaussian blur on low-end
+      antialias: false,
+      particleCount: 85,
+      nodeCount: 120,
+      nodeCount2: 90,
+      sentinelLimit: 2,
+    };
+  }
+
+  // Tier 1: Normal Mobile / Tablets / Mid-range Laptops (1.15–1.25 DPR)
+  if (isMobile || cores <= 6 || memory <= 4 || window.innerWidth < 1024) {
+    return {
+      tier: 'normal',
+      dpr: Math.min(nativeDPR, 1.25),
+      useBloom: true,
+      antialias: !isMobile,
+      particleCount: 150,
+      nodeCount: 180,
+      nodeCount2: 130,
+      sentinelLimit: 3,
+    };
+  }
+
+  // Tier 2: High-End Desktop / Powerful GPU (1.5–1.75 DPR)
+  return {
+    tier: 'high-end',
+    dpr: Math.min(nativeDPR, 1.75),
+    useBloom: true,
+    antialias: true,
+    particleCount: 250,
+    nodeCount: 260,
+    nodeCount2: 200,
+    sentinelLimit: 7,
+  };
+}
+
 export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 'home', isDarkMode = true }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -164,11 +241,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const container = containerRef.current;
     if (!container) return;
 
-    // Detect mobile or low-end device profile
-    const isMobileDevice = typeof window !== 'undefined' && (
-      window.innerWidth < 768 ||
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    );
+    // Detect initial device profile
+    const profile = getDeviceProfile();
+    let currentActiveDpr = profile.dpr;
+    let useActiveBloom = profile.useBloom;
 
     // =====================================================================
     // 1. SCENE, CAMERA, RENDERER + ADAPTIVE BLOOM POST-PROCESSING
@@ -186,14 +262,16 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     );
     camera.position.set(0, 0.2, 9.2);
 
-    const maxDpr = isMobileDevice ? 1.25 : 1.5;
+    const isLowEnd = profile.tier === 'low-end';
+    const isHighEnd = profile.tier === 'high-end';
+
     const renderer = new THREE.WebGLRenderer({
-      antialias: !isMobileDevice, // Disable MSAA on high-DPI mobile to save fill-rate/memory
+      antialias: profile.antialias,
       alpha: true,
-      powerPreference: isMobileDevice ? 'default' : 'high-performance',
-      precision: isMobileDevice ? 'mediump' : 'highp',
+      powerPreference: isHighEnd ? 'high-performance' : 'default',
+      precision: isLowEnd ? 'mediump' : 'highp',
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
+    renderer.setPixelRatio(currentActiveDpr);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = isDarkMode ? 0.95 : 1.05;
@@ -206,10 +284,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(
-        window.innerWidth * (isMobileDevice ? 0.5 : 1),
-        window.innerHeight * (isMobileDevice ? 0.5 : 1)
+        window.innerWidth * (isHighEnd ? 1 : 0.5),
+        window.innerHeight * (isHighEnd ? 1 : 0.5)
       ),
-      isDarkMode ? (isMobileDevice ? 0.14 : 0.20) : (isMobileDevice ? 0.08 : 0.12),
+      isDarkMode ? (isHighEnd ? 0.20 : 0.14) : (isHighEnd ? 0.12 : 0.08),
       0.5,
       0.72
     );
@@ -269,8 +347,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     fadingGrid.position.set(0, -6.8, 0);
     deepVoidGroup.add(fadingGrid);
 
-    // — Animated flow-field particle system (Adaptive scale) —
-    const particleCount = isMobileDevice ? 130 : 250;
+    // — Animated flow-field particle system (Adaptive scale from device profile) —
+    const particleCount = profile.particleCount;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleColors = new Float32Array(particleCount * 3);
@@ -359,7 +437,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const globeRadius = 2.0;
 
     // 1. Outer Geodesic Wireframe Shield
-    const icoGeo = new THREE.IcosahedronGeometry(globeRadius, isMobileDevice ? 2 : 3);
+    const icoGeo = new THREE.IcosahedronGeometry(globeRadius, isLowEnd ? 2 : 3);
     const wireMat = new THREE.MeshBasicMaterial({
       color: isDarkMode ? 0x3b82f6 : 0x1d4ed8,
       wireframe: true,
@@ -381,7 +459,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     globeGroup.add(innerSphere);
 
     // 3. Adaptive Solid Core
-    const solidCoreGeo = new THREE.SphereGeometry(globeRadius * 0.82, isMobileDevice ? 20 : 28, isMobileDevice ? 20 : 28);
+    const solidCoreGeo = new THREE.SphereGeometry(globeRadius * 0.82, isLowEnd ? 18 : 26, isLowEnd ? 18 : 26);
     const solidCoreMat = new THREE.MeshStandardMaterial({
       color: isDarkMode ? 0x02040a : 0x0284c7,
       roughness: isDarkMode ? 0.2 : 0.9,
@@ -424,7 +502,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     globeGroup.add(coreGlowLight);
 
     // 4. Point cloud nodes on globe surface (Adaptive nodes)
-    const nodeCount = isMobileDevice ? 150 : 260;
+    const nodeCount = profile.nodeCount;
     const nodePositions = new Float32Array(nodeCount * 3);
     const nodeColors = new Float32Array(nodeCount * 3);
     const globeNodeVectors: THREE.Vector3[] = [];
@@ -467,7 +545,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 5. Multi-Inclination Orbiting Satellites
     const satGroup = new THREE.Group();
     globeGroup.add(satGroup);
-    const satelliteCount = isMobileDevice ? 4 : 7;
+    const satelliteCount = isLowEnd ? 3 : isHighEnd ? 7 : 5;
     const satellites: THREE.Mesh[] = [];
     const satGeo = new THREE.OctahedronGeometry(0.08, 0);
     const blueSatMat = new THREE.MeshStandardMaterial({
@@ -496,7 +574,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     }
 
     const dataStreams: DataStream[] = [];
-    const maxDataStreams = isMobileDevice ? 3 : 6;
+    const maxDataStreams = isLowEnd ? 2 : isHighEnd ? 6 : 4;
 
     for (let i = 0; i < maxDataStreams && globeNodeVectors.length >= 2; i++) {
       const start = globeNodeVectors[i % globeNodeVectors.length];
@@ -504,7 +582,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const mid = start.clone().add(end).multiplyScalar(0.5).normalize().multiplyScalar(globeRadius * 1.4);
 
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-      const points = curve.getPoints(isMobileDevice ? 24 : 40);
+      const points = curve.getPoints(isLowEnd ? 18 : isHighEnd ? 40 : 28);
       const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
       const arcMat = new THREE.LineBasicMaterial({
         color: i % 3 === 0 ? 0xf97316 : 0x2563eb,
@@ -516,7 +594,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       globeGroup.add(arcLine);
 
       const packets: DataStream['packets'] = [];
-      const packetCountForArc = isMobileDevice ? 1 : 2;
+      const packetCountForArc = isLowEnd ? 1 : 2;
       const packetGeo = new THREE.SphereGeometry(0.035, 6, 6);
       for (let j = 0; j < packetCountForArc; j++) {
         const isOrange = i % 3 === 0;
@@ -548,7 +626,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const globe2Radius = 1.90;
 
     // 1. Outer Geodesic Wireframe Shield for Globe 2
-    const icoGeo2 = new THREE.IcosahedronGeometry(globe2Radius, isMobileDevice ? 2 : 3);
+    const icoGeo2 = new THREE.IcosahedronGeometry(globe2Radius, isLowEnd ? 2 : 3);
     const wireMat2 = new THREE.MeshBasicMaterial({
       color: isDarkMode ? 0x60a5fa : 0x2563eb,
       wireframe: true,
@@ -570,7 +648,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     globe2Group.add(innerSphere2);
 
     // 3. Adaptive Solid Core for Globe 2
-    const solidCoreGeo2 = new THREE.SphereGeometry(globe2Radius * 0.82, isMobileDevice ? 20 : 28, isMobileDevice ? 20 : 28);
+    const solidCoreGeo2 = new THREE.SphereGeometry(globe2Radius * 0.82, isLowEnd ? 18 : 26, isLowEnd ? 18 : 26);
     const solidCoreMat2 = new THREE.MeshStandardMaterial({
       color: isDarkMode ? 0x02040a : 0x0284c7,
       roughness: isDarkMode ? 0.2 : 0.9,
@@ -609,7 +687,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     globe2Group.add(coreGlowLight2);
 
     // 4. Point cloud nodes on Globe 2 surface (Adaptive nodes)
-    const nodeCount2 = isMobileDevice ? 120 : 200;
+    const nodeCount2 = profile.nodeCount2;
     const nodePositions2 = new Float32Array(nodeCount2 * 3);
     const nodeColors2 = new Float32Array(nodeCount2 * 3);
 
@@ -647,7 +725,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 5. Orbiting Satellites on Globe 2
     const satGroup2 = new THREE.Group();
     globe2Group.add(satGroup2);
-    const satelliteCount2 = isMobileDevice ? 3 : 5;
+    const satelliteCount2 = isLowEnd ? 2 : isHighEnd ? 5 : 4;
     const satellites2: THREE.Mesh[] = [];
     for (let i = 0; i < satelliteCount2; i++) {
       const isBlueSat = i % 2 === 0;
@@ -662,7 +740,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       new THREE.Vector3(0.0, 3.4, -1.0),
       new THREE.Vector3(-4.5, 0.40, -3.2)
     );
-    const synapseResolution = isMobileDevice ? 24 : 36;
+    const synapseResolution = isLowEnd ? 18 : isHighEnd ? 36 : 24;
     const dualCorePts = dualCoreCurve.getPoints(synapseResolution);
     const dualCorePosArray = new Float32Array((synapseResolution + 1) * 3);
     for (let p = 0; p <= synapseResolution; p++) {
@@ -774,8 +852,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       },
     ];
 
-    // Only render top 3 sentinels on mobile to cut draw calls and matrix math
-    const sentinelConfigs = isMobileDevice ? allSentinelConfigs.slice(0, 3) : allSentinelConfigs;
+    const sentinelConfigs = allSentinelConfigs.slice(0, profile.sentinelLimit);
     const sentinelGlobes: SentinelGlobe[] = [];
 
     sentinelConfigs.forEach((cfg) => {
@@ -835,7 +912,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
       const sSats: THREE.Mesh[] = [];
       if (cfg.hasSatellites) {
-        const satLimit = isMobileDevice ? 1 : 2;
+        const satLimit = isLowEnd ? 1 : 2;
         for (let s = 0; s < satLimit; s++) {
           const sSat = new THREE.Mesh(satGeo, blueSatMat);
           sSats.push(sSat);
@@ -870,7 +947,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const end = cfg.pos.clone();
       const mid = start.clone().add(end).multiplyScalar(0.5).add(new THREE.Vector3(0, 1.0, 1.2));
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-      const pts = curve.getPoints(isMobileDevice ? 20 : 32);
+      const pts = curve.getPoints(isLowEnd ? 16 : isHighEnd ? 32 : 24);
       const bGeo = new THREE.BufferGeometry().setFromPoints(pts);
       const bMat = new THREE.LineBasicMaterial({
         color: 0x3b82f6,
@@ -1054,11 +1131,17 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const handleResize = () => {
       if (!container) return;
+      const updatedProfile = getDeviceProfile();
+      currentActiveDpr = updatedProfile.dpr;
+      useActiveBloom = updatedProfile.useBloom;
       updateResponsiveFactors();
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(currentActiveDpr);
       renderer.setSize(window.innerWidth, window.innerHeight);
-      composer.setSize(window.innerWidth, window.innerHeight);
+      if (useActiveBloom) {
+        composer.setSize(window.innerWidth, window.innerHeight);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -1098,7 +1181,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     // =====================================================================
-    // ZERO-ALLOCATION ANIMATION RENDER LOOP & TAB THROTTLING
+    // ZERO-ALLOCATION ANIMATION RENDER LOOP, FPS MONITOR & TAB THROTTLING
     // =====================================================================
     let animationFrameId: number;
     let isTabVisible = !document.hidden;
@@ -1114,10 +1197,33 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const scratchMidBridge = new THREE.Vector3();
     const flowVelocity = { x: 0, y: 0, z: 0 };
 
+    // Dynamic frametime monitor to auto-degrade resolution if device throttles
+    let lastFrameTime = performance.now();
+    let slowFrameCounter = 0;
+
     const animate = () => {
       if (!isTabVisible) return;
       animationFrameId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
+
+      // Dynamic resolution scaling guard
+      const now = performance.now();
+      const delta = (now - lastFrameTime) / 1000;
+      lastFrameTime = now;
+
+      if (delta > 0.033) {
+        // Frame took > 33ms (< 30 FPS)
+        slowFrameCounter++;
+        if (slowFrameCounter > 45 && currentActiveDpr > 1.0) {
+          currentActiveDpr = 1.0;
+          useActiveBloom = false;
+          renderer.setPixelRatio(1.0);
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          slowFrameCounter = 0;
+        }
+      } else if (slowFrameCounter > 0) {
+        slowFrameCounter--;
+      }
 
       // Smooth scroll progress & mouse interpolation
       currentScrollProgress += (targetScrollProgress - currentScrollProgress) * 0.08;
@@ -1292,7 +1398,11 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       deepVoidGroup.position.x = mouseX * 0.02;
       deepVoidGroup.position.y = -mouseY * 0.015;
 
-      composer.render();
+      if (useActiveBloom) {
+        composer.render();
+      } else {
+        renderer.render(scene, camera);
+      }
     };
 
     const handleVisibilityChange = () => {
