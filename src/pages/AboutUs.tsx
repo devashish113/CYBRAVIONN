@@ -111,9 +111,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
   ];
 
   return (
-    <div className={`pt-24 min-h-screen relative transition-colors duration-300 ${
-      isDarkMode ? 'bg-[#010206] text-stone-100' : 'bg-[#f8fafc] text-slate-900'
-    }`}>
+    <div className="pt-24 min-h-screen relative bg-transparent text-slate-900 dark:text-stone-100 selection:bg-orange-500/20 selection:text-orange-900">
       <Helmet>
         <title>About Us &amp; Corporate Profile | CYBRAVION SOLUTIONS PRIVATE LIMITED</title>
         <meta 
@@ -127,11 +125,20 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
         <link rel="canonical" href="https://cybravions.com/about" />
       </Helmet>
 
-      {/* Atmospheric Background Glows */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-10 -left-28 w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[140px]" />
-        <div className="absolute top-1/3 -right-28 w-[500px] h-[500px] bg-orange-500/15 rounded-full blur-[140px]" />
-        <div className="absolute bottom-10 left-1/3 w-[450px] h-[450px] bg-amber-500/15 rounded-full blur-[140px]" />
+      {/* Atmospheric Cybernetic Background Glows & Dynamic Depth */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Neon Orange & Cyan Core Radial Nebulae */}
+        <div className="absolute top-10 left-1/4 -translate-x-1/2 w-[700px] h-[700px] bg-gradient-to-br from-blue-600/15 via-indigo-600/10 to-transparent rounded-full blur-[160px] animate-pulse" />
+        <div className="absolute top-1/3 right-0 w-[650px] h-[650px] bg-gradient-to-tl from-orange-500/15 via-amber-500/10 to-transparent rounded-full blur-[160px]" />
+        <div className="absolute bottom-1/4 left-10 w-[600px] h-[600px] bg-gradient-to-tr from-cyan-500/10 via-blue-500/10 to-transparent rounded-full blur-[150px]" />
+        {/* Subtle Cyber Grid Overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07]" 
+          style={{
+            backgroundImage: `linear-gradient(to right, rgba(59, 130, 246, 0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(59, 130, 246, 0.4) 1px, transparent 1px)`,
+            backgroundSize: '40px 40px'
+          }} 
+        />
       </div>
 
       <div className="relative z-10">
