@@ -549,7 +549,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     // 3.5 Center Inner Cyber Shield (~35% globe diameter)
     const textureLoader = new THREE.TextureLoader();
-    const shieldTex = textureLoader.load('/shield-cyber.png');
+    const shieldTex = textureLoader.load('/shield-cyber.webp');
     shieldTex.colorSpace = THREE.SRGBColorSpace;
 
     const shieldWidth = globeRadius * 0.72;

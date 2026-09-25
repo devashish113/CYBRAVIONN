@@ -156,11 +156,18 @@ const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center group shrink-0"
               aria-label="CYBRAVIONS Home"
             >
-              <img 
-                src="/logo.png" 
-                alt="CYBRAVIONS" 
-                className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-all duration-300" 
-              />
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img 
+                  src="/logo.png" 
+                  alt="CYBRAVIONS" 
+                  width="180"
+                  height="56"
+                  loading="eager"
+                  decoding="async"
+                  className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-all duration-300" 
+                />
+              </picture>
             </a>
 
             {/* Desktop Navigation Links */}
@@ -1452,11 +1459,18 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
         {/* Main Footer Top Row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center">
-            <img 
-              src="/logo.png" 
-              alt="CYBRAVION" 
-              className="h-14 md:h-18 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
-            />
+            <picture>
+              <source srcSet="/logo.webp" type="image/webp" />
+              <img 
+                src="/logo.png" 
+                alt="CYBRAVION" 
+                width="220"
+                height="72"
+                loading="lazy"
+                decoding="async"
+                className="h-14 md:h-18 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
+              />
+            </picture>
           </div>
 
           <div className={`flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-wider ${
