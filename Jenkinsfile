@@ -70,6 +70,23 @@ pipeline {
                 '''
             }
         }
+
+        stage('SSL HTTPS Configuration') {
+            steps {
+                echo '🔒 Checking and configuring Let\'s Encrypt SSL HTTPS certificate for cybravions.com...'
+                sh '''
+                    if command -v certbot >/dev/null 2>&1; then
+                        echo "Certbot found. Attempting SSL certificate provision/renewal..."
+                        sudo certbot --nginx -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com --redirect || echo "⚠️ Certbot auto-configuration notice (check sudo permissions or existing cert)"
+                    else
+                        echo "Certbot not found on host path, checking snap / alternative paths..."
+                        if [ -f /snap/bin/certbot ]; then
+                            sudo /snap/bin/certbot --nginx -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com --redirect || true
+                        fi
+                    fi
+                '''
+            }
+        }
     }
 
     post {
