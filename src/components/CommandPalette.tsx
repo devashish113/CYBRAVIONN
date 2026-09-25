@@ -21,7 +21,8 @@ import {
   HelpCircle,
   Award,
   Gamepad2,
-  MapPin
+  MapPin,
+  Building2
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
 
