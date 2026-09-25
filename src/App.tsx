@@ -76,6 +76,7 @@ import { EngagementLifecycle } from './components/EngagementLifecycle';
 import { GlobalPresence } from './components/GlobalPresence';
 import { OfficeLocationMap } from './components/OfficeLocationMap';
 import { CommandPalette } from './components/CommandPalette';
+import { LegalModal, LegalTabType } from './components/LegalModal';
 import { cyberAudio } from './utils/cyberAudio';
 
 // --- Navigation ---
@@ -1433,55 +1434,108 @@ const FAQ = () => {
 
 // --- Footer ---
 
-const Footer = ({ setCurrentView, isDarkMode }: { setCurrentView: (view: string) => void; isDarkMode: boolean }) => {
+interface FooterProps {
+  setCurrentView: (view: string) => void;
+  isDarkMode: boolean;
+  onOpenLegal: (tab: LegalTabType) => void;
+}
+
+const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
   return (
     <footer className={`py-16 px-6 md:px-12 lg:px-20 border-t relative z-10 transition-colors ${
       isDarkMode 
         ? 'bg-stone-950 border-stone-900 text-stone-300' 
         : 'bg-white border-slate-200 text-slate-700 shadow-inner'
     }`}>
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="flex items-center">
-          <img 
-            src="/logo.png" 
-            alt="CYBRAVIONS" 
-            className="h-14 md:h-18 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
-          />
+      <div className="max-w-7xl mx-auto flex flex-col gap-10">
+        
+        {/* Main Footer Top Row */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex items-center">
+            <img 
+              src="/logo.png" 
+              alt="CYBRAVION" 
+              className="h-14 md:h-18 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
+            />
+          </div>
+
+          <div className={`flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-wider ${
+            isDarkMode ? 'text-stone-400' : 'text-slate-600'
+          }`}>
+            <button onClick={() => { setCurrentView('cyberverse'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-orange-500 hover:text-orange-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
+              <Gamepad2 size={13} />
+              CyberVerse (RPG)
+            </button>
+            <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-blue-500 hover:text-blue-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
+              <Sparkles size={12} />
+              Cybravions AI
+            </button>
+            <a href="#services" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Services</a>
+            <button onClick={() => { setCurrentView('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>About Us</button>
+            <a href="#radar" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>3D Radar</a>
+            <button onClick={() => { setCurrentView('compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Compliance</button>
+            <button onClick={() => { setCurrentView('training'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Training</button>
+            <button onClick={() => { setCurrentView('exception-manager'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>
+              Exception Manager
+            </button>
+            <a href="#contact" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Contact</a>
+          </div>
         </div>
 
-        <div className={`flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-wider ${
-          isDarkMode ? 'text-stone-400' : 'text-slate-600'
+        {/* Legal, Privacy & Corporate Verification Trust Bar */}
+        <div className={`pt-6 border-t flex flex-col md:flex-row items-center justify-between gap-4 text-xs ${
+          isDarkMode ? 'border-stone-900 text-stone-400' : 'border-slate-100 text-slate-500'
         }`}>
-          <button onClick={() => { setCurrentView('cyberverse'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-orange-500 hover:text-orange-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
-            <Gamepad2 size={13} />
-            CyberVerse (RPG)
-          </button>
-          <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-blue-500 hover:text-blue-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
-            <Sparkles size={12} />
-            Cybravions AI
-          </button>
-          <a href="#services" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Services</a>
-          <button onClick={() => { setCurrentView('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>About Us</button>
-          <a href="#radar" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>3D Radar</a>
-          <button onClick={() => { setCurrentView('compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Compliance</button>
-          <button onClick={() => { setCurrentView('training'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Training</button>
-          <button onClick={() => { setCurrentView('exception-manager'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>
-            Exception Manager
-          </button>
-          <a href="#contact" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Contact</a>
+          {/* Policy & Trust Links */}
+          <div className="flex flex-wrap items-center justify-center gap-5 text-xs font-mono font-medium">
+            <button
+              onClick={() => onOpenLegal('privacy')}
+              className="hover:text-orange-500 transition-colors cursor-pointer"
+            >
+              Privacy Policy (DPDP &amp; GDPR)
+            </button>
+            <span>•</span>
+            <button
+              onClick={() => onOpenLegal('terms')}
+              className="hover:text-orange-500 transition-colors cursor-pointer"
+            >
+              Terms of Service
+            </button>
+            <span>•</span>
+            <button
+              onClick={() => onOpenLegal('vdp')}
+              className="hover:text-orange-500 transition-colors cursor-pointer"
+            >
+              Vulnerability Disclosure (VDP)
+            </button>
+            <span>•</span>
+            <button
+              onClick={() => onOpenLegal('cookies')}
+              className="hover:text-orange-500 transition-colors cursor-pointer"
+            >
+              Security &amp; Cookie Policy
+            </button>
+            <span>•</span>
+            <a
+              href="/.well-known/security.txt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-orange-500 transition-colors font-semibold text-blue-500 dark:text-blue-400"
+            >
+              security.txt (RFC 9116)
+            </a>
+          </div>
+
+          <div className="text-center md:text-right font-mono text-[11px] space-y-0.5">
+            <div className="font-semibold text-slate-800 dark:text-stone-300">
+              CYBRAVION SOLUTIONS PRIVATE LIMITED · CIN: U62099DL2026PTC470901
+            </div>
+            <div>
+              © {new Date().getFullYear()} CYBRAVION Solutions. Regd. in New Delhi, India. All rights reserved.
+            </div>
+          </div>
         </div>
 
-        <div className={`text-xs font-sans text-center md:text-right ${isDarkMode ? 'text-stone-500' : 'text-slate-400'} space-y-1`}>
-          <div className="font-semibold text-slate-800 dark:text-stone-300">
-            CYBRAVION SOLUTIONS PRIVATE LIMITED
-          </div>
-          <div className="text-[11px] font-mono">
-            CIN: U62099DL2026PTC470901 · Regd. Office: New Delhi 110030, India
-          </div>
-          <div className="text-[10px]">
-            © {new Date().getFullYear()} CYBRAVION Solutions. All rights reserved.
-          </div>
-        </div>
       </div>
     </footer>
   );
@@ -1493,6 +1547,8 @@ export default function App() {
   const [currentView, setCurrentView] = useState('home');
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
+  const [legalTab, setLegalTab] = useState<LegalTabType>('privacy');
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('cybravions_theme');
@@ -1685,7 +1741,15 @@ export default function App() {
           </React.Suspense>
         </main>
 
-        <Footer setCurrentView={setCurrentView} isDarkMode={isDarkMode} />
+        <Footer 
+          setCurrentView={setCurrentView} 
+          isDarkMode={isDarkMode} 
+          onOpenLegal={(tab) => {
+            cyberAudio.playClick();
+            setLegalTab(tab);
+            setIsLegalModalOpen(true);
+          }}
+        />
 
         {/* Global Keyboard Command Palette & Quick Search (⌘K / Ctrl+K) */}
         <CommandPalette
@@ -1701,6 +1765,14 @@ export default function App() {
         <SecurityAuditModal
           isOpen={isAuditModalOpen}
           onClose={() => setIsAuditModalOpen(false)}
+          isDarkMode={isDarkMode}
+        />
+
+        {/* Legal, Privacy & Compliance Governance Modal */}
+        <LegalModal
+          isOpen={isLegalModalOpen}
+          onClose={() => setIsLegalModalOpen(false)}
+          initialTab={legalTab}
           isDarkMode={isDarkMode}
         />
       </div>
