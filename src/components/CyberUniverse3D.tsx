@@ -1117,7 +1117,13 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
     updateResponsiveFactors();
 
+    let lastInteractionTime = performance.now();
+    const markInteraction = () => {
+      lastInteractionTime = performance.now();
+    };
+
     const handleScroll = () => {
+      markInteraction();
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (docHeight > 0) {
         targetScrollProgress = Math.min(Math.max(window.scrollY / docHeight, 0), 1);
@@ -1125,12 +1131,18 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+      markInteraction();
       targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
       targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
     };
 
+    const handleTouchMove = () => {
+      markInteraction();
+    };
+
     const handleResize = () => {
       if (!container) return;
+      markInteraction();
       const updatedProfile = getDeviceProfile();
       currentActiveDpr = updatedProfile.dpr;
       useActiveBloom = updatedProfile.useBloom;
@@ -1146,6 +1158,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('wheel', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize);
     handleScroll();
 
@@ -1181,7 +1195,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     // =====================================================================
-    // ZERO-ALLOCATION ANIMATION RENDER LOOP, FPS MONITOR & TAB THROTTLING
+    // ADAPTIVE FRAME RATE GOVERNOR, IDLE THROTTLER & MODAL PAUSE
     // =====================================================================
     let animationFrameId: number;
     let isTabVisible = !document.hidden;
@@ -1199,22 +1213,43 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     // Dynamic frametime monitor to auto-degrade resolution if device throttles
     let lastFrameTime = performance.now();
+    let lastRenderTimestamp = 0;
     let slowFrameCounter = 0;
 
     const animate = () => {
       if (!isTabVisible) return;
       animationFrameId = requestAnimationFrame(animate);
+
+      const now = performance.now();
+
+      // 1. Pause rendering if a modal or full-screen dialog is active
+      const isModalActive = !!document.querySelector('[role="dialog"]');
+      if (isModalActive) {
+        return;
+      }
+
+      // 2. Determine target frame rate based on device tier and user activity state
+      const isIdle = (now - lastInteractionTime) > 2500;
+      const targetFPS = isIdle
+        ? (profile.tier === 'low-end' ? 12 : profile.tier === 'normal' ? 20 : 30)
+        : (profile.tier === 'low-end' ? 30 : profile.tier === 'normal' ? 50 : 60);
+
+      const frameInterval = 1000 / targetFPS;
+      if (now - lastRenderTimestamp < frameInterval - 1) {
+        return;
+      }
+      lastRenderTimestamp = now;
+
       const elapsed = clock.getElapsedTime();
 
       // Dynamic resolution scaling guard
-      const now = performance.now();
       const delta = (now - lastFrameTime) / 1000;
       lastFrameTime = now;
 
-      if (delta > 0.033) {
-        // Frame took > 33ms (< 30 FPS)
+      if (!isIdle && delta > 0.035) {
+        // Frame took > 35ms on active rendering (< 28 FPS)
         slowFrameCounter++;
-        if (slowFrameCounter > 45 && currentActiveDpr > 1.0) {
+        if (slowFrameCounter > 40 && currentActiveDpr > 1.0) {
           currentActiveDpr = 1.0;
           useActiveBloom = false;
           renderer.setPixelRatio(1.0);
@@ -1408,6 +1443,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const handleVisibilityChange = () => {
       isTabVisible = !document.hidden;
       if (isTabVisible) {
+        markInteraction();
         clock.start();
         animationFrameId = requestAnimationFrame(animate);
       } else {
@@ -1423,6 +1459,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('wheel', handleScroll);
       window.removeEventListener('resize', handleResize);
       composer.dispose();
       renderer.dispose();
