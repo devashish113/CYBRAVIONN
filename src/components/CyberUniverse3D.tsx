@@ -134,11 +134,13 @@ function createAtmosphereHaze(isDarkMode: boolean): THREE.Mesh {
 }
 
 /* ─────────────────── Device Capability Profiler ─────────────────── */
-type DeviceTier = 'low-end' | 'normal' | 'high-end';
+type DeviceTier = 'low-end-mobile' | 'mobile' | 'tablet' | 'desktop' | 'high-end-desktop';
 
 interface DeviceProfile {
   tier: DeviceTier;
-  dpr: number;
+  initialDpr: number;
+  maxDpr: number;
+  initialQualityLevel: number;
   useBloom: boolean;
   antialias: boolean;
   particleCount: number;
@@ -150,31 +152,35 @@ interface DeviceProfile {
 function getDeviceProfile(): DeviceProfile {
   if (typeof window === 'undefined') {
     return {
-      tier: 'normal',
-      dpr: 1.0,
-      useBloom: false,
+      tier: 'desktop',
+      initialDpr: 1.0,
+      maxDpr: 1.5,
+      initialQualityLevel: 3,
+      useBloom: true,
       antialias: false,
-      particleCount: 120,
-      nodeCount: 140,
-      nodeCount2: 100,
+      particleCount: 150,
+      nodeCount: 180,
+      nodeCount2: 130,
       sentinelLimit: 3,
     };
   }
 
-  const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth < 768;
-
+  const isMobileUA =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isTabletUA = /iPad|tablet/i.test(navigator.userAgent) || (isMobileUA && window.innerWidth >= 768);
+  const width = window.innerWidth;
   const cores = navigator.hardwareConcurrency || 4;
   const memory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 4;
   const nativeDPR = window.devicePixelRatio || 1;
 
-  // Tier 0: Low-End Mobile / Constrained Device (Strict 1.0 DPR to prevent 4x fill-rate explosion)
-  if (isMobile && (cores <= 4 || memory <= 3 || window.innerWidth < 480)) {
+  // 1. Low-End Mobile (<= 480px, <= 4 cores, or <= 3GB RAM) -> Strict 1.0 DPR & Minimal overhead
+  if (isMobileUA && (cores <= 4 || memory <= 3 || width < 480)) {
     return {
-      tier: 'low-end',
-      dpr: 1.0, // Fixed 1x DPR
-      useBloom: false, // Bypass expensive multi-pass Gaussian blur on low-end
+      tier: 'low-end-mobile',
+      initialDpr: 1.0,
+      maxDpr: 1.0,
+      initialQualityLevel: 1,
+      useBloom: false,
       antialias: false,
       particleCount: 85,
       nodeCount: 120,
@@ -183,30 +189,66 @@ function getDeviceProfile(): DeviceProfile {
     };
   }
 
-  // Tier 1: Normal Mobile / Tablets / Mid-range Laptops (1.15–1.25 DPR)
-  if (isMobile || cores <= 6 || memory <= 4 || window.innerWidth < 1024) {
+  // 2. Normal Mobile (480px - 767px) -> 1.0–1.25 DPR
+  if (isMobileUA && !isTabletUA && width < 768) {
     return {
-      tier: 'normal',
-      dpr: Math.min(nativeDPR, 1.25),
-      useBloom: true,
-      antialias: !isMobile,
-      particleCount: 150,
-      nodeCount: 180,
-      nodeCount2: 130,
+      tier: 'mobile',
+      initialDpr: Math.min(nativeDPR, 1.25),
+      maxDpr: 1.25,
+      initialQualityLevel: 2,
+      useBloom: false,
+      antialias: false,
+      particleCount: 130,
+      nodeCount: 160,
+      nodeCount2: 110,
       sentinelLimit: 3,
     };
   }
 
-  // Tier 2: High-End Desktop / Powerful GPU (1.5–1.75 DPR)
+  // 3. Tablet (768px - 1023px) -> 1.25–1.5 DPR
+  if (isTabletUA || (width >= 768 && width < 1024)) {
+    return {
+      tier: 'tablet',
+      initialDpr: Math.min(nativeDPR, 1.35),
+      maxDpr: 1.5,
+      initialQualityLevel: 3,
+      useBloom: true,
+      antialias: true,
+      particleCount: 160,
+      nodeCount: 180,
+      nodeCount2: 130,
+      sentinelLimit: 4,
+    };
+  }
+
+  // 4. High-End Desktop (>= 1600px, >= 8 cores, >= 8GB RAM) -> Up to 2.0 DPR
+  if (width >= 1600 && cores >= 8 && memory >= 8) {
+    return {
+      tier: 'high-end-desktop',
+      initialDpr: Math.min(nativeDPR, 2.0),
+      maxDpr: 2.0,
+      initialQualityLevel: 4,
+      useBloom: true,
+      antialias: true,
+      particleCount: 250,
+      nodeCount: 260,
+      nodeCount2: 200,
+      sentinelLimit: 7,
+    };
+  }
+
+  // 5. Standard Desktop (1024px - 1599px) -> 1.5 DPR
   return {
-    tier: 'high-end',
-    dpr: Math.min(nativeDPR, 1.75),
+    tier: 'desktop',
+    initialDpr: Math.min(nativeDPR, 1.5),
+    maxDpr: 1.5,
+    initialQualityLevel: 3,
     useBloom: true,
     antialias: true,
-    particleCount: 250,
-    nodeCount: 260,
-    nodeCount2: 200,
-    sentinelLimit: 7,
+    particleCount: 200,
+    nodeCount: 220,
+    nodeCount2: 160,
+    sentinelLimit: 5,
   };
 }
 
@@ -219,8 +261,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     // Detect initial device profile
     const profile = getDeviceProfile();
-    let currentActiveDpr = profile.dpr;
+    let currentActiveDpr = profile.initialDpr;
     let useActiveBloom = profile.useBloom;
+    let currentQualityLevel = profile.initialQualityLevel;
+    const nativeDPR = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
 
     // =====================================================================
     // 1. SCENE, CAMERA, RENDERER + ADAPTIVE BLOOM POST-PROCESSING
@@ -238,8 +282,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     );
     camera.position.set(0, 0.2, 9.2);
 
-    const isLowEnd = profile.tier === 'low-end';
-    const isHighEnd = profile.tier === 'high-end';
+    const isLowEnd = profile.tier === 'low-end-mobile' || profile.tier === 'mobile';
+    const isHighEnd = profile.tier === 'desktop' || profile.tier === 'high-end-desktop';
 
     const renderer = new THREE.WebGLRenderer({
       antialias: profile.antialias,
@@ -271,6 +315,46 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const outputPass = new OutputPass();
     composer.addPass(outputPass);
+
+    // Dynamic Quality Controller (Adjusts DPR & Post-Processing smoothly)
+    const setQualityLevel = (newLevel: number) => {
+      newLevel = Math.max(1, Math.min(4, newLevel));
+      if (newLevel === currentQualityLevel) return;
+      currentQualityLevel = newLevel;
+
+      let targetDpr = 1.0;
+      let targetBloom = false;
+
+      switch (currentQualityLevel) {
+        case 4: // Ultra Quality (High-end Desktop) -> Up to 2.0 DPR, Full Bloom
+          targetDpr = Math.min(nativeDPR, 2.0);
+          targetBloom = true;
+          bloomPass.strength = isDarkMode ? 0.20 : 0.12;
+          break;
+        case 3: // Normal Quality (Desktop / Tablet) -> 1.25–1.5 DPR, Balanced Bloom
+          targetDpr = Math.min(nativeDPR, isLowEnd ? 1.25 : 1.5);
+          targetBloom = true;
+          bloomPass.strength = isDarkMode ? 0.14 : 0.08;
+          break;
+        case 2: // Reduced Quality (Normal Mobile / Low-spec) -> 1.0–1.15 DPR, Bloom Bypassed
+          targetDpr = Math.min(nativeDPR, 1.15);
+          targetBloom = false;
+          break;
+        case 1: // Fallback Mode -> Strict 1.0 DPR, Zero Post-Processing Overhead
+        default:
+          targetDpr = 1.0;
+          targetBloom = false;
+          break;
+      }
+
+      currentActiveDpr = targetDpr;
+      useActiveBloom = targetBloom;
+      renderer.setPixelRatio(currentActiveDpr);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      if (useActiveBloom) {
+        composer.setSize(window.innerWidth, window.innerHeight);
+      }
+    };
 
     // =====================================================================
     // 2. LIGHTING SYSTEM (Refined Sapphire Blue + Subtle Cyber Accents)
@@ -1233,16 +1317,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       if (!container) return;
       markInteraction();
       const updatedProfile = getDeviceProfile();
-      currentActiveDpr = updatedProfile.dpr;
-      useActiveBloom = updatedProfile.useBloom;
       updateResponsiveFactors();
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setPixelRatio(currentActiveDpr);
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      if (useActiveBloom) {
-        composer.setSize(window.innerWidth, window.innerHeight);
-      }
+      setQualityLevel(updatedProfile.initialQualityLevel);
       wakeUpLoop();
     };
 
@@ -1300,10 +1378,11 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const scratchG2World = new THREE.Vector3();
     const scratchMidBridge = new THREE.Vector3();
 
-    // Dynamic frametime monitor to auto-degrade resolution if device throttles
+    // Dynamic frametime and rolling FPS tracker
     let lastFrameTime = performance.now();
     let lastRenderTimestamp = 0;
-    let slowFrameCounter = 0;
+    let rollingFps = 60;
+    let activeFrameSampleCount = 0;
 
     const animate = () => {
       if (!isTabVisible || document.visibilityState === 'hidden') {
@@ -1338,9 +1417,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         }
       } else {
         // 3. Active 3D Section Governor (Hero, Services, Radar, Lifecycle)
+        const isLowTier = profile.tier === 'low-end-mobile' || profile.tier === 'mobile';
         const targetFPS = isIdle
-          ? (profile.tier === 'low-end' ? 12 : profile.tier === 'normal' ? 20 : 30)
-          : (profile.tier === 'low-end' ? 30 : profile.tier === 'normal' ? 50 : 60);
+          ? (isLowTier ? 12 : 25)
+          : (isLowTier ? 30 : profile.tier === 'tablet' ? 50 : 60);
 
         const frameInterval = 1000 / targetFPS;
         if (now - lastRenderTimestamp < frameInterval - 1) {
@@ -1356,22 +1436,37 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
       const elapsed = clock.getElapsedTime();
 
-      // Dynamic resolution scaling guard
+      // Dynamic frametime monitor & FPS delta
       const delta = (now - lastFrameTime) / 1000;
       lastFrameTime = now;
 
-      if (!isIdle && delta > 0.035) {
-        // Frame took > 35ms on active rendering (< 28 FPS)
-        slowFrameCounter++;
-        if (slowFrameCounter > 40 && currentActiveDpr > 1.0) {
-          currentActiveDpr = 1.0;
-          useActiveBloom = false;
-          renderer.setPixelRatio(1.0);
-          renderer.setSize(window.innerWidth, window.innerHeight);
-          slowFrameCounter = 0;
+      // Dynamic Quality Scaling based on actual Rolling FPS
+      if (!isIdle && is3DZoneVisible) {
+        const instantFps = delta > 0.001 ? Math.min(1 / delta, 60) : 60;
+        rollingFps = rollingFps * 0.90 + instantFps * 0.10;
+        activeFrameSampleCount++;
+
+        // Evaluate every ~40 active rendering frames
+        if (activeFrameSampleCount >= 40) {
+          activeFrameSampleCount = 0;
+
+          if (rollingFps < 25 && currentQualityLevel > 1) {
+            // FPS < 25 -> Fallback Mode (Strict 1.0 DPR, minimal visual pipeline)
+            setQualityLevel(1);
+          } else if (rollingFps < 40 && currentQualityLevel > 2) {
+            // FPS < 40 -> Reduce DPR (1.0–1.15) & bypass bloom
+            setQualityLevel(2);
+          } else if (rollingFps > 55) {
+            // FPS > 55 -> Quality +1 (Headroom available, scale up fidelity)
+            if (currentQualityLevel === 1 && profile.tier !== 'low-end-mobile') {
+              setQualityLevel(2);
+            } else if (currentQualityLevel === 2 && profile.tier !== 'low-end-mobile' && profile.tier !== 'mobile') {
+              setQualityLevel(3);
+            } else if (currentQualityLevel === 3 && (profile.tier === 'desktop' || profile.tier === 'high-end-desktop') && nativeDPR >= 1.5) {
+              setQualityLevel(4);
+            }
+          }
         }
-      } else if (slowFrameCounter > 0) {
-        slowFrameCounter--;
       }
 
       // Smooth scroll progress & mouse interpolation
