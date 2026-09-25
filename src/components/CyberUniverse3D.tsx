@@ -1148,22 +1148,85 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       lastInteractionTime = performance.now();
     };
 
-    const handleScroll = () => {
+    // =====================================================================
+    // 3D SECTION INTERSECTION & VIEWPORT OCCLUSION OBSERVER
+    // =====================================================================
+    let is3DZoneVisible = true;
+    let isLoopRunning = false;
+    let deepSectionsIntersecting = false;
+    let observerTimeout: ReturnType<typeof setTimeout> | null = null;
+    let intersectionObserver: IntersectionObserver | null = null;
+
+    const wakeUpLoop = () => {
       markInteraction();
+      if (!isLoopRunning && isTabVisible && document.visibilityState === 'visible') {
+        isLoopRunning = true;
+        clock.start();
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    const checkAndUpdateVisibility = () => {
+      // When user is scrolled deep into non-3D sections (FAQ, Contact, Map, Footer > 65% of page)
+      const isDeepInPage = targetScrollProgress > 0.65;
+      const nextVisible = !isDeepInPage && !deepSectionsIntersecting;
+
+      if (is3DZoneVisible !== nextVisible) {
+        is3DZoneVisible = nextVisible;
+        if (is3DZoneVisible) {
+          wakeUpLoop();
+        }
+      }
+    };
+
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+      intersectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const targetId = entry.target.id || entry.target.tagName.toLowerCase();
+            if (targetId === 'faq' || targetId === 'contact' || targetId === 'footer') {
+              if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+                deepSectionsIntersecting = true;
+              } else if (!entry.isIntersecting) {
+                deepSectionsIntersecting = false;
+              }
+            }
+          });
+          checkAndUpdateVisibility();
+        },
+        { threshold: [0, 0.25, 0.5, 0.75] }
+      );
+
+      const observeElements = () => {
+        const nodesToObserve = document.querySelectorAll(
+          '#radar, #services, #faq, #contact, footer, #main-content > div:first-child'
+        );
+        nodesToObserve.forEach((node) => intersectionObserver?.observe(node));
+      };
+
+      observeElements();
+      observerTimeout = setTimeout(observeElements, 1200);
+    }
+
+    const handleScroll = () => {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (docHeight > 0) {
         targetScrollProgress = Math.min(Math.max(window.scrollY / docHeight, 0), 1);
       }
+      checkAndUpdateVisibility();
+      wakeUpLoop();
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      markInteraction();
       targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
       targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (is3DZoneVisible) {
+        wakeUpLoop();
+      }
     };
 
     const handleTouchMove = () => {
-      markInteraction();
+      wakeUpLoop();
     };
 
     const handleResize = () => {
@@ -1180,6 +1243,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       if (useActiveBloom) {
         composer.setSize(window.innerWidth, window.innerHeight);
       }
+      wakeUpLoop();
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -1224,7 +1288,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // ADAPTIVE FRAME RATE GOVERNOR, IDLE THROTTLER & MODAL PAUSE
     // =====================================================================
     let animationFrameId: number;
-    let isTabVisible = !document.hidden;
+    let isTabVisible = typeof document !== 'undefined' ? (document.visibilityState === 'visible' && !document.hidden) : true;
     const clock = new THREE.Clock();
     const currentCameraPos = camera.position.clone();
     const currentCameraLook = new THREE.Vector3(0.5, 0, 0);
@@ -1242,28 +1306,53 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     let slowFrameCounter = 0;
 
     const animate = () => {
-      if (!isTabVisible) return;
-      animationFrameId = requestAnimationFrame(animate);
-
-      const now = performance.now();
+      if (!isTabVisible || document.visibilityState === 'hidden') {
+        isLoopRunning = false;
+        return;
+      }
 
       // 1. Pause rendering if a modal or full-screen dialog is active
       const isModalActive = !!document.querySelector('[role="dialog"]');
       if (isModalActive) {
+        isLoopRunning = false;
         return;
       }
 
-      // 2. Determine target frame rate based on device tier and user activity state
+      const now = performance.now();
       const isIdle = (now - lastInteractionTime) > 2500;
-      const targetFPS = isIdle
-        ? (profile.tier === 'low-end' ? 12 : profile.tier === 'normal' ? 20 : 30)
-        : (profile.tier === 'low-end' ? 30 : profile.tier === 'normal' ? 50 : 60);
 
-      const frameInterval = 1000 / targetFPS;
-      if (now - lastRenderTimestamp < frameInterval - 1) {
-        return;
+      // 2. Off-screen / Occluded Section Governor (e.g. user is reading FAQ, Contact, Footer)
+      if (!is3DZoneVisible) {
+        if (isIdle) {
+          // Complete render pause when stationary in non-3D sections — 0 GPU draw calls & 0 battery drain
+          isLoopRunning = false;
+          return;
+        } else {
+          // Throttled 15 FPS standby during active scrolling through offscreen sections
+          const offscreenInterval = 1000 / 15;
+          if (now - lastRenderTimestamp < offscreenInterval - 1) {
+            animationFrameId = requestAnimationFrame(animate);
+            isLoopRunning = true;
+            return;
+          }
+        }
+      } else {
+        // 3. Active 3D Section Governor (Hero, Services, Radar, Lifecycle)
+        const targetFPS = isIdle
+          ? (profile.tier === 'low-end' ? 12 : profile.tier === 'normal' ? 20 : 30)
+          : (profile.tier === 'low-end' ? 30 : profile.tier === 'normal' ? 50 : 60);
+
+        const frameInterval = 1000 / targetFPS;
+        if (now - lastRenderTimestamp < frameInterval - 1) {
+          animationFrameId = requestAnimationFrame(animate);
+          isLoopRunning = true;
+          return;
+        }
       }
+
       lastRenderTimestamp = now;
+      isLoopRunning = true;
+      animationFrameId = requestAnimationFrame(animate);
 
       const elapsed = clock.getElapsedTime();
 
@@ -1439,21 +1528,23 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     const handleVisibilityChange = () => {
-      isTabVisible = !document.hidden;
+      isTabVisible = typeof document !== 'undefined' ? (document.visibilityState === 'visible' && !document.hidden) : true;
       if (isTabVisible) {
-        markInteraction();
-        clock.start();
-        animationFrameId = requestAnimationFrame(animate);
+        wakeUpLoop();
       } else {
+        isLoopRunning = false;
         cancelAnimationFrame(animationFrameId);
       }
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    animate();
+    wakeUpLoop();
 
     return () => {
+      isLoopRunning = false;
       cancelAnimationFrame(animationFrameId);
+      if (observerTimeout) clearTimeout(observerTimeout);
+      if (intersectionObserver) intersectionObserver.disconnect();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
