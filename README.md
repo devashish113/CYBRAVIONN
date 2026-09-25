@@ -57,11 +57,11 @@ docker run -d --name cybravion-web -p 3000:80 --restart unless-stopped cybravion
 
 ---
 
-## 🌐 Multi-Domain & HTTPS (Let's Encrypt SSL)
+## 🌐 Domain Configuration & HTTPS (Let's Encrypt SSL)
 
-When pointing a domain (e.g. `cybravions.online`) to server IP `40.192.90.82`:
+When pointing the domain `cybravions.com` (and `www.cybravions.com`) to server IP `40.192.90.82`:
 
 ```bash
 # Obtain and auto-configure free SSL certificate
-sudo certbot --nginx -d cybravions.online -d www.cybravions.online
+sudo certbot --nginx -d cybravions.com -d www.cybravions.com
 ```

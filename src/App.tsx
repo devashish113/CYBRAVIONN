@@ -1612,7 +1612,7 @@ export default function App() {
       <Helmet>
         <title>CYBRAVION Solutions | Next-Gen 3D Cybersecurity & Risk Governance</title>
         <meta name="description" content="Elite cybersecurity consulting — 3D threat intelligence, GRC, VAPT, cloud security & AI governance for modern enterprises." />
-        <link rel="canonical" href="https://cybravions.online/" />
+        <link rel="canonical" href="https://cybravions.com/" />
       </Helmet>
 
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}

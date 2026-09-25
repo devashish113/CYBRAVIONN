@@ -204,7 +204,7 @@ export const TrainingPage = () => {
         <title>Cybersecurity Training & Capability Development | CYBRAVION</title>
         <meta name="description" content="Empower your team with battle-tested security expertise. Custom training programs for cybersecurity awareness, technical skills, GRC, and executive leadership." />
         <meta name="keywords" content="cybersecurity training, security awareness, technical security training, GRC training, executive cyber risk training, VAPT workshop, CISSP, CEH" />
-        <link rel="canonical" href="https://cybravions.online/#training" />
+        <link rel="canonical" href="https://cybravions.com/#training" />
       </Helmet>
 
       {/* Background Decor */}

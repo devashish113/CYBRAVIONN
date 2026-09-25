@@ -9,7 +9,7 @@ export const CompliancePage = () => {
         <title>Trust Center & Compliance | CYBRAVION</title>
         <meta name="description" content="Discover how CYBRAVION secures its operations, protects client data, and aligns with global standards like ISO 27001 and DPDP Act." />
         <meta name="keywords" content="cybersecurity compliance, trust center, ISO 27001, DPDP Act, data privacy, secure infrastructure, GRC alignment" />
-        <link rel="canonical" href="https://cybravions.online/#compliance" />
+        <link rel="canonical" href="https://cybravions.com/#compliance" />
       </Helmet>
 
       <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">

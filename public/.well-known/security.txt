@@ -1,6 +1,6 @@
-Contact: mailto:cybravions@gmail.com
+Contact: mailto:support@cybravions.com
 Expires: 2027-12-31T23:59:59.000Z
 Preferred-Languages: en, hi
-Canonical: https://cybravions.online/.well-known/security.txt
-Policy: https://cybravions.online/#about
-Acknowledgments: https://cybravions.online/
+Canonical: https://cybravions.com/.well-known/security.txt
+Policy: https://cybravions.com/#about
+Acknowledgments: https://cybravions.com/

@@ -16,7 +16,7 @@ CYBRAVION Solutions delivers full-spectrum enterprise cybersecurity consulting, 
 ## Sovereign AI & Security Products
 
 - **Cybravions AI (Sovereign In-a-Box)**: Air-gapped sovereign agentic AI appliance engineered for defense, financial services, healthcare, and critical national infrastructure. Operates with 100% offline neural models, zero telemetry leakage, and strict hardware-level encryption.
-- **AI Exception Manager**: Web-based risk exception tracker and automated compliance governance dashboard. URL: https://exceptionmgr.cybravions.online
+- **AI Exception Manager**: Web-based risk exception tracker and automated compliance governance dashboard. URL: https://exceptionmgr.cybravions.com
 - **3D Threat Radar Simulation**: Interactive browser-based threat telemetry and incident response simulation engine.
 
 ## Compliance Frameworks Supported
@@ -31,9 +31,9 @@ CYBRAVION Solutions delivers full-spectrum enterprise cybersecurity consulting, 
 
 ## Official Contact & Verification
 
-- **Website**: https://cybravions.online/
-- **Email**: cybravions@gmail.com
+- **Website**: https://cybravions.com/
+- **Email**: cybravions@gmail.com / support@cybravions.com
 - **Phone**: +91-9358683634
 - **Coverage**: Global Enterprise Advisory (Worldwide)
-- **Security Policy**: https://cybravions.online/.well-known/security.txt
-- **Sitemap**: https://cybravions.online/sitemap.xml
+- **Security Policy**: https://cybravions.com/.well-known/security.txt
+- **Sitemap**: https://cybravions.com/sitemap.xml

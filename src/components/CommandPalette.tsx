@@ -162,12 +162,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     {
       id: 'exception-mgr-live',
       category: 'Live Cloud Portals',
-      title: 'Launch Live Exception Manager Portal (exceptionmgr.cybravions.online)',
+      title: 'Launch Live Exception Manager Portal (exceptionmgr.cybravions.com)',
       subtitle: 'Open active production dashboard in new tab',
       icon: ExternalLink,
       badge: 'Live Portal',
       action: () => {
-        window.open('https://exceptionmgr.cybravions.online', '_blank', 'noopener,noreferrer');
+        window.open('https://exceptionmgr.cybravions.com', '_blank', 'noopener,noreferrer');
         onClose();
       }
     },

@@ -129,7 +129,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           name="keywords" 
           content="CYBRAVION SOLUTIONS PRIVATE LIMITED, About Cybravions, CIN U62099DL2026PTC470901, cybersecurity company New Delhi, sovereign cybersecurity India, zero trust architecture, enterprise security firm" 
         />
-        <link rel="canonical" href="https://cybravions.online/#about" />
+        <link rel="canonical" href="https://cybravions.com/about" />
       </Helmet>
 
       {/* Atmospheric Background Glows */}

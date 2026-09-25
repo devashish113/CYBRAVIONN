@@ -60,7 +60,7 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({ onOpenConsultati
           content="Enterprise & Defense grade sovereign AI appliance. 100% offline, zero cloud telemetry, autonomous multi-agent intelligence in an air-gapped box." 
         />
         <meta name="keywords" content="sovereign AI, air-gapped AI, defense AI, autonomous agents, on-premise LLM, national security AI, Cybravions AI" />
-        <link rel="canonical" href="https://cybravions.online/#ai" />
+        <link rel="canonical" href="https://cybravions.com/#ai" />
       </Helmet>
 
       {/* --- Section 1: Sovereign Hero Banner --- */}

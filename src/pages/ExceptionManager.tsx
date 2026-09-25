@@ -177,7 +177,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
           name="description" 
           content="Enterprise AI Security Exception Management Platform. Mathematical risk scoring, 100K+ precedent matching, automated ML online retraining, and audit-grade ReportLab PDF generation." 
         />
-        <link rel="canonical" href="https://cybravions.online/exception-manager" />
+        <link rel="canonical" href="https://cybravions.com/exception-manager" />
       </Helmet>
 
       {/* Hero Section */}
@@ -226,7 +226,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
             className="flex flex-wrap items-center justify-center gap-4 w-full sm:w-auto"
           >
             <a
-              href="https://exceptionmgr.cybravions.online"
+              href="https://exceptionmgr.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
@@ -1017,7 +1017,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a
-              href="https://exceptionmgr.cybravions.online"
+              href="https://exceptionmgr.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}

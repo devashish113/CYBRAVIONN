@@ -259,7 +259,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
           content="The world's first story-driven CyberSec and AI/ML learning battleground. Duolingo meets HackTheBox meets RPG. In-browser Kali sandboxes, 10 Guilds, CTF Boss Fights, and Inter-College Leagues." 
         />
         <meta name="keywords" content="CyberSec RPG, gamified cybersecurity, CTF learning, AI ML gamification, ethical hacking game, HackTheBox Duolingo, Cybravions CyberVerse" />
-        <link rel="canonical" href="https://cybravions.online/#cyberverse" />
+        <link rel="canonical" href="https://cybravions.com/#cyberverse" />
       </Helmet>
 
       {/* ========================================================================= */}

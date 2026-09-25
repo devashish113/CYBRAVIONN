@@ -33,5 +33,5 @@ User-agent: Bytespider
 Allow: /
 
 # Sitemaps & LLM Context Standards
-Sitemap: https://cybravions.online/sitemap.xml
-LLMs: https://cybravions.online/llms.txt
+Sitemap: https://cybravions.com/sitemap.xml
+LLMs: https://cybravions.com/llms.txt
