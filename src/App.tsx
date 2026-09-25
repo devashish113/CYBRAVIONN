@@ -140,32 +140,34 @@ const Navbar: React.FC<NavbarProps> = ({
         aria-label="Main navigation"
       >
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          {/* Brand Logo Image Only */}
-          <a 
-            href="#" 
-            onClick={(e) => {
-              e.preventDefault();
-              setCurrentView('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="flex items-center group shrink-0"
-            aria-label="CYBRAVIONS Home"
-          >
-            <img 
-              src="/logo.png" 
-              alt="CYBRAVIONS" 
-              className="h-12 sm:h-14 md:h-16 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-all duration-300" 
-            />
-          </a>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-3 xl:gap-6">
-            {/* Products & Platforms Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setIsProductsOpen(true)}
-              onMouseLeave={() => setIsProductsOpen(false)}
+          {/* Brand Logo & Desktop Navigation Container */}
+          <div className="flex items-center gap-8 lg:gap-10 xl:gap-14">
+            {/* Brand Logo Image Only */}
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentView('home');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="flex items-center group shrink-0"
+              aria-label="CYBRAVIONS Home"
             >
+              <img 
+                src="/logo.png" 
+                alt="CYBRAVIONS" 
+                className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-all duration-300" 
+              />
+            </a>
+
+            {/* Desktop Navigation Links */}
+            <div className="hidden lg:flex items-center gap-3.5 xl:gap-6">
+              {/* Products & Platforms Dropdown */}
+              <div 
+                className="relative"
+                onMouseEnter={() => setIsProductsOpen(true)}
+                onMouseLeave={() => setIsProductsOpen(false)}
+              >
               <button
                 className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
                   currentView === 'ai' 
@@ -545,7 +547,11 @@ const Navbar: React.FC<NavbarProps> = ({
                 )}
               </AnimatePresence>
             </div>
+            </div>
+          </div>
 
+          {/* Right Desktop Actions (Search, Theme Toggle, Consult CTA) */}
+          <div className="hidden lg:flex items-center gap-3 xl:gap-4 shrink-0">
             {/* Command Palette Trigger Button (⌘K) */}
             <motion.button
               onClick={() => {
