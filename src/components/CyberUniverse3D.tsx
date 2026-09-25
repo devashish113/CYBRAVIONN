@@ -1292,14 +1292,31 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       observerTimeout = setTimeout(observeElements, 1200);
     }
 
-    const handleScroll = () => {
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (docHeight > 0) {
-        targetScrollProgress = Math.min(Math.max(window.scrollY / docHeight, 0), 1);
+    // Unified Single-Source-of-Truth Scroll Pipeline (Lenis / Native Scroll)
+    const handleScroll = (customProgress?: number) => {
+      if (typeof customProgress === 'number') {
+        targetScrollProgress = customProgress;
+      } else {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight > 0) {
+          targetScrollProgress = Math.min(Math.max(window.scrollY / docHeight, 0), 1);
+        }
       }
       checkAndUpdateVisibility();
       wakeUpLoop();
     };
+
+    const handleLenisScroll = (e: { progress: number }) => {
+      handleScroll(e.progress);
+    };
+
+    const lenisInstance = (window as unknown as { __lenis?: { on: (event: string, cb: (e: { progress: number }) => void) => void; off: (event: string, cb: (e: { progress: number }) => void) => void } }).__lenis;
+
+    if (lenisInstance && typeof lenisInstance.on === 'function') {
+      lenisInstance.on('scroll', handleLenisScroll);
+    } else {
+      window.addEventListener('scroll', () => handleScroll(), { passive: true });
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -1324,10 +1341,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       wakeUpLoop();
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('wheel', handleScroll, { passive: true });
+    window.addEventListener('wheel', () => handleScroll(), { passive: true });
     window.addEventListener('resize', handleResize);
     handleScroll();
 
@@ -1640,11 +1656,14 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       cancelAnimationFrame(animationFrameId);
       if (observerTimeout) clearTimeout(observerTimeout);
       if (intersectionObserver) intersectionObserver.disconnect();
+      if (lenisInstance && typeof lenisInstance.off === 'function') {
+        lenisInstance.off('scroll', handleLenisScroll);
+      }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', () => handleScroll());
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('wheel', () => handleScroll());
       window.removeEventListener('resize', handleResize);
       composer.dispose();
       renderer.dispose();

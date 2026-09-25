@@ -1617,6 +1617,8 @@ export default function App() {
       touchMultiplier: 1.5,
     });
 
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+
     let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
@@ -1626,6 +1628,7 @@ export default function App() {
 
     return () => {
       cancelAnimationFrame(rafId);
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
       lenis.destroy();
     };
   }, []);
