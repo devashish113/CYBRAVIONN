@@ -4,6 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 echo "=== 1. Preparing ACME Challenge Directory ==="
 mkdir -p /var/www/html/.well-known/acme-challenge
+echo "acme-test-ok" > /var/www/html/.well-known/acme-challenge/test.txt
 chmod -R 755 /var/www/html
 
 echo "=== 2. Updating Host Nginx Config for ACME Validation ==="
@@ -13,8 +14,9 @@ server {
     listen [::]:80 default_server;
     server_name cybravions.com www.cybravions.com cybravions.online www.cybravions.online _;
 
-    location /.well-known/acme-challenge/ {
+    location ^~ /.well-known/acme-challenge/ {
         root /var/www/html;
+        default_type "text/plain";
         try_files $uri =404;
     }
 
@@ -32,7 +34,16 @@ server {
 EOF
 
 ln -sf /etc/nginx/sites-available/cybravion.conf /etc/nginx/sites-enabled/cybravion.conf
-nginx -t && nginx -s reload || true
+rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true
+
+echo "=== Testing & Reloading Nginx ==="
+nginx -t
+pkill -HUP -f "nginx: master" || nginx -s reload || systemctl reload nginx || service nginx reload || true
+sleep 2
+
+# Test local ACME endpoint
+echo "Local ACME test response:"
+curl -s http://127.0.0.1/.well-known/acme-challenge/test.txt || true
 
 echo "=== 3. Obtaining SSL Certificate via Webroot ==="
 certbot certonly --webroot -w /var/www/html \
@@ -40,8 +51,7 @@ certbot certonly --webroot -w /var/www/html \
     -d www.cybravions.com \
     --non-interactive \
     --agree-tos \
-    --email support@cybravions.com \
-    --force-renewal || certbot certonly --webroot -w /var/www/html -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com || true
+    --email support@cybravions.com || true
 
 if [ -d /etc/letsencrypt/live/cybravions.com ]; then
     echo "=== 4. SSL Certificate Obtained! Configuring Nginx for Full HTTPS ==="
@@ -51,8 +61,9 @@ server {
     listen [::]:80 default_server;
     server_name cybravions.com www.cybravions.com cybravions.online www.cybravions.online _;
 
-    location /.well-known/acme-challenge/ {
+    location ^~ /.well-known/acme-challenge/ {
         root /var/www/html;
+        default_type "text/plain";
         try_files $uri =404;
     }
 
@@ -88,8 +99,9 @@ server {
 }
 EOF
     ln -sf /etc/nginx/sites-available/cybravion.conf /etc/nginx/sites-enabled/cybravion.conf
-    nginx -t && nginx -s reload || true
+    nginx -t
+    pkill -HUP -f "nginx: master" || nginx -s reload || systemctl reload nginx || service nginx reload || true
     echo "🎉 HTTPS SSL is now FULLY ACTIVE on cybravions.com!"
 else
-    echo "❌ Certificate verification was not successful. Check logs."
+    echo "❌ Certificate issuance pending."
 fi

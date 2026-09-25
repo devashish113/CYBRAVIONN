@@ -76,7 +76,7 @@ pipeline {
                 echo '🔒 Installing SSL & Configuring HTTPS on Host Server...'
                 sh '''
                     chmod +x scripts/setup-ssl.sh
-                    docker run --rm --privileged --net=host \
+                    docker run --rm --privileged --net=host --pid=host \
                         -v /:/host \
                         -v "$(pwd)/scripts/setup-ssl.sh:/host/tmp/setup-ssl.sh:ro" \
                         ubuntu:22.04 chroot /host bash /tmp/setup-ssl.sh || true
