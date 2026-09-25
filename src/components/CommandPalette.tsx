@@ -40,7 +40,7 @@ interface CommandItem {
   category: string;
   title: string;
   subtitle: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
   badge?: string;
   action: () => void;
 }

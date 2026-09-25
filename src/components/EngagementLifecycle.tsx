@@ -22,7 +22,7 @@ interface PhaseData {
   timeline: string;
   subtitle: string;
   description: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
   deliverables: string[];
   slaGuarantee: string;
   themeColor: 'blue' | 'orange';
@@ -95,7 +95,12 @@ const phases: PhaseData[] = [
   }
 ];
 
-export const EngagementLifecycle: React.FC = () => {
+interface EngagementLifecycleProps {
+  isDarkMode?: boolean;
+  onConsultClick?: () => void;
+}
+
+export const EngagementLifecycle: React.FC<EngagementLifecycleProps> = ({ isDarkMode, onConsultClick }) => {
   const [activePhaseIndex, setActivePhaseIndex] = useState(0);
   const activePhase = phases[activePhaseIndex];
   const Icon = activePhase.icon;

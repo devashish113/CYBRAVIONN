@@ -47,7 +47,11 @@ const regions: RegionData[] = [
   }
 ];
 
-export const GlobalPresence: React.FC = () => {
+interface GlobalPresenceProps {
+  isDarkMode?: boolean;
+}
+
+export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) => {
   const [selectedRegionId, setSelectedRegionId] = useState<string>("north-america");
   const selectedRegion = regions.find(r => r.id === selectedRegionId) || regions[0];
 

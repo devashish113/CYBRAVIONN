@@ -199,7 +199,7 @@ export const CyberHeroSlider: React.FC<CyberHeroSliderProps> = ({ isDarkMode, se
   const CurrentIcon = currentSlide.icon;
 
   // Slide transition variants
-  const slideVariants = {
+  const slideVariants: any = {
     enter: (dir: number) => ({
       x: dir > 0 ? 60 : -60,
       opacity: 0,

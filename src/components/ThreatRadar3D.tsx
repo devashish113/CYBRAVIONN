@@ -22,7 +22,7 @@ interface ThreatVector {
   id: string;
   name: string;
   category: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
   weight: number;
   recommendedService: string;
 }

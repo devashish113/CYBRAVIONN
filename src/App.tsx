@@ -53,13 +53,15 @@ import { Helmet } from 'react-helmet-async';
 import Lenis from 'lenis';
 import { ServiceModalRenderer } from './components/ServiceModals';
 
-// Route-level dynamic code splitting for sub-pages
-const TrainingPage = React.lazy(() => import('./pages/Training').then(m => ({ default: m.TrainingPage })));
-const CompliancePage = React.lazy(() => import('./pages/Compliance').then(m => ({ default: m.CompliancePage })));
-const CybravionsAIPage = React.lazy(() => import('./pages/CybravionsAI').then(m => ({ default: m.CybravionsAIPage })));
-const CyberVersePage = React.lazy(() => import('./pages/CyberVerse').then(m => ({ default: m.CyberVersePage })));
-const ExceptionManagerPage = React.lazy(() => import('./pages/ExceptionManager').then(m => ({ default: m.ExceptionManagerPage })));
-const AboutUsPage = React.lazy(() => import('./pages/AboutUs').then(m => ({ default: m.AboutUsPage })));
+import { lazyWithRetry } from './utils/lazyWithRetry';
+
+// Route-level dynamic code splitting for sub-pages with auto-retry and chunk reload recovery
+const TrainingPage = lazyWithRetry(() => import('./pages/Training').then(m => ({ default: m.TrainingPage })));
+const CompliancePage = lazyWithRetry(() => import('./pages/Compliance').then(m => ({ default: m.CompliancePage })));
+const CybravionsAIPage = lazyWithRetry(() => import('./pages/CybravionsAI').then(m => ({ default: m.CybravionsAIPage })));
+const CyberVersePage = lazyWithRetry(() => import('./pages/CyberVerse').then(m => ({ default: m.CyberVersePage })));
+const ExceptionManagerPage = lazyWithRetry(() => import('./pages/ExceptionManager').then(m => ({ default: m.ExceptionManagerPage })));
+const AboutUsPage = lazyWithRetry(() => import('./pages/AboutUs').then(m => ({ default: m.AboutUsPage })));
 
 import { CaseStudies } from './components/CaseStudies';
 import { IndustrySolutions } from './components/IndustrySolutions';
