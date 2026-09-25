@@ -18,6 +18,7 @@ import {
   ChevronDown,
   Menu,
   X,
+  MapPin,
   Mail,
   Phone,
   ArrowRight,
