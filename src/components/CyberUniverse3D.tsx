@@ -10,30 +10,6 @@ interface CyberUniverse3DProps {
   isDarkMode?: boolean;
 }
 
-/* ─────────────────── Noise helper (Simplex-like 3D) ─────────────────── */
-function pseudoNoise3D(x: number, y: number, z: number): number {
-  const n = Math.sin(x * 12.9898 + y * 78.233 + z * 45.164) * 43758.5453;
-  return (n - Math.floor(n)) * 2 - 1;
-}
-
-// Zero-allocation flow field scalar calculation
-function computeFlowVelocity(
-  x: number,
-  y: number,
-  z: number,
-  time: number,
-  out: { x: number; y: number; z: number }
-): void {
-  const scale = 0.12;
-  const tx = x * scale + time * 0.06;
-  const ty = y * scale + time * 0.04;
-  const tz = z * scale + time * 0.05;
-
-  out.x = pseudoNoise3D(tx, ty + 1.3, tz) * 0.008;
-  out.y = pseudoNoise3D(tx + 3.7, ty, tz + 2.1) * 0.006;
-  out.z = pseudoNoise3D(tx + 7.1, ty + 5.3, tz) * 0.005;
-}
-
 /* ─────── Fading Horizon Grid — ShaderMaterial ─────── */
 function createFadingGrid(isDarkMode: boolean): THREE.Mesh {
   const gridSize = 80;
@@ -347,25 +323,25 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     fadingGrid.position.set(0, -6.8, 0);
     deepVoidGroup.add(fadingGrid);
 
-    // — Animated flow-field particle system (Adaptive scale from device profile) —
+    // — Animated flow-field particle system (Adaptive scale from device profile, GPU procedural) —
     const particleCount = profile.particleCount;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleColors = new Float32Array(particleCount * 3);
     const particleSizes = new Float32Array(particleCount);
-    const particleLifetimes = new Float32Array(particleCount);
-    const particleVelocities = new Float32Array(particleCount * 3);
+    const particleOffsets = new Float32Array(particleCount);
+    const particleFreqs = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount; i++) {
       particlePositions[i * 3] = (Math.random() - 0.5) * 50;
       particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 35;
       particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 22;
 
-      particleVelocities[i * 3] = 0;
-      particleVelocities[i * 3 + 1] = 0;
-      particleVelocities[i * 3 + 2] = 0;
+      particleOffsets[i] = Math.random() * 100.0;
+      particleFreqs[i * 3] = 0.5 + Math.random() * 0.8;
+      particleFreqs[i * 3 + 1] = 0.4 + Math.random() * 0.7;
+      particleFreqs[i * 3 + 2] = 0.3 + Math.random() * 0.6;
 
-      particleLifetimes[i] = Math.random();
       particleSizes[i] = 0.03 + Math.random() * 0.05;
 
       const isThreat = Math.random() > 0.92;
@@ -378,19 +354,32 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
     particleGeo.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
     particleGeo.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
+    particleGeo.setAttribute('aOffset', new THREE.BufferAttribute(particleOffsets, 1));
+    particleGeo.setAttribute('aFreq', new THREE.BufferAttribute(particleFreqs, 3));
 
     const particleVS = `
       attribute float size;
+      attribute float aOffset;
+      attribute vec3 aFreq;
+      uniform float uTime;
       varying vec3 vColor;
       varying float vDist;
+
       void main() {
         vColor = color;
-        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        vec3 pos = position;
+        float t = uTime * 0.4 + aOffset;
+        pos.x += sin(t * aFreq.x + pos.y * 0.12) * 2.2;
+        pos.y += cos(t * aFreq.y + pos.z * 0.15) * 1.8;
+        pos.z += sin(t * aFreq.z + pos.x * 0.10) * 2.0;
+
+        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
         vDist = -mvPosition.z;
         gl_PointSize = size * (200.0 / -mvPosition.z);
         gl_Position = projectionMatrix * mvPosition;
       }
     `;
+
     const particleFS = `
       varying vec3 vColor;
       varying float vDist;
@@ -399,13 +388,16 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         if (d > 0.5) discard;
         float soft = 1.0 - smoothstep(0.2, 0.5, d);
         float distFade = 1.0 - smoothstep(5.0, 35.0, vDist);
-        gl_FragColor = vec4(vColor, soft * distFade * 0.7);
+        gl_FragColor = vec4(vColor, soft * distFade * 0.75);
       }
     `;
 
     const particleMat = new THREE.ShaderMaterial({
       vertexShader: particleVS,
       fragmentShader: particleFS,
+      uniforms: {
+        uTime: { value: 0 },
+      },
       vertexColors: true,
       transparent: true,
       depthWrite: false,
@@ -734,29 +726,63 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       satGroup2.add(satMesh2);
     }
 
-    // 6. Dual Core Inter-Globe Quantum Synapse Laser Beam (Zero-allocation fixed buffer)
-    const dualCoreCurve = new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(4.2, 0.20, 0),
-      new THREE.Vector3(0.0, 3.4, -1.0),
-      new THREE.Vector3(-4.5, 0.40, -3.2)
-    );
+    // 6. Dual Core Inter-Globe Quantum Synapse Laser Beam (GPU Parametric Bezier Spline)
     const synapseResolution = isLowEnd ? 18 : isHighEnd ? 36 : 24;
-    const dualCorePts = dualCoreCurve.getPoints(synapseResolution);
-    const dualCorePosArray = new Float32Array((synapseResolution + 1) * 3);
+    const bridgeTArray = new Float32Array(synapseResolution + 1);
+    const dummyPosArray = new Float32Array((synapseResolution + 1) * 3);
     for (let p = 0; p <= synapseResolution; p++) {
-      const pt = dualCorePts[p] || dualCorePts[dualCorePts.length - 1];
-      dualCorePosArray[p * 3] = pt.x;
-      dualCorePosArray[p * 3 + 1] = pt.y;
-      dualCorePosArray[p * 3 + 2] = pt.z;
+      bridgeTArray[p] = p / synapseResolution;
     }
     const dualCoreLineGeo = new THREE.BufferGeometry();
-    dualCoreLineGeo.setAttribute('position', new THREE.BufferAttribute(dualCorePosArray, 3));
-    const dualCoreLineMat = new THREE.LineBasicMaterial({
-      color: 0x60a5fa,
+    dualCoreLineGeo.setAttribute('position', new THREE.BufferAttribute(dummyPosArray, 3));
+    dualCoreLineGeo.setAttribute('aProgress', new THREE.BufferAttribute(bridgeTArray, 1));
+
+    const dualCoreVS = `
+      attribute float aProgress;
+      uniform vec3 uV0;
+      uniform vec3 uV1;
+      uniform vec3 uV2;
+      varying float vProg;
+
+      void main() {
+        vProg = aProgress;
+        float t = aProgress;
+        float omt = 1.0 - t;
+        // Hardware Quadratic Bezier Spline Evaluation
+        vec3 p = omt * omt * uV0 + 2.0 * omt * t * uV1 + t * t * uV2;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+      }
+    `;
+
+    const dualCoreFS = `
+      uniform vec3 uColor;
+      uniform float uOpacity;
+      uniform float uTime;
+      varying float vProg;
+
+      void main() {
+        float pulse = sin(vProg * 14.0 - uTime * 3.5) * 0.35 + 0.65;
+        float alpha = uOpacity * pulse;
+        gl_FragColor = vec4(uColor, alpha);
+      }
+    `;
+
+    const dualCoreLineMat = new THREE.ShaderMaterial({
+      vertexShader: dualCoreVS,
+      fragmentShader: dualCoreFS,
+      uniforms: {
+        uV0: { value: new THREE.Vector3(4.2, 0.20, 0) },
+        uV1: { value: new THREE.Vector3(0.0, 3.4, -1.0) },
+        uV2: { value: new THREE.Vector3(-4.5, 0.40, -3.2) },
+        uColor: { value: new THREE.Color(0x60a5fa) },
+        uOpacity: { value: isDarkMode ? 0.16 : 0.08 },
+        uTime: { value: 0 },
+      },
       transparent: true,
-      opacity: isDarkMode ? 0.12 : 0.06,
+      depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
+
     const dualCoreLine = new THREE.Line(dualCoreLineGeo, dualCoreLineMat);
     universeGroup.add(dualCoreLine);
 
@@ -1209,7 +1235,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const scratchG1World = new THREE.Vector3();
     const scratchG2World = new THREE.Vector3();
     const scratchMidBridge = new THREE.Vector3();
-    const flowVelocity = { x: 0, y: 0, z: 0 };
 
     // Dynamic frametime monitor to auto-degrade resolution if device throttles
     let lastFrameTime = performance.now();
@@ -1326,7 +1351,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         sat.rotation.y += 0.04;
       });
 
-      // Update Dual-Core Quantum Synapse Bridge (In-place buffer update)
+      // Update Dual-Core Quantum Synapse Bridge (Zero CPU buffer uploads, pure GPU uniforms)
       dualCoreProgress = (dualCoreProgress + 0.005) % 1;
       scratchG1World.copy(globeGroup.position);
       scratchG2World.copy(globe2Group.position);
@@ -1334,22 +1359,19 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       scratchMidBridge.y += 3.2;
       scratchMidBridge.z -= 0.5;
 
-      dualCoreCurve.v0.copy(scratchG1World);
-      dualCoreCurve.v1.copy(scratchMidBridge);
-      dualCoreCurve.v2.copy(scratchG2World);
+      dualCoreLineMat.uniforms.uV0.value.copy(scratchG1World);
+      dualCoreLineMat.uniforms.uV1.value.copy(scratchMidBridge);
+      dualCoreLineMat.uniforms.uV2.value.copy(scratchG2World);
+      dualCoreLineMat.uniforms.uTime.value = elapsed;
 
-      const bridgePts = dualCoreCurve.getPoints(synapseResolution);
-      const bridgeArray = dualCoreLineGeo.attributes.position.array as Float32Array;
-      for (let p = 0; p <= synapseResolution; p++) {
-        const pt = bridgePts[p] || bridgePts[bridgePts.length - 1];
-        bridgeArray[p * 3] = pt.x;
-        bridgeArray[p * 3 + 1] = pt.y;
-        bridgeArray[p * 3 + 2] = pt.z;
-      }
-      dualCoreLineGeo.attributes.position.needsUpdate = true;
-
-      const packetPos = dualCoreCurve.getPointAt(dualCoreProgress);
-      dualCorePacket.position.copy(packetPos);
+      // Analytical Bezier position for packet (No getPointAt / geometry recalculation)
+      const pT = dualCoreProgress;
+      const omT = 1.0 - pT;
+      dualCorePacket.position.set(
+        omT * omT * scratchG1World.x + 2.0 * omT * pT * scratchMidBridge.x + pT * pT * scratchG2World.x,
+        omT * omT * scratchG1World.y + 2.0 * omT * pT * scratchMidBridge.y + pT * pT * scratchG2World.y,
+        omT * omT * scratchG1World.z + 2.0 * omT * pT * scratchMidBridge.z + pT * pT * scratchG2World.z
+      );
 
       // ── Animated Data-Stream Packets (Globe 1) ──
       dataStreams.forEach((stream) => {
@@ -1398,32 +1420,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       coreGlowLight.intensity = (isDarkMode ? 0.65 : 0.45) + Math.sin(elapsed * 2.0) * 0.10;
       coreGlowLight2.intensity = (isDarkMode ? 0.50 : 0.35) + Math.sin(elapsed * 2.0 + 1.0) * 0.08;
 
-      // ── Zero-Allocation Flow-Field Particle Animation ──
-      const posArray = particleGeo.attributes.position.array as Float32Array;
-      for (let i = 0; i < particleCount; i++) {
-        const ix = i * 3;
-        const px = posArray[ix];
-        const py = posArray[ix + 1];
-        const pz = posArray[ix + 2];
-
-        computeFlowVelocity(px, py, pz, elapsed, flowVelocity);
-        particleVelocities[ix] += flowVelocity.x;
-        particleVelocities[ix + 1] += flowVelocity.y;
-        particleVelocities[ix + 2] += flowVelocity.z;
-
-        particleVelocities[ix] *= 0.98;
-        particleVelocities[ix + 1] *= 0.98;
-        particleVelocities[ix + 2] *= 0.98;
-
-        posArray[ix] += particleVelocities[ix];
-        posArray[ix + 1] += particleVelocities[ix + 1];
-        posArray[ix + 2] += particleVelocities[ix + 2];
-
-        if (Math.abs(posArray[ix]) > 27) posArray[ix] *= -0.8;
-        if (Math.abs(posArray[ix + 1]) > 19) posArray[ix + 1] *= -0.8;
-        if (Math.abs(posArray[ix + 2]) > 13) posArray[ix + 2] *= -0.8;
-      }
-      particleGeo.attributes.position.needsUpdate = true;
+      // ── Zero-CPU Flow-Field Particle Update (Pure GPU Procedural Vertex Shader) ──
+      particleMat.uniforms.uTime.value = elapsed;
 
       // ── Atmospheric Haze Uniform Updates ──
       const curHazeMat = hazeMesh.material as THREE.ShaderMaterial;
