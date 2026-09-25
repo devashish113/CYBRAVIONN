@@ -16,17 +16,22 @@ function pseudoNoise3D(x: number, y: number, z: number): number {
   return (n - Math.floor(n)) * 2 - 1;
 }
 
-function flowField(x: number, y: number, z: number, time: number): THREE.Vector3 {
+// Zero-allocation flow field scalar calculation
+function computeFlowVelocity(
+  x: number,
+  y: number,
+  z: number,
+  time: number,
+  out: { x: number; y: number; z: number }
+): void {
   const scale = 0.12;
   const tx = x * scale + time * 0.06;
   const ty = y * scale + time * 0.04;
   const tz = z * scale + time * 0.05;
 
-  return new THREE.Vector3(
-    pseudoNoise3D(tx, ty + 1.3, tz) * 0.008,
-    pseudoNoise3D(tx + 3.7, ty, tz + 2.1) * 0.006,
-    pseudoNoise3D(tx + 7.1, ty + 5.3, tz) * 0.005,
-  );
+  out.x = pseudoNoise3D(tx, ty + 1.3, tz) * 0.008;
+  out.y = pseudoNoise3D(tx + 3.7, ty, tz + 2.1) * 0.006;
+  out.z = pseudoNoise3D(tx + 7.1, ty + 5.3, tz) * 0.005;
 }
 
 /* ─────── Fading Horizon Grid — ShaderMaterial ─────── */
@@ -159,8 +164,14 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const container = containerRef.current;
     if (!container) return;
 
+    // Detect mobile or low-end device profile
+    const isMobileDevice = typeof window !== 'undefined' && (
+      window.innerWidth < 768 ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    );
+
     // =====================================================================
-    // 1. SCENE, CAMERA, RENDERER + BLOOM POST-PROCESSING
+    // 1. SCENE, CAMERA, RENDERER + ADAPTIVE BLOOM POST-PROCESSING
     // =====================================================================
     const scene = new THREE.Scene();
     scene.fog = isDarkMode
@@ -175,27 +186,32 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     );
     camera.position.set(0, 0.2, 9.2);
 
+    const maxDpr = isMobileDevice ? 1.25 : 1.5;
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias: !isMobileDevice, // Disable MSAA on high-DPI mobile to save fill-rate/memory
       alpha: true,
-      powerPreference: 'high-performance',
+      powerPreference: isMobileDevice ? 'default' : 'high-performance',
+      precision: isMobileDevice ? 'mediump' : 'highp',
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = isDarkMode ? 0.95 : 1.05;
     container.appendChild(renderer.domElement);
 
-    // Bloom post-processing pipeline
+    // Adaptive Bloom post-processing pipeline
     const composer = new EffectComposer(renderer);
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
 
     const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isDarkMode ? 0.20 : 0.12,   // strength (calibrated softer glow)
-      0.6,                        // radius
-      0.72                        // threshold
+      new THREE.Vector2(
+        window.innerWidth * (isMobileDevice ? 0.5 : 1),
+        window.innerHeight * (isMobileDevice ? 0.5 : 1)
+      ),
+      isDarkMode ? (isMobileDevice ? 0.14 : 0.20) : (isMobileDevice ? 0.08 : 0.12),
+      0.5,
+      0.72
     );
     composer.addPass(bloomPass);
 
@@ -253,8 +269,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     fadingGrid.position.set(0, -6.8, 0);
     deepVoidGroup.add(fadingGrid);
 
-    // — Animated flow-field particle system —
-    const particleCount = 450;
+    // — Animated flow-field particle system (Adaptive scale) —
+    const particleCount = isMobileDevice ? 130 : 250;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleColors = new Float32Array(particleCount * 3);
@@ -274,7 +290,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       particleLifetimes[i] = Math.random();
       particleSizes[i] = 0.03 + Math.random() * 0.05;
 
-      // Mostly cyan/blue with occasional orange sparks
       const isThreat = Math.random() > 0.92;
       const c = isThreat ? orange : Math.random() > 0.45 ? cyan : blue;
       particleColors[i * 3] = c.r;
@@ -286,7 +301,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     particleGeo.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
     particleGeo.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
 
-    // Custom particle shader with distance-based fade
     const particleVS = `
       attribute float size;
       varying vec3 vColor;
@@ -306,7 +320,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         float d = length(gl_PointCoord - vec2(0.5));
         if (d > 0.5) discard;
         float soft = 1.0 - smoothstep(0.2, 0.5, d);
-        // Fade by distance
         float distFade = 1.0 - smoothstep(5.0, 35.0, vDist);
         gl_FragColor = vec4(vColor, soft * distFade * 0.7);
       }
@@ -346,7 +359,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const globeRadius = 2.0;
 
     // 1. Outer Geodesic Wireframe Shield
-    const icoGeo = new THREE.IcosahedronGeometry(globeRadius, 3);
+    const icoGeo = new THREE.IcosahedronGeometry(globeRadius, isMobileDevice ? 2 : 3);
     const wireMat = new THREE.MeshBasicMaterial({
       color: isDarkMode ? 0x3b82f6 : 0x1d4ed8,
       wireframe: true,
@@ -367,8 +380,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const innerSphere = new THREE.Mesh(innerGeo, innerMat);
     globeGroup.add(innerSphere);
 
-    // 3. Adaptive Solid Core (translucent to reveal inner emblem)
-    const solidCoreGeo = new THREE.SphereGeometry(globeRadius * 0.82, 32, 32);
+    // 3. Adaptive Solid Core
+    const solidCoreGeo = new THREE.SphereGeometry(globeRadius * 0.82, isMobileDevice ? 20 : 28, isMobileDevice ? 20 : 28);
     const solidCoreMat = new THREE.MeshStandardMaterial({
       color: isDarkMode ? 0x02040a : 0x0284c7,
       roughness: isDarkMode ? 0.2 : 0.9,
@@ -402,7 +415,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
     globeGroup.add(shieldMesh);
 
-    // Center Core Light to illuminate shield with pure sapphire blue
+    // Center Core Light
     const coreGlowLight = new THREE.PointLight(
       isDarkMode ? 0x3b82f6 : 0x1d4ed8,
       isDarkMode ? 0.65 : 0.45,
@@ -410,8 +423,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     );
     globeGroup.add(coreGlowLight);
 
-    // 4. Point cloud nodes on globe surface (380 nodes)
-    const nodeCount = 380;
+    // 4. Point cloud nodes on globe surface (Adaptive nodes)
+    const nodeCount = isMobileDevice ? 150 : 260;
     const nodePositions = new Float32Array(nodeCount * 3);
     const nodeColors = new Float32Array(nodeCount * 3);
     const globeNodeVectors: THREE.Vector3[] = [];
@@ -451,20 +464,26 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const globeNodes = new THREE.Points(nodeGeo, nodeMat);
     globeGroup.add(globeNodes);
 
-    // 5. Multi-Inclination Orbiting Satellites (7 Satellites)
+    // 5. Multi-Inclination Orbiting Satellites
     const satGroup = new THREE.Group();
     globeGroup.add(satGroup);
+    const satelliteCount = isMobileDevice ? 4 : 7;
     const satellites: THREE.Mesh[] = [];
-    for (let i = 0; i < 7; i++) {
+    const satGeo = new THREE.OctahedronGeometry(0.08, 0);
+    const blueSatMat = new THREE.MeshStandardMaterial({
+      color: 0x3b82f6,
+      emissive: 0x3b82f6,
+      emissiveIntensity: 0.9,
+    });
+    const orangeSatMat = new THREE.MeshStandardMaterial({
+      color: 0xd97706,
+      emissive: 0xd97706,
+      emissiveIntensity: 0.5,
+    });
+
+    for (let i = 0; i < satelliteCount; i++) {
       const isBlueSat = i % 2 === 0;
-      const satMesh = new THREE.Mesh(
-        new THREE.OctahedronGeometry(0.08, 0),
-        new THREE.MeshStandardMaterial({
-          color: isBlueSat ? 0x3b82f6 : 0xd97706,
-          emissive: isBlueSat ? 0x3b82f6 : 0xd97706,
-          emissiveIntensity: isBlueSat ? 0.9 : 0.5,
-        })
-      );
+      const satMesh = new THREE.Mesh(satGeo, isBlueSat ? blueSatMat : orangeSatMat);
       satellites.push(satMesh);
       satGroup.add(satMesh);
     }
@@ -477,14 +496,15 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     }
 
     const dataStreams: DataStream[] = [];
+    const maxDataStreams = isMobileDevice ? 3 : 6;
 
-    for (let i = 0; i < 7 && globeNodeVectors.length >= 2; i++) {
+    for (let i = 0; i < maxDataStreams && globeNodeVectors.length >= 2; i++) {
       const start = globeNodeVectors[i % globeNodeVectors.length];
       const end = globeNodeVectors[(i + 4) % globeNodeVectors.length];
       const mid = start.clone().add(end).multiplyScalar(0.5).normalize().multiplyScalar(globeRadius * 1.4);
 
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-      const points = curve.getPoints(48);
+      const points = curve.getPoints(isMobileDevice ? 24 : 40);
       const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
       const arcMat = new THREE.LineBasicMaterial({
         color: i % 3 === 0 ? 0xf97316 : 0x2563eb,
@@ -495,11 +515,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const arcLine = new THREE.Line(arcGeo, arcMat);
       globeGroup.add(arcLine);
 
-      // Create 2–3 data packets per arc
       const packets: DataStream['packets'] = [];
-      const packetCountForArc = 2 + Math.floor(Math.random() * 2);
+      const packetCountForArc = isMobileDevice ? 1 : 2;
+      const packetGeo = new THREE.SphereGeometry(0.035, 6, 6);
       for (let j = 0; j < packetCountForArc; j++) {
-        const packetGeo = new THREE.SphereGeometry(0.035, 6, 6);
         const isOrange = i % 3 === 0;
         const packetMat = new THREE.MeshStandardMaterial({
           color: isOrange ? 0xf97316 : 0x3b82f6,
@@ -529,7 +548,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const globe2Radius = 1.90;
 
     // 1. Outer Geodesic Wireframe Shield for Globe 2
-    const icoGeo2 = new THREE.IcosahedronGeometry(globe2Radius, 3);
+    const icoGeo2 = new THREE.IcosahedronGeometry(globe2Radius, isMobileDevice ? 2 : 3);
     const wireMat2 = new THREE.MeshBasicMaterial({
       color: isDarkMode ? 0x60a5fa : 0x2563eb,
       wireframe: true,
@@ -551,7 +570,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     globe2Group.add(innerSphere2);
 
     // 3. Adaptive Solid Core for Globe 2
-    const solidCoreGeo2 = new THREE.SphereGeometry(globe2Radius * 0.82, 32, 32);
+    const solidCoreGeo2 = new THREE.SphereGeometry(globe2Radius * 0.82, isMobileDevice ? 20 : 28, isMobileDevice ? 20 : 28);
     const solidCoreMat2 = new THREE.MeshStandardMaterial({
       color: isDarkMode ? 0x02040a : 0x0284c7,
       roughness: isDarkMode ? 0.2 : 0.9,
@@ -589,8 +608,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     );
     globe2Group.add(coreGlowLight2);
 
-    // 4. Point cloud nodes on Globe 2 surface (320 nodes)
-    const nodeCount2 = 320;
+    // 4. Point cloud nodes on Globe 2 surface (Adaptive nodes)
+    const nodeCount2 = isMobileDevice ? 120 : 200;
     const nodePositions2 = new Float32Array(nodeCount2 * 3);
     const nodeColors2 = new Float32Array(nodeCount2 * 3);
 
@@ -625,32 +644,35 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const globeNodes2 = new THREE.Points(nodeGeo2, nodeMat2);
     globe2Group.add(globeNodes2);
 
-    // 5. Orbiting Satellites on Globe 2 (5 Satellites)
+    // 5. Orbiting Satellites on Globe 2
     const satGroup2 = new THREE.Group();
     globe2Group.add(satGroup2);
+    const satelliteCount2 = isMobileDevice ? 3 : 5;
     const satellites2: THREE.Mesh[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < satelliteCount2; i++) {
       const isBlueSat = i % 2 === 0;
-      const satMesh2 = new THREE.Mesh(
-        new THREE.OctahedronGeometry(0.07, 0),
-        new THREE.MeshStandardMaterial({
-          color: isBlueSat ? 0x60a5fa : 0xd97706,
-          emissive: isBlueSat ? 0x60a5fa : 0xd97706,
-          emissiveIntensity: isBlueSat ? 0.8 : 0.5,
-        })
-      );
+      const satMesh2 = new THREE.Mesh(satGeo, isBlueSat ? blueSatMat : orangeSatMat);
       satellites2.push(satMesh2);
       satGroup2.add(satMesh2);
     }
 
-    // 6. Dual Core Inter-Globe Quantum Synapse Laser Beam
+    // 6. Dual Core Inter-Globe Quantum Synapse Laser Beam (Zero-allocation fixed buffer)
     const dualCoreCurve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(4.2, 0.20, 0),
       new THREE.Vector3(0.0, 3.4, -1.0),
       new THREE.Vector3(-4.5, 0.40, -3.2)
     );
-    const dualCorePts = dualCoreCurve.getPoints(36);
-    const dualCoreLineGeo = new THREE.BufferGeometry().setFromPoints(dualCorePts);
+    const synapseResolution = isMobileDevice ? 24 : 36;
+    const dualCorePts = dualCoreCurve.getPoints(synapseResolution);
+    const dualCorePosArray = new Float32Array((synapseResolution + 1) * 3);
+    for (let p = 0; p <= synapseResolution; p++) {
+      const pt = dualCorePts[p] || dualCorePts[dualCorePts.length - 1];
+      dualCorePosArray[p * 3] = pt.x;
+      dualCorePosArray[p * 3 + 1] = pt.y;
+      dualCorePosArray[p * 3 + 2] = pt.z;
+    }
+    const dualCoreLineGeo = new THREE.BufferGeometry();
+    dualCoreLineGeo.setAttribute('position', new THREE.BufferAttribute(dualCorePosArray, 3));
     const dualCoreLineMat = new THREE.LineBasicMaterial({
       color: 0x60a5fa,
       transparent: true,
@@ -660,7 +682,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const dualCoreLine = new THREE.Line(dualCoreLineGeo, dualCoreLineMat);
     universeGroup.add(dualCoreLine);
 
-    const dualCorePacketGeo = new THREE.SphereGeometry(0.045, 8, 8);
+    const dualCorePacketGeo = new THREE.SphereGeometry(0.045, 6, 6);
     const dualCorePacketMat = new THREE.MeshStandardMaterial({
       color: 0x38bdf8,
       emissive: 0x38bdf8,
@@ -686,9 +708,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       satellites: THREE.Mesh[];
     }
 
-    // Widely dispersed along distant outer corners & depth horizons
-    const sentinelConfigs = [
-      // Sentinel 1: Far Top-Left Horizon (North-West Sky)
+    const allSentinelConfigs = [
       {
         pos: new THREE.Vector3(-10.5, 5.5, -11.0),
         scale: 0.32,
@@ -698,7 +718,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         depthFactor: 0.028,
         hasSatellites: true,
       },
-      // Sentinel 2: Far Bottom-Left Floor (South-West Corner)
       {
         pos: new THREE.Vector3(-9.8, -5.8, -12.5),
         scale: 0.28,
@@ -708,7 +727,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         depthFactor: 0.022,
         hasSatellites: true,
       },
-      // Sentinel 3: Far Top-Right Horizon (North-East Sky)
       {
         pos: new THREE.Vector3(11.0, 5.2, -13.0),
         scale: 0.30,
@@ -718,7 +736,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         depthFactor: 0.020,
         hasSatellites: false,
       },
-      // Sentinel 4: Far Bottom-Right Flank (South-East Deep Void)
       {
         pos: new THREE.Vector3(10.2, -5.6, -14.0),
         scale: 0.26,
@@ -728,7 +745,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         depthFactor: 0.016,
         hasSatellites: false,
       },
-      // Sentinel 5: High Zenith Sky Perimeter (Deep Top Void)
       {
         pos: new THREE.Vector3(0.0, 7.8, -17.5),
         scale: 0.22,
@@ -738,7 +754,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         depthFactor: 0.012,
         hasSatellites: false,
       },
-      // Sentinel 6: Deep South Nadir Horizon (Deep Bottom Void)
       {
         pos: new THREE.Vector3(1.5, -8.2, -18.5),
         scale: 0.20,
@@ -748,7 +763,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         depthFactor: 0.010,
         hasSatellites: false,
       },
-      // Sentinel 7: Far Western Periphery (Deep Far-Left Void)
       {
         pos: new THREE.Vector3(-14.0, 0.5, -16.5),
         scale: 0.22,
@@ -760,6 +774,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       },
     ];
 
+    // Only render top 3 sentinels on mobile to cut draw calls and matrix math
+    const sentinelConfigs = isMobileDevice ? allSentinelConfigs.slice(0, 3) : allSentinelConfigs;
     const sentinelGlobes: SentinelGlobe[] = [];
 
     sentinelConfigs.forEach((cfg) => {
@@ -768,7 +784,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       sGroup.scale.setScalar(cfg.scale);
       universeGroup.add(sGroup);
 
-      // Outer wireframe (shares icoGeo)
       const sWireMat = new THREE.MeshBasicMaterial({
         color: isDarkMode ? 0x3b82f6 : 0x1d4ed8,
         wireframe: true,
@@ -778,7 +793,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const sWire = new THREE.Mesh(icoGeo, sWireMat);
       sGroup.add(sWire);
 
-      // Inner wireframe (shares innerGeo)
       const sInnerMat = new THREE.MeshBasicMaterial({
         color: isDarkMode ? 0x2563eb : 0x4f46e5,
         wireframe: true,
@@ -788,7 +802,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const sInner = new THREE.Mesh(innerGeo, sInnerMat);
       sGroup.add(sInner);
 
-      // Shared node cloud
       const sNodeMat = new THREE.PointsMaterial({
         size: 0.038,
         vertexColors: true,
@@ -799,7 +812,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const sNodes = new THREE.Points(nodeGeo, sNodeMat);
       sGroup.add(sNodes);
 
-      // Inner Cyber Shield Emblem for Sentinel Globe
       const sShieldMat = new THREE.MeshBasicMaterial({
         map: shieldTex,
         transparent: true,
@@ -814,7 +826,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       };
       sGroup.add(sShield);
 
-      // Sentinel Core Illumination
       const sCoreLight = new THREE.PointLight(
         isDarkMode ? 0x3b82f6 : 0x1d4ed8,
         cfg.opacity * 2.0,
@@ -822,18 +833,11 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       );
       sGroup.add(sCoreLight);
 
-      // Orbiting sentinel satellites
       const sSats: THREE.Mesh[] = [];
       if (cfg.hasSatellites) {
-        for (let s = 0; s < 3; s++) {
-          const sSat = new THREE.Mesh(
-            new THREE.OctahedronGeometry(0.06, 0),
-            new THREE.MeshStandardMaterial({
-              color: 0x3b82f6,
-              emissive: 0x3b82f6,
-              emissiveIntensity: 0.7,
-            })
-          );
+        const satLimit = isMobileDevice ? 1 : 2;
+        for (let s = 0; s < satLimit; s++) {
+          const sSat = new THREE.Mesh(satGeo, blueSatMat);
           sSats.push(sSat);
           sGroup.add(sSat);
         }
@@ -861,13 +865,12 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     }
 
     const interNodeBeams: InterNodeBeam[] = [];
-
     sentinelConfigs.forEach((cfg, idx) => {
       const start = new THREE.Vector3(2.8, 0.15, 0);
       const end = cfg.pos.clone();
       const mid = start.clone().add(end).multiplyScalar(0.5).add(new THREE.Vector3(0, 1.0, 1.2));
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-      const pts = curve.getPoints(36);
+      const pts = curve.getPoints(isMobileDevice ? 20 : 32);
       const bGeo = new THREE.BufferGeometry().setFromPoints(pts);
       const bMat = new THREE.LineBasicMaterial({
         color: 0x3b82f6,
@@ -899,7 +902,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     });
 
     // =====================================================================
-    // VOLUMETRIC GLOW AURA (radial gradient — no hard edges)
+    // VOLUMETRIC GLOW AURA (radial gradient)
     // =====================================================================
     const glowVS = `
       varying vec2 vUv;
@@ -915,12 +918,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
       void main() {
         vec2 center = vec2(0.5, 0.5);
-        float dist = length(vUv - center) * 2.0; // 0 at center, 1 at edge
-
-        // Smooth exponential falloff — no hard edges
+        float dist = length(vUv - center) * 2.0;
         float glow = exp(-dist * dist * 3.2);
 
-        // Pure sapphire & electric blue gradient for center globe aura
         vec3 blueCore = uDarkMode > 0.5 ? vec3(0.05, 0.45, 0.95) : vec3(0.01, 0.42, 0.88);
         vec3 blueMid  = uDarkMode > 0.5 ? vec3(0.04, 0.18, 0.70) : vec3(0.03, 0.14, 0.60);
         vec3 blueEdge = uDarkMode > 0.5 ? vec3(0.01, 0.06, 0.30) : vec3(0.01, 0.05, 0.20);
@@ -928,14 +928,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         vec3 color = mix(blueCore, blueMid, smoothstep(0.0, 0.50, dist));
         color = mix(color, blueEdge, smoothstep(0.45, 0.90, dist));
 
-        // Subtle breathing pulse
         float pulse = sin(uTime * 0.6) * 0.06 + 1.0;
-
         float alpha = glow * (uDarkMode > 0.5 ? 0.010 : 0.006) * pulse;
 
-        // Kill fully transparent fragments
         if (alpha < 0.002) discard;
-
         gl_FragColor = vec4(color, alpha);
       }
     `;
@@ -955,14 +951,13 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const glowPlaneGeo = new THREE.PlaneGeometry(9, 9, 1, 1);
     const glowPlane = new THREE.Mesh(glowPlaneGeo, glowMat);
-    // Billboard: always faces camera via onBeforeRender
     glowPlane.onBeforeRender = (_renderer, _scene, cam) => {
       glowPlane.quaternion.copy(cam.quaternion);
     };
     globeGroup.add(glowPlane);
 
     // =====================================================================
-    // SCROLL-DRIVEN 3D CAMERA & SPATIAL WAYPOINTS (Synchronized Dual Core)
+    // SCROLL-DRIVEN 3D CAMERA & SPATIAL WAYPOINTS
     // =====================================================================
     const cameraWaypoints = [
       {
@@ -1019,7 +1014,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     let targetMouseX = 0;
     let targetMouseY = 0;
 
-    // Dynamic Responsive Scaling Multipliers
     let responsiveScale1 = 1.0;
     let responsiveScale2 = 0.90;
     let responsiveOffset1X = 0;
@@ -1072,7 +1066,17 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     window.addEventListener('resize', handleResize);
     handleScroll();
 
-    const getCurrentCameraTarget = (t: number) => {
+    // Zero-allocation reusable camera target interpolation structures
+    const scratchTarget = {
+      pos: new THREE.Vector3(),
+      look: new THREE.Vector3(),
+      globePos: new THREE.Vector3(),
+      globeScale: 1.0,
+      globe2Pos: new THREE.Vector3(),
+      globe2Scale: 1.0,
+    };
+
+    const updateCameraTarget = (t: number) => {
       let idx = 0;
       for (let i = 0; i < cameraWaypoints.length - 1; i++) {
         if (t >= cameraWaypoints[i].scroll && t <= cameraWaypoints[i + 1].scroll) {
@@ -1085,32 +1089,33 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const segmentT = p2.scroll === p1.scroll ? 0 : (t - p1.scroll) / (p2.scroll - p1.scroll);
       const easeT = segmentT * segmentT * (3 - 2 * segmentT);
 
-      const curPos = new THREE.Vector3().lerpVectors(p1.pos, p2.pos, easeT);
-      const curLook = new THREE.Vector3().lerpVectors(p1.look, p2.look, easeT);
-      const curGlobePos = new THREE.Vector3().lerpVectors(p1.globePos, p2.globePos, easeT);
-      const curGlobeScale = THREE.MathUtils.lerp(p1.globeScale, p2.globeScale, easeT);
-      const curGlobe2Pos = new THREE.Vector3().lerpVectors(p1.globe2Pos, p2.globe2Pos, easeT);
-      const curGlobe2Scale = THREE.MathUtils.lerp(p1.globe2Scale, p2.globe2Scale, easeT);
-
-      return {
-        pos: curPos,
-        look: curLook,
-        globePos: curGlobePos,
-        globeScale: curGlobeScale,
-        globe2Pos: curGlobe2Pos,
-        globe2Scale: curGlobe2Scale,
-      };
+      scratchTarget.pos.lerpVectors(p1.pos, p2.pos, easeT);
+      scratchTarget.look.lerpVectors(p1.look, p2.look, easeT);
+      scratchTarget.globePos.lerpVectors(p1.globePos, p2.globePos, easeT);
+      scratchTarget.globeScale = THREE.MathUtils.lerp(p1.globeScale, p2.globeScale, easeT);
+      scratchTarget.globe2Pos.lerpVectors(p1.globe2Pos, p2.globe2Pos, easeT);
+      scratchTarget.globe2Scale = THREE.MathUtils.lerp(p1.globe2Scale, p2.globe2Scale, easeT);
     };
 
     // =====================================================================
-    // ANIMATION RENDER LOOP
+    // ZERO-ALLOCATION ANIMATION RENDER LOOP & TAB THROTTLING
     // =====================================================================
     let animationFrameId: number;
+    let isTabVisible = !document.hidden;
     const clock = new THREE.Clock();
     const currentCameraPos = camera.position.clone();
     const currentCameraLook = new THREE.Vector3(0.5, 0, 0);
 
+    // Pre-allocated scratch vectors to prevent runtime heap thrashing
+    const scratchGlobe1TargetPos = new THREE.Vector3();
+    const scratchGlobe2TargetPos = new THREE.Vector3();
+    const scratchG1World = new THREE.Vector3();
+    const scratchG2World = new THREE.Vector3();
+    const scratchMidBridge = new THREE.Vector3();
+    const flowVelocity = { x: 0, y: 0, z: 0 };
+
     const animate = () => {
+      if (!isTabVisible) return;
       animationFrameId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
 
@@ -1119,9 +1124,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       mouseX += (targetMouseX - mouseX) * 0.05;
       mouseY += (targetMouseY - mouseY) * 0.05;
 
-      const camTarget = getCurrentCameraTarget(currentScrollProgress);
-      currentCameraPos.lerp(camTarget.pos, 0.09);
-      currentCameraLook.lerp(camTarget.look, 0.09);
+      updateCameraTarget(currentScrollProgress);
+      currentCameraPos.lerp(scratchTarget.pos, 0.09);
+      currentCameraLook.lerp(scratchTarget.look, 0.09);
 
       camera.position.copy(currentCameraPos);
       camera.position.x += mouseX * 0.4;
@@ -1134,12 +1139,12 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       wireSphere.rotation.x = elapsed * 0.04;
       innerSphere.rotation.y = -elapsed * 0.06;
 
-      const targetPos1 = camTarget.globePos.clone();
-      targetPos1.x += responsiveOffset1X;
-      globeGroup.position.lerp(targetPos1, 0.08);
+      scratchGlobe1TargetPos.copy(scratchTarget.globePos);
+      scratchGlobe1TargetPos.x += responsiveOffset1X;
+      globeGroup.position.lerp(scratchGlobe1TargetPos, 0.08);
       globeGroup.position.x += mouseX * 0.2;
       globeGroup.position.y -= mouseY * 0.15;
-      globeGroup.scale.setScalar(camTarget.globeScale * responsiveScale1);
+      globeGroup.scale.setScalar(scratchTarget.globeScale * responsiveScale1);
 
       // --- Globe 2 (Twin Defense Core) Animation & Sync ---
       globe2Group.rotation.y = elapsed * 0.08 + currentScrollProgress * Math.PI;
@@ -1147,12 +1152,12 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       wireSphere2.rotation.x = -elapsed * 0.035;
       innerSphere2.rotation.y = elapsed * 0.05;
 
-      const targetPos2 = camTarget.globe2Pos.clone();
-      targetPos2.x += responsiveOffset2X;
-      globe2Group.position.lerp(targetPos2, 0.08);
+      scratchGlobe2TargetPos.copy(scratchTarget.globe2Pos);
+      scratchGlobe2TargetPos.x += responsiveOffset2X;
+      globe2Group.position.lerp(scratchGlobe2TargetPos, 0.08);
       globe2Group.position.x += mouseX * 0.12;
       globe2Group.position.y -= mouseY * 0.09;
-      globe2Group.scale.setScalar(camTarget.globe2Scale * responsiveScale2);
+      globe2Group.scale.setScalar(scratchTarget.globe2Scale * responsiveScale2);
 
       // Globe 1 Satellites
       satellites.forEach((sat, i) => {
@@ -1180,17 +1185,28 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         sat.rotation.y += 0.04;
       });
 
-      // Update Dual-Core Quantum Synapse Bridge
+      // Update Dual-Core Quantum Synapse Bridge (In-place buffer update)
       dualCoreProgress = (dualCoreProgress + 0.005) % 1;
-      const g1World = globeGroup.position.clone();
-      const g2World = globe2Group.position.clone();
-      const midBridge = g1World.clone().add(g2World).multiplyScalar(0.5).add(new THREE.Vector3(0, 3.2, -0.5));
-      dualCoreCurve.v0.copy(g1World);
-      dualCoreCurve.v1.copy(midBridge);
-      dualCoreCurve.v2.copy(g2World);
+      scratchG1World.copy(globeGroup.position);
+      scratchG2World.copy(globe2Group.position);
+      scratchMidBridge.copy(scratchG1World).add(scratchG2World).multiplyScalar(0.5);
+      scratchMidBridge.y += 3.2;
+      scratchMidBridge.z -= 0.5;
 
-      const bridgePoints = dualCoreCurve.getPoints(36);
-      dualCoreLine.geometry.setFromPoints(bridgePoints);
+      dualCoreCurve.v0.copy(scratchG1World);
+      dualCoreCurve.v1.copy(scratchMidBridge);
+      dualCoreCurve.v2.copy(scratchG2World);
+
+      const bridgePts = dualCoreCurve.getPoints(synapseResolution);
+      const bridgeArray = dualCoreLineGeo.attributes.position.array as Float32Array;
+      for (let p = 0; p <= synapseResolution; p++) {
+        const pt = bridgePts[p] || bridgePts[bridgePts.length - 1];
+        bridgeArray[p * 3] = pt.x;
+        bridgeArray[p * 3 + 1] = pt.y;
+        bridgeArray[p * 3 + 2] = pt.z;
+      }
+      dualCoreLineGeo.attributes.position.needsUpdate = true;
+
       const packetPos = dualCoreCurve.getPointAt(dualCoreProgress);
       dualCorePacket.position.copy(packetPos);
 
@@ -1241,7 +1257,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       coreGlowLight.intensity = (isDarkMode ? 0.65 : 0.45) + Math.sin(elapsed * 2.0) * 0.10;
       coreGlowLight2.intensity = (isDarkMode ? 0.50 : 0.35) + Math.sin(elapsed * 2.0 + 1.0) * 0.08;
 
-      // ── Flow-Field Particle Animation ──
+      // ── Zero-Allocation Flow-Field Particle Animation ──
       const posArray = particleGeo.attributes.position.array as Float32Array;
       for (let i = 0; i < particleCount; i++) {
         const ix = i * 3;
@@ -1249,12 +1265,11 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         const py = posArray[ix + 1];
         const pz = posArray[ix + 2];
 
-        const flow = flowField(px, py, pz, elapsed);
-        particleVelocities[ix] += flow.x;
-        particleVelocities[ix + 1] += flow.y;
-        particleVelocities[ix + 2] += flow.z;
+        computeFlowVelocity(px, py, pz, elapsed, flowVelocity);
+        particleVelocities[ix] += flowVelocity.x;
+        particleVelocities[ix + 1] += flowVelocity.y;
+        particleVelocities[ix + 2] += flowVelocity.z;
 
-        // Damping
         particleVelocities[ix] *= 0.98;
         particleVelocities[ix + 1] *= 0.98;
         particleVelocities[ix + 2] *= 0.98;
@@ -1263,7 +1278,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         posArray[ix + 1] += particleVelocities[ix + 1];
         posArray[ix + 2] += particleVelocities[ix + 2];
 
-        // Boundary wrap
         if (Math.abs(posArray[ix]) > 27) posArray[ix] *= -0.8;
         if (Math.abs(posArray[ix + 1]) > 19) posArray[ix + 1] *= -0.8;
         if (Math.abs(posArray[ix + 2]) > 13) posArray[ix + 2] *= -0.8;
@@ -1271,22 +1285,32 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       particleGeo.attributes.position.needsUpdate = true;
 
       // ── Atmospheric Haze Uniform Updates ──
-      const hazeMat = hazeMesh.material as THREE.ShaderMaterial;
-      hazeMat.uniforms.uTime.value = elapsed;
-      hazeMat.uniforms.uScrollProgress.value = currentScrollProgress;
+      const curHazeMat = hazeMesh.material as THREE.ShaderMaterial;
+      curHazeMat.uniforms.uTime.value = elapsed;
+      curHazeMat.uniforms.uScrollProgress.value = currentScrollProgress;
 
-      // Deep void subtle parallax
       deepVoidGroup.position.x = mouseX * 0.02;
       deepVoidGroup.position.y = -mouseY * 0.015;
 
-      // Render through bloom composer
       composer.render();
     };
 
+    const handleVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isTabVisible) {
+        clock.start();
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     animate();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
