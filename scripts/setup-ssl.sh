@@ -2,41 +2,58 @@
 set -e
 export DEBIAN_FRONTEND=noninteractive
 
-echo "=== Host Network & Ports Check ==="
-ss -tulpn | grep ':80\|:443' || netstat -tulpn | grep ':80\|:443' || true
-ps aux | grep nginx || true
-
-echo "=== Host Nginx Configuration Test ==="
-if [ -d /etc/nginx/sites-enabled ]; then
-    echo "Sites enabled:"
-    ls -la /etc/nginx/sites-enabled/ || true
-    cat /etc/nginx/sites-enabled/* 2>/dev/null || true
-fi
-
-echo "=== Running Certbot with Webroot Mode ==="
+echo "=== 1. Preparing ACME Challenge Directory ==="
 mkdir -p /var/www/html/.well-known/acme-challenge
+chmod -R 755 /var/www/html
 
-# Try certbot webroot mode first (zero downtime, doesn't need to restart nginx)
+echo "=== 2. Updating Host Nginx Config for ACME Validation ==="
+cat << 'EOF' > /etc/nginx/sites-available/cybravion.conf
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name cybravions.com www.cybravions.com cybravions.online www.cybravions.online _;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+        try_files $uri =404;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+EOF
+
+ln -sf /etc/nginx/sites-available/cybravion.conf /etc/nginx/sites-enabled/cybravion.conf
+nginx -t && nginx -s reload || true
+
+echo "=== 3. Obtaining SSL Certificate via Webroot ==="
 certbot certonly --webroot -w /var/www/html \
     -d cybravions.com \
     -d www.cybravions.com \
     --non-interactive \
     --agree-tos \
-    --email support@cybravions.com || true
+    --email support@cybravions.com \
+    --force-renewal || certbot certonly --webroot -w /var/www/html -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com || true
 
-# If certificate was issued, check /etc/letsencrypt/live/cybravions.com/
 if [ -d /etc/letsencrypt/live/cybravions.com ]; then
-    echo "✅ SSL Certificate obtained successfully!"
-    
-    # Configure Nginx SSL site if not already present
-    cat << 'EOF' > /etc/nginx/sites-available/cybravions.com
+    echo "=== 4. SSL Certificate Obtained! Configuring Nginx for Full HTTPS ==="
+    cat << 'EOF' > /etc/nginx/sites-available/cybravion.conf
 server {
-    listen 80;
-    listen [::]:80;
-    server_name cybravions.com www.cybravions.com;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name cybravions.com www.cybravions.com cybravions.online www.cybravions.online _;
 
     location /.well-known/acme-challenge/ {
         root /var/www/html;
+        try_files $uri =404;
     }
 
     location / {
@@ -51,6 +68,9 @@ server {
 
     ssl_certificate /etc/letsencrypt/live/cybravions.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/cybravions.com/privkey.pem;
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:SSL:50m;
+    ssl_session_tickets off;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
 
@@ -60,16 +80,16 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 90;
     }
 }
 EOF
-    ln -sf /etc/nginx/sites-available/cybravions.com /etc/nginx/sites-enabled/cybravions.com
-    # Remove default site if it conflicts
-    rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true
-    
-    echo "Testing Nginx syntax..."
-    nginx -t && (systemctl reload nginx || service nginx reload || nginx -s reload || true)
-    echo "✅ Nginx HTTPS configured and reloaded!"
+    ln -sf /etc/nginx/sites-available/cybravion.conf /etc/nginx/sites-enabled/cybravion.conf
+    nginx -t && nginx -s reload || true
+    echo "🎉 HTTPS SSL is now FULLY ACTIVE on cybravions.com!"
 else
-    echo "⚠️ Certbot could not obtain cert yet, checking fallback..."
+    echo "❌ Certificate verification was not successful. Check logs."
 fi
