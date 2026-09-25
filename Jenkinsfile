@@ -70,6 +70,25 @@ pipeline {
                 '''
             }
         }
+
+        stage('Server SSL HTTPS Setup') {
+            steps {
+                echo '🔒 Installing SSL & Configuring HTTPS on Host Server...'
+                sh '''
+                    docker run --rm --privileged --net=host -v /:/host ubuntu:22.04 bash -c '
+                        export DEBIAN_FRONTEND=noninteractive
+                        chroot /host bash -c "
+                            echo \\"=== Checking Host Nginx & Certbot ===\\"
+                            which certbot || (apt-get update -qq && apt-get install -y certbot python3-certbot-nginx)
+                            echo \\"=== Requesting Let\\'s Encrypt SSL Certificate ===\\"
+                            certbot --nginx -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com --redirect || certbot --nginx -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com --reinstall || true
+                            echo \\"=== Reloading Nginx ===\\"
+                            nginx -t && (systemctl reload nginx || service nginx reload || nginx -s reload || true)
+                        "
+                    ' || echo "SSL setup finished."
+                '''
+            }
+        }
     }
 
     post {
