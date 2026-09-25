@@ -551,7 +551,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Right Desktop Actions (Search, Theme Toggle, Consult CTA) */}
-          <div className="hidden lg:flex items-center gap-3 xl:gap-4 shrink-0">
+          <div className="hidden lg:flex items-center gap-3 xl:gap-4 shrink-0 ml-6 xl:ml-8 pl-5 xl:pl-6 border-l border-slate-200/80 dark:border-stone-800">
             {/* Command Palette Trigger Button (⌘K) */}
             <motion.button
               onClick={() => {
