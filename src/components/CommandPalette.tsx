@@ -221,6 +221,19 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       }
     },
     {
+      id: 'about-page',
+      category: 'Company Profile',
+      title: 'About Us & Corporate Profile (CYBRAVION SOLUTIONS PVT LTD)',
+      subtitle: 'Official MCA Entity, CIN: U62099DL2026PTC470901, sovereign mission & leadership pillars',
+      icon: Building2,
+      badge: 'About Us Page',
+      action: () => {
+        onClose();
+        setCurrentView('about');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
       id: 'contact',
       category: 'Direct Engagement',
       title: 'Initiate Confidential CISO Briefing',

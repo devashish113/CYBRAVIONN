@@ -59,6 +59,7 @@ const CompliancePage = React.lazy(() => import('./pages/Compliance').then(m => (
 const CybravionsAIPage = React.lazy(() => import('./pages/CybravionsAI').then(m => ({ default: m.CybravionsAIPage })));
 const CyberVersePage = React.lazy(() => import('./pages/CyberVerse').then(m => ({ default: m.CyberVersePage })));
 const ExceptionManagerPage = React.lazy(() => import('./pages/ExceptionManager').then(m => ({ default: m.ExceptionManagerPage })));
+const AboutUsPage = React.lazy(() => import('./pages/AboutUs').then(m => ({ default: m.AboutUsPage })));
 
 import { CaseStudies } from './components/CaseStudies';
 import { IndustrySolutions } from './components/IndustrySolutions';
@@ -423,6 +424,21 @@ const Navbar: React.FC<NavbarProps> = ({
               Services
             </a>
 
+            {/* About Us Page Link */}
+            <button 
+              onClick={() => {
+                setCurrentView('about');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
+                currentView === 'about' 
+                  ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
+                  : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
+              }`}
+            >
+              About Us
+            </button>
+
             {/* Compliance Link */}
             <button 
               onClick={() => {
@@ -461,7 +477,9 @@ const Navbar: React.FC<NavbarProps> = ({
             >
               <button
                 className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
-                  isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
+                  currentView === 'about'
+                    ? 'text-orange-500 font-bold'
+                    : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
                 }`}
                 aria-label="Company menu"
                 aria-expanded={isCompanyOpen}
@@ -479,24 +497,26 @@ const Navbar: React.FC<NavbarProps> = ({
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.18 }}
                     style={{ backgroundColor: isDarkMode ? '#070a12' : '#ffffff' }}
-                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 rounded-xl p-2 z-[999] ${
+                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 rounded-xl p-2 z-[999] ${
                       isDarkMode 
                         ? 'bg-[#070a12] border border-stone-800 shadow-[0_20px_50px_rgba(0,0,0,0.9)]' 
                         : 'bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.1)]'
                     }`}
                   >
-                    <a
-                      href="#about"
-                      onClick={(e) => {
-                        handleNavClick(e, '#about');
+                    <button
+                      onClick={() => {
+                        setCurrentView('about');
                         setIsCompanyOpen(false);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      className={`block px-3 py-2 text-xs uppercase tracking-wider rounded-lg transition-colors whitespace-nowrap ${
-                        isDarkMode ? 'text-stone-300 hover:text-white hover:bg-white/5' : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100'
+                      className={`block w-full text-left px-3 py-2 text-xs uppercase tracking-wider rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
+                        currentView === 'about'
+                          ? 'text-orange-500 font-bold bg-orange-500/10'
+                          : isDarkMode ? 'text-stone-300 hover:text-white hover:bg-white/5' : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100'
                       }`}
                     >
-                      About Us
-                    </a>
+                      About Us (Profile)
+                    </button>
                     <a
                       href="#faq"
                       onClick={(e) => {
@@ -776,18 +796,18 @@ const Navbar: React.FC<NavbarProps> = ({
               >
                 3D Radar
               </a>
-              <a 
-                href="#about"
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center ${
-                  isDarkMode ? 'text-stone-200' : 'text-slate-800'
+              <button 
+                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center text-left cursor-pointer ${
+                  currentView === 'about' ? 'text-orange-500 font-bold' : isDarkMode ? 'text-stone-200' : 'text-slate-800'
                 }`}
-                onClick={(e) => {
-                  handleNavClick(e, '#about');
+                onClick={() => {
+                  setCurrentView('about');
                   setIsMobileMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
               >
-                About
-              </a>
+                About Us
+              </button>
               <a 
                 href="#faq"
                 className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center ${
@@ -1433,6 +1453,7 @@ const Footer = ({ setCurrentView, isDarkMode }: { setCurrentView: (view: string)
             Cybravions AI
           </button>
           <a href="#services" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Services</a>
+          <button onClick={() => { setCurrentView('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>About Us</button>
           <a href="#radar" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>3D Radar</a>
           <button onClick={() => { setCurrentView('compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Compliance</button>
           <button onClick={() => { setCurrentView('training'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Training</button>
@@ -1495,6 +1516,30 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Synchronize URL Hash with View Navigation
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#about' || hash === '#/about' || hash === '#about-us' || hash === '#company') {
+        setCurrentView('about');
+      } else if (hash === '#ai' || hash === '#/ai') {
+        setCurrentView('ai');
+      } else if (hash === '#cyberverse' || hash === '#/cyberverse') {
+        setCurrentView('cyberverse');
+      } else if (hash === '#exception-manager' || hash === '#/exception-manager') {
+        setCurrentView('exception-manager');
+      } else if (hash === '#training' || hash === '#/training') {
+        setCurrentView('training');
+      } else if (hash === '#compliance' || hash === '#/compliance') {
+        setCurrentView('compliance');
+      }
+    };
+
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
   // Lenis Luxury Inertial Smooth Scrolling Engine
@@ -1586,7 +1631,13 @@ export default function App() {
               </span>
             </div>
           }>
-            {currentView === 'exception-manager' ? (
+            {currentView === 'about' ? (
+              <AboutUsPage 
+                setCurrentView={setCurrentView} 
+                onOpenAuditModal={() => setIsAuditModalOpen(true)} 
+                isDarkMode={isDarkMode} 
+              />
+            ) : currentView === 'exception-manager' ? (
               <ExceptionManagerPage 
                 setCurrentView={setCurrentView} 
                 isDarkMode={isDarkMode} 
