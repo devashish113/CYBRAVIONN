@@ -73,16 +73,15 @@ pipeline {
 
         stage('SSL HTTPS Configuration') {
             steps {
-                echo '🔒 Checking and configuring Let\'s Encrypt SSL HTTPS certificate for cybravions.com...'
+                echo '🔒 Installing/Running Let\'s Encrypt SSL HTTPS certificate for cybravions.com...'
                 sh '''
+                    if ! command -v certbot >/dev/null 2>&1; then
+                        echo "Installing certbot and python3-certbot-nginx..."
+                        sudo apt-get update -qq && sudo apt-get install -y -qq certbot python3-certbot-nginx || true
+                    fi
                     if command -v certbot >/dev/null 2>&1; then
-                        echo "Certbot found. Attempting SSL certificate provision/renewal..."
-                        sudo certbot --nginx -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com --redirect || echo "⚠️ Certbot auto-configuration notice (check sudo permissions or existing cert)"
-                    else
-                        echo "Certbot not found on host path, checking snap / alternative paths..."
-                        if [ -f /snap/bin/certbot ]; then
-                            sudo /snap/bin/certbot --nginx -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com --redirect || true
-                        fi
+                        echo "Issuing SSL certificate via Certbot Nginx plugin..."
+                        sudo certbot --nginx -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com --redirect || sudo certbot certonly --standalone -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com || true
                     fi
                 '''
             }
