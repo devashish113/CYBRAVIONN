@@ -70,22 +70,6 @@ pipeline {
                 '''
             }
         }
-
-        stage('SSL HTTPS Configuration') {
-            steps {
-                echo '🔒 Installing/Running Let\'s Encrypt SSL HTTPS certificate for cybravions.com...'
-                sh '''
-                    if ! command -v certbot >/dev/null 2>&1; then
-                        echo "Installing certbot and python3-certbot-nginx..."
-                        sudo apt-get update -qq && sudo apt-get install -y -qq certbot python3-certbot-nginx || true
-                    fi
-                    if command -v certbot >/dev/null 2>&1; then
-                        echo "Issuing SSL certificate via Certbot Nginx plugin..."
-                        sudo certbot --nginx -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com --redirect || sudo certbot certonly --standalone -d cybravions.com -d www.cybravions.com --non-interactive --agree-tos --email support@cybravions.com || true
-                    fi
-                '''
-            }
-        }
     }
 
     post {
