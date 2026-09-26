@@ -29,23 +29,6 @@ export default defineConfig({
     target: 'esnext',
     minify: 'esbuild',
     cssCodeSplit: true,
-    chunkSizeWarningLimit: 750,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('three')) {
-              return 'vendor-three';
-            }
-            if (id.includes('motion') || id.includes('lenis')) {
-              return 'vendor-animations';
-            }
-            if (id.includes('lucide-react')) {
-              return 'vendor-icons';
-            }
-          }
-        },
-      },
-    },
+    chunkSizeWarningLimit: 1200,
   },
 });
