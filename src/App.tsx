@@ -71,7 +71,7 @@ import { Insights } from './components/Insights';
 import { CyberUniverse3D } from './components/CyberUniverse3D';
 import { TiltCard3D } from './components/TiltCard3D';
 import { ThreatRadar3D } from './components/ThreatRadar3D';
-import { CyberHeroSlider } from './components/CyberHeroSlider';
+import { Hero } from './components/Hero';
 import { SecurityAuditModal } from './components/SecurityAuditModal';
 import { EngagementLifecycle } from './components/EngagementLifecycle';
 import { GlobalPresence } from './components/GlobalPresence';
@@ -895,15 +895,20 @@ const Navbar: React.FC<NavbarProps> = ({
 
 // --- Services Matrix ---
 
-const Services = () => {
+interface ServicesProps {
+  onOpenConsultation?: () => void;
+}
+
+const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
   const [activeBrief, setActiveBrief] = useState<number | null>(null);
 
   const expertises = [
     {
-      title: "Cyber Security GRC",
+      title: "GRC & Compliance",
+      tag: "GOVERN",
       subtitle: "Governance, Risk & Compliance Architecture",
-      desc: "Establish enterprise-wide risk visibility, regulatory compliance maturity, and audit readiness for global cybersecurity frameworks.",
-      icon: Shield,
+      desc: "Audit-ready frameworks, ISO 27001, SOC 2 Type II, and continuous automated risk governance.",
+      icon: ShieldCheck,
       glow: "blue" as const,
       standards: ["ISO 27001", "NIST CSF 2.0", "SOC 2 Type II", "DPDP & GDPR"],
       whatWeDo: [
@@ -914,9 +919,10 @@ const Services = () => {
       ]
     },
     {
-      title: "Offensive Security & Red Teaming",
+      title: "Offensive Security",
+      tag: "TEST",
       subtitle: "VAPT & Zero-Day Threat Emulation",
-      desc: "Identify, exploit, and remediate deep vulnerabilities across web applications, mobile platforms, APIs, and cloud networks before adversaries do.",
+      desc: "Rigorous VAPT, zero-day threat discovery, and multi-vector adversary simulation.",
       icon: Lock,
       glow: "orange" as const,
       standards: ["OWASP Top 10", "Network Penetration", "API & LLM Security", "Adversary Simulation"],
@@ -928,9 +934,10 @@ const Services = () => {
       ]
     },
     {
-      title: "Cloud & DevSecOps Engineering",
+      title: "Cloud & DevSecOps",
+      tag: "PROTECT",
       subtitle: "AWS, Azure & GCP Hardening",
-      desc: "Architect resilient multi-cloud environments, automated CI/CD security pipelines, and zero-trust perimeter configurations.",
+      desc: "Hardened multi-cloud architecture (AWS/Azure/GCP), CI/CD gating, and Kubernetes isolation.",
       icon: Globe,
       glow: "blue" as const,
       standards: ["CIS Benchmarks", "Terraform / IaC", "Kubernetes Hardening", "IAM Least Privilege"],
@@ -942,9 +949,10 @@ const Services = () => {
       ]
     },
     {
-      title: "AI Governance & LLM Defense",
+      title: "AI Security",
+      tag: "PROTECT",
       subtitle: "Model Security & Sovereign Safety",
-      desc: "Mitigate model poisoning, prompt injection exploits, training data exfiltration, and compliance breaches across enterprise AI systems.",
+      desc: "Sovereign model protection, prompt injection defense, and air-gapped neural safety.",
       icon: Brain,
       glow: "orange" as const,
       standards: ["NIST AI RMF", "EU AI Act", "OWASP for LLM", "Prompt Armor"],
@@ -956,9 +964,10 @@ const Services = () => {
       ]
     },
     {
-      title: "Threat Intelligence & OSINT",
+      title: "Threat Intelligence",
+      tag: "TEST",
       subtitle: "Dark Web & Digital Asset Defense",
-      desc: "Proactive surveillance of dark web credential dumps, executive identity exposure, leaked infrastructure tokens, and active threat actor campaigns.",
+      desc: "24/7 dark web reconnaissance, VIP credential surveillance, and proactive C2 threat hunting.",
       icon: Radar,
       glow: "blue" as const,
       standards: ["MITRE ATT&CK", "Dark Web Recon", "VIP Protection", "C2 Infrastructure Hunting"],
@@ -970,9 +979,10 @@ const Services = () => {
       ]
     },
     {
-      title: "Zero Trust Architecture & SOC",
+      title: "Zero Trust & SOC",
+      tag: "GOVERN",
       subtitle: "Defensive Engineering & Resilience",
-      desc: "Design zero-trust enterprise security perimeters, SIEM/SOAR automated response workflows, and 24/7 SOC operational readiness.",
+      desc: "Micro-segmentation, SIEM/SOAR automated playbooks, and 24/7 incident response.",
       icon: Layers,
       glow: "orange" as const,
       standards: ["Zero Trust Architecture", "SIEM / SOAR Playbooks", "Tabletop Simulations", "SOC 2 Type II"],
@@ -986,83 +996,94 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-24 md:py-32 px-6 md:px-12 lg:px-20 relative z-10 bg-gradient-to-b from-transparent via-slate-100/40 dark:via-[#020510]/60 to-transparent">
+    <section id="services" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-gradient-to-b from-transparent via-slate-100/40 dark:via-[#020510]/60 to-transparent">
       {/* Background Ambient Glows */}
       <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-gradient-to-br from-blue-600/10 to-transparent rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-tl from-orange-500/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-3 block font-bold">
-            Core Security Capabilities
+        <div className="text-center mb-14">
+          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-2 block font-bold font-mono">
+            SECURITY CAPABILITIES
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Enterprise-Grade Cyber Defense & Governance
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Protect. Test. Govern.
           </h2>
-          <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light mx-auto">
-            Architected to protect sovereign data, ensure 100% audit readiness, and preempt advanced threat vectors.
+          <p className="text-slate-600 dark:text-stone-400 text-sm sm:text-base max-w-xl mt-3 font-normal mx-auto">
+            Mathematically verified defense architecture engineered for high-consequence enterprise workloads.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {expertises.map((service, idx) => {
             const Icon = service.icon;
             const isBlue = service.glow === 'blue';
             return (
               <TiltCard3D key={idx} glowColor={service.glow}>
-                <div className="flex flex-col h-full justify-between group">
+                <div 
+                  onClick={() => {
+                    cyberAudio.playClick();
+                    setActiveBrief(idx);
+                  }}
+                  className="flex flex-col h-full justify-between group cursor-pointer p-2"
+                >
                   <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <div className={`p-3.5 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 shadow-sm group-hover:scale-110 transition-all duration-300 ${
+                    <div className="flex items-center justify-between mb-5">
+                      <div className={`p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 shadow-sm group-hover:scale-110 transition-all duration-300 ${
                         isBlue 
                           ? 'text-blue-600 dark:text-blue-400 group-hover:border-blue-500/50 group-hover:bg-blue-500/10' 
                           : 'text-orange-500 dark:text-orange-400 group-hover:border-orange-500/50 group-hover:bg-orange-500/10'
                       }`}>
-                        <Icon size={24} />
+                        <Icon size={22} />
                       </div>
-                      <span className="text-[10px] text-slate-400 dark:text-stone-500 uppercase tracking-widest font-semibold font-mono">
-                        0{idx + 1}
+                      <span className={`text-[10px] uppercase font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full border ${
+                        isBlue
+                          ? 'text-blue-500 border-blue-500/30 bg-blue-500/10'
+                          : 'text-orange-500 border-orange-500/30 bg-orange-500/10'
+                      }`}>
+                        {service.tag}
                       </span>
                     </div>
 
-                    <h3 className={`text-xl font-semibold text-slate-900 dark:text-white mb-1 transition-colors ${
+                    <h3 className={`text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors ${
                       isBlue ? 'group-hover:text-blue-600 dark:group-hover:text-blue-400' : 'group-hover:text-orange-500 dark:group-hover:text-orange-400'
                     }`}>
                       {service.title}
                     </h3>
-                    <p className={`text-xs uppercase tracking-wider mb-4 font-semibold ${
-                      isBlue ? 'text-blue-600 dark:text-blue-400' : 'text-orange-500 dark:text-orange-400'
-                    }`}>
-                      {service.subtitle}
-                    </p>
-                    <p className="text-sm text-slate-600 dark:text-stone-300 font-light leading-relaxed mb-6">
+
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-stone-300 font-normal leading-relaxed mb-4">
                       {service.desc}
                     </p>
-
-                    <div className="flex flex-wrap gap-1.5 mb-6">
-                      {service.standards.map((st) => (
-                        <span key={st} className="text-[10px] font-mono bg-slate-100 dark:bg-white/[0.03] hover:bg-blue-50 dark:hover:bg-blue-500/10 border border-slate-200 dark:border-white/10 hover:border-blue-500/30 px-2.5 py-1 rounded-md text-slate-700 dark:text-stone-300 transition-colors">
-                          {st}
-                        </span>
-                      ))}
-                    </div>
                   </div>
 
-                  <button
-                    onClick={() => setActiveBrief(idx)}
-                    className={`w-full py-3.5 px-4 rounded-xl border text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer mt-4 group/btn shadow-md ${
-                      isBlue
-                        ? 'bg-slate-900 hover:bg-blue-600 text-white dark:bg-stone-900 dark:hover:bg-blue-600/30 border-slate-800 dark:border-stone-700/80 dark:hover:border-blue-500/60 dark:text-blue-300 dark:hover:text-white'
-                        : 'bg-slate-900 hover:bg-orange-600 text-white dark:bg-stone-900 dark:hover:bg-orange-600/30 border-slate-800 dark:border-stone-700/80 dark:hover:border-orange-500/60 dark:text-orange-300 dark:hover:text-white'
-                    }`}
-                  >
-                    <span>View Architecture & Deliverables</span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
+                  <div className={`pt-3 border-t border-slate-100 dark:border-stone-800/80 flex items-center justify-between text-xs font-semibold ${
+                    isBlue ? 'text-blue-600 dark:text-blue-400' : 'text-orange-500 dark:text-orange-400'
+                  }`}>
+                    <span>View Architecture Dossier</span>
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </TiltCard3D>
             );
           })}
+        </div>
+
+        {/* View all capabilities footer CTA */}
+        <div className="mt-12 text-center">
+          <button
+            onClick={() => {
+              cyberAudio.playClick();
+              if (onOpenConsultation) {
+                onOpenConsultation();
+              } else {
+                setActiveBrief(0);
+              }
+            }}
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-slate-700 dark:text-stone-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors cursor-pointer group"
+          >
+            <span>Request Full Scope &amp; Architecture Briefing</span>
+            <ArrowRight size={15} className="group-hover:translate-x-1.5 transition-transform" />
+          </button>
         </div>
       </div>
 
@@ -1729,6 +1750,13 @@ export default function App() {
     }
   };
 
+  const scrollToServices = () => {
+    const el = document.getElementById('services');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className={`min-h-screen relative overflow-x-hidden font-sans transition-colors duration-500 ${isDarkMode ? 'dark' : 'light'} ${
       currentView === 'exception-manager'
@@ -1799,8 +1827,13 @@ export default function App() {
               <CompliancePage />
             ) : (
               <>
-                <CyberHeroSlider isDarkMode={isDarkMode} setCurrentView={setCurrentView} />
-                <Services />
+                <Hero 
+                  isDarkMode={isDarkMode} 
+                  onOpenBriefing={() => setIsAuditModalOpen(true)}
+                  onExploreCapabilities={scrollToServices}
+                  setCurrentView={setCurrentView} 
+                />
+                <Services onOpenConsultation={() => setIsAuditModalOpen(true)} />
                 <div id="radar">
                   <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
                 </div>
