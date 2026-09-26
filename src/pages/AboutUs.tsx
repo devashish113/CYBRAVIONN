@@ -112,36 +112,6 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
     }
   ];
 
-  const leadershipTeam = [
-    {
-      name: "Devanshu Sharma",
-      role: "Founder & Chief Executive Officer (CEO)",
-      creds: "Sovereign AI Security · Systems Defense Architect",
-      bio: "Pioneering air-gapped sovereign AI defense appliances, Zero Trust cryptographic architectures, and proactive offensive security operations for enterprises and critical infrastructure.",
-      focus: "Strategic Architecture & Sovereign Defense",
-      badge: "Executive Leadership",
-      linkedin: "https://www.linkedin.com/company/cybravions"
-    },
-    {
-      name: "Principal Red Team & Exploit Research",
-      role: "Head of Offensive Security & VAPT",
-      creds: "OSCP · OSCE · CEH Practical · CISSP Certified",
-      bio: "Directs deep-surface multi-cloud penetration testing, zero-day exploit discovery, active adversary emulation, and automated vulnerability validation workflows.",
-      focus: "Red Teaming, VAPT & Threat Emulation",
-      badge: "Offensive Operations",
-      linkedin: "https://www.linkedin.com/company/cybravions"
-    },
-    {
-      name: "Principal ISMS & GRC Regulatory Lead",
-      role: "Head of Governance, Risk & Compliance",
-      creds: "ISO 27001 Lead Auditor · CISA · CRISC",
-      bio: "Spearheads enterprise audit readiness and certification design across ISO/IEC 27001:2022, SOC 2 Type II, NIST CSF 2.0, DPDP Act 2023, and CERT-In mandates.",
-      focus: "GRC, ISMS & DPDP Compliance",
-      badge: "Regulatory Governance",
-      linkedin: "https://www.linkedin.com/company/cybravions"
-    }
-  ];
-
   return (
     <div className="pt-24 min-h-screen relative bg-transparent text-slate-900 dark:text-stone-100 selection:bg-orange-500/20 selection:text-orange-900">
       <Helmet>
@@ -651,92 +621,6 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                 </div>
               </motion.div>
             ))}
-          </div>
-        </section>
-
-        {/* ============================================================
-           5.5. EXECUTIVE LEADERSHIP & SECURITY RESEARCH TEAM
-        ============================================================ */}
-        <section className={`py-20 md:py-28 px-6 md:px-12 lg:px-20 border-t transition-colors duration-300 ${
-          isDarkMode 
-            ? 'border-stone-800/80 bg-[#060a14]/60' 
-            : 'border-slate-200 bg-slate-50/70'
-        }`}>
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <span className="text-xs uppercase tracking-[0.3em] text-blue-500 font-mono font-bold block mb-2">
-                Executive Governance &amp; Research
-              </span>
-              <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight ${
-                isDarkMode ? 'text-white' : 'text-slate-950'
-              }`}>
-                Leadership &amp; Security Engineering Council
-              </h2>
-              <p className={`text-sm sm:text-base max-w-2xl mx-auto mt-3 font-normal ${
-                isDarkMode ? 'text-stone-300' : 'text-slate-600'
-              }`}>
-                Guided by seasoned security architects, certified exploit researchers, and regulatory compliance leaders under Indian corporate governance.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {leadershipTeam.map((leader, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className={`p-8 rounded-3xl border shadow-xl flex flex-col justify-between hover:border-orange-500/40 transition-all duration-300 group ${
-                    isDarkMode 
-                      ? 'bg-[#0b101e] border-stone-800 text-stone-100' 
-                      : 'bg-white border-slate-200 text-slate-900 shadow-slate-200/60'
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className="px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-[10px] font-mono font-bold border border-orange-500/20">
-                        {leader.badge}
-                      </span>
-                      <a
-                        href={leader.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 rounded-xl bg-slate-100 hover:bg-blue-500/10 hover:text-blue-500 dark:bg-stone-900 dark:hover:bg-blue-500/20 text-slate-600 dark:text-stone-400 transition-colors"
-                        title="LinkedIn Profile"
-                      >
-                        <Linkedin size={16} />
-                      </a>
-                    </div>
-
-                    <h3 className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                      {leader.name}
-                    </h3>
-                    <div className="text-xs font-mono font-semibold text-orange-500 mb-2">
-                      {leader.role}
-                    </div>
-                    <div className={`text-[11px] font-mono font-medium pb-4 mb-4 border-b ${
-                      isDarkMode ? 'text-stone-400 border-stone-800' : 'text-slate-500 border-slate-100'
-                    }`}>
-                      {leader.creds}
-                    </div>
-
-                    <p className={`text-xs leading-relaxed font-normal mb-6 ${
-                      isDarkMode ? 'text-stone-300' : 'text-slate-600'
-                    }`}>
-                      {leader.bio}
-                    </p>
-                  </div>
-
-                  <div className={`pt-4 border-t flex items-center justify-between text-[11px] font-mono ${
-                    isDarkMode ? 'border-stone-800/80 text-blue-400' : 'border-slate-100 text-blue-600'
-                  }`}>
-                    <span>Focus: {leader.focus}</span>
-                    <ShieldCheck size={14} className="text-emerald-500" />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
           </div>
         </section>
 

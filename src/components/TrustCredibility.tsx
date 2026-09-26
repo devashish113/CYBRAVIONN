@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Award, Quote, Star, CheckCircle2, ExternalLink } from 'lucide-react';
+import { ShieldCheck, Award, Quote } from 'lucide-react';
 import { TiltCard3D } from './TiltCard3D';
 
 const certifications = [
@@ -9,36 +9,6 @@ const certifications = [
   { name: "ISO/IEC 42001", desc: "AI Management System", glow: "blue" as const },
   { name: "DPDP & GDPR", desc: "Digital Personal Data Protection", glow: "orange" as const },
   { name: "CERT-In Directives", desc: "National Cyber Security Mandate", glow: "blue" as const }
-];
-
-const thirdPartyReviews = [
-  {
-    platform: "Google Business",
-    rating: "4.9 / 5.0",
-    reviewCount: "28+ Enterprise Reviews",
-    location: "New Delhi, India",
-    badge: "Verified Business",
-    stars: 5,
-    glow: "blue" as const
-  },
-  {
-    platform: "Clutch Global",
-    rating: "5.0 / 5.0",
-    reviewCount: "Enterprise Cybersecurity Leader",
-    location: "B2B Auditing",
-    badge: "Top Cybersecurity Firm",
-    stars: 5,
-    glow: "orange" as const
-  },
-  {
-    platform: "Trustpilot",
-    rating: "4.8 / 5.0",
-    reviewCount: "Excellent TrustScore",
-    location: "Global VAPT & GRC",
-    badge: "Verified Profile",
-    stars: 5,
-    glow: "blue" as const
-  }
 ];
 
 const partnerTech = [
@@ -86,7 +56,7 @@ export const TrustCredibility: React.FC = () => {
         </div>
 
         {/* 3D Framework Badges */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-20">
           {certifications.map((cert, i) => (
             <TiltCard3D key={i} glowColor={cert.glow} className="!p-5 text-center">
               <div className="flex flex-col items-center justify-center h-full">
@@ -96,51 +66,6 @@ export const TrustCredibility: React.FC = () => {
               </div>
             </TiltCard3D>
           ))}
-        </div>
-
-        {/* Verified Third-Party Platform Proof Badges */}
-        <div className="mb-20">
-          <div className="text-center mb-8">
-            <span className="text-xs uppercase text-slate-600 dark:text-stone-400 tracking-widest font-bold flex items-center justify-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-500" />
-              Verified Third-Party Platform Reviews &amp; Ratings
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {thirdPartyReviews.map((rev, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-3xl bg-white/95 dark:bg-[#0b101e] border border-slate-200 dark:border-stone-800 shadow-md flex flex-col justify-between hover:border-orange-500/40 transition-all duration-300"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="font-bold text-sm text-slate-900 dark:text-white font-mono">{rev.platform}</span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-mono font-bold border border-emerald-500/20">
-                      {rev.badge}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="text-2xl font-black font-mono text-orange-500">{rev.rating}</div>
-                    <div className="flex items-center text-amber-400">
-                      {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} size={15} fill="currentColor" />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="text-xs font-semibold text-slate-700 dark:text-stone-300">{rev.reviewCount}</div>
-                  <div className="text-[11px] text-slate-500 dark:text-stone-400">{rev.location}</div>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-slate-100 dark:border-stone-800/80 flex items-center justify-between text-[11px] font-mono text-blue-500">
-                  <span>Verified B2B Client Audits</span>
-                  <ShieldCheck size={14} />
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* Supported & Audited Security Tooling Ecosystem */}
@@ -168,7 +93,7 @@ export const TrustCredibility: React.FC = () => {
         {/* 3D Testimonial Cards */}
         <div>
           <div className="text-center mb-10">
-            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Enterprise Client Testimonials</h3>
+            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Enterprise Case Studies &amp; Outcomes</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
