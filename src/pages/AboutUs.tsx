@@ -22,7 +22,9 @@ import {
   Fingerprint,
   Mail,
   Phone,
-  Navigation
+  Navigation,
+  AlertTriangle,
+  Linkedin
 } from 'lucide-react';
 import { OfficeLocationMap } from '../components/OfficeLocationMap';
 
@@ -107,6 +109,36 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
       step: "04",
       title: "Continuous Verification & Compliance",
       desc: "Ongoing 24/7 threat monitoring, recurring automated red team audits, and executive compliance dashboards."
+    }
+  ];
+
+  const leadershipTeam = [
+    {
+      name: "Devanshu Sharma",
+      role: "Founder & Chief Executive Officer (CEO)",
+      creds: "Sovereign AI Security · Systems Defense Architect",
+      bio: "Pioneering air-gapped sovereign AI defense appliances, Zero Trust cryptographic architectures, and proactive offensive security operations for enterprises and critical infrastructure.",
+      focus: "Strategic Architecture & Sovereign Defense",
+      badge: "Executive Leadership",
+      linkedin: "https://www.linkedin.com/company/cybravions"
+    },
+    {
+      name: "Principal Red Team & Exploit Research",
+      role: "Head of Offensive Security & VAPT",
+      creds: "OSCP · OSCE · CEH Practical · CISSP Certified",
+      bio: "Directs deep-surface multi-cloud penetration testing, zero-day exploit discovery, active adversary emulation, and automated vulnerability validation workflows.",
+      focus: "Red Teaming, VAPT & Threat Emulation",
+      badge: "Offensive Operations",
+      linkedin: "https://www.linkedin.com/company/cybravions"
+    },
+    {
+      name: "Principal ISMS & GRC Regulatory Lead",
+      role: "Head of Governance, Risk & Compliance",
+      creds: "ISO 27001 Lead Auditor · CISA · CRISC",
+      bio: "Spearheads enterprise audit readiness and certification design across ISO/IEC 27001:2022, SOC 2 Type II, NIST CSF 2.0, DPDP Act 2023, and CERT-In mandates.",
+      focus: "GRC, ISMS & DPDP Compliance",
+      badge: "Regulatory Governance",
+      linkedin: "https://www.linkedin.com/company/cybravions"
     }
   ];
 
@@ -375,6 +407,31 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                     </a>
                   </div>
 
+                  <div className={`p-3.5 rounded-2xl border ${
+                    isDarkMode 
+                      ? 'bg-blue-950/20 border-blue-500/20 text-stone-300' 
+                      : 'bg-blue-50/70 border-blue-200 text-slate-800'
+                  }`}>
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span className="font-bold text-[11px] text-blue-500 flex items-center gap-1.5">
+                        <ShieldCheck size={14} />
+                        Official MCA Master Data Verification
+                      </span>
+                      <a
+                        href="https://www.mca.gov.in/mcafoportal/companyLLPMasterData.do"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] font-bold text-orange-500 hover:text-orange-400 flex items-center gap-1 hover:underline"
+                      >
+                        <span>MCA Portal</span>
+                        <ExternalLink size={10} />
+                      </a>
+                    </div>
+                    <p className="text-[11px] leading-relaxed font-sans">
+                      Verify directly on the Govt. of India Ministry of Corporate Affairs portal by entering CIN <strong className="font-mono text-orange-500">U62099DL2026PTC470901</strong> under Company/LLP Master Data.
+                    </p>
+                  </div>
+
                   <div className="pt-2">
                     <span className={`block mb-1.5 ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>Registered Office Address:</span>
                     <div className={`p-3.5 rounded-xl border text-[11px] leading-relaxed font-sans ${
@@ -387,10 +444,10 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                   </div>
                 </div>
 
-                <div className="pt-2 flex items-center justify-between gap-3">
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <button
                     onClick={handleCopy}
-                    className={`flex-1 py-2.5 px-4 rounded-xl font-mono text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer border ${
+                    className={`w-full sm:flex-1 py-2.5 px-4 rounded-xl font-mono text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer border ${
                       isDarkMode 
                         ? 'bg-stone-800 hover:bg-stone-700 text-stone-200 border-stone-700' 
                         : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'
@@ -401,18 +458,87 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                   </button>
 
                   <a
+                    href="https://www.mca.gov.in/mcafoportal/companyLLPMasterData.do"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:flex-1 py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md"
+                  >
+                    <ShieldCheck size={14} />
+                    <span>Verify on MCA</span>
+                  </a>
+
+                  <a
                     href="https://www.google.com/maps/dir/?api=1&destination=28.519429,77.201125"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2.5 px-4 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md"
+                    className="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md"
                   >
                     <Navigation size={14} />
-                    <span>Navigate</span>
+                    <span>Map</span>
                   </a>
                 </div>
               </div>
             </div>
 
+          </div>
+        </section>
+
+        {/* ============================================================
+           3.5. PUBLIC ANTI-FRAUD & SCAM IMPERSONATION ADVISORY
+        ============================================================ */}
+        <section className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto pb-12">
+          <div className={`p-6 sm:p-8 rounded-3xl border shadow-xl relative overflow-hidden ${
+            isDarkMode 
+              ? 'bg-[#0f172a]/80 border-red-500/30 text-stone-200' 
+              : 'bg-red-50/70 border-red-200 text-slate-800'
+          }`}>
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-red-500/20">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-2xl bg-red-500/15 text-red-500 border border-red-500/30 shrink-0">
+                  <AlertTriangle size={24} />
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase tracking-widest font-mono font-bold text-red-500 block">
+                    Public Consumer Protection &amp; Anti-Fraud Notice
+                  </span>
+                  <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-950'}`}>
+                    Official Alert: Awareness Regarding Unsolicited Telegram &amp; WhatsApp Recruitment Scams
+                  </h3>
+                </div>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-red-500/10 text-red-500 text-xs font-mono font-bold border border-red-500/20 shrink-0">
+                I4C &amp; Cybercrime Awareness
+              </span>
+            </div>
+
+            <div className="pt-4 grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs leading-relaxed font-sans">
+              <div className="space-y-2">
+                <div className="font-bold text-sm text-red-500 font-mono flex items-center gap-1.5">
+                  <span>1. B2B Enterprise Mandate Only</span>
+                </div>
+                <p className={isDarkMode ? 'text-stone-300' : 'text-slate-600'}>
+                  <strong>CYBRAVION SOLUTIONS PRIVATE LIMITED</strong> operates strictly as a B2B Enterprise Cybersecurity, VAPT auditing, and Sovereign AI firm for corporate entities, financial institutions, and government infrastructure.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="font-bold text-sm text-red-500 font-mono flex items-center gap-1.5">
+                  <span>2. Zero "Work From Home" / Task Hiring</span>
+                </div>
+                <p className={isDarkMode ? 'text-stone-300' : 'text-slate-600'}>
+                  We <strong>NEVER</strong> offer part-time jobs, captcha-filling, data-entry, or task assignments over Telegram, WhatsApp, or SMS. We <strong>NEVER</strong> solicit registration fees, training charges, security deposits, or crypto payments.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="font-bold text-sm text-red-500 font-mono flex items-center gap-1.5">
+                  <span>3. Report Imposters Immediately</span>
+                </div>
+                <p className={isDarkMode ? 'text-stone-300' : 'text-slate-600'}>
+                  If contacted by scammers claiming to represent Cybravions, immediately report them to the National Cybercrime Portal at <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" className="text-blue-500 font-bold underline">cybercrime.gov.in</a> or dial Helpline <strong className="text-orange-500">1930</strong>.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -525,6 +651,92 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                 </div>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+        {/* ============================================================
+           5.5. EXECUTIVE LEADERSHIP & SECURITY RESEARCH TEAM
+        ============================================================ */}
+        <section className={`py-20 md:py-28 px-6 md:px-12 lg:px-20 border-t transition-colors duration-300 ${
+          isDarkMode 
+            ? 'border-stone-800/80 bg-[#060a14]/60' 
+            : 'border-slate-200 bg-slate-50/70'
+        }`}>
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="text-xs uppercase tracking-[0.3em] text-blue-500 font-mono font-bold block mb-2">
+                Executive Governance &amp; Research
+              </span>
+              <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight ${
+                isDarkMode ? 'text-white' : 'text-slate-950'
+              }`}>
+                Leadership &amp; Security Engineering Council
+              </h2>
+              <p className={`text-sm sm:text-base max-w-2xl mx-auto mt-3 font-normal ${
+                isDarkMode ? 'text-stone-300' : 'text-slate-600'
+              }`}>
+                Guided by seasoned security architects, certified exploit researchers, and regulatory compliance leaders under Indian corporate governance.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {leadershipTeam.map((leader, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`p-8 rounded-3xl border shadow-xl flex flex-col justify-between hover:border-orange-500/40 transition-all duration-300 group ${
+                    isDarkMode 
+                      ? 'bg-[#0b101e] border-stone-800 text-stone-100' 
+                      : 'bg-white border-slate-200 text-slate-900 shadow-slate-200/60'
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <span className="px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-[10px] font-mono font-bold border border-orange-500/20">
+                        {leader.badge}
+                      </span>
+                      <a
+                        href={leader.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-xl bg-slate-100 hover:bg-blue-500/10 hover:text-blue-500 dark:bg-stone-900 dark:hover:bg-blue-500/20 text-slate-600 dark:text-stone-400 transition-colors"
+                        title="LinkedIn Profile"
+                      >
+                        <Linkedin size={16} />
+                      </a>
+                    </div>
+
+                    <h3 className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      {leader.name}
+                    </h3>
+                    <div className="text-xs font-mono font-semibold text-orange-500 mb-2">
+                      {leader.role}
+                    </div>
+                    <div className={`text-[11px] font-mono font-medium pb-4 mb-4 border-b ${
+                      isDarkMode ? 'text-stone-400 border-stone-800' : 'text-slate-500 border-slate-100'
+                    }`}>
+                      {leader.creds}
+                    </div>
+
+                    <p className={`text-xs leading-relaxed font-normal mb-6 ${
+                      isDarkMode ? 'text-stone-300' : 'text-slate-600'
+                    }`}>
+                      {leader.bio}
+                    </p>
+                  </div>
+
+                  <div className={`pt-4 border-t flex items-center justify-between text-[11px] font-mono ${
+                    isDarkMode ? 'border-stone-800/80 text-blue-400' : 'border-slate-100 text-blue-600'
+                  }`}>
+                    <span>Focus: {leader.focus}</span>
+                    <ShieldCheck size={14} className="text-emerald-500" />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 

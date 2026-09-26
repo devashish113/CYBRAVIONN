@@ -12,7 +12,7 @@ cat << 'EOF' > /etc/nginx/sites-available/cybravion.conf
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name cybravions.com www.cybravions.com cybravions.online www.cybravions.online _;
+    server_name cybravions.com www.cybravions.com _;
 
     location ^~ /.well-known/acme-challenge/ {
         root /var/www/html;
@@ -59,7 +59,7 @@ if [ -d /etc/letsencrypt/live/cybravions.com ]; then
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name cybravions.com www.cybravions.com cybravions.online www.cybravions.online _;
+    server_name cybravions.com www.cybravions.com _;
 
     location ^~ /.well-known/acme-challenge/ {
         root /var/www/html;

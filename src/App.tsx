@@ -1517,6 +1517,20 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
             </button>
             <span>•</span>
             <button
+              onClick={() => onOpenLegal('refund')}
+              className="hover:text-orange-500 transition-colors cursor-pointer"
+            >
+              Refund &amp; Cancellation
+            </button>
+            <span>•</span>
+            <button
+              onClick={() => onOpenLegal('antifraud')}
+              className="hover:text-red-500 transition-colors cursor-pointer font-bold text-red-500/90"
+            >
+              Anti-Fraud Alert
+            </button>
+            <span>•</span>
+            <button
               onClick={() => onOpenLegal('vdp')}
               className="hover:text-orange-500 transition-colors cursor-pointer"
             >

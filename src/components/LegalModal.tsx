@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ShieldCheck, Lock, FileText, CheckCircle2, Building2, AlertTriangle, Scale } from 'lucide-react';
+import { X, ShieldCheck, Lock, FileText, CheckCircle2, Building2, AlertTriangle, Scale, RefreshCw } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
 
-export type LegalTabType = 'privacy' | 'terms' | 'vdp' | 'cookies';
+export type LegalTabType = 'privacy' | 'terms' | 'refund' | 'antifraud' | 'vdp' | 'cookies';
 
 interface LegalModalProps {
   isOpen: boolean;
@@ -75,6 +75,8 @@ export const LegalModal: React.FC<LegalModalProps> = ({
             {[
               { id: 'privacy' as LegalTabType, label: 'Privacy Policy (DPDP & GDPR)', icon: Lock },
               { id: 'terms' as LegalTabType, label: 'Terms of Service', icon: FileText },
+              { id: 'refund' as LegalTabType, label: 'Refund & Cancellation Policy', icon: RefreshCw },
+              { id: 'antifraud' as LegalTabType, label: 'Anti-Fraud & Impersonation Alert', icon: AlertTriangle },
               { id: 'vdp' as LegalTabType, label: 'Vulnerability Disclosure (VDP)', icon: ShieldCheck },
               { id: 'cookies' as LegalTabType, label: 'Security & Cookie Policy', icon: CheckCircle2 },
             ].map((tab) => {
@@ -175,6 +177,99 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                   <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">3. Limitation of Liability</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300">
                     While our offensive methodologies uncover deep architectural vulnerabilities, cybersecurity is an evolving discipline. CYBRAVION operates under industry-standard liability caps as defined in formal client Master Services Agreements (MSAs).
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'refund' && (
+              <div className="space-y-5">
+                <div className="flex items-center justify-between pb-3 border-b border-stone-800/80">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <RefreshCw size={20} className="text-orange-500" />
+                    Refund, Milestone Billing &amp; Cancellation Policy
+                  </h3>
+                  <span className="text-[11px] font-mono text-blue-500 font-semibold">
+                    B2B Enterprise Framework
+                  </span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 space-y-2 text-xs">
+                  <div className="font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide font-mono">
+                    Structured Milestone-Based Engagement Delivery
+                  </div>
+                  <p className="text-slate-700 dark:text-stone-300 leading-relaxed">
+                    All cybersecurity consulting, penetration testing, compliance certification, and sovereign AI engagements are governed under milestone-based Statements of Work (SOW) executed under formal Master Services Agreements (MSAs).
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">1. Scoping &amp; Pre-Execution Cancellation</h4>
+                  <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
+                    Clients may cancel or reschedule a scheduled engagement up to <strong>7 business days</strong> prior to the agreed assessment start date with zero penalty. Any advance retainer fees allocated for uncommenced milestone scopes will be refunded in full within 7–10 banking days.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">2. Milestone Execution &amp; Deliverables Sign-off</h4>
+                  <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
+                    Billing occurs strictly against verified milestone deliveries (e.g. Scoping Dossier, Preliminary VAPT Technical Findings, Final Remediation Verification Certificate). If deliverables do not satisfy the contractual Rules of Engagement (RoE), CYBRAVION provides complimentary re-testing and engineering remediation until full acceptance criteria are met.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">3. Dispute Resolution &amp; Invoicing Contact</h4>
+                  <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
+                    For billing inquiries, milestone adjustments, or formal refund requests, please contact our enterprise finance department at <a href="mailto:support@cybravions.com" className="text-blue-500 font-bold underline">support@cybravions.com</a>.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'antifraud' && (
+              <div className="space-y-5">
+                <div className="flex items-center justify-between pb-3 border-b border-stone-800/80">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <AlertTriangle size={20} className="text-red-500" />
+                    Anti-Fraud Advisory &amp; Impersonation Warning
+                  </h3>
+                  <span className="text-[11px] font-mono text-red-500 font-semibold">
+                    Public Protection Notice
+                  </span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/25 space-y-2 text-xs">
+                  <div className="font-bold text-red-600 dark:text-red-400 uppercase tracking-wide font-mono">
+                    ⚠️ Official Alert Regarding Telegram / WhatsApp Task Scams
+                  </div>
+                  <p className="text-slate-700 dark:text-stone-300 leading-relaxed">
+                    CYBRAVION SOLUTIONS PRIVATE LIMITED is strictly a <strong>B2B Enterprise Cybersecurity &amp; Defense Technology Corporation</strong>. We <strong>NEVER</strong> offer part-time jobs, work-from-home tasks, data-entry, captcha filling, or daily earnings via WhatsApp, Telegram, or SMS. We <strong>NEVER</strong> ask the public for registration fees, training fees, security deposits, or crypto transfers.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">1. Identification of Fraudulent Impersonators</h4>
+                  <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
+                    Fraudulent actors frequently misuse legitimate corporate names registered on the Ministry of Corporate Affairs (MCA) to run task-based employment or investment schemes. Any contact from unofficial channels claiming to be Cybravions is an unauthorized criminal imposter.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">2. How to Report Fraud to Indian Authorities</h4>
+                  <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
+                    If you have been approached by fraudsters or suffered financial loss from an imposter claiming to represent Cybravions, immediately report them to:
+                  </p>
+                  <div className="p-3.5 rounded-xl border border-slate-200 dark:border-stone-800 bg-slate-50 dark:bg-stone-900/60 font-mono text-xs space-y-1.5">
+                    <div><strong>National Cybercrime Helpline:</strong> <a href="tel:1930" className="text-blue-500 font-bold">1930</a> (Toll-Free, Govt. of India)</div>
+                    <div><strong>Official Cybercrime Reporting Portal:</strong> <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" className="text-blue-500 font-bold underline">https://cybercrime.gov.in</a></div>
+                    <div><strong>CYBRAVION Incident Desk:</strong> <a href="mailto:support@cybravions.com" className="text-orange-500 font-bold">support@cybravions.com</a></div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">3. Authentic Corporate Channels</h4>
+                  <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
+                    Legitimate business inquiries are conducted strictly through verified email addresses ending in <code>@cybravions.com</code> and through our registered corporate office at Hauz Khas, New Delhi.
                   </p>
                 </div>
               </div>
