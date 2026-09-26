@@ -72,6 +72,7 @@ import { CyberUniverse3D } from './components/CyberUniverse3D';
 import { TiltCard3D } from './components/TiltCard3D';
 import { ThreatRadar3D } from './components/ThreatRadar3D';
 import { Hero } from './components/Hero';
+import { WhyCybravion } from './components/WhyCybravion';
 import { SecurityAuditModal } from './components/SecurityAuditModal';
 import { EngagementLifecycle } from './components/EngagementLifecycle';
 import { GlobalPresence } from './components/GlobalPresence';
@@ -1228,13 +1229,13 @@ const Contact = () => {
           <div className="lg:col-span-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-600 dark:text-orange-400 text-xs uppercase tracking-widest font-semibold mb-4">
               <span className="w-2 h-2 rounded-full bg-orange-500 dark:bg-orange-400" />
-              Direct Engagement
+              Direct Confidential Engagement
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight mb-6">
-              Initiate a Confidential Security Briefing
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
+              Ready to Assess Your Security Posture?
             </h2>
-            <p className="text-slate-600 dark:text-stone-300 font-light text-base leading-relaxed mb-8">
-              Speak with our senior cybersecurity advisors to scope your VAPT assessment, design an ISO 27001 / SOC 2 compliance roadmap, or evaluate AI governance controls under mutual NDA.
+            <p className="text-slate-600 dark:text-stone-300 font-normal text-base leading-relaxed mb-8">
+              Speak directly with our senior cybersecurity advisors and offensive architects to scope your VAPT assessment, design an ISO 27001 / SOC 2 compliance roadmap, or evaluate sovereign AI governance under mutual NDA.
             </p>
 
             <div className="space-y-4 mb-8">
@@ -1245,12 +1246,12 @@ const Contact = () => {
                 <div>
                   <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Official Communications</div>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
-                    <a href="mailto:cybravions@gmail.com" className="text-sm text-slate-900 dark:text-stone-200 hover:text-blue-600 dark:hover:text-white transition-colors font-medium">
-                      cybravions@gmail.com
-                    </a>
-                    <span className="hidden sm:inline text-slate-400">·</span>
-                    <a href="mailto:support@cybravions.com" className="text-sm text-slate-600 dark:text-stone-400 hover:text-blue-600 dark:hover:text-white transition-colors">
+                    <a href="mailto:support@cybravions.com" className="text-sm text-slate-900 dark:text-stone-200 hover:text-blue-600 dark:hover:text-white transition-colors font-medium">
                       support@cybravions.com
+                    </a>
+                    <span className="hidden sm:inline text-slate-400">&bull;</span>
+                    <a href="mailto:cybravions@gmail.com" className="text-sm text-slate-600 dark:text-stone-400 hover:text-blue-600 dark:hover:text-white transition-colors">
+                      cybravions@gmail.com
                     </a>
                   </div>
                 </div>
@@ -1266,7 +1267,7 @@ const Contact = () => {
                     <a href="tel:+917258880881" className="text-sm text-slate-900 dark:text-stone-200 hover:text-emerald-600 dark:hover:text-white transition-colors font-bold font-mono">
                       +91-7258880881
                     </a>
-                    <span className="hidden sm:inline text-slate-400">·</span>
+                    <span className="hidden sm:inline text-slate-400">&bull;</span>
                     <a href="tel:+919358683634" className="text-sm text-slate-600 dark:text-stone-400 hover:text-emerald-600 dark:hover:text-white transition-colors font-mono">
                       +91-9358683634
                     </a>
@@ -1280,9 +1281,9 @@ const Contact = () => {
                 </div>
                 <div>
                   <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Registered Headquarters</div>
-                  <a href="#office-location" className="text-xs sm:text-sm text-slate-900 dark:text-stone-200 hover:text-orange-500 transition-colors font-medium">
-                    H. IN.KH.NO.293 S/F Western Marg, Saidulajab, New Delhi 110030 (Near Kher Singh Estate)
-                  </a>
+                  <div className="text-xs sm:text-sm text-slate-900 dark:text-stone-200 font-medium">
+                    167-G, Ground Floor, Left Side, Katwaria Sarai, Hauz Khas, New Delhi 110016
+                  </div>
                 </div>
               </div>
             </div>
@@ -1838,15 +1839,8 @@ export default function App() {
                   <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
                 </div>
                 <EngagementLifecycle isDarkMode={isDarkMode} onConsultClick={scrollToContact} />
-                <TrustCredibility />
-                <CaseStudies />
-                <IndustrySolutions />
-                <GlobalPresence isDarkMode={isDarkMode} />
-                <WhyChooseUs />
-                <Insights />
-                <OfficeLocationMap isDarkMode={isDarkMode} />
+                <WhyCybravion isDarkMode={isDarkMode} onOpenAuditModal={() => setIsAuditModalOpen(true)} />
                 <Contact />
-                <FAQ />
               </>
             )}
           </React.Suspense>
