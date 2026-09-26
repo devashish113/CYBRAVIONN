@@ -269,7 +269,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                 <div className="space-y-3">
                   <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">3. Authentic Corporate Channels</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
-                    Legitimate business inquiries are conducted strictly through verified email addresses ending in <code>@cybravions.com</code> and through our registered corporate office at Hauz Khas, New Delhi.
+                    Legitimate business inquiries are conducted strictly through verified email addresses ending in <code>@cybravions.com</code> and through our registered corporate office at H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi 110030.
                   </p>
                 </div>
               </div>

@@ -41,7 +41,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
 
-  const fullAddress = "167-G, Ground Floor, Left Side, Katwaria Sarai, Hauz Khas, South West Delhi, New Delhi, Delhi, India, 110016";
+  const fullAddress = "H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi, India, 110030";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(fullAddress);

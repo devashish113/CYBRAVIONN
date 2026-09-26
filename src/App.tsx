@@ -1282,7 +1282,7 @@ const Contact = () => {
                 <div>
                   <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Registered Headquarters</div>
                   <div className="text-xs sm:text-sm text-slate-900 dark:text-stone-200 font-medium">
-                    167-G, Ground Floor, Left Side, Katwaria Sarai, Hauz Khas, New Delhi 110016
+                    H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi 110030
                   </div>
                 </div>
               </div>
@@ -1532,7 +1532,7 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
               </span>
             </div>
             <p className="text-[11px] font-sans">
-              <strong>Registered Office:</strong> 167-G, Ground Floor, Left Side, Katwaria Sarai, Hauz Khas, South West Delhi, New Delhi, Delhi, India, 110016
+              <strong>Registered Office:</strong> H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi, India, 110030
             </p>
             <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-slate-500 dark:text-stone-400">
               <span>Email: <a href="mailto:support@cybravions.com" className="text-blue-500 hover:underline">support@cybravions.com</a></span>
