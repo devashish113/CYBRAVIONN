@@ -1091,24 +1091,29 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
 
       <AnimatePresence>
         {activeBrief !== null && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/85 backdrop-blur-2xl">
+          <div 
+            onClick={() => setActiveBrief(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-slate-950/85 backdrop-blur-2xl overflow-y-auto"
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white dark:bg-stone-950 border border-slate-200 dark:border-blue-500/30 rounded-3xl p-6 md:p-8 max-w-4xl w-full shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(59,130,246,0.15)] relative max-h-[90vh] overflow-y-auto text-slate-900 dark:text-stone-200"
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white dark:bg-[#0b101e] border border-slate-200 dark:border-blue-500/30 rounded-3xl max-w-4xl w-full shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(59,130,246,0.2)] relative max-h-[88vh] overflow-y-auto text-slate-900 dark:text-stone-100 my-auto"
             >
               <button
                 onClick={() => setActiveBrief(null)}
-                className="absolute top-6 right-6 p-2 text-slate-500 dark:text-stone-400 hover:text-slate-900 dark:hover:text-white rounded-full bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 cursor-pointer z-20 transition-colors"
+                className="absolute top-5 right-5 sm:top-6 sm:right-6 p-2.5 text-slate-500 dark:text-stone-400 hover:text-slate-900 dark:hover:text-white rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-stone-900 dark:hover:bg-stone-800 border border-slate-200 dark:border-stone-800 cursor-pointer z-30 transition-all shadow-sm"
                 aria-label="Close capability dossier"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
               <ServiceModalRenderer
                 activeBrief={activeBrief}
                 data={expertises[activeBrief]}
                 close={() => setActiveBrief(null)}
+                onOpenConsultation={onOpenConsultation}
               />
             </motion.div>
           </div>
