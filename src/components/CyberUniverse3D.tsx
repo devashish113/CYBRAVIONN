@@ -1227,19 +1227,66 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
     updateResponsiveFactors();
 
+    // =====================================================================
+    // ADAPTIVE FRAME RATE GOVERNOR, IDLE THROTTLER & LOOP STATE
+    // =====================================================================
+    let animationFrameId: number;
+    let isLoopRunning = false;
+    let isTabVisible = typeof document !== 'undefined' ? (document.visibilityState === 'visible' && !document.hidden) : true;
+    let is3DZoneVisible = true;
+    let deepSectionsIntersecting = false;
+    let observerTimeout: ReturnType<typeof setTimeout> | null = null;
+    let intersectionObserver: IntersectionObserver | null = null;
+
     let lastInteractionTime = performance.now();
+    let lastRenderTimestamp = 0;
+    let lastFrameTime = performance.now();
+    let rollingFps = 60;
+    let activeFrameSampleCount = 0;
+
+    const clock = new THREE.Clock();
+    const currentCameraPos = camera.position.clone();
+    const currentCameraLook = new THREE.Vector3(0.5, 0, 0);
+
+    const scratchGlobe1TargetPos = new THREE.Vector3();
+    const scratchGlobe2TargetPos = new THREE.Vector3();
+    const scratchG1World = new THREE.Vector3();
+    const scratchG2World = new THREE.Vector3();
+    const scratchMidBridge = new THREE.Vector3();
+
+    const scratchTarget = {
+      pos: new THREE.Vector3(),
+      look: new THREE.Vector3(),
+      globePos: new THREE.Vector3(),
+      globeScale: 1.0,
+      globe2Pos: new THREE.Vector3(),
+      globe2Scale: 1.0,
+    };
+
     const markInteraction = () => {
       lastInteractionTime = performance.now();
     };
 
-    // =====================================================================
-    // 3D SECTION INTERSECTION & VIEWPORT OCCLUSION OBSERVER
-    // =====================================================================
-    let is3DZoneVisible = true;
-    let isLoopRunning = false;
-    let deepSectionsIntersecting = false;
-    let observerTimeout: ReturnType<typeof setTimeout> | null = null;
-    let intersectionObserver: IntersectionObserver | null = null;
+    const updateCameraTarget = (t: number) => {
+      let idx = 0;
+      for (let i = 0; i < cameraWaypoints.length - 1; i++) {
+        if (t >= cameraWaypoints[i].scroll && t <= cameraWaypoints[i + 1].scroll) {
+          idx = i;
+          break;
+        }
+      }
+      const p1 = cameraWaypoints[idx];
+      const p2 = cameraWaypoints[Math.min(idx + 1, cameraWaypoints.length - 1)];
+      const segmentT = p2.scroll === p1.scroll ? 0 : (t - p1.scroll) / (p2.scroll - p1.scroll);
+      const easeT = segmentT * segmentT * (3 - 2 * segmentT);
+
+      scratchTarget.pos.lerpVectors(p1.pos, p2.pos, easeT);
+      scratchTarget.look.lerpVectors(p1.look, p2.look, easeT);
+      scratchTarget.globePos.lerpVectors(p1.globePos, p2.globePos, easeT);
+      scratchTarget.globeScale = THREE.MathUtils.lerp(p1.globeScale, p2.globeScale, easeT);
+      scratchTarget.globe2Pos.lerpVectors(p1.globe2Pos, p2.globe2Pos, easeT);
+      scratchTarget.globe2Scale = THREE.MathUtils.lerp(p1.globe2Scale, p2.globe2Scale, easeT);
+    };
 
     const wakeUpLoop = () => {
       markInteraction();
@@ -1251,7 +1298,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     const checkAndUpdateVisibility = () => {
-      // When user is scrolled deep into non-3D sections (FAQ, Contact, Map, Footer > 65% of page)
       const isDeepInPage = targetScrollProgress > 0.65;
       const nextVisible = !isDeepInPage && !deepSectionsIntersecting;
 
@@ -1292,7 +1338,6 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       observerTimeout = setTimeout(observeElements, 1200);
     }
 
-    // Unified Single-Source-of-Truth Scroll Pipeline (Lenis / Native Scroll)
     const handleScroll = (customProgress?: number) => {
       if (typeof customProgress === 'number') {
         targetScrollProgress = customProgress;
@@ -1345,62 +1390,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('wheel', () => handleScroll(), { passive: true });
     window.addEventListener('resize', handleResize);
-    handleScroll();
 
-    // Zero-allocation reusable camera target interpolation structures
-    const scratchTarget = {
-      pos: new THREE.Vector3(),
-      look: new THREE.Vector3(),
-      globePos: new THREE.Vector3(),
-      globeScale: 1.0,
-      globe2Pos: new THREE.Vector3(),
-      globe2Scale: 1.0,
-    };
-
-    const updateCameraTarget = (t: number) => {
-      let idx = 0;
-      for (let i = 0; i < cameraWaypoints.length - 1; i++) {
-        if (t >= cameraWaypoints[i].scroll && t <= cameraWaypoints[i + 1].scroll) {
-          idx = i;
-          break;
-        }
-      }
-      const p1 = cameraWaypoints[idx];
-      const p2 = cameraWaypoints[Math.min(idx + 1, cameraWaypoints.length - 1)];
-      const segmentT = p2.scroll === p1.scroll ? 0 : (t - p1.scroll) / (p2.scroll - p1.scroll);
-      const easeT = segmentT * segmentT * (3 - 2 * segmentT);
-
-      scratchTarget.pos.lerpVectors(p1.pos, p2.pos, easeT);
-      scratchTarget.look.lerpVectors(p1.look, p2.look, easeT);
-      scratchTarget.globePos.lerpVectors(p1.globePos, p2.globePos, easeT);
-      scratchTarget.globeScale = THREE.MathUtils.lerp(p1.globeScale, p2.globeScale, easeT);
-      scratchTarget.globe2Pos.lerpVectors(p1.globe2Pos, p2.globe2Pos, easeT);
-      scratchTarget.globe2Scale = THREE.MathUtils.lerp(p1.globe2Scale, p2.globe2Scale, easeT);
-    };
-
-    // =====================================================================
-    // ADAPTIVE FRAME RATE GOVERNOR, IDLE THROTTLER & MODAL PAUSE
-    // =====================================================================
-    let animationFrameId: number;
-    let isTabVisible = typeof document !== 'undefined' ? (document.visibilityState === 'visible' && !document.hidden) : true;
-    const clock = new THREE.Clock();
-    const currentCameraPos = camera.position.clone();
-    const currentCameraLook = new THREE.Vector3(0.5, 0, 0);
-
-    // Pre-allocated scratch vectors to prevent runtime heap thrashing
-    const scratchGlobe1TargetPos = new THREE.Vector3();
-    const scratchGlobe2TargetPos = new THREE.Vector3();
-    const scratchG1World = new THREE.Vector3();
-    const scratchG2World = new THREE.Vector3();
-    const scratchMidBridge = new THREE.Vector3();
-
-    // Dynamic frametime and rolling FPS tracker
-    let lastFrameTime = performance.now();
-    let lastRenderTimestamp = 0;
-    let rollingFps = 60;
-    let activeFrameSampleCount = 0;
-
-    const animate = () => {
+    function animate() {
       if (!isTabVisible || document.visibilityState === 'hidden') {
         isLoopRunning = false;
         return;
@@ -1649,6 +1640,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    handleScroll();
     wakeUpLoop();
 
     return () => {
