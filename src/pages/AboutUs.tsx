@@ -50,10 +50,10 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
   };
 
   const corporateMetrics = [
-    { value: "99.99%", label: "Sustained Defense Uptime", desc: "For Sovereign Infrastructure & Air-Gapped AI Systems" },
-    { value: "100+", label: "Enterprise Assets Protected", desc: "Zero-Trust Architectures & Multi-Cloud Footprints" },
-    { value: "< 15m", label: "Incident Escalation SLA", desc: "Automated Red-Teaming & 24/7 Rapid Response" },
-    { value: "100%", label: "Sovereign AI Deployment", desc: "Offline, Zero Cloud Leakage Neural Appliances" }
+    { value: "Zero Trust", label: "Defensive Architecture", desc: "Micro-segmented perimeters & cryptographic verification" },
+    { value: "Air-Gapped", label: "Sovereign AI Security", desc: "100% on-premises neural models with zero cloud telemetry" },
+    { value: "ISO & SOC 2", label: "Audit-Ready Engineering", desc: "Structured frameworks across NIST CSF 2.0 & DPDP Act" },
+    { value: "Full-Stack", label: "Offensive VAPT", desc: "Proactive adversary emulation across Web, APIs & Cloud" }
   ];
 
   const corePillars = [

@@ -72,7 +72,8 @@ import { CyberUniverse3D } from './components/CyberUniverse3D';
 import { TiltCard3D } from './components/TiltCard3D';
 import { ThreatRadar3D } from './components/ThreatRadar3D';
 import { Hero } from './components/Hero';
-import { WhyCybravion } from './components/WhyCybravion';
+import { ProductsShowcase } from './components/ProductsShowcase';
+import { SecurityModel } from './components/SecurityModel';
 import { SecurityAuditModal } from './components/SecurityAuditModal';
 import { EngagementLifecycle } from './components/EngagementLifecycle';
 import { GlobalPresence } from './components/GlobalPresence';
@@ -1828,18 +1829,32 @@ export default function App() {
               <CompliancePage />
             ) : (
               <>
+                {/* 01. Focused Hero */}
                 <Hero 
                   isDarkMode={isDarkMode} 
                   onOpenBriefing={() => setIsAuditModalOpen(true)}
                   onExploreCapabilities={scrollToServices}
                   setCurrentView={setCurrentView} 
                 />
+
+                {/* 02. Security Core (6 Real Capabilities) */}
                 <Services onOpenConsultation={() => setIsAuditModalOpen(true)} />
+
+                {/* 03. Interactive Threat Radar Demo */}
                 <div id="radar">
                   <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
                 </div>
-                <EngagementLifecycle isDarkMode={isDarkMode} onConsultClick={scrollToContact} />
-                <WhyCybravion isDarkMode={isDarkMode} onOpenAuditModal={() => setIsAuditModalOpen(true)} />
+
+                {/* 04. What We Build (Cybravions AI, CyberVerse, Exception Manager) */}
+                <ProductsShowcase 
+                  setCurrentView={setCurrentView} 
+                  isDarkMode={isDarkMode} 
+                />
+
+                {/* 05. Security Model (Offensive, Defensive, Governance) */}
+                <SecurityModel isDarkMode={isDarkMode} />
+
+                {/* 06. Direct Scoping & Contact Briefing */}
                 <Contact />
               </>
             )}
