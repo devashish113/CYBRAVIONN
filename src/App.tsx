@@ -48,6 +48,7 @@ import {
   Sun,
   Moon,
   Gamepad2,
+  Linkedin
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Lenis from 'lenis';
@@ -1493,6 +1494,52 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
               Exception Manager
             </button>
             <a href="#contact" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Contact</a>
+          </div>
+        </div>
+
+        {/* Corporate Transparency & Statutory Verification Block */}
+        <div className={`p-6 rounded-2xl border text-xs leading-relaxed flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 ${
+          isDarkMode ? 'bg-[#090e1a] border-stone-800 text-stone-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+        }`}>
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="flex items-center gap-2 font-mono font-bold text-slate-900 dark:text-white">
+              <Building2 size={16} className="text-orange-500 shrink-0" />
+              <span>CYBRAVION SOLUTIONS PRIVATE LIMITED</span>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px]">
+                CIN: U62099DL2026PTC470901
+              </span>
+            </div>
+            <p className="text-[11px] font-sans">
+              <strong>Registered Office:</strong> 167-G, Ground Floor, Left Side, Katwaria Sarai, Hauz Khas, South West Delhi, New Delhi, Delhi, India, 110016
+            </p>
+            <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-slate-500 dark:text-stone-400">
+              <span>Email: <a href="mailto:support@cybravions.com" className="text-blue-500 hover:underline">support@cybravions.com</a></span>
+              <span>•</span>
+              <span>Hotline: <a href="tel:+917258880881" className="text-blue-500 hover:underline">+91-7258880881</a></span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <a
+              href="https://www.mca.gov.in/mcafoportal/companyLLPMasterData.do"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-mono text-[11px] font-bold flex items-center gap-1.5 transition-colors shadow-sm"
+            >
+              <ShieldCheck size={13} />
+              <span>Verify on MCA.gov.in</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/company/cybravions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`px-3.5 py-2 rounded-xl border font-mono text-[11px] font-semibold flex items-center gap-1.5 transition-colors ${
+                isDarkMode ? 'bg-stone-900 hover:bg-stone-800 text-stone-200 border-stone-700' : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
+              }`}
+            >
+              <Linkedin size={13} className="text-blue-500" />
+              <span>LinkedIn</span>
+            </a>
           </div>
         </div>
 
