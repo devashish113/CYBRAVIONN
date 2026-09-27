@@ -29,7 +29,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       name: 'Cybravions AI',
       badge: 'AIR-GAPPED SOVEREIGN AI',
       tagline: 'Private Enterprise Neural Appliance',
-      desc: 'Deploy high-performance agentic AI directly inside private infrastructure with mathematical data isolation, zero cloud telemetry, and NIST AI RMF compliance.',
+      desc: 'Deploy high-performance agentic AI directly inside private infrastructure with mathematical data isolation and zero cloud telemetry.',
       icon: Brain,
       glow: 'blue' as const,
       features: [
