@@ -84,7 +84,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
     },
     {
       icon: Server,
-      title: "CyberVerse Simulation Labs",
+      title: "CyberRange Simulation Labs",
       desc: "Next-generation gamified scenario training and browser-based hands-on cyber defense sandboxes for enterprise teams."
     }
   ];

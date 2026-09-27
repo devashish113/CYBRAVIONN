@@ -42,7 +42,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
     },
     {
       id: 'cyberverse',
-      name: 'CyberVerse Simulation Labs',
+      name: 'CyberRange Simulation Labs',
       badge: 'DEFENSE SANDBOX',
       tagline: 'Interactive Cyber Defense Training',
       desc: 'Browser-based hands-on cyber defense sandboxes, active adversary emulation scenarios, and interactive incident response training for technical teams.',
@@ -53,7 +53,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
         'Red Team Exploit & Blue Team Defense',
         'Executive Crisis Tabletop Drills'
       ],
-      actionLabel: 'Launch CyberVerse Labs',
+      actionLabel: 'Launch CyberRange Labs',
       targetView: 'cyberverse'
     },
     {

@@ -224,7 +224,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
                       {/* 2x2 Grid Layout */}
                       <div className="grid grid-cols-2 gap-2.5">
-                        {/* Product 1: Cybravions CyberVerse */}
+                        {/* Product 1: Cybravions CyberRange */}
                         <button
                           onClick={() => {
                             setCurrentView('cyberverse');
@@ -250,7 +250,7 @@ const Navbar: React.FC<NavbarProps> = ({
                                 <span className={`text-xs font-bold transition-colors ${
                                   isDarkMode ? 'text-stone-100 group-hover:text-orange-300' : 'text-slate-900 group-hover:text-orange-600'
                                 }`}>
-                                  CyberVerse
+                                  CyberRange
                                 </span>
                               </div>
                               <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30 shrink-0">
@@ -770,7 +770,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         }}
                       >
                         <Gamepad2 size={16} className="text-orange-500" />
-                        <span>Cybravions CyberVerse (Gamified RPG)</span>
+                        <span>Cybravions CyberRange (Gamified RPG)</span>
                       </button>
 
                       <button 
@@ -1503,7 +1503,7 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
           }`}>
             <button onClick={() => { setCurrentView('cyberverse'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-orange-500 hover:text-orange-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
               <Gamepad2 size={13} />
-              CyberVerse (RPG)
+              CyberRange (RPG)
             </button>
             <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-blue-500 hover:text-blue-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
               <Sparkles size={12} />
@@ -1689,7 +1689,7 @@ export default function App() {
         setCurrentView('about');
       } else if (hash === '#ai' || hash === '#/ai') {
         setCurrentView('ai');
-      } else if (hash === '#cyberverse' || hash === '#/cyberverse') {
+      } else if (hash === '#cyberrange' || hash === '#/cyberrange' || hash === '#cyberverse' || hash === '#/cyberverse') {
         setCurrentView('cyberverse');
       } else if (hash === '#exception-manager' || hash === '#/exception-manager') {
         setCurrentView('exception-manager');
@@ -1855,7 +1855,7 @@ export default function App() {
                   </React.Suspense>
                 </div>
 
-                {/* 04. What We Build (Cybravions AI, CyberVerse, Exception Manager) */}
+                {/* 04. What We Build (Cybravions AI, CyberRange, Exception Manager) */}
                 <ProductsShowcase 
                   setCurrentView={setCurrentView} 
                   isDarkMode={isDarkMode} 

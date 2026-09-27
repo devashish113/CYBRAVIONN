@@ -253,13 +253,13 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 selection:bg-blue-500/20 selection:text-blue-900 relative">
       <Helmet>
-        <title>Cybravions CyberVerse | Gamified Story-Driven CyberSec &amp; AI RPG Platform</title>
+        <title>Cybravions CyberRange | Gamified Story-Driven CyberSec &amp; AI RPG Platform</title>
         <meta 
           name="description" 
           content="The world's first story-driven CyberSec and AI/ML learning battleground. Duolingo meets HackTheBox meets RPG. In-browser Kali sandboxes, 10 Guilds, CTF Boss Fights, and Inter-College Leagues." 
         />
-        <meta name="keywords" content="CyberSec RPG, gamified cybersecurity, CTF learning, AI ML gamification, ethical hacking game, HackTheBox Duolingo, Cybravions CyberVerse" />
-        <link rel="canonical" href="https://cybravions.com/#cyberverse" />
+        <meta name="keywords" content="CyberSec RPG, gamified cybersecurity, CTF learning, AI ML gamification, ethical hacking game, HackTheBox Duolingo, Cybravions CyberRange" />
+        <link rel="canonical" href="https://cybravions.com/#cyberrange" />
       </Helmet>
 
       {/* ========================================================================= */}
@@ -281,7 +281,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-orange-500 animate-pulse" />
             <Gamepad2 className="w-4 h-4 text-orange-500" />
             <span className="bg-gradient-to-r from-blue-600 via-sky-500 to-orange-500 dark:from-sky-400 dark:via-blue-300 dark:to-orange-400 bg-clip-text text-transparent font-extrabold">
-              CYBRAVIONS CYBERVERSE
+              CYBRAVIONS CYBERRANGE
             </span>
           </motion.div>
 
@@ -463,7 +463,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               </div>
               <span className="text-xs text-blue-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
                 <Terminal size={14} />
-                cyberverse-sandbox-vm // session-id: 0x9a882
+                cyberrange-sandbox-vm // session-id: 0x9a882
               </span>
             </div>
             <div className="text-xs text-orange-400 font-bold flex items-center gap-1.5">
@@ -833,7 +833,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               onClick={() => {
                 cyberAudio.playClick();
                 if (onOpenConsultation) {
-                  onOpenConsultation('cyberverse-guild');
+                  onOpenConsultation('cyberrange-guild');
                 } else if (setCurrentView) {
                   setCurrentView('home');
                 }

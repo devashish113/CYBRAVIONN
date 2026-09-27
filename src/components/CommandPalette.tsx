@@ -123,7 +123,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     {
       id: 'cyberverse',
       category: 'Sovereign Products',
-      title: 'Cybravions CyberVerse (Gamified CyberSec & AI Platform)',
+      title: 'Cybravions CyberRange (Gamified CyberSec & AI Platform)',
       subtitle: '10 CyberSec Guilds, CTF Boss Fights, Adversarial AI labs & Inter-College Leagues',
       icon: Gamepad2,
       badge: 'Gamified RPG',
