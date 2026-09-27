@@ -902,48 +902,18 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
 
   const expertises = [
     {
-      title: "GRC & Compliance",
+      title: "GRC",
       tag: "GOVERN",
       subtitle: "Governance, Risk & Compliance Architecture",
-      desc: "Audit-ready frameworks, ISO 27001, SOC 2 Type II, and continuous automated risk governance.",
+      desc: "ISO 27001 and DPDP Act compliance, audit-ready governance frameworks, SOC 2 Type II, and continuous risk management.",
       icon: ShieldCheck,
       glow: "blue" as const,
-      standards: ["ISO 27001", "NIST CSF 2.0", "SOC 2 Type II", "DPDP & GDPR"],
+      standards: ["ISO 27001", "DPDP Act", "SOC 2 Type II", "NIST CSF 2.0"],
       whatWeDo: [
-        "Information security policies, standards, and ISMS architecture",
-        "Enterprise risk register development and vendor tiering assessments",
-        "Business Continuity (BCP) & Disaster Recovery (DRP) validation",
-        "Comprehensive regulatory audit readiness and mock audits"
-      ]
-    },
-    {
-      title: "Offensive Security",
-      tag: "TEST",
-      subtitle: "VAPT & Zero-Day Threat Emulation",
-      desc: "Rigorous VAPT, zero-day threat discovery, and multi-vector adversary simulation.",
-      icon: Lock,
-      glow: "orange" as const,
-      standards: ["OWASP Top 10", "Network Penetration", "API & LLM Security", "Adversary Simulation"],
-      whatWeDo: [
-        "Web, mobile app, and GraphQL/REST API penetration testing",
-        "Internal/external network breach simulation and privilege escalation",
-        "Cloud configuration audit and microservice boundary validation",
-        "Board-ready remediation governance and technical remediation guidance"
-      ]
-    },
-    {
-      title: "Cloud & DevSecOps",
-      tag: "PROTECT",
-      subtitle: "AWS, Azure & GCP Hardening",
-      desc: "Hardened multi-cloud architecture (AWS/Azure/GCP), CI/CD gating, and Kubernetes isolation.",
-      icon: Globe,
-      glow: "blue" as const,
-      standards: ["CIS Benchmarks", "Terraform / IaC", "Kubernetes Hardening", "IAM Least Privilege"],
-      whatWeDo: [
-        "Cloud Security Posture Management (CSPM) and drift detection",
-        "Infrastructure as Code (IaC) automated gating in CI/CD pipelines",
-        "Kubernetes container security and secrets isolation",
-        "IAM privilege reduction and zero-trust identity enforcement"
+        "ISO 27001 ISMS architecture, security policies, and standard operating procedures",
+        "DPDP Act compliance readiness, data principal rights, and privacy impact assessments",
+        "Enterprise risk register development and third-party vendor tiering assessments",
+        "Comprehensive regulatory audit readiness, mock drills, and board reporting"
       ]
     },
     {
@@ -962,6 +932,36 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
       ]
     },
     {
+      title: "Offensive Security",
+      tag: "TEST",
+      subtitle: "VAPT & Zero-Day Threat Emulation",
+      desc: "Rigorous VAPT, zero-day threat discovery, and multi-vector adversary simulation.",
+      icon: Lock,
+      glow: "blue" as const,
+      standards: ["OWASP Top 10", "Network Penetration", "API & LLM Security", "Adversary Simulation"],
+      whatWeDo: [
+        "Web, mobile app, and GraphQL/REST API penetration testing",
+        "Internal/external network breach simulation and privilege escalation",
+        "Cloud configuration audit and microservice boundary validation",
+        "Board-ready remediation governance and technical remediation guidance"
+      ]
+    },
+    {
+      title: "Cloud & DevSecOps",
+      tag: "PROTECT",
+      subtitle: "AWS, Azure & GCP Hardening",
+      desc: "Hardened multi-cloud architecture (AWS/Azure/GCP), CI/CD gating, and Kubernetes isolation.",
+      icon: Globe,
+      glow: "orange" as const,
+      standards: ["CIS Benchmarks", "Terraform / IaC", "Kubernetes Hardening", "IAM Least Privilege"],
+      whatWeDo: [
+        "Cloud Security Posture Management (CSPM) and drift detection",
+        "Infrastructure as Code (IaC) automated gating in CI/CD pipelines",
+        "Kubernetes container security and secrets isolation",
+        "IAM privilege reduction and zero-trust identity enforcement"
+      ]
+    },
+    {
       title: "Threat Intelligence",
       tag: "TEST",
       subtitle: "Dark Web & Digital Asset Defense",
@@ -977,18 +977,18 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
       ]
     },
     {
-      title: "Zero Trust & SOC",
+      title: "SOC Triage Services",
       tag: "GOVERN",
-      subtitle: "Defensive Engineering & Resilience",
-      desc: "Micro-segmentation, SIEM/SOAR automated playbooks, and 24/7 incident response.",
+      subtitle: "24/7 Threat Triage & Incident Resilience",
+      desc: "24/7 security alert triage, threat correlation, incident containment, and automated SOAR playbooks.",
       icon: Layers,
       glow: "orange" as const,
-      standards: ["Zero Trust Architecture", "SIEM / SOAR Playbooks", "Tabletop Simulations", "SOC 2 Type II"],
+      standards: ["24/7 SOC Triage", "SIEM / SOAR Playbooks", "Incident Response", "Zero Trust Architecture"],
       whatWeDo: [
-        "Zero-trust network access (ZTNA) and micro-segmentation",
-        "Security Operations Center (SOC) logging and alert fidelity tuning",
-        "Incident response playbooks and executive tabletop crisis drills",
-        "Security-by-design reviews for enterprise digital transformation"
+        "24/7 security alert triage, threat correlation, and false-positive suppression",
+        "Rapid incident containment, forensics, and executive crisis response playbooks",
+        "Zero-trust network access (ZTNA) and micro-segmentation enforcement",
+        "SIEM/SOAR automated playbooks and logging fidelity engineering"
       ]
     }
   ];

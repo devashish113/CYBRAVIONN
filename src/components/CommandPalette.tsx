@@ -97,8 +97,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     {
       id: 'services',
       category: 'Core Capabilities',
-      title: 'Cybersecurity GRC & Compliance Architecture',
-      subtitle: 'ISO 27001, SOC 2 Type II, NIST CSF 2.0 & DPDP Act readiness',
+      title: 'GRC (Governance, Risk & Compliance)',
+      subtitle: 'ISO 27001 & DPDP Act compliance, SOC 2 Type II, NIST CSF 2.0 readiness',
       icon: ShieldCheck,
       action: () => {
         onClose();
