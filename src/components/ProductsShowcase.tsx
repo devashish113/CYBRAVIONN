@@ -44,7 +44,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       id: 'cyberverse',
       name: 'CyberVerse Simulation Labs',
       badge: 'DEFENSE SANDBOX',
-      tagline: 'Interactive Cyber Warfare Training',
+      tagline: 'Interactive Cyber Defense Training',
       desc: 'Browser-based hands-on cyber defense sandboxes, active adversary emulation scenarios, and interactive incident response training for technical teams.',
       icon: Gamepad2,
       glow: 'orange' as const,

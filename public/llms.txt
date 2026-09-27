@@ -68,7 +68,7 @@
 
 - **Cybravions AI (Sovereign In-a-Box)**: Air-gapped sovereign agentic AI appliance engineered for defense, financial services, healthcare, and critical national infrastructure. Operates with 100% offline neural models, zero telemetry leakage, and strict hardware-level encryption.
 - **AI Exception Manager**: Web-based risk exception tracker and automated compliance governance dashboard. URL: https://exceptionmgr.cybravions.com
-- **CyberVerse Sandbox & 3D Threat Radar**: Interactive browser-based threat telemetry, incident response simulation engine, and gamified cyber-warfare scenarios.
+- **CyberVerse Sandbox & 3D Threat Radar**: Interactive browser-based threat telemetry, incident response simulation engine, and gamified cyber defense scenarios.
 
 ---
 

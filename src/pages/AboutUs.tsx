@@ -85,7 +85,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
     {
       icon: Server,
       title: "CyberVerse Simulation Labs",
-      desc: "Next-generation gamified scenario training and browser-based hands-on cyber warfare sandboxes for enterprise teams."
+      desc: "Next-generation gamified scenario training and browser-based hands-on cyber defense sandboxes for enterprise teams."
     }
   ];
 
@@ -259,7 +259,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
               <p className={`text-base sm:text-lg leading-relaxed font-normal ${
                 isDarkMode ? 'text-stone-200' : 'text-slate-700'
               }`}>
-                In an era dominated by autonomous weaponized exploits and nation-state cyber warfare, conventional perimeter defense is obsolete. <strong className={isDarkMode ? 'text-white font-semibold' : 'text-slate-950 font-semibold'}>CYBRAVION SOLUTIONS PRIVATE LIMITED</strong> was founded with a singular objective: delivering mathematically verifiable, sovereign cyber defense and zero-trust engineering to the world's most critical institutions.
+                In an era dominated by autonomous weaponized exploits and nation-state cyber threats, conventional perimeter defense is obsolete. <strong className={isDarkMode ? 'text-white font-semibold' : 'text-slate-950 font-semibold'}>CYBRAVION SOLUTIONS PRIVATE LIMITED</strong> was founded with a singular objective: delivering mathematically verifiable, sovereign cyber defense and zero-trust engineering to the world's most critical institutions.
               </p>
               <p className={`text-base leading-relaxed font-normal ${
                 isDarkMode ? 'text-stone-300' : 'text-slate-600'

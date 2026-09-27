@@ -760,7 +760,7 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({ onOpenConsultati
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {[
                     { title: "Tactical Reconnaissance Analysis", desc: "Automated synthesis of multi-spectral aerial imagery and sensor arrays for immediate tactical decision support." },
-                    { title: "Predictive Threat Modeling", desc: "Agent swarms continuously simulate enemy electronic warfare vectors and recommend countermeasures." },
+                    { title: "Predictive Threat Modeling", desc: "Agent swarms continuously simulate enemy electronic threat vectors and recommend countermeasures." },
                     { title: "Autonomous Signal Defense", desc: "Real-time RF and electronic signature analysis with automated jamming detection and frequency hopping." }
                   ].map((card, i) => (
                     <div key={i} className="bg-white dark:bg-stone-900 p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
