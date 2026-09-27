@@ -59,12 +59,7 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="relative z-10 w-full px-6 sm:px-12 md:px-16 max-w-5xl mx-auto flex flex-col justify-center items-center text-center">
         
         {/* Verification & Trust Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-mono font-semibold border border-blue-500/30 dark:border-blue-500/40 bg-gradient-to-r from-blue-500/10 via-sky-500/5 to-orange-500/10 mb-8 shadow-[0_0_25px_rgba(37,99,235,0.15)] backdrop-blur-md"
-        >
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-mono font-semibold border border-blue-500/30 dark:border-blue-500/40 bg-gradient-to-r from-blue-500/10 via-sky-500/5 to-orange-500/10 mb-8 shadow-[0_0_25px_rgba(37,99,235,0.15)] backdrop-blur-md">
           <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500" />
@@ -74,35 +69,20 @@ export const Hero: React.FC<HeroProps> = ({
           </span>
           <span className="text-stone-400 dark:text-stone-600">|</span>
           <span className="text-orange-600 dark:text-orange-400 font-bold">CIN: U62099DL2026PTC470901</span>
-        </motion.div>
+        </div>
 
-        {/* Strong Focused Headline */}
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] text-slate-900 dark:text-white mb-6 tracking-tight max-w-4xl"
-        >
+        {/* Strong Focused Headline - Instant LCP Paint without Opacity Delay */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] text-slate-900 dark:text-white mb-6 tracking-tight max-w-4xl">
           Sovereign Cybersecurity &amp; AI Defense for <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 dark:from-sky-400 dark:via-blue-400 dark:to-orange-500 bg-clip-text text-transparent drop-shadow-sm">Global Enterprises</span>
-        </motion.h1>
+        </h1>
 
         {/* 1 Short Supporting Sentence */}
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-stone-300 mb-10 max-w-2xl font-normal leading-relaxed"
-        >
+        <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-stone-300 mb-10 max-w-2xl font-normal leading-relaxed">
           CYBRAVION delivers air-gapped sovereign AI defense, offensive red-teaming, and continuous zero-trust governance for mission-critical institutions.
-        </motion.p>
+        </p>
 
         {/* Action CTAs */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto"
-        >
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
           {/* Primary CTA: Request Security Briefing */}
           <motion.button
             whileHover={{ scale: 1.03, y: -2 }}
@@ -132,7 +112,7 @@ export const Hero: React.FC<HeroProps> = ({
             <span>Explore Security Capabilities</span>
             <ChevronDown size={16} className="text-blue-500 animate-bounce" />
           </motion.button>
-        </motion.div>
+        </div>
 
       </div>
     </section>
