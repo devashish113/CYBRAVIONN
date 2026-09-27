@@ -64,23 +64,19 @@ const CyberVersePage = lazyWithRetry(() => import('./pages/CyberVerse').then(m =
 const ExceptionManagerPage = lazyWithRetry(() => import('./pages/ExceptionManager').then(m => ({ default: m.ExceptionManagerPage })));
 const AboutUsPage = lazyWithRetry(() => import('./pages/AboutUs').then(m => ({ default: m.AboutUsPage })));
 
-import { CaseStudies } from './components/CaseStudies';
-import { IndustrySolutions } from './components/IndustrySolutions';
-import { TrustCredibility } from './components/TrustCredibility';
-import { Insights } from './components/Insights';
-import { CyberUniverse3D } from './components/CyberUniverse3D';
-import { TiltCard3D } from './components/TiltCard3D';
-import { ThreatRadar3D } from './components/ThreatRadar3D';
+import type { LegalTabType } from './components/LegalModal';
 import { Hero } from './components/Hero';
 import { ProductsShowcase } from './components/ProductsShowcase';
 import { SecurityModel } from './components/SecurityModel';
-import { SecurityAuditModal } from './components/SecurityAuditModal';
-import { EngagementLifecycle } from './components/EngagementLifecycle';
-import { GlobalPresence } from './components/GlobalPresence';
-import { OfficeLocationMap } from './components/OfficeLocationMap';
-import { CommandPalette } from './components/CommandPalette';
-import { LegalModal, LegalTabType } from './components/LegalModal';
+import { TiltCard3D } from './components/TiltCard3D';
 import { cyberAudio } from './utils/cyberAudio';
+
+// Dynamic lazy-loaded 3D scenes & interactive modals (drops initial bundle size drastically)
+const CyberUniverse3D = lazyWithRetry(() => import('./components/CyberUniverse3D').then(m => ({ default: m.CyberUniverse3D })));
+const ThreatRadar3D = lazyWithRetry(() => import('./components/ThreatRadar3D').then(m => ({ default: m.ThreatRadar3D })));
+const CommandPalette = lazyWithRetry(() => import('./components/CommandPalette').then(m => ({ default: m.CommandPalette })));
+const SecurityAuditModal = lazyWithRetry(() => import('./components/SecurityAuditModal').then(m => ({ default: m.SecurityAuditModal })));
+const LegalModal = lazyWithRetry(() => import('./components/LegalModal').then(m => ({ default: m.LegalModal })));
 
 // --- Navigation ---
 
@@ -1785,7 +1781,9 @@ export default function App() {
       </Helmet>
 
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
-      <CyberUniverse3D currentView={currentView} isDarkMode={isDarkMode} />
+      <React.Suspense fallback={null}>
+        <CyberUniverse3D currentView={currentView} isDarkMode={isDarkMode} />
+      </React.Suspense>
 
 
 
@@ -1846,8 +1844,15 @@ export default function App() {
                 <Services onOpenConsultation={() => setIsAuditModalOpen(true)} />
 
                 {/* 03. Interactive Threat Radar Demo */}
-                <div id="radar">
-                  <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
+                <div id="radar" className="min-h-[500px]">
+                  <React.Suspense fallback={
+                    <div className="w-full py-24 flex items-center justify-center text-slate-500 font-mono text-sm">
+                      <div className="w-4 h-4 rounded-full border-2 border-orange-500 border-t-transparent animate-spin mr-3" />
+                      Initializing Threat Radar Environment...
+                    </div>
+                  }>
+                    <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
+                  </React.Suspense>
                 </div>
 
                 {/* 04. What We Build (Cybravions AI, CyberVerse, Exception Manager) */}
@@ -1877,29 +1882,41 @@ export default function App() {
         />
 
         {/* Global Keyboard Command Palette & Quick Search (⌘K / Ctrl+K) */}
-        <CommandPalette
-          isOpen={isCommandPaletteOpen}
-          onClose={() => setIsCommandPaletteOpen(false)}
-          isDarkMode={isDarkMode}
-          toggleDarkMode={toggleDarkMode}
-          setCurrentView={setCurrentView}
-          onOpenAuditModal={() => setIsAuditModalOpen(true)}
-        />
+        {isCommandPaletteOpen && (
+          <React.Suspense fallback={null}>
+            <CommandPalette
+              isOpen={isCommandPaletteOpen}
+              onClose={() => setIsCommandPaletteOpen(false)}
+              isDarkMode={isDarkMode}
+              toggleDarkMode={toggleDarkMode}
+              setCurrentView={setCurrentView}
+              onOpenAuditModal={() => setIsAuditModalOpen(true)}
+            />
+          </React.Suspense>
+        )}
 
         {/* Interactive Instant Security Posture & Compliance Audit Modal */}
-        <SecurityAuditModal
-          isOpen={isAuditModalOpen}
-          onClose={() => setIsAuditModalOpen(false)}
-          isDarkMode={isDarkMode}
-        />
+        {isAuditModalOpen && (
+          <React.Suspense fallback={null}>
+            <SecurityAuditModal
+              isOpen={isAuditModalOpen}
+              onClose={() => setIsAuditModalOpen(false)}
+              isDarkMode={isDarkMode}
+            />
+          </React.Suspense>
+        )}
 
         {/* Legal, Privacy & Compliance Governance Modal */}
-        <LegalModal
-          isOpen={isLegalModalOpen}
-          onClose={() => setIsLegalModalOpen(false)}
-          initialTab={legalTab}
-          isDarkMode={isDarkMode}
-        />
+        {isLegalModalOpen && (
+          <React.Suspense fallback={null}>
+            <LegalModal
+              isOpen={isLegalModalOpen}
+              onClose={() => setIsLegalModalOpen(false)}
+              initialTab={legalTab}
+              isDarkMode={isDarkMode}
+            />
+          </React.Suspense>
+        )}
       </div>
     </div>
   );

@@ -26,9 +26,32 @@ export default defineConfig({
     ],
   },
   build: {
-    target: 'esnext',
+    target: 'es2022',
     minify: 'esbuild',
     cssCodeSplit: true,
-    chunkSizeWarningLimit: 1200,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('three')) {
+              return 'vendor-three';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-icons';
+            }
+            if (id.includes('motion')) {
+              return 'vendor-motion';
+            }
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-helmet-async') || id.includes('scheduler')) {
+              return 'vendor-react';
+            }
+            if (id.includes('lenis') || id.includes('canvas-confetti')) {
+              return 'vendor-utils';
+            }
+          }
+        },
+      },
+    },
   },
 });
