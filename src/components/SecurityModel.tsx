@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { 
-  Target, 
+  Brain,
   ShieldCheck, 
   BarChart3, 
   Lock, 
@@ -20,41 +20,41 @@ export const SecurityModel: React.FC<SecurityModelProps> = ({ isDarkMode = true 
   const pillars = [
     {
       stage: "01",
-      name: "OFFENSIVE",
-      tagline: "Adversary Simulation & VAPT",
-      desc: "We test your systems through real-world attack techniques. Multi-layered penetration testing across web apps, APIs, cloud networks, and AI endpoints to discover vulnerabilities before malicious actors do.",
-      icon: Target,
-      glow: "orange" as const,
+      name: "GRC",
+      tagline: "Continuous Compliance & Governance",
+      desc: "Security posture doesn't end with a report. We architect automated compliance frameworks, continuous risk registers, and audit readiness for ISO 27001, SOC 2 Type II, and DPDP Act.",
+      icon: ShieldCheck,
+      glow: "blue" as const,
       highlights: [
-        "Web, API & Mobile VAPT",
-        "Cloud & Network Breach Emulation",
-        "LLM & Prompt Injection Audits"
+        "ISO 27001 & SOC 2 Type II Readiness",
+        "DPDP Act & GDPR Privacy Design",
+        "Automated Risk Exception Tracking"
       ]
     },
     {
       stage: "02",
       name: "DEFENSIVE",
       tagline: "Zero-Trust & Sovereign Hardening",
-      desc: "We build resilience directly into your architecture. Micro-segmentation, mathematical IAM boundaries, air-gapped sovereign AI containment, and automated SIEM/SOAR incident response playbooks.",
+      desc: "We build resilience directly into your architecture. Micro-segmentation, mathematical IAM boundaries, multi-cloud hardening, and automated SIEM/SOAR incident response playbooks.",
       icon: Lock,
-      glow: "blue" as const,
+      glow: "orange" as const,
       highlights: [
         "Zero-Trust IAM & Network Isolation",
         "Multi-Cloud (AWS/Azure/GCP) Hardening",
-        "Air-Gapped Sovereign AI Appliances"
+        "Automated Incident Response Playbooks"
       ]
     },
     {
       stage: "03",
-      name: "GOVERNANCE",
-      tagline: "Continuous Compliance & ISMS",
-      desc: "Security posture doesn't end with a report. We architect automated compliance frameworks, continuous risk registers, and audit readiness for ISO 27001, SOC 2 Type II, NIST CSF, and DPDP Act.",
-      icon: ShieldCheck,
-      glow: "orange" as const,
+      name: "AI SECURITY",
+      tagline: "Model Security & Sovereign Safety",
+      desc: "We protect sovereign AI deployments with mathematical model boundaries, prompt armor, offline vector store isolation, and zero-telemetry neural appliance governance.",
+      icon: Brain,
+      glow: "blue" as const,
       highlights: [
-        "ISO 27001 & SOC 2 Type II Readiness",
-        "DPDP Act & GDPR Privacy Design",
-        "Automated Risk Exception Tracking"
+        "Air-Gapped Sovereign AI Containment",
+        "Prompt Armor & Model Safety Boundary",
+        "LLM & Vector Store Privacy Audits"
       ]
     }
   ];
@@ -72,7 +72,7 @@ export const SecurityModel: React.FC<SecurityModelProps> = ({ isDarkMode = true 
             The CYBRAVION Security Model
           </h2>
           <p className="text-slate-600 dark:text-stone-400 text-sm sm:text-base max-w-xl mt-3 font-normal mx-auto">
-            A cohesive three-pillar methodology uniting offensive intelligence, defensive resilience, and continuous compliance.
+            A cohesive three-pillar methodology uniting GRC architecture, zero-trust defensive resilience, and sovereign AI security.
           </p>
         </div>
 
