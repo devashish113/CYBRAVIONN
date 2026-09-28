@@ -51,8 +51,11 @@ export const TrustCredibility: React.FC = () => {
             Trust &amp; Validation
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Industry Standards &amp; Certified Frameworks
+            Industry Standards &amp; Governance Frameworks
           </h2>
+          <p className="text-xs text-slate-500 dark:text-stone-400 mt-2 font-mono">
+            Frameworks and regulatory mandates we consult on, implement, and audit
+          </p>
         </div>
 
         {/* 3D Framework Badges */}
@@ -73,7 +76,7 @@ export const TrustCredibility: React.FC = () => {
           <div className="text-center mb-8">
             <span className="text-xs uppercase text-slate-600 dark:text-stone-400 tracking-widest font-bold flex items-center justify-center gap-2">
               <Award size={16} className="text-orange-500 dark:text-orange-400" />
-              Supported Tooling &amp; Audited Cloud Ecosystems
+              Supported Tooling &amp; Audited Security Ecosystems
             </span>
           </div>
 
@@ -93,7 +96,10 @@ export const TrustCredibility: React.FC = () => {
         {/* 3D Testimonial Cards */}
         <div>
           <div className="text-center mb-10">
-            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Enterprise Case Studies &amp; Outcomes</h3>
+            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Representative Architecture Engagements</h3>
+            <p className="text-xs text-slate-500 dark:text-stone-400 mt-1 font-mono">
+              Illustrative transformations and security engineering outcomes
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -114,6 +120,11 @@ export const TrustCredibility: React.FC = () => {
               </TiltCard3D>
             ))}
           </div>
+        </div>
+
+        {/* Mandatory Legal & Trademark Attribution Disclaimer */}
+        <div className="mt-16 text-center max-w-4xl mx-auto p-4 rounded-2xl bg-slate-100/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80 text-[10px] text-slate-500 dark:text-stone-400 leading-relaxed font-sans">
+          <strong>Notice &amp; Trademark Attribution:</strong> All third-party trademarks, logos, and service marks (including AWS, Microsoft Azure, Google Cloud, CrowdStrike, Splunk, Tenable, ISO, SOC 2, NIST, and HIPAA) are the intellectual property of their respective owners. Mention of these platforms and frameworks indicates technology stacks and regulatory standards supported, audited, or hardened during cybersecurity consulting scopes, and does not represent official partnership, sponsorship, or endorsement.
         </div>
 
       </div>

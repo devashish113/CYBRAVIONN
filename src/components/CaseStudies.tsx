@@ -68,10 +68,10 @@ export const CaseStudies: React.FC = () => {
             Proven Transformations
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Enterprise Case Studies
+            Representative Enterprise Engagements
           </h2>
           <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light mx-auto">
-            Explore how we partnered with global technology companies to solve mission-critical security challenges and achieve rapid compliance.
+            Explore architectural blueprints and technical transformations solving mission-critical security challenges and achieving rapid compliance.
           </p>
         </div>
 

@@ -148,36 +148,48 @@ export const TrainingPage = () => {
     }
   ];
 
-  const videos = [
+  const curriculumTracks = [
     { 
-      id: "KiEptGbnEBc", 
-      title: "CompTIA Security+ Full Course", 
-      desc: "The industry-standard SY0-701 certification course by Professor Messer, covering foundational security principles and network defense." 
+      tag: "TRACK 01", 
+      title: "Zero Trust & Cloud Security Architecture", 
+      desc: "Deep-dive into multi-cloud security architecture, IAM least-privilege, micro-segmentation, and continuous verification protocols.",
+      duration: "40 Hours Intensive",
+      badge: "Architecture"
     },
     { 
-      id: "3Kq1MIfTWCE", 
-      title: "Full Ethical Hacking Masterclass", 
-      desc: "A comprehensive 15-hour network penetration testing course from freeCodeCamp, covering everything from scanning to exploitation." 
+      tag: "TRACK 02", 
+      title: "Practical VAPT & Offensive Simulation", 
+      desc: "Hands-on penetration testing methodologies, API security auditing, container escapes, and red team adversary emulation labs.",
+      duration: "45 Hours Hands-on",
+      badge: "Offensive Ops"
     },
     { 
-      id: "_nyZhYnCNLA", 
-      title: "CISSP Exam Cram Full Course", 
-      desc: "A professional 8-hour masterclass by Pete Zerger covering the latest 2024-2026 CISSP domains for senior security leadership." 
+      tag: "TRACK 03", 
+      title: "SOC Triage, SIEM & Incident Response", 
+      desc: "Real-time threat hunting, log telemetry correlation, playbook automation, and containment strategies for modern SOC teams.",
+      duration: "35 Hours Live Labs",
+      badge: "Blue Team"
     },
     { 
-      id: "EC_bKHXGmYs", 
-      title: "Ethical Hacking (CEH) Full Course", 
-      desc: "A 10-hour intensive workshop by Simplilearn on offensive security, covering the latest CEH v12 methodologies and tools." 
+      tag: "TRACK 04", 
+      title: "ISO 27001:2022 & DPDP Act Compliance", 
+      desc: "End-to-end audit readiness, ISMS implementation, data principal workflow controls, and board-level risk reporting.",
+      duration: "25 Hours Executive",
+      badge: "GRC"
     },
     { 
-      id: "uQdzcIf_KII", 
-      title: "AWS Security Masterclass", 
-      desc: "Master cloud security with this 11-hour Simplilearn course focused on identity management, VPC security, and cloud compliance." 
+      tag: "TRACK 05", 
+      title: "Sovereign AI & LLM Security Defense", 
+      desc: "Securing enterprise AI pipelines against prompt injection, model poisoning, data exfiltration, and air-gapped model inference.",
+      duration: "30 Hours Advanced",
+      badge: "AI Defense"
     },
     { 
-      id: "qiQR5rTSshw", 
-      title: "Network Security Training", 
-      desc: "A comprehensive 9-hour computer networking and security foundation course from freeCodeCamp, ideal for all security professionals." 
+      tag: "TRACK 06", 
+      title: "Crisis Tabletop & Executive Cyber Resilience", 
+      desc: "Scenario-based cyber crisis simulations for C-level leadership, legal counsel, and technical incident commanders.",
+      duration: "16 Hours Immersion",
+      badge: "Leadership"
     }
   ];
 
@@ -334,53 +346,72 @@ export const TrainingPage = () => {
           </div>
         </section>
 
-        {/* Video Section */}
+        {/* Curriculum Tracks Section */}
         <section className="py-24 bg-slate-50 dark:bg-stone-900/20 border-y border-slate-200/80 dark:border-white/5 relative">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="text-xs uppercase tracking-[0.4em] text-orange-600 dark:text-orange-500 font-bold mb-4 block underline underline-offset-8 decoration-blue-500/50">Educational Series</span>
-              <h2 className="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white">Learn Cybersecurity in Action.</h2>
+              <span className="text-xs uppercase tracking-[0.4em] text-orange-600 dark:text-orange-500 font-bold mb-4 block underline underline-offset-8 decoration-blue-500/50">Modular Syllabus</span>
+              <h2 className="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white">Enterprise Curriculum Tracks.</h2>
+              <p className="mt-4 text-slate-600 dark:text-stone-400 max-w-2xl mx-auto text-sm md:text-base">
+                Hands-on simulation environments and role-tailored technical pathways designed for enterprise teams and defense engineers.
+              </p>
             </div>
             
-            <div className="relative">
-              <div className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory scrollbar-hide no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {videos.map((vid, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.02 }}
-                    className="min-w-[300px] md:min-w-[400px] bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-lg dark:shadow-2xl group snap-center"
-                  >
-                    <div className="aspect-video relative bg-stone-950">
-                      <iframe
-                        src={`https://www.youtube.com/embed/${vid.id}?modestbranding=1&rel=0`}
-                        title={vid.title}
-                        loading="lazy"
-                        className="w-full h-full border-0 grayscale-[40%] group-hover:grayscale-0 transition-all duration-500"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {curriculumTracks.map((track, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -4 }}
+                  className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl dark:hover:border-orange-500/30 transition-all duration-300 group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 bg-orange-500/10 px-2.5 py-1 rounded-md border border-orange-500/20">
+                        {track.tag}
+                      </span>
+                      <span className="text-[11px] font-medium text-slate-500 dark:text-stone-400 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-full border border-slate-200 dark:border-white/10">
+                        {track.badge}
+                      </span>
                     </div>
-                    <div className="p-6">
-                      <h4 className="text-xl font-bold mb-3 flex items-center gap-2 text-slate-900 dark:text-white">
-                        <Play className="w-5 h-5 text-orange-500 fill-orange-500/20" />
-                        {vid.title}
-                      </h4>
-                      <p className="text-slate-600 dark:text-stone-400 text-base font-light italic leading-relaxed">{vid.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-              
-              {/* Subtle Scroll Indicators */}
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
-                {videos.map((_, i) => (
-                  <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-white/20" />
-                ))}
-              </div>
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                      {track.title}
+                    </h4>
+                    <p className="text-slate-600 dark:text-stone-400 text-sm leading-relaxed mb-6 font-light">
+                      {track.desc}
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs text-slate-500 dark:text-stone-400 font-medium">
+                    <span className="flex items-center gap-1.5">
+                      <Zap className="w-3.5 h-3.5 text-blue-500" />
+                      {track.duration}
+                    </span>
+                    <button 
+                      onClick={() => setSelectedProgram({
+                        title: track.title,
+                        boldOutcome: `${track.tag} • ${track.badge}`,
+                        outcome: track.desc,
+                        topics: [
+                          "Architecture & Threat Modeling",
+                          "Hands-on Simulation Lab Exercises",
+                          "Defense Hardening & Detection Rules",
+                          "Post-Assessment & Certification of Mastery"
+                        ],
+                        audience: "Security engineers, IT architects, SOC analysts, and technical leads.",
+                        duration: track.duration,
+                        mode: "Hands-on Cyber Lab / Enterprise Hybrid",
+                        color: "orange"
+                      })}
+                      className="text-orange-600 dark:text-orange-400 font-semibold group-hover:translate-x-0.5 transition-transform flex items-center gap-1 cursor-pointer"
+                    >
+                      View Syllabus &rarr;
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>

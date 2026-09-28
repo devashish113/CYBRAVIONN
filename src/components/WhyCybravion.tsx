@@ -144,21 +144,21 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
           </div>
 
           <div className="p-4 rounded-2xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 text-center shadow-sm">
-            <div className="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider mb-1">Certified Frameworks</div>
+            <div className="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider mb-1">Compliance Frameworks</div>
             <div className="text-sm font-bold text-slate-900 dark:text-white">ISO 27001 &bull; SOC 2 &bull; NIST</div>
-            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">DPDP Act &bull; GDPR &bull; HIPAA</div>
+            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">DPDP Act &bull; GDPR &bull; HIPAA Alignment</div>
           </div>
 
           <div className="p-4 rounded-2xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 text-center shadow-sm">
-            <div className="text-xs font-mono font-bold text-orange-500 uppercase tracking-wider mb-1">Defense Scale</div>
-            <div className="text-sm font-bold text-slate-900 dark:text-white">100+ Enterprise Assets</div>
-            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Zero-Trust Cloud &amp; Air-Gapped AI</div>
+            <div className="text-xs font-mono font-bold text-orange-500 uppercase tracking-wider mb-1">Architecture Scale</div>
+            <div className="text-sm font-bold text-slate-900 dark:text-white">Enterprise Cloud &amp; AI</div>
+            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Zero-Trust IAM &amp; Micro-Segmentation</div>
           </div>
 
           <div className="p-4 rounded-2xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 text-center shadow-sm">
-            <div className="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider mb-1">Sovereign Footprint</div>
-            <div className="text-sm font-bold text-slate-900 dark:text-white">Multi-Region Reach</div>
-            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">India, Middle East, EU &amp; US</div>
+            <div className="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider mb-1">Jurisdictional Reach</div>
+            <div className="text-sm font-bold text-slate-900 dark:text-white">Global Regulatory Align</div>
+            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">India, Middle East, EU &amp; US Mandates</div>
           </div>
         </div>
 
@@ -201,7 +201,7 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
                 Proven Track Record
               </span>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                Selected Client Engagements
+                Representative Architecture Engagements
               </h3>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -252,7 +252,7 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
                     </div>
 
                     <div className="text-[10px] text-slate-500 dark:text-stone-400 font-mono">
-                      &bull; Outcome Verified &bull; {cs.role}
+                      &bull; Architecture Scope &bull; {cs.role}
                     </div>
                   </div>
                 </TiltCard3D>

@@ -242,12 +242,12 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
     },
   ];
 
-  const colleges = [
-    { name: 'IIT Bombay Guild', rank: '#1', points: '142,800 XP', streak: '🔥 48 Days', crest: '🏛️' },
-    { name: 'BITS Pilani Cypher Clan', rank: '#2', points: '138,450 XP', streak: '🔥 42 Days', crest: '⚡' },
-    { name: 'IIT Delhi Root Squad', rank: '#3', points: '131,200 XP', streak: '🔥 39 Days', crest: '🛡️' },
-    { name: 'NIT Trichy CyberGuard', rank: '#4', points: '124,600 XP', streak: '🔥 31 Days', crest: '🎯' },
-    { name: 'IIIT Hyderabad Hackers', rank: '#5', points: '119,800 XP', streak: '🔥 28 Days', crest: '💻' },
+  const guildLeaderboard = [
+    { name: 'Apex Defense Syndicate', rank: '#1', points: '142,800 XP', streak: '🔥 48 Days', crest: '🏛️' },
+    { name: 'Cipher Vanguard Clan', rank: '#2', points: '138,450 XP', streak: '🔥 42 Days', crest: '⚡' },
+    { name: 'Delta Root Division', rank: '#3', points: '131,200 XP', streak: '🔥 39 Days', crest: '🛡️' },
+    { name: 'Shadow Guard Unit', rank: '#4', points: '124,600 XP', streak: '🔥 31 Days', crest: '🎯' },
+    { name: 'Zero-Day Breakers', rank: '#5', points: '119,800 XP', streak: '🔥 28 Days', crest: '💻' },
   ];
 
   return (
@@ -256,7 +256,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
         <title>Cybravions CyberRange | Gamified Story-Driven CyberSec &amp; AI RPG Platform</title>
         <meta 
           name="description" 
-          content="The world's first story-driven CyberSec and AI/ML learning battleground. In-browser Kali sandboxes, 10 Guilds, CTF Boss Fights, and Inter-College Leagues." 
+          content="The world's first story-driven CyberSec and AI/ML learning battleground. In-browser Kali sandboxes, 10 Guilds, CTF Boss Fights, and Seasonal Guild Leagues." 
         />
         <meta name="keywords" content="CyberSec RPG, gamified cybersecurity, CTF learning, AI ML gamification, ethical hacking game, Cybravions CyberRange" />
         <link rel="canonical" href="https://cybravions.com/#cyberrange" />
@@ -761,21 +761,21 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
       </section>
 
       {/* ========================================================================= */}
-      {/* 5. INTER-COLLEGE GUILD LEAGUES & VERIFIED CERTIFICATES */}
+      {/* 5. SEASONAL GUILD LEAGUES & VERIFIED CERTIFICATES */}
       {/* ========================================================================= */}
       <section className="py-20 md:py-28 px-6 md:px-12 max-w-6xl mx-auto border-b border-slate-200/80 dark:border-stone-800">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: College Rivalry & Guild Leaderboards */}
+          {/* Left Column: Guild Rivalry & Leaderboards */}
           <div className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 text-xs uppercase tracking-widest font-bold">
               <Trophy size={14} />
-              <span>Inter-College Seasonal Battlegrounds</span>
+              <span>Seasonal Guild Battlegrounds</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Guild Rivalries &amp; <span className="bg-gradient-to-r from-blue-600 to-orange-500 dark:from-sky-400 dark:to-orange-400 bg-clip-text text-transparent">College Glory</span>
+              Guild Rivalries &amp; <span className="bg-gradient-to-r from-blue-600 to-orange-500 dark:from-sky-400 dark:to-orange-400 bg-clip-text text-transparent">Tactical Glory</span>
             </h2>
             <p className="text-slate-600 dark:text-stone-300 text-sm md:text-base font-light leading-relaxed">
-              Form guilds with your campus peers. Compete in monthly seasonal King-of-the-Hill CTFs against top engineering colleges across India. Climb the national leaderboard and unlock exclusive recruiter visibility.
+              Form guilds with your peers and technical teammates. Compete in monthly seasonal King-of-the-Hill CTFs, climb the global leaderboard, and demonstrate verified hands-on security proficiency.
             </p>
 
             <div className="p-4 rounded-2xl bg-black/60 border border-stone-800 space-y-3">
@@ -783,7 +783,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
                 <span>🔥 Season 4 Live Standings</span>
                 <span className="text-orange-400">Ends in 8 Days</span>
               </div>
-              {colleges.map((c, ci) => (
+              {guildLeaderboard.map((c, ci) => (
                 <div key={ci} className="flex items-center justify-between p-2.5 rounded-xl bg-stone-900/80 border border-stone-800 text-xs">
                   <div className="flex items-center gap-2.5">
                     <span className="font-bold text-orange-400">{c.rank}</span>
@@ -811,7 +811,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               Industry-Recognized Career Credentials
             </h3>
             <p className="text-xs text-stone-300 font-light leading-relaxed mb-6">
-              Every solved capstone box generates a cryptographically verifiable proof-of-skill badge and resume certificate validated by Cybravions enterprise security partners.
+              Every solved capstone box generates a cryptographically verifiable proof-of-skill badge and resume certificate demonstrating practical defense scenario mastery.
             </p>
 
             <div className="space-y-3 text-xs font-mono text-stone-300 mb-8">
@@ -825,7 +825,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={14} className="text-green-400 shrink-0" />
-                <span>Recognized by top IT, FinTech &amp; defense security recruiters</span>
+                <span>Verified practical proof-of-work recognized in technical evaluations</span>
               </div>
             </div>
 

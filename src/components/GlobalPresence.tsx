@@ -5,44 +5,39 @@ import { cyberAudio } from '../utils/cyberAudio';
 interface RegionData {
   id: string;
   region: string;
-  hubCities: string[];
+  keyMarkets: string[];
   frameworks: string[];
   specialty: string;
-  activeClientsCount: string;
 }
 
 const regions: RegionData[] = [
   {
     id: "north-america",
     region: "North America (US & Canada)",
-    hubCities: ["Silicon Valley", "New York", "Toronto"],
+    keyMarkets: ["United States", "Canada", "Cross-Border FinTech"],
     frameworks: ["SOC 2 Type II", "NIST CSF 2.0", "HIPAA / HITECH", "FedRAMP Readiness"],
-    specialty: "Fintech payment rails, SaaS multi-cloud DevSecOps, and enterprise AI model safety governance.",
-    activeClientsCount: "12+ Enterprise Clients"
+    specialty: "Fintech payment rails, SaaS multi-cloud DevSecOps, and enterprise AI model safety governance."
   },
   {
     id: "emea",
     region: "Europe & United Kingdom",
-    hubCities: ["London", "Frankfurt", "Dublin"],
+    keyMarkets: ["European Union", "United Kingdom", "Cross-Border Data"],
     frameworks: ["ISO/IEC 27001", "EU AI Act Compliance", "GDPR / Data Privacy", "NIS2 Directives"],
-    specialty: "Sovereign AI air-gapped deployments, cross-border data protection, and critical infrastructure hardening.",
-    activeClientsCount: "10+ Enterprise Clients"
+    specialty: "Sovereign AI air-gapped deployments, cross-border data protection, and critical infrastructure hardening."
   },
   {
     id: "apac",
     region: "Asia-Pacific & India",
-    hubCities: ["Singapore", "Bangalore", "Sydney"],
+    keyMarkets: ["India (DPDP)", "Singapore (MAS)", "Australia"],
     frameworks: ["DPDP Act 2023", "CERT-In Cyber Mandate", "ISO 27001", "MAS TRM Guidelines"],
-    specialty: "Rapid startup SOC 2 certification, high-frequency banking VAPT, and sovereign defense advisory.",
-    activeClientsCount: "15+ Enterprise Clients"
+    specialty: "Rapid startup SOC 2 certification, high-frequency banking VAPT, and sovereign defense advisory."
   },
   {
     id: "middle-east",
     region: "Middle East & Gulf (GCC)",
-    hubCities: ["Dubai", "Abu Dhabi", "Riyadh"],
+    keyMarkets: ["UAE (NESA)", "Saudi Arabia (NCA)", "GCC Banking"],
     frameworks: ["UAE NESA", "Saudi NCA ECC", "ISO 27001", "PCI-DSS v4.0"],
-    specialty: "Critical energy infrastructure, smart city zero-trust perimeters, and financial institution defense.",
-    activeClientsCount: "8+ Enterprise Clients"
+    specialty: "Critical energy infrastructure, smart city zero-trust perimeters, and financial institution defense."
   }
 ];
 
@@ -115,7 +110,7 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
           <div className="lg:col-span-7 space-y-5">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-mono font-semibold uppercase tracking-wider">
               <Globe size={13} />
-              <span>Active Coverage Region</span>
+              <span>Jurisdictional Compliance Scope</span>
             </div>
 
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -127,10 +122,10 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
             </p>
 
             <div className="flex flex-wrap gap-2 pt-2">
-              {selectedRegion.hubCities.map((city) => (
-                <span key={city} className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-stone-800 text-xs font-mono text-slate-800 dark:text-stone-300 border border-slate-200 dark:border-stone-700 flex items-center gap-1.5">
+              {selectedRegion.keyMarkets.map((market) => (
+                <span key={market} className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-stone-800 text-xs font-mono text-slate-800 dark:text-stone-300 border border-slate-200 dark:border-stone-700 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                  {city}
+                  {market}
                 </span>
               ))}
             </div>

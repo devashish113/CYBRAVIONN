@@ -657,8 +657,8 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({ onOpenConsultati
             },
             {
               icon: <ShieldAlert className="w-6 h-6 text-rose-600 dark:text-rose-400" />,
-              title: "Zero Data Leakage Guarantee",
-              desc: "Hardware-enforced network boundaries guaranteeing that zero classified information leaves your perimeter."
+              title: "Air-Gapped Isolation Architecture",
+              desc: "Hardware-enforced network boundaries engineered to ensure classified information remains strictly inside your physical perimeter."
             },
             {
               icon: <HardDrive className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />,
@@ -692,18 +692,18 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({ onOpenConsultati
               OPERATIONAL IMPACT
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Real-World Use Cases
+              Operational Scenarios &amp; Use Cases
             </h2>
             <p className="text-slate-600 dark:text-stone-300 text-base md:text-lg mt-3 max-w-2xl mx-auto">
-              Trusted for high-stakes missions where cloud connectivity is either forbidden or physically impossible.
+              Architected for high-consequence operational environments where cloud connectivity is restricted, regulated, or physically air-gapped.
             </p>
 
             {/* Sector Tabs */}
             <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
               {[
-                { id: 'defense', label: 'Defense & Intelligence Agencies', icon: <Radar className="w-4 h-4" /> },
-                { id: 'police', label: 'Police & Law Enforcement', icon: <Shield className="w-4 h-4" /> },
-                { id: 'infra', label: 'Federal & Critical Infrastructure', icon: <Building className="w-4 h-4" /> },
+                { id: 'defense', label: 'Defense & Strategic Intelligence', icon: <Radar className="w-4 h-4" /> },
+                { id: 'police', label: 'Public Safety & Law Enforcement', icon: <Shield className="w-4 h-4" /> },
+                { id: 'infra', label: 'Critical National Infrastructure', icon: <Building className="w-4 h-4" /> },
               ].map((tab) => (
                 <button
                   key={tab.id}
