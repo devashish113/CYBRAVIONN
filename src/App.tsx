@@ -191,39 +191,40 @@ const Navbar: React.FC<NavbarProps> = ({
                 <ChevronDown size={14} className={`transition-transform duration-300 ${isProductsOpen ? 'rotate-180 text-blue-400' : ''}`} />
               </button>
 
-              {/* Products Dropdown Mega-Menu (Horizontal 2-Column Grid) */}
+              {/* Products Dropdown Mega-Menu */}
               <AnimatePresence>
                 {isProductsOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    style={{ backgroundColor: isDarkMode ? '#070a14' : '#ffffff' }}
-                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[620px] rounded-2xl p-4 z-[999] overflow-hidden ${
+                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[680px] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
                       isDarkMode 
-                        ? 'bg-[#070a14]/98 border border-blue-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(37,99,235,0.15)] text-white backdrop-blur-2xl' 
-                        : 'bg-white border border-blue-500/25 shadow-[0_25px_60px_rgba(0,0,0,0.15),0_0_30px_rgba(37,99,235,0.08)] text-slate-900'
+                        ? 'bg-stone-950/95 border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.85),0_0_30px_rgba(59,130,246,0.1)] text-white backdrop-blur-2xl' 
+                        : 'bg-white/98 border border-slate-200/90 shadow-[0_25px_60px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.05)] text-slate-900 backdrop-blur-2xl'
                     }`}
                   >
-                    {/* Atmospheric glow */}
-                    <div className="absolute -top-12 -left-12 w-44 h-44 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute -bottom-12 -right-12 w-44 h-44 bg-orange-500/15 rounded-full blur-3xl pointer-events-none" />
+                    {/* Ambient subtle backdrop glows */}
+                    <div className="absolute -top-16 -left-16 w-52 h-52 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute -bottom-16 -right-16 w-52 h-52 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
 
-                    <div className="relative z-10 space-y-3">
+                    <div className="relative z-10 space-y-4">
                       {/* Top Header Row */}
-                      <div className="flex items-center justify-between px-1 pb-1 border-b border-slate-200/80 dark:border-stone-800/80">
-                        <span className="text-[10px] uppercase tracking-[0.25em] text-blue-600 dark:text-blue-400 font-bold flex items-center gap-1.5">
-                          <Sparkles size={11} className="text-orange-500" />
-                          Sovereign Platforms &amp; Security Engines
-                        </span>
-                        <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                      <div className="flex items-center justify-between px-1 pb-2.5 border-b border-slate-100 dark:border-white/5">
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                          <span className="text-[11px] uppercase tracking-[0.2em] font-mono font-bold text-slate-500 dark:text-stone-400">
+                            Proprietary Platforms &amp; Security Engines
+                          </span>
+                        </div>
+                        <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-stone-300 border border-slate-200/60 dark:border-white/10">
                           4 Products
                         </span>
                       </div>
 
-                      {/* 2x2 Grid Layout */}
-                      <div className="grid grid-cols-2 gap-2.5">
+                      {/* 2x2 Seamless Interactive Grid */}
+                      <div className="grid grid-cols-2 gap-2">
                         {/* Product 1: Cybravions CyberRange */}
                         <button
                           onClick={() => {
@@ -231,42 +232,31 @@ const Navbar: React.FC<NavbarProps> = ({
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3 rounded-xl border transition-all duration-300 group cursor-pointer flex flex-col justify-between ${
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
                             currentView === 'cyberverse'
                               ? isDarkMode
-                                ? 'bg-orange-950/40 border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.15)]'
-                                : 'bg-orange-50 border-orange-300 shadow-sm'
-                              : isDarkMode
-                              ? 'bg-white/[0.02] hover:bg-orange-950/25 border-stone-800/90 hover:border-orange-500/40'
-                              : 'bg-slate-50/80 hover:bg-orange-50/70 border-slate-200/80 hover:border-orange-300'
+                                ? 'bg-white/[0.06] border-orange-500/40 shadow-sm'
+                                : 'bg-slate-50 border-orange-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
                           }`}
                         >
-                          <div>
-                            <div className="flex items-center justify-between gap-1 mb-1.5">
-                              <div className="flex items-center gap-2">
-                                <div className="p-1.5 rounded-lg bg-orange-500/15 text-orange-400 border border-orange-500/25 group-hover:scale-105 transition-transform">
-                                  <Gamepad2 size={15} />
-                                </div>
-                                <span className={`text-xs font-bold transition-colors ${
-                                  isDarkMode ? 'text-stone-100 group-hover:text-orange-300' : 'text-slate-900 group-hover:text-orange-600'
-                                }`}>
-                                  CyberRange
-                                </span>
-                              </div>
-                              <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30 shrink-0">
-                                GAMIFIED RPG
+                          <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-orange-500/20 transition-all duration-200">
+                            <Gamepad2 size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
+                                CyberRange
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
+                                Gamified RPG
                               </span>
                             </div>
-                            <p className={`text-[11px] font-light leading-snug line-clamp-2 ${
-                              isDarkMode ? 'text-stone-400' : 'text-slate-600'
-                            }`}>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
                               Story-driven CyberSec &amp; AI arena with Kali labs, 10 Guilds &amp; CTF leagues.
                             </p>
                           </div>
-                          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-orange-500 font-semibold group-hover:text-orange-400 transition-colors mt-2.5">
-                            <span>Enter RPG Battleground</span>
-                            <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
-                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-orange-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
                         </button>
 
                         {/* Product 2: Cybravions AI */}
@@ -276,42 +266,31 @@ const Navbar: React.FC<NavbarProps> = ({
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3 rounded-xl border transition-all duration-300 group cursor-pointer flex flex-col justify-between ${
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
                             currentView === 'ai'
                               ? isDarkMode
-                                ? 'bg-blue-950/40 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
-                                : 'bg-blue-50 border-blue-300 shadow-sm'
-                              : isDarkMode
-                              ? 'bg-white/[0.02] hover:bg-blue-950/25 border-stone-800/90 hover:border-blue-500/40'
-                              : 'bg-slate-50/80 hover:bg-blue-50/70 border-slate-200/80 hover:border-blue-300'
+                                ? 'bg-white/[0.06] border-blue-500/40 shadow-sm'
+                                : 'bg-slate-50 border-blue-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
                           }`}
                         >
-                          <div>
-                            <div className="flex items-center justify-between gap-1 mb-1.5">
-                              <div className="flex items-center gap-2">
-                                <div className="p-1.5 rounded-lg bg-blue-500/15 text-blue-400 border border-blue-500/25 group-hover:scale-105 transition-transform">
-                                  <Brain size={15} />
-                                </div>
-                                <span className={`text-xs font-bold transition-colors ${
-                                  isDarkMode ? 'text-stone-100 group-hover:text-blue-300' : 'text-slate-900 group-hover:text-blue-600'
-                                }`}>
-                                  Cybravions AI
-                                </span>
-                              </div>
-                              <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 shrink-0">
-                                SOVEREIGN
+                          <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all duration-200">
+                            <Brain size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
+                                Cybravions AI
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shrink-0">
+                                Sovereign
                               </span>
                             </div>
-                            <p className={`text-[11px] font-light leading-snug line-clamp-2 ${
-                              isDarkMode ? 'text-stone-400' : 'text-slate-600'
-                            }`}>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
                               Air-gapped offline agentic AI in-a-box for defense &amp; critical infrastructure.
                             </p>
                           </div>
-                          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-blue-500 font-semibold group-hover:text-blue-400 transition-colors mt-2.5">
-                            <span>Explore Sovereign Appliance</span>
-                            <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
-                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
                         </button>
 
                         {/* Product 3: AI Exception Manager */}
@@ -321,42 +300,31 @@ const Navbar: React.FC<NavbarProps> = ({
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3 rounded-xl border transition-all duration-300 group cursor-pointer flex flex-col justify-between ${
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
                             currentView === 'exception-manager'
                               ? isDarkMode
-                                ? 'bg-amber-950/40 border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
-                                : 'bg-amber-50 border-amber-300 shadow-sm'
-                              : isDarkMode
-                              ? 'bg-white/[0.02] hover:bg-amber-950/25 border-stone-800/90 hover:border-amber-500/40'
-                              : 'bg-slate-50/80 hover:bg-amber-50/70 border-slate-200/80 hover:border-amber-300'
+                                ? 'bg-white/[0.06] border-amber-500/40 shadow-sm'
+                                : 'bg-slate-50 border-amber-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
                           }`}
                         >
-                          <div>
-                            <div className="flex items-center justify-between gap-1 mb-1.5">
-                              <div className="flex items-center gap-2">
-                                <div className="p-1.5 rounded-lg bg-amber-500/15 text-amber-400 border border-amber-500/25 group-hover:scale-105 transition-transform">
-                                  <ShieldCheck size={15} />
-                                </div>
-                                <span className={`text-xs font-bold transition-colors ${
-                                  isDarkMode ? 'text-stone-100 group-hover:text-amber-300' : 'text-slate-900 group-hover:text-amber-600'
-                                }`}>
-                                  Exception Manager
-                                </span>
-                              </div>
-                              <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 shrink-0">
-                                AI GOVERNANCE
+                          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 border border-amber-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-amber-500/20 transition-all duration-200">
+                            <ShieldCheck size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
+                                Exception Manager
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shrink-0">
+                                AI Governance
                               </span>
                             </div>
-                            <p className={`text-[11px] font-light leading-snug line-clamp-2 ${
-                              isDarkMode ? 'text-stone-400' : 'text-slate-600'
-                            }`}>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
                               Automated cyber risk assessment, threat scoring &amp; governance workflows.
                             </p>
                           </div>
-                          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-amber-500 font-semibold group-hover:text-amber-400 transition-colors mt-2.5">
-                            <span>Explore Risk Engine</span>
-                            <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
-                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-amber-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
                         </button>
 
                         {/* Product 4: 3D Threat Radar */}
@@ -366,45 +334,32 @@ const Navbar: React.FC<NavbarProps> = ({
                             handleNavClick(e, '#radar');
                             setIsProductsOpen(false);
                           }}
-                          className={`p-3 rounded-xl border transition-all duration-300 group flex flex-col justify-between ${
-                            isDarkMode
-                              ? 'bg-white/[0.02] hover:bg-white/[0.06] border-stone-800/90 hover:border-cyan-500/40'
-                              : 'bg-slate-50/80 hover:bg-cyan-50/60 border-slate-200/80 hover:border-cyan-300'
-                          }`}
+                          className="text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5"
                         >
-                          <div>
-                            <div className="flex items-center justify-between gap-1 mb-1.5">
-                              <div className="flex items-center gap-2">
-                                <div className="p-1.5 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/25 group-hover:scale-105 transition-transform">
-                                  <Radar size={15} />
-                                </div>
-                                <span className={`text-xs font-bold transition-colors ${
-                                  isDarkMode ? 'text-stone-100 group-hover:text-cyan-300' : 'text-slate-900 group-hover:text-cyan-600'
-                                }`}>
-                                  3D Threat Radar
-                                </span>
-                              </div>
-                              <span className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 shrink-0">
-                                3D LIVE
+                          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-cyan-500/20 transition-all duration-200">
+                            <Radar size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">
+                                3D Threat Radar
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 shrink-0">
+                                3D Live
                               </span>
                             </div>
-                            <p className={`text-[11px] font-light leading-snug line-clamp-2 ${
-                              isDarkMode ? 'text-stone-400' : 'text-slate-600'
-                            }`}>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
                               Simulate red-team attacks and inspect real-time packet telemetry.
                             </p>
                           </div>
-                          <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-cyan-500 font-semibold group-hover:text-cyan-400 transition-colors mt-2.5">
-                            <span>Open 3D Simulator</span>
-                            <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
-                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-cyan-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
                         </a>
                       </div>
 
-                      {/* Bottom Quick-Action Bar */}
-                      <div className="pt-2 px-1 border-t border-slate-200/70 dark:border-stone-800/70 flex items-center justify-between text-[11px]">
-                        <span className={`font-light ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
-                          Looking for custom air-gapped deployments?
+                      {/* Bottom Footer Bar */}
+                      <div className="pt-3 px-3 pb-1 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs">
+                        <span className="text-slate-500 dark:text-stone-400 text-[11px]">
+                          Looking for custom air-gapped sovereign deployments?
                         </span>
                         <a
                           href="#contact"
@@ -412,10 +367,10 @@ const Navbar: React.FC<NavbarProps> = ({
                             handleNavClick(e, '#contact');
                             setIsProductsOpen(false);
                           }}
-                          className="font-semibold text-orange-500 hover:text-orange-400 flex items-center gap-1 transition-colors"
+                          className="font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-500 flex items-center gap-1 transition-colors text-[11px]"
                         >
                           <span>Consult Architect</span>
-                          <ArrowRight size={11} />
+                          <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
                         </a>
                       </div>
                     </div>
