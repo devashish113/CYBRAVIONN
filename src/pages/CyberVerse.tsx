@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../utils/cyberAudio';
+import { TiltCard3D } from '../components/TiltCard3D';
 
 interface CyberVerseProps {
   onOpenConsultation?: (serviceId?: string) => void;
@@ -55,8 +56,6 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
   const [cryptoDecoded, setCryptoDecoded] = useState<string>('');
 
   const [mlThreshold, setMlThreshold] = useState<number>(65);
-
-  const [selectedGuild, setSelectedGuild] = useState<number>(0);
 
   const handleSqliAttack = () => {
     cyberAudio.playClick();
@@ -656,57 +655,55 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {guilds.map((g, idx) => {
             const IconComp = g.icon;
-            const isSelected = selectedGuild === idx;
+            const isOrange = idx % 2 === 0;
             return (
-              <motion.div
-                key={g.id}
-                whileHover={{ y: -6 }}
-                onClick={() => {
-                  cyberAudio.playClick();
-                  setSelectedGuild(idx);
-                }}
-                className={`p-6 rounded-3xl border transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col justify-between ${
-                  isSelected
-                    ? 'bg-gradient-to-b from-blue-950/60 to-stone-900/90 border-orange-500/60 shadow-[0_10px_30px_rgba(249,115,22,0.2)]'
-                    : isDarkMode
-                    ? 'bg-stone-900/60 hover:bg-stone-900/90 border-stone-800 hover:border-blue-500/40'
-                    : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-blue-400 shadow-sm'
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-orange-500/20 text-orange-400 border border-orange-500/30">
-                      <IconComp size={22} />
-                    </div>
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                      {g.level}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{g.name}</h3>
-                  <p className="text-xs text-slate-600 dark:text-stone-300 font-light leading-relaxed mb-6">
-                    {g.desc}
-                  </p>
-
-                  <div className="p-3 rounded-xl bg-black/40 border border-stone-800 mb-6">
-                    <div className="text-[10px] text-orange-400 uppercase font-mono font-bold tracking-wider mb-1">
-                      👑 Guild Boss Fight:
-                    </div>
-                    <div className="text-xs font-semibold text-stone-200">{g.boss}</div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-[10px] font-mono text-stone-400 uppercase tracking-wider mb-2">Core Competencies:</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {g.skills.map((s, si) => (
-                      <span key={si} className="text-[10px] px-2 py-0.5 rounded-md bg-stone-800/80 text-stone-300 border border-stone-700/50">
-                        {s}
+              <TiltCard3D key={g.id} glowColor={isOrange ? 'orange' : 'blue'}>
+                <div className="flex flex-col h-full justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`p-3 rounded-2xl border transition-all duration-300 group-hover:scale-110 shadow-sm ${
+                        isOrange 
+                          ? 'bg-orange-500/10 text-orange-500 border-orange-500/20 group-hover:border-orange-500/50 group-hover:bg-orange-500/20' 
+                          : 'bg-blue-500/10 text-blue-500 border-blue-500/20 group-hover:border-blue-500/50 group-hover:bg-blue-500/20'
+                      }`}>
+                        <IconComp size={22} />
+                      </div>
+                      <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${
+                        isOrange 
+                          ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' 
+                          : 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+                      }`}>
+                        {g.level}
                       </span>
-                    ))}
+                    </div>
+
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
+                      {g.name}
+                    </h3>
+                    <p className="text-xs text-slate-600 dark:text-stone-300 font-light leading-relaxed mb-6">
+                      {g.desc}
+                    </p>
+
+                    <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 mb-6 group-hover:border-slate-300 dark:group-hover:border-stone-700 transition-colors">
+                      <div className="text-[10px] text-orange-600 dark:text-orange-400 uppercase font-mono font-bold tracking-wider mb-1 flex items-center gap-1.5">
+                        <span>👑</span> Guild Boss Fight:
+                      </div>
+                      <div className="text-xs font-semibold text-slate-800 dark:text-stone-200">{g.boss}</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-[10px] font-mono text-slate-500 dark:text-stone-400 uppercase tracking-wider mb-2">Core Competencies:</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {g.skills.map((s, si) => (
+                        <span key={si} className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 dark:bg-stone-800/80 text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-stone-700/60 font-mono">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </motion.div>
+              </TiltCard3D>
             );
           })}
         </div>
