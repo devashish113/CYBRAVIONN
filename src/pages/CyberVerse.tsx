@@ -256,9 +256,9 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
         <title>Cybravions CyberRange | Gamified Story-Driven CyberSec &amp; AI RPG Platform</title>
         <meta 
           name="description" 
-          content="The world's first story-driven CyberSec and AI/ML learning battleground. Duolingo meets HackTheBox meets RPG. In-browser Kali sandboxes, 10 Guilds, CTF Boss Fights, and Inter-College Leagues." 
+          content="The world's first story-driven CyberSec and AI/ML learning battleground. In-browser Kali sandboxes, 10 Guilds, CTF Boss Fights, and Inter-College Leagues." 
         />
-        <meta name="keywords" content="CyberSec RPG, gamified cybersecurity, CTF learning, AI ML gamification, ethical hacking game, HackTheBox Duolingo, Cybravions CyberRange" />
+        <meta name="keywords" content="CyberSec RPG, gamified cybersecurity, CTF learning, AI ML gamification, ethical hacking game, Cybravions CyberRange" />
         <link rel="canonical" href="https://cybravions.com/#cyberrange" />
       </Helmet>
 
@@ -305,7 +305,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-stone-300 max-w-3xl mx-auto mb-10 font-normal leading-relaxed"
           >
-            <span className="font-semibold text-blue-600 dark:text-blue-400">Duolingo meets HackTheBox meets RPG.</span> Instead of boring lectures, embark on story-driven missions where real offensive security and AI engineering skills are the only way to advance.
+            Instead of boring lectures, embark on story-driven missions where real offensive security and AI engineering skills are the only way to advance.
           </motion.p>
 
           {/* Action CTAs */}
