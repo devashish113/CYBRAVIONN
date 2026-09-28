@@ -56,20 +56,7 @@ export const Hero: React.FC<HeroProps> = ({
       />
 
       {/* Main Focused Hero Content Container */}
-      <div className="relative z-10 w-full px-6 sm:px-12 md:px-16 max-w-5xl mx-auto flex flex-col justify-center items-center text-center">
-        
-        {/* Verification & Trust Badge */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-mono font-semibold border border-blue-500/30 dark:border-blue-500/40 bg-gradient-to-r from-blue-500/10 via-sky-500/5 to-orange-500/10 mb-8 shadow-[0_0_25px_rgba(37,99,235,0.15)] backdrop-blur-md">
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500" />
-          </span>
-          <span className="text-slate-800 dark:text-stone-200">
-            Enterprise Zero-Trust &amp; Sovereign AI Security
-          </span>
-          <span className="text-stone-400 dark:text-stone-600">|</span>
-          <span className="text-orange-600 dark:text-orange-400 font-bold">CIN: U62099DL2026PTC470901</span>
-        </div>
+      <div className="relative z-10 w-full px-6 sm:px-12 md:px-16 max-w-5xl mx-auto flex flex-col justify-center items-center text-center pt-8">
 
         {/* Strong Focused Headline - Instant LCP Paint without Opacity Delay */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] text-slate-900 dark:text-white mb-6 tracking-tight max-w-4xl">
