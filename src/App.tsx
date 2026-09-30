@@ -470,20 +470,6 @@ const Navbar: React.FC<NavbarProps> = ({
                         : 'bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.1)]'
                     }`}
                   >
-                    <button
-                      onClick={() => {
-                        setCurrentView('about');
-                        setIsCompanyOpen(false);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                      className={`block w-full text-left px-3 py-2 text-xs uppercase tracking-wider rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
-                        currentView === 'about'
-                          ? 'text-orange-500 font-bold bg-orange-500/10'
-                          : isDarkMode ? 'text-stone-300 hover:text-white hover:bg-white/5' : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100'
-                      }`}
-                    >
-                      About Us (Profile)
-                    </button>
                     <a
                       href="#faq"
                       onClick={(e) => {
