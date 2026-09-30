@@ -70,6 +70,7 @@ import { ProductsShowcase } from './components/ProductsShowcase';
 import { SecurityModel } from './components/SecurityModel';
 import { TiltCard3D } from './components/TiltCard3D';
 import { cyberAudio } from './utils/cyberAudio';
+import { VisitorCounter } from './components/VisitorCounter';
 
 // Dynamic lazy-loaded 3D scenes & interactive modals (drops initial bundle size drastically)
 const CyberUniverse3D = lazyWithRetry(() => import('./components/CyberUniverse3D').then(m => ({ default: m.CyberUniverse3D })));
@@ -1499,6 +1500,7 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <VisitorCounter isDarkMode={isDarkMode} />
             <a
               href="https://www.mca.gov.in/mcafoportal/companyLLPMasterData.do"
               target="_blank"
