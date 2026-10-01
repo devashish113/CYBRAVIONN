@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Shield, 
@@ -16,6 +16,7 @@ import {
   BarChart3, 
   ChevronRight,
   ChevronDown,
+  Check,
   Menu,
   X,
   MapPin,
@@ -68,6 +69,7 @@ import { SecurityModel } from './components/SecurityModel';
 import { TiltCard3D } from './components/TiltCard3D';
 import { cyberAudio } from './utils/cyberAudio';
 import { VisitorCounter } from './components/VisitorCounter';
+import { DeferredMount } from './components/DeferredMount';
 
 // Dynamic lazy-loaded 3D scenes & interactive modals (drops initial bundle size drastically)
 const CyberUniverse3D = lazyWithRetry(() => import('./components/CyberUniverse3D').then(m => ({ default: m.CyberUniverse3D })));
@@ -1161,6 +1163,29 @@ const WhyChooseUs = () => {
 
 const Contact = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [selectedService, setSelectedService] = useState("Cybersecurity GRC & ISO 27001 / SOC 2");
+  const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
+  const serviceDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (serviceDropdownRef.current && !serviceDropdownRef.current.contains(e.target as Node)) {
+        setIsServiceDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const serviceOptions = [
+    "Cybersecurity GRC & ISO 27001 / SOC 2",
+    "Offensive Security & VAPT Assessment",
+    "Cloud Architecture & DevSecOps Hardening",
+    "AI Risk Governance & LLM Red Teaming",
+    "Dark Web & Threat Intelligence Monitoring",
+    "Zero Trust Architecture & SOC Advisory",
+    "Other"
+  ];
 
   return (
     <section id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-20 relative z-10">
@@ -1278,19 +1303,82 @@ const Contact = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 mb-1.5 font-semibold">Primary Area of Interest</label>
-                    <select
-                      name="service"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 shadow-sm"
+                  <div className="relative" ref={serviceDropdownRef}>
+                    <label className="block text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 mb-1.5 font-semibold">
+                      Primary Area of Interest
+                    </label>
+                    <input type="hidden" name="service" value={selectedService} />
+
+                    {/* Custom Select Trigger Button (Fixes browser native select white popup glitch) */}
+                    <button
+                      type="button"
+                      onClick={() => setIsServiceDropdownOpen(!isServiceDropdownOpen)}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 shadow-sm flex items-center justify-between text-left cursor-pointer transition-colors"
+                      aria-haspopup="listbox"
+                      aria-expanded={isServiceDropdownOpen}
                     >
-                      <option value="GRC & ISO 27001">Cybersecurity GRC &amp; ISO 27001 / SOC 2</option>
-                      <option value="VAPT Testing">Offensive Security &amp; VAPT Assessment</option>
-                      <option value="Cloud Security">Cloud Architecture &amp; DevSecOps Hardening</option>
-                      <option value="AI Governance">AI Risk Governance &amp; LLM Red Teaming</option>
-                      <option value="Threat Intelligence">Dark Web &amp; Threat Intelligence Monitoring</option>
-                      <option value="Security Architecture">Zero Trust Architecture &amp; SOC Advisory</option>
-                    </select>
+                      <span className="truncate">{selectedService}</span>
+                      <ChevronDown
+                        size={16}
+                        className={`text-slate-400 dark:text-stone-500 transition-transform duration-200 shrink-0 ml-2 ${
+                          isServiceDropdownOpen ? 'rotate-180 text-blue-500' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {/* Custom Dropdown Listbox */}
+                    <AnimatePresence>
+                      {isServiceDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -4, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl p-1.5 bg-white dark:bg-stone-900 border border-slate-200 dark:border-stone-800 shadow-2xl dark:shadow-[0_15px_40px_rgba(0,0,0,0.85)] max-h-64 overflow-y-auto"
+                          role="listbox"
+                        >
+                          {serviceOptions.map((opt) => (
+                            <button
+                              key={opt}
+                              type="button"
+                              onClick={() => {
+                                setSelectedService(opt);
+                                setIsServiceDropdownOpen(false);
+                              }}
+                              className={`w-full text-left px-3.5 py-2.5 text-xs sm:text-sm rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
+                                selectedService === opt
+                                  ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
+                                  : 'text-slate-700 dark:text-stone-300 hover:bg-slate-100 dark:hover:bg-stone-800/80'
+                              }`}
+                              role="option"
+                              aria-selected={selectedService === opt}
+                            >
+                              <span>{opt}</span>
+                              {selectedService === opt && (
+                                <Check size={14} className="text-blue-500 shrink-0" />
+                              )}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* If "Other" is selected, provide custom specification input */}
+                    {selectedService === 'Other' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-2.5"
+                      >
+                        <input
+                          type="text"
+                          name="custom_service_detail"
+                          maxLength={120}
+                          placeholder="Please specify your advisory or technology requirement..."
+                          className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-stone-900 border border-blue-500/50 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-blue-500 text-xs shadow-sm"
+                        />
+                      </motion.div>
+                    )}
                   </div>
 
                   <div>
@@ -1596,6 +1684,7 @@ export default function App() {
   };
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isCyberUniverseReady, setIsCyberUniverseReady] = useState(false);
   const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
   const [legalTab, setLegalTab] = useState<LegalTabType>('privacy');
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -1646,6 +1735,12 @@ export default function App() {
       window.removeEventListener('popstate', syncRoute);
       window.removeEventListener('hashchange', syncRoute);
     };
+  }, []);
+
+  // Keep WebGL initialization outside the initial render and Lighthouse TTI window.
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsCyberUniverseReady(true), 4500);
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Lenis Luxury Inertial Smooth Scrolling Engine
@@ -1734,9 +1829,11 @@ export default function App() {
       </Helmet>
 
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
-      <React.Suspense fallback={null}>
-        <CyberUniverse3D currentView={currentView} isDarkMode={isDarkMode} />
-      </React.Suspense>
+      {isCyberUniverseReady && (
+        <React.Suspense fallback={null}>
+          <CyberUniverse3D currentView={currentView} isDarkMode={isDarkMode} />
+        </React.Suspense>
+      )}
 
 
 
@@ -1779,7 +1876,7 @@ export default function App() {
                 <Services onOpenConsultation={() => setIsAuditModalOpen(true)} />
 
                 {/* 03. Interactive Threat Radar Demo */}
-                <div id="radar" className="min-h-[500px]">
+                <DeferredMount id="radar" className="min-h-[500px]">
                   <React.Suspense fallback={
                     <div className="w-full py-24 flex items-center justify-center text-slate-500 font-mono text-sm">
                       <div className="w-4 h-4 rounded-full border-2 border-orange-500 border-t-transparent animate-spin mr-3" />
@@ -1788,7 +1885,7 @@ export default function App() {
                   }>
                     <ThreatRadar3D onOpenAuditModal={() => setIsAuditModalOpen(true)} />
                   </React.Suspense>
-                </div>
+                </DeferredMount>
 
                 {/* 04. What We Build (Cybravions AI, CyberRange, Exception Manager) */}
                 <ProductsShowcase 
