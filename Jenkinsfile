@@ -60,7 +60,7 @@ pipeline {
                 echo '⚡ Fast asynchronous health check polling...'
                 sh '''
                     for i in $(seq 1 15); do
-                        if docker exec ${APP_NAME} wget --no-verbose --tries=1 --spider http://127.0.0.1:80/ >/dev/null 2>&1; then
+                        if docker exec ${APP_NAME} wget -q -O /dev/null http://127.0.0.1:80/ >/dev/null 2>&1; then
                             echo "✅ Application container is healthy and responding (attempt ${i})!"
                             exit 0
                         fi
@@ -68,6 +68,12 @@ pipeline {
                         sleep 1
                     done
                     echo "❌ Health check failed after 15 attempts!"
+                    echo "Container state:"
+                    docker inspect --format='status={{.State.Status}} running={{.State.Running}} exit={{.State.ExitCode}} error={{.State.Error}}' ${APP_NAME} 2>&1 || true
+                    echo "Recent container logs:"
+                    docker logs --tail 100 ${APP_NAME} 2>&1 || true
+                    echo "Container wget diagnostic output:"
+                    docker exec ${APP_NAME} wget -S -O /dev/null http://127.0.0.1:80/ 2>&1 || true
                     exit 1
                 '''
             }
