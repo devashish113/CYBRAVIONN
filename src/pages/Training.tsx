@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShieldCheck, 
@@ -17,7 +17,6 @@ import {
   Phone,
   Play
 } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
 
 const ProgramModal = ({ program, isOpen, onClose }: { program: any, isOpen: boolean, onClose: () => void }) => {
   if (!isOpen) return null;
@@ -100,6 +99,34 @@ export const TrainingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showAllFaqs, setShowAllFaqs] = useState(false);
   const [activeStep, setActiveStep] = useState<number | null>(null);
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const handleTrainingInquiry = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      setFormStatus('error');
+      return;
+    }
+
+    setFormStatus('submitting');
+    const formData = new FormData(form);
+    formData.set('access_key', accessKey);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error('Form submission failed');
+      form.reset();
+      setFormStatus('success');
+    } catch {
+      setFormStatus('error');
+    }
+  };
 
   const categories = [
     { 
@@ -212,13 +239,6 @@ export const TrainingPage = () => {
 
   return (
     <div className="pt-24 min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
-      <Helmet>
-        <title>Cybersecurity Training & Capability Development | CYBRAVION</title>
-        <meta name="description" content="Empower your team with battle-tested security expertise. Custom training programs for cybersecurity awareness, technical skills, GRC, and executive leadership." />
-        <meta name="keywords" content="cybersecurity training, security awareness, technical security training, GRC training, executive cyber risk training, VAPT workshop, CISSP, CEH" />
-        <link rel="canonical" href="https://cybravions.com/#training" />
-      </Helmet>
-
       {/* Background Decor */}
       <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
         <div className="absolute top-1/4 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
@@ -643,29 +663,29 @@ export const TrainingPage = () => {
                 >
                   <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-500/10 rounded-full blur-[80px] pointer-events-none" />
 
-                  <form action="https://api.web3forms.com/submit" method="POST" className="space-y-6 relative z-10">
-                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+                  <form onSubmit={handleTrainingInquiry} className="space-y-6 relative z-10">
                     <input type="hidden" name="subject" value="New Training Inquiry - Cybravion" />
+                    <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2 group relative">
-                        <label className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Full Name</label>
-                        <input type="text" name="name" required placeholder="John Doe" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
+                        <label htmlFor="training-name" className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Full Name</label>
+                        <input id="training-name" type="text" name="name" required autoComplete="name" placeholder="John Doe" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
                       </div>
                       <div className="space-y-2 group relative">
-                        <label className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Company</label>
-                        <input type="text" name="organization" placeholder="Company Name" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
+                        <label htmlFor="training-organization" className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Company</label>
+                        <input id="training-organization" type="text" name="organization" autoComplete="organization" placeholder="Company Name" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
                       </div>
                     </div>
 
                     <div className="space-y-2 group relative">
-                      <label className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Email Address</label>
-                      <input type="email" name="email" required placeholder="john@example.com" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
+                      <label htmlFor="training-email" className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Email Address</label>
+                      <input id="training-email" type="email" name="email" required autoComplete="email" placeholder="john@example.com" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
                     </div>
 
                     <div className="space-y-2 group relative">
-                      <label className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Message</label>
-                      <textarea rows={3} name="message" required placeholder="How can we help with your training needs?" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500 resize-none" />
+                      <label htmlFor="training-message" className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Message</label>
+                      <textarea id="training-message" rows={3} name="message" required placeholder="How can we help with your training needs?" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500 resize-none" />
                     </div>
 
                     <div className="flex justify-center pt-2">
@@ -673,11 +693,18 @@ export const TrainingPage = () => {
                         whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249,115,22,0.35)" }}
                         whileTap={{ scale: 0.95 }}
                         type="submit" 
+                        disabled={formStatus === 'submitting'}
                         className="w-full sm:w-auto px-12 py-3.5 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl cursor-pointer"
                       >
-                        Request Training Today
+                        {formStatus === 'submitting' ? 'Sending...' : 'Request Training Today'}
                       </motion.button>
                     </div>
+                    <p role="status" aria-live="polite" className="text-center text-sm text-stone-300">
+                      {formStatus === 'success' && 'Thanks. Your training inquiry has been sent.'}
+                      {formStatus === 'error' && (
+                        <>We could not send your inquiry. Please email <a className="underline" href="mailto:support@cybravions.com">support@cybravions.com</a>.</>
+                      )}
+                    </p>
                   </form>
                 </motion.div>
               </motion.div>

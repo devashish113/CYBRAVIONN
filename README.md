@@ -28,13 +28,17 @@ npm install
 npm run dev
 ```
 
+Create a `.env.local` file from `.env.example` and set `VITE_WEB3FORMS_ACCESS_KEY` to the public access key from Web3Forms to enable the training inquiry form. If it is unset, the form displays an email fallback.
+
+To serve a production build locally, run `npm run build` followed by `npm start`. Remove the generated build directory with `npm run clean`.
+
 ---
 
 ## 🐳 Docker Production Build (Manual)
 
 ```bash
 # Build the container
-docker build -t cybravion-web:latest .
+docker build --build-arg VITE_WEB3FORMS_ACCESS_KEY="<public-web3forms-key>" -t cybravion-web:latest .
 
 # Run container on port 3000
 docker run -d --name cybravion-web -p 3000:80 --restart unless-stopped cybravion-web:latest

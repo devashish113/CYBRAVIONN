@@ -33,7 +33,9 @@ pipeline {
                 echo '⚡ Building image with Docker BuildKit & persistent cache mounts...'
                 sh '''
                     export DOCKER_BUILDKIT=1
-                    docker build -t ${APP_NAME}:latest .
+                    docker build \
+                        --build-arg VITE_WEB3FORMS_ACCESS_KEY="${VITE_WEB3FORMS_ACCESS_KEY}" \
+                        -t ${APP_NAME}:latest .
                 '''
             }
         }

@@ -18,7 +18,6 @@ import {
   Building, 
   HardDrive
 } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
 
 interface CybravionsAIProps {
   onOpenConsultation?: (serviceId?: string) => void;
@@ -53,16 +52,6 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({ onOpenConsultati
 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 selection:bg-blue-500/20 selection:text-blue-900 relative">
-      <Helmet>
-        <title>Cybravions AI | Air-Gapped Sovereign Agentic AI In-a-Box</title>
-        <meta 
-          name="description" 
-          content="Enterprise & Defense grade sovereign AI appliance. 100% offline, zero cloud telemetry, autonomous multi-agent intelligence in an air-gapped box." 
-        />
-        <meta name="keywords" content="sovereign AI, air-gapped AI, defense AI, autonomous agents, on-premise LLM, national security AI, Cybravions AI" />
-        <link rel="canonical" href="https://cybravions.com/#ai" />
-      </Helmet>
-
       {/* --- Section 1: Sovereign Hero Banner --- */}
       <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-transparent text-slate-900 dark:text-white overflow-hidden border-b border-slate-200/80 dark:border-blue-500/20">
         {/* Ambient Glowing Gradient Aura Backdrops */}

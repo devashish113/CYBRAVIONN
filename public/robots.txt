@@ -5,6 +5,9 @@ Allow: /
 User-agent: GPTBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: ChatGPT-User
 Allow: /
 
@@ -32,6 +35,5 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-# Sitemaps & LLM Context Standards
+# Search engine sitemap
 Sitemap: https://cybravions.com/sitemap.xml
-LLMs: https://cybravions.com/llms.txt

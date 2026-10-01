@@ -26,7 +26,6 @@ import {
   Award,
   Play
 } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../utils/cyberAudio';
 import { TiltCard3D } from '../components/TiltCard3D';
 
@@ -251,16 +250,6 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 selection:bg-blue-500/20 selection:text-blue-900 relative">
-      <Helmet>
-        <title>Cybravions CyberRange | Gamified Story-Driven CyberSec &amp; AI RPG Platform</title>
-        <meta 
-          name="description" 
-          content="The world's first story-driven CyberSec and AI/ML learning battleground. In-browser Kali sandboxes, 10 Guilds, CTF Boss Fights, and Seasonal Guild Leagues." 
-        />
-        <meta name="keywords" content="CyberSec RPG, gamified cybersecurity, CTF learning, AI ML gamification, ethical hacking game, Cybravions CyberRange" />
-        <link rel="canonical" href="https://cybravions.com/#cyberrange" />
-      </Helmet>
-
       {/* ========================================================================= */}
       {/* 1. HERO SECTION: THE CYBER RPG BATTLEGROUND */}
       {/* ========================================================================= */}

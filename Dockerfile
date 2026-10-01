@@ -17,6 +17,10 @@ RUN --mount=type=cache,target=/root/.npm \
 # Copy application source code
 COPY . .
 
+# Web3Forms access keys are designed for use in client-side forms.
+ARG VITE_WEB3FORMS_ACCESS_KEY
+ENV VITE_WEB3FORMS_ACCESS_KEY=$VITE_WEB3FORMS_ACCESS_KEY
+
 # Build production bundle with persistent npm cache
 RUN --mount=type=cache,target=/root/.npm \
     npm run build

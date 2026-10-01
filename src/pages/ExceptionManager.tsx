@@ -37,7 +37,6 @@ import {
   FileCheck,
   Shield
 } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../utils/cyberAudio';
 
 interface ExceptionManagerPageProps {
@@ -171,15 +170,6 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 selection:bg-orange-500/20 selection:text-orange-400 relative">
-      <Helmet>
-        <title>AI Exception Manager | Automated Cyber Risk & Policy Governance | CYBRAVION</title>
-        <meta 
-          name="description" 
-          content="Enterprise AI Security Exception Management Platform. Mathematical risk scoring, 100K+ precedent matching, automated ML online retraining, and audit-grade ReportLab PDF generation." 
-        />
-        <link rel="canonical" href="https://cybravions.com/exception-manager" />
-      </Helmet>
-
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto z-10">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">

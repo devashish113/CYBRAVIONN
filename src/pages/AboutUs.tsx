@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
 import {
   Building2,
   ShieldCheck,
@@ -114,19 +113,6 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
 
   return (
     <div className="pt-24 min-h-screen relative bg-transparent text-slate-900 dark:text-stone-100 selection:bg-orange-500/20 selection:text-orange-900">
-      <Helmet>
-        <title>About Us &amp; Corporate Profile | CYBRAVION SOLUTIONS PRIVATE LIMITED</title>
-        <meta 
-          name="description" 
-          content="Learn about CYBRAVION SOLUTIONS PRIVATE LIMITED (CIN: U62099DL2026PTC470901) - India's sovereign cybersecurity engineering, zero trust defense, and AI security firm headquartered in New Delhi." 
-        />
-        <meta 
-          name="keywords" 
-          content="CYBRAVION SOLUTIONS PRIVATE LIMITED, About Cybravions, CIN U62099DL2026PTC470901, cybersecurity company New Delhi, sovereign cybersecurity India, zero trust architecture, enterprise security firm" 
-        />
-        <link rel="canonical" href="https://cybravions.com/about" />
-      </Helmet>
-
       {/* Atmospheric Cybernetic Background Glows & Dynamic Depth */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Neon Orange & Cyan Core Radial Nebulae */}

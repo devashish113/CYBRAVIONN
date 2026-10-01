@@ -55,14 +55,11 @@ import Lenis from 'lenis';
 import { ServiceModalRenderer } from './components/ServiceModals';
 
 import { lazyWithRetry } from './utils/lazyWithRetry';
+import { pathForView, resolveAppView, type AppView } from './utils/routing';
+import { AppRoutes } from './app/AppRoutes';
+import { notFoundSeo, seoPages } from './utils/seoPages.js';
 
 // Route-level dynamic code splitting for sub-pages with auto-retry and chunk reload recovery
-const TrainingPage = lazyWithRetry(() => import('./pages/Training').then(m => ({ default: m.TrainingPage })));
-const CompliancePage = lazyWithRetry(() => import('./pages/Compliance').then(m => ({ default: m.CompliancePage })));
-const CybravionsAIPage = lazyWithRetry(() => import('./pages/CybravionsAI').then(m => ({ default: m.CybravionsAIPage })));
-const CyberVersePage = lazyWithRetry(() => import('./pages/CyberVerse').then(m => ({ default: m.CyberVersePage })));
-const ExceptionManagerPage = lazyWithRetry(() => import('./pages/ExceptionManager').then(m => ({ default: m.ExceptionManagerPage })));
-const AboutUsPage = lazyWithRetry(() => import('./pages/AboutUs').then(m => ({ default: m.AboutUsPage })));
 
 import type { LegalTabType } from './components/LegalModal';
 import { Hero } from './components/Hero';
@@ -1339,15 +1336,15 @@ const FAQ = () => {
   const faqs = [
     {
       q: "What is VAPT and why is it critical for enterprise compliance?",
-      a: "Vulnerability Assessment and Penetration Testing (VAPT) is a rigorous offensive methodology that proactively discovers and exploits vulnerabilities across applications, APIs, and cloud perimeters before adversaries can. It satisfies mandatory controls for ISO 27001, SOC 2, HIPAA, and PCI-DSS."
+      a: "Vulnerability Assessment and Penetration Testing (VAPT) identifies and validates security weaknesses in applications, APIs, networks, and cloud environments. The findings can help organizations prioritize remediation and support security and compliance programs."
     },
     {
       q: "How does Cybravion support startups vs global enterprises?",
-      a: "Our engagements are modular. For fast-growing startups, we deliver rapid SOC 2 / ISO 27001 readiness roadmaps and lightweight VAPT. For large enterprises, we deliver full-scale Zero Trust architecture, AI model red teaming, and ongoing multi-cloud GRC governance."
+      a: "Engagement scope can be tailored to an organization's size, systems, and goals, from focused assessments to broader governance, cloud security, and AI security work. Contact the team to discuss the appropriate scope."
     },
     {
       q: "What is your typical engagement timeline?",
-      a: "A focused VAPT assessment typically concludes within 1–3 weeks with remediation re-validation. Comprehensive enterprise GRC or ISO 27001 ISMS certification roadmaps range between 4–8 weeks with zero business disruption."
+      a: "Timing depends on the number of systems, access arrangements, and assessment scope. CYBRAVION can confirm a schedule after an initial scoping discussion."
     },
     {
       q: "Do you provide hands-on remediation support or only reports?",
@@ -1586,7 +1583,17 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
 // --- Main Application ---
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('home');
+  const [currentView, setCurrentViewState] = useState<AppView>(() =>
+    resolveAppView(window.location.pathname, window.location.hash),
+  );
+  const setCurrentView = (view: string) => {
+    const path = pathForView(view);
+    if (!path) return;
+    if (window.location.pathname !== path || window.location.hash) {
+      window.history.pushState({}, '', path);
+    }
+    setCurrentViewState(view as AppView);
+  };
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
@@ -1598,6 +1605,9 @@ export default function App() {
     }
     return true;
   });
+  const seo = currentView === 'not-found'
+    ? notFoundSeo
+    : seoPages[pathForView(currentView) ?? '/'];
 
   const toggleDarkMode = () => {
     cyberAudio.playClick();
@@ -1624,28 +1634,18 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Synchronize URL Hash with View Navigation
+  // Keep route state in sync with direct navigation and browser history.
   useEffect(() => {
-    const handleHash = () => {
-      const hash = window.location.hash.toLowerCase();
-      if (hash === '#about' || hash === '#/about' || hash === '#about-us' || hash === '#company') {
-        setCurrentView('about');
-      } else if (hash === '#ai' || hash === '#/ai') {
-        setCurrentView('ai');
-      } else if (hash === '#cyberrange' || hash === '#/cyberrange' || hash === '#cyberverse' || hash === '#/cyberverse') {
-        setCurrentView('cyberverse');
-      } else if (hash === '#exception-manager' || hash === '#/exception-manager') {
-        setCurrentView('exception-manager');
-      } else if (hash === '#training' || hash === '#/training') {
-        setCurrentView('training');
-      } else if (hash === '#compliance' || hash === '#/compliance') {
-        setCurrentView('compliance');
-      }
+    const syncRoute = () => {
+      setCurrentViewState(resolveAppView(window.location.pathname, window.location.hash));
     };
 
-    handleHash();
-    window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
+    window.addEventListener('popstate', syncRoute);
+    window.addEventListener('hashchange', syncRoute);
+    return () => {
+      window.removeEventListener('popstate', syncRoute);
+      window.removeEventListener('hashchange', syncRoute);
+    };
   }, []);
 
   // Lenis Luxury Inertial Smooth Scrolling Engine
@@ -1718,9 +1718,19 @@ export default function App() {
         : isDarkMode ? 'bg-[#010206] text-stone-100 theme-home' : 'bg-[#f8fafc] text-slate-900 theme-home'
     }`}>
       <Helmet>
-        <title>CYBRAVION Solutions | Next-Gen 3D Cybersecurity & Risk Governance</title>
-        <meta name="description" content="Elite cybersecurity consulting — 3D threat intelligence, GRC, VAPT, cloud security & AI governance for modern enterprises." />
-        <link rel="canonical" href="https://cybravions.com/" />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <meta name="robots" content={currentView === 'not-found' ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+        {currentView !== 'not-found' && <link rel="canonical" href={`https://cybravions.com${pathForView(currentView) ?? '/'}`} />}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://cybravions.com${pathForView(currentView) ?? '/404'}`} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
+        <meta property="og:image" content="https://cybravions.com/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seo.title} />
+        <meta name="twitter:description" content={seo.description} />
+        <meta name="twitter:image" content="https://cybravions.com/og-image.png" />
       </Helmet>
 
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
@@ -1749,31 +1759,13 @@ export default function App() {
               </span>
             </div>
           }>
-            {currentView === 'about' ? (
-              <AboutUsPage 
-                setCurrentView={setCurrentView} 
-                onOpenAuditModal={() => setIsAuditModalOpen(true)} 
-                isDarkMode={isDarkMode} 
-              />
-            ) : currentView === 'exception-manager' ? (
-              <ExceptionManagerPage 
-                setCurrentView={setCurrentView} 
-                isDarkMode={isDarkMode} 
-                onOpenConsultation={() => setIsAuditModalOpen(true)} 
-              />
-            ) : currentView === 'cyberverse' ? (
-              <CyberVersePage 
-                setCurrentView={setCurrentView} 
-                isDarkMode={isDarkMode} 
-                onOpenConsultation={() => setIsAuditModalOpen(true)} 
-              />
-            ) : currentView === 'ai' ? (
-              <CybravionsAIPage />
-            ) : currentView === 'training' ? (
-              <TrainingPage />
-            ) : currentView === 'compliance' ? (
-              <CompliancePage />
-            ) : (
+            <AppRoutes
+              currentView={currentView}
+              setCurrentView={setCurrentView}
+              isDarkMode={isDarkMode}
+              onOpenAuditModal={() => setIsAuditModalOpen(true)}
+            >
+              {currentView === 'home' && (
               <>
                 {/* 01. Focused Hero */}
                 <Hero 
@@ -1807,10 +1799,13 @@ export default function App() {
                 {/* 05. Security Model (Offensive, Defensive, Governance) */}
                 <SecurityModel isDarkMode={isDarkMode} />
 
+                <FAQ />
+
                 {/* 06. Direct Scoping & Contact Briefing */}
                 <Contact />
               </>
-            )}
+              )}
+            </AppRoutes>
           </React.Suspense>
         </main>
 

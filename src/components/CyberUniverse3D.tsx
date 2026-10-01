@@ -1351,6 +1351,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       wakeUpLoop();
     };
 
+    const handleWindowScroll = () => handleScroll();
+    const handleWheel = () => handleScroll();
+
     const handleLenisScroll = (e: { progress: number }) => {
       handleScroll(e.progress);
     };
@@ -1360,7 +1363,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     if (lenisInstance && typeof lenisInstance.on === 'function') {
       lenisInstance.on('scroll', handleLenisScroll);
     } else {
-      window.addEventListener('scroll', () => handleScroll(), { passive: true });
+      window.addEventListener('scroll', handleWindowScroll, { passive: true });
     }
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -1388,7 +1391,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('wheel', () => handleScroll(), { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('resize', handleResize);
 
     function animate() {
@@ -1652,10 +1655,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         lenisInstance.off('scroll', handleLenisScroll);
       }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('scroll', () => handleScroll());
+      window.removeEventListener('scroll', handleWindowScroll);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('wheel', () => handleScroll());
+      window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('resize', handleResize);
       composer.dispose();
       renderer.dispose();
