@@ -21,15 +21,25 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <!-- Self-Healing Watchdog: Automatically recaches if an edge proxy served mismatched chunks -->
+  <!-- Self-Healing Watchdog: Automatically recovers if an edge proxy served mismatched chunks -->
   <script>
     (function() {
       window.addEventListener('error', function(e) {
-        if (e && (e.target && e.target.tagName === 'SCRIPT' || (e.message && e.message.indexOf('dynamically imported module') !== -1))) {
-          var k = 'cyb_cache_heal';
+        var isScriptError = e && (
+          (e.target && e.target.tagName === 'SCRIPT') ||
+          (e.message && (
+            e.message.indexOf('dynamically imported module') !== -1 ||
+            e.message.indexOf('Importing a module script failed') !== -1 ||
+            e.message.indexOf('Failed to fetch') !== -1
+          ))
+        );
+        if (isScriptError) {
+          var k = 'cyb_cache_heal_' + Math.floor(Date.now() / 60000);
           if (!sessionStorage.getItem(k)) {
             sessionStorage.setItem(k, '1');
-            window.location.reload(true);
+            var u = new URL(window.location.href);
+            u.searchParams.set('v', Date.now().toString());
+            window.location.replace(u.toString());
           }
         }
       }, true);

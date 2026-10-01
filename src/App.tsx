@@ -113,17 +113,26 @@ const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const handleNavClick = (e: React.MouseEvent, hash: string) => {
-    if (currentView !== 'home') {
-      e.preventDefault();
-      setCurrentView('home');
-      setTimeout(() => {
-        const el = document.querySelector(hash);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
+    e.preventDefault();
+    const scrollToTarget = () => {
+      const el = document.querySelector(hash);
+      if (el) {
+        const lenis = (window as unknown as { __lenis?: any }).__lenis;
+        if (lenis) {
+          lenis.scrollTo(el, { offset: -80, duration: 1.2 });
         } else {
-          window.location.hash = hash;
+          el.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100);
+      } else {
+        window.location.hash = hash;
+      }
+    };
+
+    if (currentView !== 'home') {
+      setCurrentView('home');
+      setTimeout(scrollToTarget, 150);
+    } else {
+      scrollToTarget();
     }
   };
 
