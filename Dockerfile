@@ -31,6 +31,9 @@ FROM nginx:alpine-slim
 # Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Validate Nginx configuration syntax
+RUN nginx -t
+
 # Copy production bundle from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
