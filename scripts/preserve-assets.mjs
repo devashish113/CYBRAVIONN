@@ -18,6 +18,9 @@ async function main() {
 
     // Known transitional hashes cached by edge proxies / Cloudflare
     const legacyAliases = [
+      { target: 'index-DpTFbKvD.js', source: currentIndexJs },
+      { target: 'index-BzYjhvRj.css', source: currentIndexCss },
+      { target: 'index-9B7SCdIP.js', source: currentIndexJs },
       { target: 'index-CAlOJpiR.js', source: currentIndexJs },
       { target: 'index-B7o333vR.css', source: currentIndexCss },
       { target: 'vendor-icons-C2Cp0NJB.js', source: currentVendorIcons },
