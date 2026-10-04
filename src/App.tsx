@@ -217,7 +217,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.18, ease: "easeOut" }}
-                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[760px] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
+                    className={`absolute top-full left-0 mt-2.5 w-[720px] xl:w-[760px] max-w-[calc(100vw-2rem)] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
                       isDarkMode 
                         ? 'bg-stone-950/95 border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.85),0_0_30px_rgba(59,130,246,0.1)] text-white backdrop-blur-2xl' 
                         : 'bg-white/98 border border-slate-200/90 shadow-[0_25px_60px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.05)] text-slate-900 backdrop-blur-2xl'
@@ -498,7 +498,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.18, ease: "easeOut" }}
-                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[760px] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
+                    className={`absolute top-full left-[-60px] xl:left-[-80px] mt-2.5 w-[720px] xl:w-[760px] max-w-[calc(100vw-2rem)] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
                       isDarkMode 
                         ? 'bg-stone-950/95 border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.85),0_0_30px_rgba(249,115,22,0.1)] text-white backdrop-blur-2xl' 
                         : 'bg-white/98 border border-slate-200/90 shadow-[0_25px_60px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.05)] text-slate-900 backdrop-blur-2xl'
