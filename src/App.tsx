@@ -113,6 +113,50 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const [isMobileCompanyOpen, setIsMobileCompanyOpen] = useState(false);
 
+  // Lock body/html scroll and pause Lenis when mobile menu is open
+  useEffect(() => {
+    const lenis = (window as unknown as { __lenis?: any }).__lenis;
+    if (isMobileMenuOpen) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      if (lenis) lenis.stop();
+    } else {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      if (lenis) lenis.start();
+    }
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      if (lenis) lenis.start();
+    };
+  }, [isMobileMenuOpen]);
+
+  // Close mobile menu on desktop resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobileMenuOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileMenuOpen]);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -148,11 +192,11 @@ const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="relative z-50">
       <nav 
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-          isScrolled 
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          (isScrolled || isMobileMenuOpen)
             ? isDarkMode
               ? 'bg-[#05070d]/98 backdrop-blur-xl py-3 border-b border-stone-800 shadow-[0_4px_30px_rgba(0,0,0,0.8)]' 
-              : 'bg-white/95 backdrop-blur-xl py-3 border-b border-slate-200 shadow-[0_4px_25px_rgba(0,0,0,0.06)]'
+              : 'bg-white/98 backdrop-blur-xl py-3 border-b border-slate-200 shadow-[0_4px_25px_rgba(0,0,0,0.06)]'
             : isDarkMode
               ? 'bg-gradient-to-b from-[#05070d]/90 to-transparent py-5'
               : 'bg-gradient-to-b from-white/90 to-transparent py-5'
@@ -984,350 +1028,568 @@ const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Full-Screen Navigation Drawer */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className={`absolute top-full left-0 w-full backdrop-blur-xl border-b p-6 lg:hidden flex flex-col gap-4 max-h-[85vh] overflow-y-auto ${
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              data-lenis-prevent="true"
+              className={`fixed inset-x-0 top-[58px] sm:top-[64px] bottom-0 z-50 lg:hidden overflow-y-auto overscroll-contain flex flex-col justify-between p-4 sm:p-6 transition-colors ${
                 isDarkMode 
-                  ? 'bg-stone-900/98 border-stone-700 text-stone-100' 
-                  : 'bg-white/98 border-slate-200 text-slate-900 shadow-2xl'
+                  ? 'bg-[#07090e]/98 border-t border-stone-800 text-stone-100 backdrop-blur-3xl' 
+                  : 'bg-white/98 border-t border-slate-200 text-slate-900 backdrop-blur-3xl shadow-2xl'
               }`}
             >
-              {/* Mobile Theme Toggle Row */}
-              <div className={`flex items-center justify-between p-3 rounded-xl border transition-colors ${
-                isDarkMode ? 'bg-stone-950/70 border-stone-800' : 'bg-slate-100 border-slate-200'
-              }`}>
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
-                  {isDarkMode ? <Moon size={15} className="text-blue-400" /> : <Sun size={15} className="text-amber-500" />}
-                  <span>Theme: {isDarkMode ? 'Dark Mode' : 'Light Mode'}</span>
-                </div>
+              <div className="space-y-4 pb-6">
+                {/* 1. Featured Spotlight Card: Cybravions AI */}
                 <button
-                  onClick={toggleDarkMode}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
-                    isDarkMode
-                      ? 'bg-amber-400/20 text-amber-300 border border-amber-400/30 hover:bg-amber-400/30'
-                      : 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700'
+                  onClick={() => {
+                    cyberAudio.playClick();
+                    setCurrentView('ai');
+                    setIsMobileMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className={`w-full p-3.5 rounded-2xl border text-left transition-all duration-200 relative overflow-hidden group cursor-pointer ${
+                    currentView === 'ai'
+                      ? isDarkMode
+                        ? 'bg-gradient-to-r from-blue-950/60 to-purple-950/60 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.2)]'
+                        : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-400/60 shadow-md'
+                      : isDarkMode
+                        ? 'bg-stone-900/80 hover:bg-stone-800/90 border-stone-800 hover:border-blue-500/30'
+                        : 'bg-slate-50 hover:bg-slate-100/90 border-slate-200 hover:border-blue-300'
                   }`}
                 >
-                  {isDarkMode ? <Sun size={12} /> : <Moon size={12} />}
-                  {isDarkMode ? 'Switch Light' : 'Switch Dark'}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+                        <Sparkles size={20} className="animate-pulse" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold tracking-wide">Cybravions AI</span>
+                          <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
+                            SOVEREIGN
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light mt-0.5">
+                          Enterprise GenAI Security &amp; LLM Defense Suite
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight size={18} className="text-blue-500 shrink-0" />
+                  </div>
                 </button>
-              </div>
 
-              {/* Cybravions AI Mobile Link */}
-              <button 
-                onClick={() => {
-                  setCurrentView('ai');
-                  setIsMobileMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center gap-2 text-left cursor-pointer font-bold ${
-                  currentView === 'ai' ? 'text-blue-400' : isDarkMode ? 'text-blue-300' : 'text-blue-600'
-                }`}
-              >
-                <Sparkles size={16} className="text-blue-400" />
-                Cybravions AI
-                <span className="text-[10px] px-2 py-0.5 rounded bg-orange-400/20 text-orange-400 border border-orange-400/30 font-mono">SOVEREIGN</span>
-              </button>
+                {/* 2. Products & Platforms (Collapsible Accordion) */}
+                <div className={`rounded-2xl border overflow-hidden transition-colors ${
+                  isDarkMode ? 'bg-stone-900/60 border-stone-800/80' : 'bg-slate-50/80 border-slate-200'
+                }`}>
+                  <button
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      setIsMobileProductsOpen(!isMobileProductsOpen);
+                    }}
+                    className="w-full p-3.5 flex items-center justify-between text-left cursor-pointer"
+                    aria-expanded={isMobileProductsOpen}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <ShieldAlert size={18} className="text-orange-500" />
+                      <span className="text-xs font-bold uppercase tracking-wider">Products &amp; Platforms</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 font-semibold">
+                        6
+                      </span>
+                    </div>
+                    <ChevronDown size={18} className={`transition-transform duration-300 ${isMobileProductsOpen ? 'rotate-180 text-orange-500' : 'text-slate-400 dark:text-stone-500'}`} />
+                  </button>
 
-              {/* Services Mobile Submenu */}
-              <div className="flex flex-col">
-                <button 
-                  onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
-                  className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center justify-between w-full font-bold ${
-                    ['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance'].includes(currentView)
-                      ? 'text-orange-500'
-                      : isDarkMode ? 'text-stone-200' : 'text-slate-800'
-                  }`}
-                  aria-label="Services submenu"
-                  aria-expanded={isMobileServicesOpen}
-                >
-                  <span>Services</span>
-                  <ChevronDown size={18} className={`transition-transform duration-300 ${isMobileServicesOpen ? 'rotate-180 text-orange-500' : ''}`} />
-                </button>
-                
-                <AnimatePresence>
-                  {isMobileServicesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="pl-4 flex flex-col gap-2.5 mt-1 overflow-hidden"
+                  <AnimatePresence>
+                    {isMobileProductsOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="px-3 pb-3 space-y-2 border-t border-slate-200/60 dark:border-white/5 pt-2.5"
+                      >
+                        {/* ThreatForge */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('threatforge');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'threatforge'
+                              ? isDarkMode ? 'bg-orange-500/15 text-orange-400 border border-orange-500/30' : 'bg-orange-50 text-orange-600 border border-orange-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0">
+                            <ShieldAlert size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">ThreatForge</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">STRIDE &amp; PASTA Threat Modeling</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* SOC AI Triage */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('soc-ai');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'soc-ai'
+                              ? isDarkMode ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30' : 'bg-blue-50 text-blue-600 border border-blue-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0">
+                            <BellRing size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">SOC AI Triage</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">Autonomous SOAR Alert Engine</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* Exception Manager */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('exception-manager');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'exception-manager'
+                              ? isDarkMode ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : 'bg-amber-50 text-amber-600 border border-amber-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 border border-amber-500/20 flex items-center justify-center shrink-0">
+                            <ShieldCheck size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">Exception Manager</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">Cyber Risk Waiver &amp; Governance</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* CyberRange */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('cyberverse');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'cyberverse'
+                              ? isDarkMode ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30' : 'bg-pink-50 text-pink-600 border border-pink-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-pink-500/10 text-pink-500 border border-pink-500/20 flex items-center justify-center shrink-0">
+                            <Gamepad2 size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">CyberRange</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">CTF &amp; CISM Live Quest Arena</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* Threat Intel Collector */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('threat-collector');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'threat-collector'
+                              ? isDarkMode ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-cyan-50 text-cyan-600 border border-cyan-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0">
+                            <Radio size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">Threat Intel Collector</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">MISP &amp; OTX Automated Feed Ingestion</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* Cybravions AI Platform */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('ai');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'ai'
+                              ? isDarkMode ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/30' : 'bg-indigo-50 text-indigo-600 border border-indigo-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                            <Brain size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">Cybravions AI Platform</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">On-Prem Sovereign LLM Security Suite</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* 3. Services & Advisory (Collapsible Accordion) */}
+                <div className={`rounded-2xl border overflow-hidden transition-colors ${
+                  isDarkMode ? 'bg-stone-900/60 border-stone-800/80' : 'bg-slate-50/80 border-slate-200'
+                }`}>
+                  <button
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      setIsMobileServicesOpen(!isMobileServicesOpen);
+                    }}
+                    className="w-full p-3.5 flex items-center justify-between text-left cursor-pointer"
+                    aria-expanded={isMobileServicesOpen}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <ShieldCheck size={18} className="text-blue-500" />
+                      <span className="text-xs font-bold uppercase tracking-wider">Services &amp; Advisory</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 font-semibold">
+                        6
+                      </span>
+                    </div>
+                    <ChevronDown size={18} className={`transition-transform duration-300 ${isMobileServicesOpen ? 'rotate-180 text-blue-500' : 'text-slate-400 dark:text-stone-500'}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {isMobileServicesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="px-3 pb-3 space-y-2 border-t border-slate-200/60 dark:border-white/5 pt-2.5"
+                      >
+                        {/* VAPT */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('vapt');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'vapt'
+                              ? isDarkMode ? 'bg-orange-500/15 text-orange-400 border border-orange-500/30' : 'bg-orange-50 text-orange-600 border border-orange-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0">
+                            <ShieldCheck size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">VAPT &amp; Offensive Security</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">CERT-In Aligned Pentesting</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* ISO 27001 */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('iso-27001');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'iso-27001'
+                              ? isDarkMode ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30' : 'bg-blue-50 text-blue-600 border border-blue-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0">
+                            <Award size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">ISO 27001:2022 Certification</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">Turnkey ISMS Audit Pass Guarantee</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* SOC 2 */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('soc-2');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'soc-2'
+                              ? isDarkMode ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/30' : 'bg-indigo-50 text-indigo-600 border border-indigo-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                            <FileCheck size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">SOC 2 Type I &amp; II Readiness</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">AICPA Trust Services Criteria</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* Cloud Security */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('cloud-security');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'cloud-security'
+                              ? isDarkMode ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-cyan-50 text-cyan-600 border border-cyan-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0">
+                            <Cloud size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">Cloud &amp; DevSecOps</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">AWS, Azure &amp; GCP Hardening</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* AI Security */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('ai-security');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'ai-security'
+                              ? isDarkMode ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' : 'bg-purple-50 text-purple-600 border border-purple-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-500 border border-purple-500/20 flex items-center justify-center shrink-0">
+                            <Brain size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">AI Security &amp; LLM Red Teaming</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">OWASP LLM Top 10 Defense</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+
+                        {/* DPDP Compliance */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('dpdp-compliance');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'dpdp-compliance'
+                              ? isDarkMode ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'bg-emerald-50 text-emerald-600 border border-emerald-200'
+                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                            <Scale size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">DPDP Act 2023 Compliance</div>
+                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">Indian Regulatory Readiness</div>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* 4. Knowledge & Company Hub (2x2 Grid) */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  {/* Resources & Guides */}
+                  <button
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      setCurrentView('resources');
+                      setIsMobileMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                      currentView === 'resources'
+                        ? isDarkMode ? 'bg-orange-500/15 border-orange-500/40 text-orange-400' : 'bg-orange-50 border-orange-300 text-orange-600'
+                        : isDarkMode ? 'bg-stone-900/60 border-stone-800/80 hover:bg-stone-800' : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    <BookOpen size={18} className="text-orange-500 mb-2" />
+                    <div>
+                      <div className="text-xs font-bold">Resources &amp; Guides</div>
+                      <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Whitepapers &amp; Docs</div>
+                    </div>
+                  </button>
+
+                  {/* Compliance Hub */}
+                  <button
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      setCurrentView('compliance');
+                      setIsMobileMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                      currentView === 'compliance'
+                        ? isDarkMode ? 'bg-blue-500/15 border-blue-500/40 text-blue-400' : 'bg-blue-50 border-blue-300 text-blue-600'
+                        : isDarkMode ? 'bg-stone-900/60 border-stone-800/80 hover:bg-stone-800' : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    <ShieldCheck size={18} className="text-blue-500 mb-2" />
+                    <div>
+                      <div className="text-xs font-bold">Compliance Hub</div>
+                      <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Global Frameworks</div>
+                    </div>
+                  </button>
+
+                  {/* About Us */}
+                  <button
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      setCurrentView('about');
+                      setIsMobileMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                      currentView === 'about'
+                        ? isDarkMode ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-400' : 'bg-indigo-50 border-indigo-300 text-indigo-600'
+                        : isDarkMode ? 'bg-stone-900/60 border-stone-800/80 hover:bg-stone-800' : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    <Building2 size={18} className="text-indigo-500 mb-2" />
+                    <div>
+                      <div className="text-xs font-bold">About Us</div>
+                      <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Mission &amp; Leadership</div>
+                    </div>
+                  </button>
+
+                  {/* Corporate Training */}
+                  <button
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      setCurrentView('training');
+                      setIsMobileMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                      currentView === 'training'
+                        ? isDarkMode ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400' : 'bg-emerald-50 border-emerald-300 text-emerald-600'
+                        : isDarkMode ? 'bg-stone-900/60 border-stone-800/80 hover:bg-stone-800' : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    <GraduationCap size={18} className="text-emerald-500 mb-2" />
+                    <div>
+                      <div className="text-xs font-bold">Corporate Training</div>
+                      <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Cyber Academy</div>
+                    </div>
+                  </button>
+                </div>
+
+                {/* 5. Quick Anchors Row */}
+                <div className="flex items-center justify-between gap-2 px-1">
+                  <a
+                    href="#radar"
+                    onClick={(e) => {
+                      cyberAudio.playClick();
+                      handleNavClick(e, '#radar');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex-1 py-2 px-2.5 rounded-xl border text-center text-[11px] font-mono font-semibold transition-colors ${
+                      isDarkMode ? 'bg-stone-900/60 border-stone-800 text-stone-300 hover:text-white' : 'bg-slate-100 border-slate-200 text-slate-700 hover:text-slate-900'
+                    }`}
+                  >
+                    3D Radar
+                  </a>
+                  <a
+                    href="#faq"
+                    onClick={(e) => {
+                      cyberAudio.playClick();
+                      handleNavClick(e, '#faq');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex-1 py-2 px-2.5 rounded-xl border text-center text-[11px] font-mono font-semibold transition-colors ${
+                      isDarkMode ? 'bg-stone-900/60 border-stone-800 text-stone-300 hover:text-white' : 'bg-slate-100 border-slate-200 text-slate-700 hover:text-slate-900'
+                    }`}
+                  >
+                    FAQ
+                  </a>
+                  {onOpenAuditModal && (
+                    <button
+                      onClick={() => {
+                        cyberAudio.playClick();
+                        setIsMobileMenuOpen(false);
+                        onOpenAuditModal();
+                      }}
+                      className={`flex-1 py-2 px-2.5 rounded-xl border text-center text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
+                        isDarkMode ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-blue-50 border-blue-200 text-blue-600'
+                      }`}
                     >
-                      <button 
-                        className="flex items-center gap-2 py-2 text-sm text-orange-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('vapt');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <ShieldCheck size={16} className="text-orange-500" />
-                        <span>VAPT &amp; Offensive Security</span>
-                      </button>
-                      <button 
-                        className="flex items-center gap-2 py-2 text-sm text-blue-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('iso-27001');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <Award size={16} className="text-blue-500" />
-                        <span>ISO 27001:2022 Certification</span>
-                      </button>
-                      <button 
-                        className="flex items-center gap-2 py-2 text-sm text-indigo-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('soc-2');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <FileCheck size={16} className="text-indigo-500" />
-                        <span>SOC 2 Type I &amp; Type II Readiness</span>
-                      </button>
-                      <button 
-                        className="flex items-center gap-2 py-2 text-sm text-cyan-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('cloud-security');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <Cloud size={16} className="text-cyan-500" />
-                        <span>Cloud Security &amp; DevSecOps</span>
-                      </button>
-                      <button 
-                        className="flex items-center gap-2 py-2 text-sm text-purple-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('ai-security');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <Brain size={16} className="text-purple-500" />
-                        <span>AI Security &amp; LLM Red Teaming</span>
-                      </button>
-                      <button 
-                        className="flex items-center gap-2 py-2 text-sm text-emerald-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('dpdp-compliance');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <Scale size={16} className="text-emerald-500" />
-                        <span>DPDP Act 2023 Compliance</span>
-                      </button>
-                    </motion.div>
+                      Fast Audit
+                    </button>
                   )}
-                </AnimatePresence>
+                </div>
               </div>
 
-              {/* Resources Mobile Link */}
-              <button 
-                onClick={() => {
-                  setCurrentView('resources');
-                  setIsMobileMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center gap-2 text-left cursor-pointer font-bold ${
-                  currentView === 'resources' ? 'text-orange-500' : isDarkMode ? 'text-stone-200' : 'text-slate-800'
-                }`}
-              >
-                <BookOpen size={16} className="text-orange-500" />
-                <span>Resources &amp; Guides</span>
-              </button>
-
-              {/* Products Mobile Submenu */}
-              <div className="flex flex-col">
-                <button 
-                  onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
-                  className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center justify-between w-full ${
-                    isDarkMode ? 'text-stone-200' : 'text-slate-800'
-                  }`}
-                  aria-label="Products submenu"
-                  aria-expanded={isMobileProductsOpen}
+              {/* 6. Sticky Bottom Action Footer */}
+              <div className="pt-3 border-t border-slate-200/60 dark:border-white/5 space-y-2 mt-auto">
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    cyberAudio.playClick();
+                    handleNavClick(e, '#contact');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl text-xs uppercase tracking-widest font-bold text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all cursor-pointer"
                 >
-                  Products
-                  <ChevronDown size={18} className={`transition-transform duration-300 ${isMobileProductsOpen ? 'rotate-180' : ''}`} />
-                </button>
-                
-                <AnimatePresence>
-                  {isMobileProductsOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="pl-4 flex flex-col gap-3 mt-1 overflow-hidden"
-                    >
-                      {/* Mobile Product 1: ThreatForge */}
-                      <button 
-                        className="flex items-center gap-2.5 py-2 text-sm text-orange-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('threatforge');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <ShieldAlert size={16} className="text-orange-500" />
-                        <span>ThreatForge (STRIDE &amp; PASTA Modeling)</span>
-                      </button>
-
-                      {/* Mobile Product 2: SOC AI Triage */}
-                      <button 
-                        className="flex items-center gap-2.5 py-2 text-sm text-blue-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('soc-ai');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <BellRing size={16} className="text-blue-500" />
-                        <span>SOC AI Triage (Autonomous SOAR)</span>
-                      </button>
-
-                      {/* Mobile Product 3: AI Exception Manager */}
-                      <button 
-                        className="flex items-center gap-2.5 py-2 text-sm text-amber-500 hover:underline text-left cursor-pointer font-bold"
-                        onClick={() => {
-                          setCurrentView('exception-manager');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <ShieldCheck size={16} className="text-amber-500" />
-                        <span>AI Exception Manager (Risk Governance)</span>
-                      </button>
-
-                      {/* Mobile Product 4: CyberRange (CyberQuest) */}
-                      <button 
-                        className="flex items-center gap-2.5 py-2 text-sm text-orange-400 hover:underline text-left cursor-pointer"
-                        onClick={() => {
-                          setCurrentView('cyberverse');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <Gamepad2 size={16} className="text-orange-400" />
-                        <span>CyberRange (CTF &amp; CISM Quest Arena)</span>
-                      </button>
-
-                      {/* Mobile Product 5: Threat Intel Collector */}
-                      <button 
-                        className="flex items-center gap-2.5 py-2 text-sm text-cyan-400 hover:underline text-left cursor-pointer"
-                        onClick={() => {
-                          setCurrentView('threat-collector');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <Radio size={16} className="text-cyan-400" />
-                        <span>Threat Intel Collector (MISP &amp; OTX Ingestion)</span>
-                      </button>
-
-                      {/* Mobile Product 6: Cybravions AI */}
-                      <button 
-                        className="flex items-center gap-2.5 py-2 text-sm text-indigo-400 hover:underline text-left cursor-pointer"
-                        onClick={() => {
-                          setCurrentView('ai');
-                          setIsMobileMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <Brain size={16} className="text-indigo-400" />
-                        <span>Cybravions AI (Sovereign In-a-Box)</span>
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  <span>Consult An Advisor</span>
+                  <ArrowRight size={16} />
+                </a>
+                <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 dark:text-stone-500 font-mono">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>24/7 Security Advisory • CERT-In &amp; ISO Certified</span>
+                </div>
               </div>
-
-              <a 
-                href="#radar"
-                className="text-base uppercase tracking-widest text-blue-500 py-2 min-h-[44px] flex items-center"
-                onClick={(e) => {
-                  handleNavClick(e, '#radar');
-                  setIsMobileMenuOpen(false);
-                }}
-              >
-                3D Radar
-              </a>
-              <button 
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center text-left cursor-pointer ${
-                  currentView === 'about' ? 'text-orange-500 font-bold' : isDarkMode ? 'text-stone-200' : 'text-slate-800'
-                }`}
-                onClick={() => {
-                  setCurrentView('about');
-                  setIsMobileMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-              >
-                About Us
-              </button>
-              <a 
-                href="#faq"
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center ${
-                  isDarkMode ? 'text-stone-200' : 'text-slate-800'
-                }`}
-                onClick={(e) => {
-                  handleNavClick(e, '#faq');
-                  setIsMobileMenuOpen(false);
-                }}
-              >
-                FAQ
-              </a>
-              <a 
-                href="#contact"
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center ${
-                  isDarkMode ? 'text-stone-200' : 'text-slate-800'
-                }`}
-                onClick={(e) => {
-                  handleNavClick(e, '#contact');
-                  setIsMobileMenuOpen(false);
-                }}
-              >
-                Contact
-              </a>
-              <button 
-                onClick={() => {
-                  setCurrentView('compliance');
-                  setIsMobileMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center text-left cursor-pointer ${
-                  currentView === 'compliance' ? 'text-blue-500 font-bold' : isDarkMode ? 'text-stone-200' : 'text-slate-800'
-                }`}
-              >
-                Compliance
-              </button>
-              <button 
-                onClick={() => {
-                  setCurrentView('training');
-                  setIsMobileMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center font-bold text-left cursor-pointer ${
-                  currentView === 'training' ? 'text-blue-500 underline underline-offset-4' : 'text-blue-500'
-                }`}
-              >
-                Training
-              </button>
-              <a 
-                href="#contact"
-                onClick={(e) => {
-                  handleNavClick(e, '#contact');
-                  setIsMobileMenuOpen(false);
-                }}
-                className="mt-2 px-6 py-3.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-sm uppercase tracking-widest font-bold text-center min-h-[44px] flex items-center justify-center shadow-lg shadow-orange-500/20"
-              >
-                Consult an Advisor
-              </a>
             </motion.div>
           )}
         </AnimatePresence>
