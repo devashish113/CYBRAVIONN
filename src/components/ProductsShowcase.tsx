@@ -9,7 +9,10 @@ import {
   Cpu, 
   Lock, 
   ExternalLink,
-  Sparkles
+  Sparkles,
+  ShieldAlert,
+  BellRing,
+  Radio
 } from 'lucide-react';
 import { TiltCard3D } from './TiltCard3D';
 import { cyberAudio } from '../utils/cyberAudio';
@@ -25,6 +28,86 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
 }) => {
   const products = [
     {
+      id: 'threatforge',
+      name: 'ThreatForge Platform',
+      badge: 'THREAT MODELING',
+      tagline: 'STRIDE & PASTA Risk Engine',
+      desc: 'Automated threat modeling and attack surface mapping with live attack tree generation, CVSS 3.1 quantitative scoring, and air-gapped threat narratives.',
+      icon: ShieldAlert,
+      glow: 'orange' as const,
+      features: [
+        'Automated STRIDE & PASTA Analysis',
+        'Interactive Attack Path Trees',
+        'CVSS 3.1 Quantitative Scoring'
+      ],
+      actionLabel: 'Explore ThreatForge',
+      targetView: 'threatforge'
+    },
+    {
+      id: 'soc-ai',
+      name: 'SOC AI Triage',
+      badge: 'AUTONOMOUS SOAR',
+      tagline: 'Explainable AI Incident Triage',
+      desc: 'Sub-second autonomous SIEM alert investigation. Features SHAP explainable ML verdicts, ReAct investigation agents, and automated SOAR playbooks.',
+      icon: BellRing,
+      glow: 'blue' as const,
+      features: [
+        'Sub-Second Alert Investigation',
+        'SHAP Mathematical Explainability',
+        'Automated Containment Playbooks'
+      ],
+      actionLabel: 'Explore SOC AI Triage',
+      targetView: 'soc-ai'
+    },
+    {
+      id: 'exception-manager',
+      name: 'AI Exception Manager',
+      badge: 'COMPLIANCE GOVERNANCE',
+      tagline: 'Automated Risk Waiver Platform',
+      desc: 'Centralized compliance exception tracking platform with machine learning risk scoring, automated review workflows, and continuous policy drift governance.',
+      icon: ShieldCheck,
+      glow: 'blue' as const,
+      features: [
+        'Automated Risk Scoring & Telemetry',
+        'ISO 27001 & SOC 2 Waiver Tracking',
+        'Tamper-Proof Audit PDF Reports'
+      ],
+      actionLabel: 'Open Exception Manager',
+      targetView: 'exception-manager'
+    },
+    {
+      id: 'cyberverse',
+      name: 'CyberRange Arena',
+      badge: 'DEFENSE SANDBOX',
+      tagline: 'Gamified CyberQuest Training',
+      desc: 'Browser-based hands-on cyber defense sandboxes, active adversary emulation scenarios, and interactive incident response training for technical teams.',
+      icon: Gamepad2,
+      glow: 'orange' as const,
+      features: [
+        'Interactive Kali & CTF Sandboxes',
+        'Hands-on Cryptography & Web Exploits',
+        'CISM Real-World Scenario Quests'
+      ],
+      actionLabel: 'Launch CyberRange Labs',
+      targetView: 'cyberverse'
+    },
+    {
+      id: 'threat-collector',
+      name: 'Threat Intel Collector',
+      badge: 'INGESTION ENGINE',
+      tagline: 'MISP & OTX Intelligence Hub',
+      desc: 'Ingests, deduplicates, and scores IOCs from MISP, AlienVault OTX, and URLhaus with automated STIX 2.1 air-gap export bundles for isolated enclaves.',
+      icon: Radio,
+      glow: 'blue' as const,
+      features: [
+        'Multi-Feed Ingestion (MISP, OTX, URLhaus)',
+        'STIX 2.1 Unified Normalization',
+        'Cryptographically Signed Air-Gap Bundles'
+      ],
+      actionLabel: 'Explore Intel Collector',
+      targetView: 'threat-collector'
+    },
+    {
       id: 'ai',
       name: 'Cybravions AI',
       badge: 'AIR-GAPPED SOVEREIGN AI',
@@ -39,38 +122,6 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       ],
       actionLabel: 'Explore Cybravions AI',
       targetView: 'ai'
-    },
-    {
-      id: 'cyberverse',
-      name: 'CyberRange Simulation Labs',
-      badge: 'DEFENSE SANDBOX',
-      tagline: 'Interactive Cyber Defense Training',
-      desc: 'Browser-based hands-on cyber defense sandboxes, active adversary emulation scenarios, and interactive incident response training for technical teams.',
-      icon: Gamepad2,
-      glow: 'orange' as const,
-      features: [
-        'Browser-Based Hands-On Sandboxes',
-        'Red Team Exploit & Blue Team Defense',
-        'Executive Crisis Tabletop Drills'
-      ],
-      actionLabel: 'Launch CyberRange Labs',
-      targetView: 'cyberverse'
-    },
-    {
-      id: 'exception-manager',
-      name: 'AI Exception Manager',
-      badge: 'COMPLIANCE GOVERNANCE',
-      tagline: 'Automated Risk Waiver Platform',
-      desc: 'Centralized compliance exception tracking platform with machine learning risk scoring, automated review workflows, and continuous policy drift governance.',
-      icon: Fingerprint,
-      glow: 'blue' as const,
-      features: [
-        'Automated Risk Scoring & Telemetry',
-        'ISO 27001 & SOC 2 Waiver Tracking',
-        'Zero Unmonitored Policy Drift'
-      ],
-      actionLabel: 'Open Exception Manager',
-      targetView: 'exception-manager'
     }
   ];
 
@@ -97,8 +148,8 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
           </p>
         </div>
 
-        {/* 3 Product Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* 6 Enterprise Product Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {products.map((prod) => {
             const Icon = prod.icon;
             const isBlue = prod.glow === 'blue';

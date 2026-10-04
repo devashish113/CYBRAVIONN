@@ -1,34 +1,54 @@
 # CYBRAVION SOLUTIONS PRIVATE LIMITED
 
-> Cybersecurity consulting and security engineering company based in New Delhi, India.
+> Enterprise cybersecurity consulting, defense engineering, VAPT, and compliance advisory based in New Delhi, India.
 
-## Company
+## Corporate Identity
 
-- Legal name: CYBRAVION SOLUTIONS PRIVATE LIMITED
+- Legal Name: CYBRAVION SOLUTIONS PRIVATE LIMITED
 - Brand: CYBRAVION Solutions / Cybravions
-- Corporate Identification Number: U62099DL2026PTC470901
-- Registered office: Saidulajab, New Delhi, Delhi 110030, India
+- Corporate Identification Number (CIN): U62099DL2026PTC470901
+- Registrar of Companies: RoC-Delhi, Ministry of Corporate Affairs, Government of India
+- Registered Office: H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi 110030, India
 - Website: https://cybravions.com/
-- Contact: support@cybravions.com, +91-7258880881
+- Telephone: +91-7258880881 / +91-9358683634
+- Official Email: support@cybravions.com
 
-## Services
+## Dedicated Core Services
 
-- Governance, risk, and compliance (GRC), including ISO 27001 and SOC 2 readiness
-- Vulnerability assessment and penetration testing (VAPT)
-- Cloud security and DevSecOps
-- AI security and governance
-- Threat intelligence and security operations advisory
+- Vulnerability Assessment & Penetration Testing (VAPT): https://cybravions.com/vapt
+  OWASP Top 10, SANS 25, CERT-In aligned offensive testing across web apps, APIs, mobile, networks, and cloud.
+- ISO 27001:2022 Certification & Consulting: https://cybravions.com/iso-27001
+  Turnkey ISMS implementation roadmap, gap assessment, Statement of Applicability (SoA), and Stage 1 & 2 audit clearance.
+- SOC 2 Type I & Type II Readiness: https://cybravions.com/soc-2
+  AICPA Trust Services Criteria (Security, Availability, Confidentiality) compliance, automated evidence, and CPA audit advisory.
+- Cloud Security Assessment & DevSecOps: https://cybravions.com/cloud-security
+  AWS, Microsoft Azure, GCP, and Kubernetes CIS benchmark hardening, IAM least privilege audits, and CI/CD security gating.
+- AI Security Testing & LLM Red Teaming: https://cybravions.com/ai-security
+  OWASP Top 10 for LLMs, prompt injection defense, RAG database security, and Prompt Armor multi-layer firewall.
+- DPDP Act 2023 & Indian Regulatory Compliance: https://cybravions.com/dpdp-compliance
+  Digital Personal Data Protection Act compliance, consent management, DPO advisory, CERT-In 6-hour reporting, and penalty mitigation up to ₹250 Crores.
 
-## Products and learning
+## Regulatory Resource Center & Guides
 
-- Cybravions AI: https://cybravions.com/ai
-- CyberRange: https://cybravions.com/cyberverse
-- AI Exception Manager: https://cybravions.com/exception-manager
-- Cybersecurity training: https://cybravions.com/training
+- Knowledge Center: https://cybravions.com/resources
+- DPDP Act 2023 Implementation Checklist: https://cybravions.com/resources#dpdp-act-checklist
+- ISO 27001:2022 Cost & Timeline Roadmap India: https://cybravions.com/resources#iso-27001-roadmap-india
+- VAPT vs Penetration Testing Scoping Guide: https://cybravions.com/resources#vapt-vs-pentesting-guide
+- CERT-In 6-Hour Incident Reporting Directive SOPs: https://cybravions.com/resources#cert-in-directive-protocol
 
-## Company information
+## Defense Products & Platforms
 
-- About: https://cybravions.com/about
-- Security and compliance: https://cybravions.com/compliance
-- Contact: https://cybravions.com/#contact
-- Sitemap: https://cybravions.com/sitemap.xml
+- Cybravions AI (Sovereign Air-Gapped Appliance): https://cybravions.com/ai
+- CyberVerse (Enterprise CyberRange): https://cybravions.com/cyberverse
+- ThreatForge (Threat Modeling & STRIDE Simulation): https://cybravions.com/threatforge
+- SOC AI Triage (Autonomous Tier-1 Investigation): https://cybravions.com/soc-ai
+- Threat Intel Collector (STIX 2.1 Multi-Feed Aggregator): https://cybravions.com/threat-collector
+- AI Exception Manager (Cyber Risk Governance): https://cybravions.com/exception-manager
+- Cybersecurity Training & Capability Development: https://cybravions.com/training
+
+## Trust, Verification & Contact
+
+- About CYBRAVION: https://cybravions.com/about
+- Trust Center & Compliance Practices: https://cybravions.com/compliance
+- Contact & Audit Scoping: https://cybravions.com/#contact
+- XML Sitemap: https://cybravions.com/sitemap.xml

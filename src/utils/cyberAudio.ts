@@ -13,6 +13,7 @@ class CyberAudioEngine {
   }
 
   public playClick(): void {}
+  public playHover(): void {}
   public playSuccess(): void {}
   public playChirp(): void {}
   public playShieldActivate(): void {}

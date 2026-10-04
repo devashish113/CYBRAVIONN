@@ -24,7 +24,8 @@ import {
   BookOpen, 
   AlertTriangle,
   Award,
-  Play
+  Play,
+  ExternalLink
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
 import { TiltCard3D } from '../components/TiltCard3D';
@@ -304,15 +305,26 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
           >
             <a
+              href="http://40.192.90.82:3003"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => cyberAudio.playClick()}
+              className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 text-white shadow-lg bg-gradient-to-r from-orange-500 via-amber-500 to-blue-600 hover:from-orange-600 hover:to-blue-500 shadow-[0_0_30px_rgba(249,115,22,0.4)] cursor-pointer transform hover:scale-[1.02]"
+            >
+              <ExternalLink size={16} />
+              <span>Launch Live CyberQuest Platform</span>
+            </a>
+
+            <a
               href="#mission-simulator"
               onClick={(e) => {
                 e.preventDefault();
                 document.querySelector('#mission-simulator')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 text-white shadow-lg bg-gradient-to-r from-blue-600 via-blue-500 to-orange-500 hover:from-blue-500 hover:to-orange-400 shadow-[0_0_25px_rgba(249,115,22,0.35)] cursor-pointer"
+              className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 text-white shadow-lg bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-[0_0_25px_rgba(59,130,246,0.35)] cursor-pointer"
             >
               <Play size={16} className="fill-white" />
-              <span>Launch Live Mission Simulator</span>
+              <span>Mission Sandbox</span>
             </a>
 
             <a

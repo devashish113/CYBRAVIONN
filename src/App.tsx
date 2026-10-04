@@ -49,7 +49,13 @@ import {
   Sun,
   Moon,
   Gamepad2,
-  Linkedin
+  Linkedin,
+  ShieldAlert,
+  Radio,
+  BellRing,
+  Scale,
+  Cloud,
+  FileCheck
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Lenis from 'lenis';
@@ -100,8 +106,10 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const [isMobileCompanyOpen, setIsMobileCompanyOpen] = useState(false);
 
   useEffect(() => {
@@ -208,7 +216,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.18, ease: "easeOut" }}
-                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[680px] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
+                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[760px] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
                       isDarkMode 
                         ? 'bg-stone-950/95 border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.85),0_0_30px_rgba(59,130,246,0.1)] text-white backdrop-blur-2xl' 
                         : 'bg-white/98 border border-slate-200/90 shadow-[0_25px_60px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.05)] text-slate-900 backdrop-blur-2xl'
@@ -224,25 +232,25 @@ const Navbar: React.FC<NavbarProps> = ({
                         <div className="flex items-center gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
                           <span className="text-[11px] uppercase tracking-[0.2em] font-mono font-bold text-slate-500 dark:text-stone-400">
-                            Proprietary Platforms &amp; Security Engines
+                            Enterprise Security Platforms &amp; Autonomous Engines
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-stone-300 border border-slate-200/60 dark:border-white/10">
-                          4 Products
+                        <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                          6 Platforms
                         </span>
                       </div>
 
-                      {/* 2x2 Seamless Interactive Grid */}
-                      <div className="grid grid-cols-2 gap-2">
-                        {/* Product 1: Cybravions CyberRange */}
+                      {/* 2x3 Seamless Interactive Grid */}
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {/* Product 1: ThreatForge */}
                         <button
                           onClick={() => {
-                            setCurrentView('cyberverse');
+                            setCurrentView('threatforge');
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
                           className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'cyberverse'
+                            currentView === 'threatforge'
                               ? isDarkMode
                                 ? 'bg-white/[0.06] border-orange-500/40 shadow-sm'
                                 : 'bg-slate-50 border-orange-400/50 shadow-sm'
@@ -250,33 +258,33 @@ const Navbar: React.FC<NavbarProps> = ({
                           }`}
                         >
                           <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-orange-500/20 transition-all duration-200">
-                            <Gamepad2 size={19} />
+                            <ShieldAlert size={19} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-1 mb-1">
                               <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
-                                CyberRange
+                                ThreatForge
                               </span>
                               <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
-                                Gamified RPG
+                                STRIDE / PASTA
                               </span>
                             </div>
                             <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Story-driven CyberSec &amp; AI arena with Kali labs, 10 Guilds &amp; CTF leagues.
+                              Automated threat modeling, attack path trees &amp; CVSS 3.1 quantitative scoring.
                             </p>
                           </div>
                           <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-orange-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
                         </button>
 
-                        {/* Product 2: Cybravions AI */}
+                        {/* Product 2: SOC AI Triage */}
                         <button
                           onClick={() => {
-                            setCurrentView('ai');
+                            setCurrentView('soc-ai');
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
                           className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'ai'
+                            currentView === 'soc-ai'
                               ? isDarkMode
                                 ? 'bg-white/[0.06] border-blue-500/40 shadow-sm'
                                 : 'bg-slate-50 border-blue-400/50 shadow-sm'
@@ -284,19 +292,19 @@ const Navbar: React.FC<NavbarProps> = ({
                           }`}
                         >
                           <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all duration-200">
-                            <Brain size={19} />
+                            <BellRing size={19} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-1 mb-1">
                               <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                                Cybravions AI
+                                SOC AI Triage
                               </span>
                               <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shrink-0">
-                                Sovereign
+                                SOAR Engine
                               </span>
                             </div>
                             <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Air-gapped offline agentic AI in-a-box for defense &amp; critical infrastructure.
+                              Autonomous SIEM alert investigation with SHAP explainable verdicts &amp; playbooks.
                             </p>
                           </div>
                           <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
@@ -330,39 +338,113 @@ const Navbar: React.FC<NavbarProps> = ({
                               </span>
                             </div>
                             <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Automated cyber risk assessment, threat scoring &amp; governance workflows.
+                              Automated cyber risk waiver assessment, drift tracking &amp; audit PDF workflows.
                             </p>
                           </div>
                           <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-amber-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
                         </button>
 
-                        {/* Product 4: 3D Threat Radar */}
-                        <a
-                          href="#radar"
-                          onClick={(e) => {
-                            handleNavClick(e, '#radar');
+                        {/* Product 4: CyberRange (CyberQuest) */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('cyberverse');
                             setIsProductsOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className="text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5"
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'cyberverse'
+                              ? isDarkMode
+                                ? 'bg-white/[0.06] border-orange-500/40 shadow-sm'
+                                : 'bg-slate-50 border-orange-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-orange-500/20 transition-all duration-200">
+                            <Gamepad2 size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
+                                CyberRange Arena
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
+                                CTF &amp; CISM
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
+                              Gamified CyberQuest labs, hands-on cryptography puzzles &amp; CISM scenarios.
+                            </p>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-orange-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
+                        </button>
+
+                        {/* Product 5: Threat Intel Collector */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('threat-collector');
+                            setIsProductsOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'threat-collector'
+                              ? isDarkMode
+                                ? 'bg-white/[0.06] border-cyan-500/40 shadow-sm'
+                                : 'bg-slate-50 border-cyan-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
                         >
                           <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-cyan-500/20 transition-all duration-200">
-                            <Radar size={19} />
+                            <Radio size={19} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-1 mb-1">
                               <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">
-                                3D Threat Radar
+                                Intel Collector
                               </span>
                               <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 shrink-0">
-                                3D Live
+                                MISP &amp; OTX
                               </span>
                             </div>
                             <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Simulate red-team attacks and inspect real-time packet telemetry.
+                              Multi-source IOC ingestion, automated STIX 2.1 normalization &amp; air-gap bundles.
                             </p>
                           </div>
                           <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-cyan-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </a>
+                        </button>
+
+                        {/* Product 6: Cybravions AI */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('ai');
+                            setIsProductsOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'ai'
+                              ? isDarkMode
+                                ? 'bg-white/[0.06] border-indigo-500/40 shadow-sm'
+                                : 'bg-slate-50 border-indigo-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-200">
+                            <Brain size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">
+                                Cybravions AI
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 shrink-0">
+                                Sovereign Core
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
+                              Air-gapped offline agentic AI in-a-box for defense &amp; critical infrastructure.
+                            </p>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
+                        </button>
                       </div>
 
                       {/* Bottom Footer Bar */}
@@ -388,16 +470,291 @@ const Navbar: React.FC<NavbarProps> = ({
               </AnimatePresence>
             </div>
 
-            {/* Services Link */}
-            <a 
-              href="#services"
-              onClick={(e) => handleNavClick(e, '#services')}
-              className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium whitespace-nowrap ${
-                isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
+            {/* Services Dropdown Mega-Menu */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
+            >
+              <button
+                className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
+                  ['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance'].includes(currentView)
+                    ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
+                    : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
+                }`}
+                aria-label="Services menu"
+                aria-expanded={isServicesOpen}
+                aria-haspopup="true"
+              >
+                <span>Services</span>
+                <ChevronDown size={14} className={`transition-transform duration-300 ${isServicesOpen ? 'rotate-180 text-orange-400' : ''}`} />
+              </button>
+
+              <AnimatePresence>
+                {isServicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[760px] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
+                      isDarkMode 
+                        ? 'bg-stone-950/95 border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.85),0_0_30px_rgba(249,115,22,0.1)] text-white backdrop-blur-2xl' 
+                        : 'bg-white/98 border border-slate-200/90 shadow-[0_25px_60px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.05)] text-slate-900 backdrop-blur-2xl'
+                    }`}
+                  >
+                    <div className="relative z-10 space-y-4">
+                      {/* Top Header Row */}
+                      <div className="flex items-center justify-between px-1 pb-2.5 border-b border-slate-100 dark:border-white/5">
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                          <span className="text-[11px] uppercase tracking-[0.2em] font-mono font-bold text-slate-500 dark:text-stone-400">
+                            Enterprise Cybersecurity Services &amp; Regulatory Advisory
+                          </span>
+                        </div>
+                        <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+                          6 Practices
+                        </span>
+                      </div>
+
+                      {/* 2x3 Grid of Services */}
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {/* 1: VAPT */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('vapt');
+                            setIsServicesOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'vapt'
+                              ? isDarkMode ? 'bg-white/[0.06] border-orange-500/40 shadow-sm' : 'bg-slate-50 border-orange-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-orange-500/20 transition-all duration-200">
+                            <ShieldCheck size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-orange-500 transition-colors">
+                                VAPT &amp; Offensive Security
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
+                                CERT-In Aligned
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
+                              Web, mobile, API &amp; cloud network penetration testing with manual exploit proofs.
+                            </p>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-orange-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
+                        </button>
+
+                        {/* 2: ISO 27001 */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('iso-27001');
+                            setIsServicesOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'iso-27001'
+                              ? isDarkMode ? 'bg-white/[0.06] border-blue-500/40 shadow-sm' : 'bg-slate-50 border-blue-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all duration-200">
+                            <Award size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">
+                                ISO 27001:2022 Certification
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shrink-0">
+                                8-12 Wks
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
+                              Turnkey ISMS implementation, Statement of Applicability &amp; Stage 2 audit pass guarantee.
+                            </p>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
+                        </button>
+
+                        {/* 3: SOC 2 */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('soc-2');
+                            setIsServicesOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'soc-2'
+                              ? isDarkMode ? 'bg-white/[0.06] border-indigo-500/40 shadow-sm' : 'bg-slate-50 border-indigo-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-200">
+                            <FileCheck size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-500 transition-colors">
+                                SOC 2 Type I &amp; Type II
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 shrink-0">
+                                AICPA Trust
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
+                              Accelerate enterprise SaaS procurement with continuous audit evidence &amp; CPA partner liaison.
+                            </p>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
+                        </button>
+
+                        {/* 4: Cloud Security */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('cloud-security');
+                            setIsServicesOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'cloud-security'
+                              ? isDarkMode ? 'bg-white/[0.06] border-cyan-500/40 shadow-sm' : 'bg-slate-50 border-cyan-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-cyan-500/20 transition-all duration-200">
+                            <Cloud size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-500 transition-colors">
+                                Cloud Security &amp; DevSecOps
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 shrink-0">
+                                Multi-Cloud
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
+                              AWS, Azure, GCP &amp; Kubernetes CIS benchmark hardening and automated CI/CD gating.
+                            </p>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-cyan-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
+                        </button>
+
+                        {/* 5: AI Security */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('ai-security');
+                            setIsServicesOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'ai-security'
+                              ? isDarkMode ? 'bg-white/[0.06] border-purple-500/40 shadow-sm' : 'bg-slate-50 border-purple-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-purple-500/20 transition-all duration-200">
+                            <Brain size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-purple-500 transition-colors">
+                                AI Security &amp; LLM Red Teaming
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 shrink-0">
+                                OWASP LLM
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
+                              Prompt injection defenses, RAG poisoning audits, and sovereign air-gapped safety.
+                            </p>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-purple-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
+                        </button>
+
+                        {/* 6: DPDP Compliance */}
+                        <button
+                          onClick={() => {
+                            setCurrentView('dpdp-compliance');
+                            setIsServicesOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
+                            currentView === 'dpdp-compliance'
+                              ? isDarkMode ? 'bg-white/[0.06] border-emerald-500/40 shadow-sm' : 'bg-slate-50 border-emerald-400/50 shadow-sm'
+                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all duration-200">
+                            <Scale size={19} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors">
+                                DPDP Act 2023 Compliance
+                              </span>
+                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
+                                India Mandate
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
+                              Data Fiduciary advisory, consent architectures, and preventing penalties up to ₹250 Crores.
+                            </p>
+                          </div>
+                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
+                        </button>
+                      </div>
+
+                      {/* Bottom Footer Bar */}
+                      <div className="pt-3 px-3 pb-1 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs">
+                        <a
+                          href="#services"
+                          onClick={(e) => {
+                            handleNavClick(e, '#services');
+                            setIsServicesOpen(false);
+                          }}
+                          className="text-slate-500 dark:text-stone-400 hover:text-orange-500 text-[11px]"
+                        >
+                          View all security capability frameworks →
+                        </a>
+                        <button
+                          onClick={() => {
+                            setIsServicesOpen(false);
+                            onOpenAuditModal?.();
+                          }}
+                          className="font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-500 flex items-center gap-1 transition-colors text-[11px]"
+                        >
+                          <span>Request Scoping Call</span>
+                          <ArrowRight size={12} />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Resources Link */}
+            <button 
+              onClick={() => {
+                setCurrentView('resources');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
+                currentView === 'resources' 
+                  ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
+                  : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
               }`}
             >
-              Services
-            </a>
+              Resources
+            </button>
 
             {/* About Us Page Link */}
             <button 
@@ -676,18 +1033,115 @@ const Navbar: React.FC<NavbarProps> = ({
                 <span className="text-[10px] px-2 py-0.5 rounded bg-orange-400/20 text-orange-400 border border-orange-400/30 font-mono">SOVEREIGN</span>
               </button>
 
-              <a 
-                href="#services"
-                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center ${
-                  isDarkMode ? 'text-stone-200' : 'text-slate-800'
-                }`}
-                onClick={(e) => {
-                  handleNavClick(e, '#services');
+              {/* Services Mobile Submenu */}
+              <div className="flex flex-col">
+                <button 
+                  onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                  className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center justify-between w-full font-bold ${
+                    ['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance'].includes(currentView)
+                      ? 'text-orange-500'
+                      : isDarkMode ? 'text-stone-200' : 'text-slate-800'
+                  }`}
+                  aria-label="Services submenu"
+                  aria-expanded={isMobileServicesOpen}
+                >
+                  <span>Services</span>
+                  <ChevronDown size={18} className={`transition-transform duration-300 ${isMobileServicesOpen ? 'rotate-180 text-orange-500' : ''}`} />
+                </button>
+                
+                <AnimatePresence>
+                  {isMobileServicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-4 flex flex-col gap-2.5 mt-1 overflow-hidden"
+                    >
+                      <button 
+                        className="flex items-center gap-2 py-2 text-sm text-orange-500 hover:underline text-left cursor-pointer font-bold"
+                        onClick={() => {
+                          setCurrentView('vapt');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <ShieldCheck size={16} className="text-orange-500" />
+                        <span>VAPT &amp; Offensive Security</span>
+                      </button>
+                      <button 
+                        className="flex items-center gap-2 py-2 text-sm text-blue-500 hover:underline text-left cursor-pointer font-bold"
+                        onClick={() => {
+                          setCurrentView('iso-27001');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <Award size={16} className="text-blue-500" />
+                        <span>ISO 27001:2022 Certification</span>
+                      </button>
+                      <button 
+                        className="flex items-center gap-2 py-2 text-sm text-indigo-500 hover:underline text-left cursor-pointer font-bold"
+                        onClick={() => {
+                          setCurrentView('soc-2');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <FileCheck size={16} className="text-indigo-500" />
+                        <span>SOC 2 Type I &amp; Type II Readiness</span>
+                      </button>
+                      <button 
+                        className="flex items-center gap-2 py-2 text-sm text-cyan-500 hover:underline text-left cursor-pointer font-bold"
+                        onClick={() => {
+                          setCurrentView('cloud-security');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <Cloud size={16} className="text-cyan-500" />
+                        <span>Cloud Security &amp; DevSecOps</span>
+                      </button>
+                      <button 
+                        className="flex items-center gap-2 py-2 text-sm text-purple-500 hover:underline text-left cursor-pointer font-bold"
+                        onClick={() => {
+                          setCurrentView('ai-security');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <Brain size={16} className="text-purple-500" />
+                        <span>AI Security &amp; LLM Red Teaming</span>
+                      </button>
+                      <button 
+                        className="flex items-center gap-2 py-2 text-sm text-emerald-500 hover:underline text-left cursor-pointer font-bold"
+                        onClick={() => {
+                          setCurrentView('dpdp-compliance');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <Scale size={16} className="text-emerald-500" />
+                        <span>DPDP Act 2023 Compliance</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Resources Mobile Link */}
+              <button 
+                onClick={() => {
+                  setCurrentView('resources');
                   setIsMobileMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
+                className={`text-base uppercase tracking-widest py-2 min-h-[44px] flex items-center gap-2 text-left cursor-pointer font-bold ${
+                  currentView === 'resources' ? 'text-orange-500' : isDarkMode ? 'text-stone-200' : 'text-slate-800'
+                }`}
               >
-                Services
-              </a>
+                <BookOpen size={16} className="text-orange-500" />
+                <span>Resources &amp; Guides</span>
+              </button>
 
               {/* Products Mobile Submenu */}
               <div className="flex flex-col">
@@ -711,32 +1165,35 @@ const Navbar: React.FC<NavbarProps> = ({
                       exit={{ opacity: 0, height: 0 }}
                       className="pl-4 flex flex-col gap-3 mt-1 overflow-hidden"
                     >
+                      {/* Mobile Product 1: ThreatForge */}
                       <button 
-                        className="flex items-center gap-2 py-2 text-sm text-orange-500 hover:underline text-left cursor-pointer font-bold"
+                        className="flex items-center gap-2.5 py-2 text-sm text-orange-500 hover:underline text-left cursor-pointer font-bold"
                         onClick={() => {
-                          setCurrentView('cyberverse');
+                          setCurrentView('threatforge');
                           setIsMobileMenuOpen(false);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
-                        <Gamepad2 size={16} className="text-orange-500" />
-                        <span>Cybravions CyberRange (Gamified RPG)</span>
+                        <ShieldAlert size={16} className="text-orange-500" />
+                        <span>ThreatForge (STRIDE &amp; PASTA Modeling)</span>
                       </button>
 
+                      {/* Mobile Product 2: SOC AI Triage */}
                       <button 
-                        className="flex items-center gap-2 py-2 text-sm text-blue-500 hover:underline text-left cursor-pointer"
+                        className="flex items-center gap-2.5 py-2 text-sm text-blue-500 hover:underline text-left cursor-pointer font-bold"
                         onClick={() => {
-                          setCurrentView('ai');
+                          setCurrentView('soc-ai');
                           setIsMobileMenuOpen(false);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
-                        <Brain size={16} className="text-blue-500" />
-                        <span>Cybravions AI (Sovereign In-a-Box)</span>
+                        <BellRing size={16} className="text-blue-500" />
+                        <span>SOC AI Triage (Autonomous SOAR)</span>
                       </button>
 
+                      {/* Mobile Product 3: AI Exception Manager */}
                       <button 
-                        className="flex items-center gap-2 py-2 text-sm text-amber-500 hover:underline text-left cursor-pointer"
+                        className="flex items-center gap-2.5 py-2 text-sm text-amber-500 hover:underline text-left cursor-pointer font-bold"
                         onClick={() => {
                           setCurrentView('exception-manager');
                           setIsMobileMenuOpen(false);
@@ -745,6 +1202,45 @@ const Navbar: React.FC<NavbarProps> = ({
                       >
                         <ShieldCheck size={16} className="text-amber-500" />
                         <span>AI Exception Manager (Risk Governance)</span>
+                      </button>
+
+                      {/* Mobile Product 4: CyberRange (CyberQuest) */}
+                      <button 
+                        className="flex items-center gap-2.5 py-2 text-sm text-orange-400 hover:underline text-left cursor-pointer"
+                        onClick={() => {
+                          setCurrentView('cyberverse');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <Gamepad2 size={16} className="text-orange-400" />
+                        <span>CyberRange (CTF &amp; CISM Quest Arena)</span>
+                      </button>
+
+                      {/* Mobile Product 5: Threat Intel Collector */}
+                      <button 
+                        className="flex items-center gap-2.5 py-2 text-sm text-cyan-400 hover:underline text-left cursor-pointer"
+                        onClick={() => {
+                          setCurrentView('threat-collector');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <Radio size={16} className="text-cyan-400" />
+                        <span>Threat Intel Collector (MISP &amp; OTX Ingestion)</span>
+                      </button>
+
+                      {/* Mobile Product 6: Cybravions AI */}
+                      <button 
+                        className="flex items-center gap-2.5 py-2 text-sm text-indigo-400 hover:underline text-left cursor-pointer"
+                        onClick={() => {
+                          setCurrentView('ai');
+                          setIsMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <Brain size={16} className="text-indigo-400" />
+                        <span>Cybravions AI (Sovereign In-a-Box)</span>
                       </button>
                     </motion.div>
                   )}
@@ -1517,43 +2013,145 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
     }`}>
       <div className="max-w-7xl mx-auto flex flex-col gap-10">
         
-        {/* Main Footer Top Row */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="flex items-center">
+        {/* Main Footer Multi-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-4">
+          {/* Col 1: Brand & Identity */}
+          <div className="space-y-4">
             <picture>
               <source srcSet="/logo.webp" type="image/webp" />
               <img 
                 src="/logo.png" 
                 alt="CYBRAVION" 
-                width="220"
-                height="72"
+                width="200"
+                height="65"
                 loading="lazy"
                 decoding="async"
-                className="h-14 md:h-18 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
+                className="h-12 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
               />
             </picture>
+            <p className="text-xs text-slate-500 dark:text-stone-400 leading-relaxed font-light">
+              CYBRAVION SOLUTIONS PRIVATE LIMITED is a Government of India registered cybersecurity engineering and GRC advisory firm headquartered in New Delhi, India.
+            </p>
+            <div className="text-[11px] font-mono text-slate-400 dark:text-stone-500">
+              CIN: U62099DL2026PTC470901<br />RoC-Delhi · Companies Act, 2013
+            </div>
           </div>
 
-          <div className={`flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-wider ${
-            isDarkMode ? 'text-stone-400' : 'text-slate-600'
-          }`}>
-            <button onClick={() => { setCurrentView('cyberverse'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-orange-500 hover:text-orange-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
-              <Gamepad2 size={13} />
-              CyberRange (RPG)
-            </button>
-            <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-blue-500 hover:text-blue-400 font-bold transition-colors cursor-pointer flex items-center gap-1">
-              <Sparkles size={12} />
-              Cybravions AI
-            </button>
-            <a href="#services" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Services</a>
-            <button onClick={() => { setCurrentView('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>About Us</button>
-            <a href="#radar" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>3D Radar</a>
-            <button onClick={() => { setCurrentView('compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Compliance</button>
-            <button onClick={() => { setCurrentView('training'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>Training</button>
-            <button onClick={() => { setCurrentView('exception-manager'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`cursor-pointer transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-slate-950'}`}>
-              Exception Manager
-            </button>
-            <a href="#contact" onClick={() => setCurrentView('home')} className={isDarkMode ? 'hover:text-white transition-colors' : 'hover:text-slate-950 transition-colors'}>Contact</a>
+          {/* Col 2: Core Services */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-orange-600 dark:text-orange-400 mb-4">
+              Security Services
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <button onClick={() => { setCurrentView('vapt'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                  VAPT &amp; Offensive Security
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('iso-27001'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                  ISO 27001:2022 Certification
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('soc-2'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                  SOC 2 Type I &amp; Type II Readiness
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('cloud-security'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                  Cloud Security &amp; DevSecOps
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('ai-security'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                  AI Security &amp; LLM Red Teaming
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('dpdp-compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                  DPDP Act 2023 Compliance
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 3: Enterprise Platforms */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-4">
+              Defense Platforms
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <button onClick={() => { setCurrentView('threatforge'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                  ThreatForge (STRIDE / PASTA)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('soc-ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                  SOC AI Triage (Autonomous SOAR)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('exception-manager'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                  AI Exception Manager (GRC)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('threat-collector'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                  Threat Intel Collector (MISP/STIX)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                  Cybravions AI (Sovereign Box)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('cyberverse'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                  CyberRange (CTF Simulation)
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Resources & Knowledge */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 mb-4">
+              Knowledge &amp; Trust
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <button onClick={() => { setCurrentView('resources'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors cursor-pointer text-left font-semibold text-orange-500">
+                  Regulatory Guides &amp; Blueprints
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors cursor-pointer text-left">
+                  About CYBRAVION
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors cursor-pointer text-left">
+                  Security &amp; Trust Center
+                </button>
+              </li>
+              <li>
+                <button onClick={() => { setCurrentView('training'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors cursor-pointer text-left">
+                  Training &amp; Capability Programs
+                </button>
+              </li>
+              <li>
+                <a href="#radar" onClick={() => setCurrentView('home')} className="hover:text-amber-500 transition-colors">
+                  3D Threat Radar
+                </a>
+              </li>
+              <li>
+                <a href="#contact" onClick={() => setCurrentView('home')} className="hover:text-amber-500 transition-colors font-semibold text-orange-500">
+                  Request Advisory Briefing →
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -1730,6 +2328,19 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Automatically strip temporary cache-busting query params (like ?v=...) from the address bar
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('v')) {
+        params.delete('v');
+        const cleanQuery = params.toString() ? `?${params.toString()}` : '';
+        const cleanPath = `${window.location.pathname}${cleanQuery}${window.location.hash}`;
+        window.history.replaceState({}, document.title, cleanPath);
+      }
+    }
   }, []);
 
   // Keep route state in sync with direct navigation and browser history.
