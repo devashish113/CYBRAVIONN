@@ -159,9 +159,9 @@ const Navbar: React.FC<NavbarProps> = ({
         }`}
         aria-label="Main navigation"
       >
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div className="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           {/* Brand Logo & Desktop Navigation Container */}
-          <div className="flex items-center gap-8 lg:gap-10 xl:gap-14">
+          <div className="flex items-center gap-3 lg:gap-5 xl:gap-6 2xl:gap-8 min-w-0">
             {/* Brand Logo Image Only */}
             <a 
               href="#" 
@@ -182,13 +182,13 @@ const Navbar: React.FC<NavbarProps> = ({
                   height="56"
                   loading="eager"
                   decoding="async"
-                  className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-all duration-300" 
+                  className="h-9 sm:h-10 xl:h-11 2xl:h-12 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-all duration-300" 
                 />
               </picture>
             </a>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden lg:flex items-center gap-3.5 xl:gap-6">
+            <div className="hidden lg:flex items-center gap-1.5 lg:gap-2.5 xl:gap-3 2xl:gap-5">
               {/* Products & Platforms Dropdown */}
               <div 
                 className="relative"
@@ -196,7 +196,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 onMouseLeave={() => setIsProductsOpen(false)}
               >
               <button
-                className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
+                className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
                   currentView === 'ai' 
                     ? isDarkMode ? 'text-blue-400 font-bold' : 'text-blue-600 font-bold' 
                     : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
@@ -478,7 +478,7 @@ const Navbar: React.FC<NavbarProps> = ({
               onMouseLeave={() => setIsServicesOpen(false)}
             >
               <button
-                className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
+                className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
                   ['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance'].includes(currentView)
                     ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
                     : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
@@ -748,7 +748,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 setCurrentView('resources');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
+              className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
                 currentView === 'resources' 
                   ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
                   : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
@@ -763,7 +763,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 setCurrentView('about');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
+              className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
                 currentView === 'about' 
                   ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
                   : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
@@ -778,7 +778,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 setCurrentView('compliance');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
+              className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
                 currentView === 'compliance' 
                   ? 'text-blue-500 font-bold border-b-2 border-blue-500 pb-0.5' 
                   : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
@@ -793,7 +793,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 setCurrentView('training');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
+              className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
                 currentView === 'training' 
                   ? 'text-blue-500 font-bold border-b-2 border-blue-500 pb-0.5' 
                   : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
@@ -809,7 +809,7 @@ const Navbar: React.FC<NavbarProps> = ({
               onMouseLeave={() => setIsCompanyOpen(false)}
             >
               <button
-                className={`text-xs xl:text-sm uppercase tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
+                className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
                   currentView === 'about'
                     ? 'text-orange-500 font-bold'
                     : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
@@ -868,7 +868,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Right Desktop Actions (Search, Theme Toggle, Consult CTA) */}
-          <div className="hidden lg:flex items-center gap-3 xl:gap-4 shrink-0 ml-6 xl:ml-8 pl-5 xl:pl-6 border-l border-slate-200/80 dark:border-stone-800">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 2xl:gap-3.5 shrink-0 ml-3 xl:ml-5 2xl:ml-6 pl-3 xl:pl-5 2xl:pl-6 border-l border-slate-200/80 dark:border-stone-800">
             {/* Command Palette Trigger Button (⌘K) */}
             <motion.button
               onClick={() => {
@@ -876,7 +876,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 onOpenCommandPalette?.();
               }}
               whileTap={{ scale: 0.95 }}
-              className={`hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono transition-all duration-300 cursor-pointer ${
+              className={`hidden xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-mono transition-all duration-300 cursor-pointer ${
                 isDarkMode 
                   ? 'bg-stone-900/90 hover:bg-stone-850 border-stone-700/80 text-stone-300 hover:text-white hover:border-blue-500/50 shadow-[0_0_15px_rgba(0,0,0,0.5)]' 
                   : 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700 hover:text-slate-900 shadow-sm'
@@ -884,8 +884,8 @@ const Navbar: React.FC<NavbarProps> = ({
               aria-label="Search and command palette (Ctrl+K)"
               title="Search and quick actions (Ctrl+K or ⌘K)"
             >
-              <Search size={13} className="text-blue-500" />
-              <span className="text-[11px] font-sans font-medium">Search</span>
+              <Search size={13} className="text-blue-500 shrink-0" />
+              <span className="hidden 2xl:inline text-[11px] font-sans font-medium">Search</span>
               <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 font-bold border border-blue-500/20">
                 ⌘K
               </kbd>
@@ -895,7 +895,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <motion.button
               onClick={toggleDarkMode}
               whileTap={{ scale: 0.92 }}
-              className={`p-2.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer group shrink-0 ${
+              className={`p-2 xl:p-2.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer group shrink-0 ${
                 isDarkMode
                   ? 'bg-stone-900/80 hover:bg-stone-800 border-stone-700/80 text-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.15)] hover:border-amber-400/40'
                   : 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-800 shadow-sm hover:border-slate-400'
@@ -913,7 +913,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     transition={{ duration: 0.2 }}
                     className="flex items-center gap-1.5"
                   >
-                    <Sun size={16} className="text-amber-400 group-hover:rotate-45 transition-transform duration-300" />
+                    <Sun size={15} className="text-amber-400 group-hover:rotate-45 transition-transform duration-300" />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -924,7 +924,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     transition={{ duration: 0.2 }}
                     className="flex items-center gap-1.5"
                   >
-                    <Moon size={16} className="text-indigo-600 group-hover:-rotate-12 transition-transform duration-300" />
+                    <Moon size={15} className="text-indigo-600 group-hover:-rotate-12 transition-transform duration-300" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -936,7 +936,7 @@ const Navbar: React.FC<NavbarProps> = ({
               onClick={(e) => handleNavClick(e, '#contact')}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-xs uppercase tracking-widest font-bold shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 whitespace-nowrap"
+              className="px-3.5 xl:px-4 2xl:px-5 py-2 xl:py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-[11px] xl:text-xs uppercase tracking-wider xl:tracking-widest font-bold shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 whitespace-nowrap"
             >
               Consult an Advisor
             </motion.a>
@@ -1350,8 +1350,17 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView 
 
   useEffect(() => {
     if (activeBrief !== null) {
-      const prevOverflow = document.body.style.overflow;
+      const prevBodyOverflow = document.body.style.overflow;
+      const prevHtmlOverflow = document.documentElement.style.overflow;
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+
+      // Halt Lenis inertial smooth scrolling so wheel events don't scroll the background page!
+      const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
+      if (lenis && typeof lenis.stop === 'function') {
+        lenis.stop();
+      }
+
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           setActiveBrief(null);
@@ -1359,8 +1368,12 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView 
       };
       window.addEventListener('keydown', handleKeyDown);
       return () => {
-        document.body.style.overflow = prevOverflow;
+        document.body.style.overflow = prevBodyOverflow;
+        document.documentElement.style.overflow = prevHtmlOverflow;
         window.removeEventListener('keydown', handleKeyDown);
+        if (lenis && typeof lenis.start === 'function') {
+          lenis.start();
+        }
       };
     }
   }, [activeBrief]);
@@ -1560,32 +1573,37 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView 
         <AnimatePresence>
           {activeBrief !== null && (
             <div 
+              id="capability-modal-backdrop"
+              data-lenis-prevent="true"
               onClick={() => setActiveBrief(null)}
-              className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-slate-950/85 backdrop-blur-2xl overflow-y-auto"
+              className="fixed inset-0 z-[999999] overflow-y-auto bg-slate-950/90 backdrop-blur-2xl overscroll-contain"
               style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                onClick={(e) => e.stopPropagation()}
-                className="bg-white dark:bg-[#0b101e] border border-slate-200 dark:border-blue-500/30 rounded-3xl max-w-4xl w-full shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(59,130,246,0.2)] relative max-h-[88vh] overflow-y-auto text-slate-900 dark:text-stone-100 my-auto"
-              >
-                <button
-                  onClick={() => setActiveBrief(null)}
-                  className="absolute top-5 right-5 sm:top-6 sm:right-6 p-2.5 text-slate-500 dark:text-stone-400 hover:text-slate-900 dark:hover:text-white rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-stone-900 dark:hover:bg-stone-800 border border-slate-200 dark:border-stone-800 cursor-pointer z-30 transition-all shadow-sm"
-                  aria-label="Close capability dossier"
+              <div className="min-h-full flex items-center justify-center p-3 sm:p-5 md:p-8">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96, y: 16 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.96, y: 16 }}
+                  transition={{ duration: 0.18, ease: "easeOut" }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative w-full max-w-4xl bg-white dark:bg-[#0b101e] border border-slate-200 dark:border-blue-500/30 rounded-3xl shadow-2xl dark:shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_30px_rgba(59,130,246,0.2)] text-slate-900 dark:text-stone-100 my-auto"
                 >
-                  <X size={18} />
-                </button>
-                <ServiceModalRenderer
-                  activeBrief={activeBrief}
-                  data={expertises[activeBrief]}
-                  close={() => setActiveBrief(null)}
-                  onOpenConsultation={onOpenConsultation}
-                  onNavigate={setCurrentView}
-                />
-              </motion.div>
+                  <button
+                    onClick={() => setActiveBrief(null)}
+                    className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 text-slate-500 dark:text-stone-400 hover:text-slate-900 dark:hover:text-white rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-stone-900 dark:hover:bg-stone-800 border border-slate-200 dark:border-stone-800 cursor-pointer z-30 transition-all shadow-sm"
+                    aria-label="Close capability dossier"
+                  >
+                    <X size={18} />
+                  </button>
+                  <ServiceModalRenderer
+                    activeBrief={activeBrief}
+                    data={expertises[activeBrief]}
+                    close={() => setActiveBrief(null)}
+                    onOpenConsultation={onOpenConsultation}
+                    onNavigate={setCurrentView}
+                  />
+                </motion.div>
+              </div>
             </div>
           )}
         </AnimatePresence>,
