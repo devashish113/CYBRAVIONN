@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Shield, 
@@ -1341,14 +1342,33 @@ const Navbar: React.FC<NavbarProps> = ({
 
 interface ServicesProps {
   onOpenConsultation?: () => void;
+  setCurrentView?: (view: any) => void;
 }
 
-const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
+const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView }) => {
   const [activeBrief, setActiveBrief] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (activeBrief !== null) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setActiveBrief(null);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = prevOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [activeBrief]);
 
   const expertises = [
     {
       title: "GRC",
+      route: "iso-27001",
       tag: "GOVERN",
       subtitle: "Governance, Risk & Compliance Architecture",
       desc: "ISO 27001 and DPDP Act compliance, audit-ready governance frameworks, SOC 2 Type II, and continuous risk management.",
@@ -1364,6 +1384,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
     },
     {
       title: "AI Security",
+      route: "ai-security",
       tag: "PROTECT",
       subtitle: "Model Security & Sovereign Safety",
       desc: "Sovereign model protection, prompt injection defense, and air-gapped neural safety.",
@@ -1379,6 +1400,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
     },
     {
       title: "Offensive Security",
+      route: "vapt",
       tag: "TEST",
       subtitle: "VAPT & Zero-Day Threat Emulation",
       desc: "Rigorous VAPT, zero-day threat discovery, and multi-vector adversary simulation.",
@@ -1394,6 +1416,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
     },
     {
       title: "Cloud & DevSecOps",
+      route: "cloud-security",
       tag: "PROTECT",
       subtitle: "AWS, Azure & GCP Hardening",
       desc: "Hardened multi-cloud architecture (AWS/Azure/GCP), CI/CD gating, and Kubernetes isolation.",
@@ -1409,6 +1432,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
     },
     {
       title: "Threat Intelligence",
+      route: "threat-collector",
       tag: "TEST",
       subtitle: "Dark Web & Digital Asset Defense",
       desc: "24/7 dark web reconnaissance, VIP credential surveillance, and proactive C2 threat hunting.",
@@ -1424,6 +1448,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
     },
     {
       title: "SOC Triage Services",
+      route: "soc-ai",
       tag: "GOVERN",
       subtitle: "24/7 Threat Triage & Incident Resilience",
       desc: "24/7 security alert triage, threat correlation, incident containment, and automated SOAR playbooks.",
@@ -1531,36 +1556,41 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation }) => {
         </div>
       </div>
 
-      <AnimatePresence>
-        {activeBrief !== null && (
-          <div 
-            onClick={() => setActiveBrief(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-slate-950/85 backdrop-blur-2xl overflow-y-auto"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white dark:bg-[#0b101e] border border-slate-200 dark:border-blue-500/30 rounded-3xl max-w-4xl w-full shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(59,130,246,0.2)] relative max-h-[88vh] overflow-y-auto text-slate-900 dark:text-stone-100 my-auto"
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {activeBrief !== null && (
+            <div 
+              onClick={() => setActiveBrief(null)}
+              className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-slate-950/85 backdrop-blur-2xl overflow-y-auto"
+              style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
             >
-              <button
-                onClick={() => setActiveBrief(null)}
-                className="absolute top-5 right-5 sm:top-6 sm:right-6 p-2.5 text-slate-500 dark:text-stone-400 hover:text-slate-900 dark:hover:text-white rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-stone-900 dark:hover:bg-stone-800 border border-slate-200 dark:border-stone-800 cursor-pointer z-30 transition-all shadow-sm"
-                aria-label="Close capability dossier"
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white dark:bg-[#0b101e] border border-slate-200 dark:border-blue-500/30 rounded-3xl max-w-4xl w-full shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(59,130,246,0.2)] relative max-h-[88vh] overflow-y-auto text-slate-900 dark:text-stone-100 my-auto"
               >
-                <X size={18} />
-              </button>
-              <ServiceModalRenderer
-                activeBrief={activeBrief}
-                data={expertises[activeBrief]}
-                close={() => setActiveBrief(null)}
-                onOpenConsultation={onOpenConsultation}
-              />
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+                <button
+                  onClick={() => setActiveBrief(null)}
+                  className="absolute top-5 right-5 sm:top-6 sm:right-6 p-2.5 text-slate-500 dark:text-stone-400 hover:text-slate-900 dark:hover:text-white rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-stone-900 dark:hover:bg-stone-800 border border-slate-200 dark:border-stone-800 cursor-pointer z-30 transition-all shadow-sm"
+                  aria-label="Close capability dossier"
+                >
+                  <X size={18} />
+                </button>
+                <ServiceModalRenderer
+                  activeBrief={activeBrief}
+                  data={expertises[activeBrief]}
+                  close={() => setActiveBrief(null)}
+                  onOpenConsultation={onOpenConsultation}
+                  onNavigate={setCurrentView}
+                />
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 };
@@ -2493,7 +2523,7 @@ export default function App() {
                 />
 
                 {/* 02. Security Core (6 Real Capabilities) */}
-                <Services onOpenConsultation={() => setIsAuditModalOpen(true)} />
+                <Services onOpenConsultation={() => setIsAuditModalOpen(true)} setCurrentView={setCurrentView} />
 
                 {/* 03. Interactive Threat Radar Demo */}
                 <DeferredMount id="radar" className="min-h-[500px]">

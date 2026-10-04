@@ -30,18 +30,21 @@ interface ModalData {
   standards?: string[];
   whatWeDo?: string[];
   glow?: 'blue' | 'orange';
+  route?: string;
 }
 
 interface ServiceModalProps {
   data: ModalData;
   close: () => void;
   onOpenConsultation?: () => void;
+  onNavigate?: (route: string) => void;
 }
 
 export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({ 
   data, 
   close,
-  onOpenConsultation 
+  onOpenConsultation,
+  onNavigate 
 }) => {
   const isBlue = data.glow === 'blue';
 
@@ -164,6 +167,21 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          {data.route && onNavigate && (
+            <button
+              onClick={() => {
+                cyberAudio.playClick();
+                close();
+                onNavigate(data.route!);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="w-full sm:w-auto px-5 py-3 rounded-xl border border-orange-500/40 hover:bg-orange-500/10 text-orange-600 dark:text-orange-400 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+            >
+              <span>Explore Full {data.title} Page</span>
+              <ArrowRight size={14} />
+            </button>
+          )}
+
           <button
             onClick={close}
             className="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-300 dark:border-stone-700 hover:bg-slate-100 dark:hover:bg-stone-800 text-slate-700 dark:text-stone-300 font-mono text-xs font-semibold transition-colors cursor-pointer"
@@ -195,12 +213,14 @@ export const ServiceModalRenderer: React.FC<{
   data: any; 
   close: () => void;
   onOpenConsultation?: () => void;
-}> = ({ activeBrief, data, close, onOpenConsultation }) => {
+  onNavigate?: (route: string) => void;
+}> = ({ activeBrief, data, close, onOpenConsultation, onNavigate }) => {
   return (
     <UnifiedCapabilityModal 
       data={data} 
       close={close} 
       onOpenConsultation={onOpenConsultation}
+      onNavigate={onNavigate}
     />
   );
 };
