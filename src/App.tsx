@@ -119,18 +119,15 @@ const Navbar: React.FC<NavbarProps> = ({
     if (isMobileMenuOpen) {
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
       if (lenis) lenis.stop();
     } else {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-      document.body.style.touchAction = '';
       if (lenis) lenis.start();
     }
     return () => {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-      document.body.style.touchAction = '';
       if (lenis) lenis.start();
     };
   }, [isMobileMenuOpen]);
@@ -1016,34 +1013,121 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button 
-              className={`p-2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg ${
-                isDarkMode ? 'text-stone-100' : 'text-slate-800'
+              className={`p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl border transition-all cursor-pointer ${
+                isDarkMode 
+                  ? 'bg-stone-900 border-stone-700 text-stone-100 hover:bg-stone-800' 
+                  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
               }`}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={() => {
+                cyberAudio.playClick();
+                setIsMobileMenuOpen(!isMobileMenuOpen);
+              }}
               aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={isMobileMenuOpen}
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile Full-Screen Navigation Drawer */}
+      {/* Mobile Full-Screen Navigation Drawer via Portal (immune to backdrop-filter containing block bugs) */}
+      {typeof document !== 'undefined' && createPortal(
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
               data-lenis-prevent="true"
-              className={`fixed inset-x-0 top-[58px] sm:top-[64px] bottom-0 z-50 lg:hidden overflow-y-auto overscroll-contain flex flex-col justify-between p-4 sm:p-6 transition-colors ${
+              className={`fixed inset-0 z-[999999] lg:hidden flex flex-col ${
                 isDarkMode 
-                  ? 'bg-[#07090e]/98 border-t border-stone-800 text-stone-100 backdrop-blur-3xl' 
-                  : 'bg-white/98 border-t border-slate-200 text-slate-900 backdrop-blur-3xl shadow-2xl'
+                  ? 'bg-[#07090e] text-stone-100' 
+                  : 'bg-white text-slate-900 shadow-2xl'
               }`}
+              style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
             >
-              <div className="space-y-4 pb-6">
+              {/* Top Header Bar inside Portal */}
+              <div className={`px-4 sm:px-6 py-3.5 border-b flex items-center justify-between shrink-0 ${
+                isDarkMode ? 'border-white/10 bg-[#05070d]' : 'border-slate-200 bg-slate-50'
+              }`}>
+                {/* Brand Logo */}
+                <a 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    cyberAudio.playClick();
+                    setCurrentView('home');
+                    setIsMobileMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="flex items-center group shrink-0"
+                  aria-label="CYBRAVIONS Home"
+                >
+                  <picture>
+                    <source srcSet="/logo.webp" type="image/webp" />
+                    <img 
+                      src="/logo.png" 
+                      alt="CYBRAVIONS" 
+                      width="160"
+                      height="48"
+                      loading="eager"
+                      className="h-9 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,240,255,0.4)]" 
+                    />
+                  </picture>
+                </a>
+
+                {/* Right controls: Search + Theme + Close */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      setIsMobileMenuOpen(false);
+                      onOpenCommandPalette?.();
+                    }}
+                    className={`p-2 rounded-full border transition-all cursor-pointer ${
+                      isDarkMode
+                        ? 'bg-stone-900 border-stone-700 text-blue-400'
+                        : 'bg-white border-slate-300 text-blue-600 shadow-sm'
+                    }`}
+                    aria-label="Search and command palette"
+                  >
+                    <Search size={18} />
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      toggleDarkMode();
+                    }}
+                    className={`p-2 rounded-full border transition-all cursor-pointer ${
+                      isDarkMode
+                        ? 'bg-stone-900 border-stone-700 text-amber-400'
+                        : 'bg-white border-slate-300 text-slate-800 shadow-sm'
+                    }`}
+                    aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                  >
+                    {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+                  </button>
+
+                  <button 
+                    className={`p-2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-xl border transition-all cursor-pointer ${
+                      isDarkMode ? 'bg-white/10 hover:bg-white/15 border-white/10 text-white' : 'bg-slate-200 hover:bg-slate-300 border-slate-300 text-slate-900'
+                    }`}
+                    onClick={() => {
+                      cyberAudio.playClick();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    aria-label="Close navigation menu"
+                  >
+                    <X size={22} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Scrollable Navigation Body */}
+              <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 space-y-4">
                 {/* 1. Featured Spotlight Card: Cybravions AI */}
                 <button
                   onClick={() => {
@@ -1569,31 +1653,32 @@ const Navbar: React.FC<NavbarProps> = ({
                     </button>
                   )}
                 </div>
-              </div>
 
-              {/* 6. Sticky Bottom Action Footer */}
-              <div className="pt-3 border-t border-slate-200/60 dark:border-white/5 space-y-2 mt-auto">
-                <a
-                  href="#contact"
-                  onClick={(e) => {
-                    cyberAudio.playClick();
-                    handleNavClick(e, '#contact');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl text-xs uppercase tracking-widest font-bold text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all cursor-pointer"
-                >
-                  <span>Consult An Advisor</span>
-                  <ArrowRight size={16} />
-                </a>
-                <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 dark:text-stone-500 font-mono">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>24/7 Security Advisory • CERT-In &amp; ISO Certified</span>
+                {/* 6. Sticky Bottom Action Footer */}
+                <div className="pt-3 border-t border-slate-200/60 dark:border-white/5 space-y-2 pb-6">
+                  <a
+                    href="#contact"
+                    onClick={(e) => {
+                      cyberAudio.playClick();
+                      handleNavClick(e, '#contact');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl text-xs uppercase tracking-widest font-bold text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all cursor-pointer"
+                  >
+                    <span>Consult An Advisor</span>
+                    <ArrowRight size={16} />
+                  </a>
+                  <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 dark:text-stone-500 font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>24/7 Security Advisory • CERT-In &amp; ISO Certified</span>
+                  </div>
                 </div>
               </div>
             </motion.div>
           )}
-        </AnimatePresence>
-      </nav>
+        </AnimatePresence>,
+        document.body
+      )}
     </header>
   );
 };
