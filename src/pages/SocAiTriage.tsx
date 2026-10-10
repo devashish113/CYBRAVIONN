@@ -137,7 +137,7 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
           >
             {/* Live Link to Deployed App */}
             <a
-              href="http://40.192.90.82:3004"
+              href="https://soc.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
@@ -308,7 +308,7 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
                   Engine: <strong className="text-emerald-400">SOC AI Active</strong>
                 </span>
                 <a
-                  href="http://40.192.90.82:3004"
+                  href="https://soc.cybravions.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1 transition-colors"
@@ -405,7 +405,7 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
-              href="http://40.192.90.82:3004"
+              href="https://soc.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}

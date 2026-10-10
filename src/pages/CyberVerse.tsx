@@ -305,7 +305,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
           >
             <a
-              href="http://40.192.90.82:3003"
+              href="https://cyberrange.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}

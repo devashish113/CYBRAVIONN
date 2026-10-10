@@ -216,7 +216,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
             className="flex flex-wrap items-center justify-center gap-4 w-full sm:w-auto"
           >
             <a
-              href="http://40.192.90.82:8501"
+              href="https://exceptions.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}

@@ -187,7 +187,7 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
           >
             {/* Direct Deployed Redirect Link */}
             <a
-              href="http://40.192.90.82:4173"
+              href="https://threatforge.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
@@ -372,7 +372,7 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
                   Engine Status: <strong className="text-emerald-400">Verified Deterministic</strong>
                 </span>
                 <a
-                  href="http://40.192.90.82:4173"
+                  href="https://threatforge.cybravions.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1 transition-colors"
@@ -435,7 +435,7 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
-              href="http://40.192.90.82:4173"
+              href="https://threatforge.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
