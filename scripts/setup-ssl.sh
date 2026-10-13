@@ -19,12 +19,21 @@ echo "=== 3. Writing Unified Cybravions Ecosystem Nginx Config ==="
 cat << 'EOF' > /etc/nginx/sites-available/cybravion.conf
 # ==============================================================================
 # Cybravions Ecosystem - Unified Nginx Reverse Proxy Configuration
+# Production-ready SSL/TLS termination, Security Hardening & Reverse Proxy
 # ==============================================================================
 
+# 1. HTTP Redirect Block (Port 80)
+# Handles ACME challenge for Let's Encrypt, attaches defensive headers, redirects to HTTPS
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
     server_name _;
+
+    # Defensive Security Headers on HTTP 301 Redirect
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" always;
 
     location ^~ /.well-known/acme-challenge/ {
         root /var/www/html;
@@ -37,6 +46,7 @@ server {
     }
 }
 
+# 2. Cybravions Main Website (Port 3000)
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -51,11 +61,14 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
 
+    # Enterprise Security Headers (A+ Grade)
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" always;
+    add_header Content-Security-Policy "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; font-src 'self' https: data:; img-src 'self' https: data: blob:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' blob:; frame-ancestors 'self';" always;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -70,6 +83,7 @@ server {
     }
 }
 
+# 3. ThreatForge (Next.js - Port 4173)
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -85,9 +99,12 @@ server {
     ssl_ciphers HIGH:!aNULL:!MD5;
 
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" always;
+    add_header Content-Security-Policy "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; font-src 'self' https: data:; img-src 'self' https: data: blob:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' blob:; frame-ancestors 'self';" always;
     add_header Cache-Control "no-cache, no-store, must-revalidate" always;
     add_header CDN-Cache-Control "no-store" always;
     add_header Cloudflare-CDN-Cache-Control "no-store" always;
@@ -107,6 +124,7 @@ server {
     }
 }
 
+# 4. SOC AI Triage (Next.js - Port 3004)
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -122,9 +140,12 @@ server {
     ssl_ciphers HIGH:!aNULL:!MD5;
 
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" always;
+    add_header Content-Security-Policy "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; font-src 'self' https: data:; img-src 'self' https: data: blob:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' blob:; frame-ancestors 'self';" always;
     add_header Cache-Control "no-cache, no-store, must-revalidate" always;
     add_header CDN-Cache-Control "no-store" always;
     add_header Cloudflare-CDN-Cache-Control "no-store" always;
@@ -144,6 +165,7 @@ server {
     }
 }
 
+# 5. Exception Manager / GRC (Streamlit - Port 8501)
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -159,9 +181,12 @@ server {
     ssl_ciphers HIGH:!aNULL:!MD5;
 
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" always;
+    add_header Content-Security-Policy "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; font-src 'self' https: data:; img-src 'self' https: data: blob:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' blob:; frame-ancestors 'self';" always;
     add_header Cache-Control "no-cache, no-store, must-revalidate" always;
     add_header CDN-Cache-Control "no-store" always;
     add_header Cloudflare-CDN-Cache-Control "no-store" always;
@@ -182,6 +207,7 @@ server {
         proxy_buffering off;
     }
 
+    # Streamlit core WebSocket streaming endpoint
     location ^~ /_stcore/stream {
         proxy_pass http://127.0.0.1:8501/_stcore/stream;
         proxy_http_version 1.1;
@@ -196,6 +222,7 @@ server {
         proxy_buffering off;
     }
 
+    # Streamlit legacy stream endpoint fallback
     location ^~ /stream {
         proxy_pass http://127.0.0.1:8501/stream;
         proxy_http_version 1.1;
@@ -211,6 +238,7 @@ server {
     }
 }
 
+# 6. Threat Intel Collector / MISP (Next.js - Port 3002)
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -226,9 +254,12 @@ server {
     ssl_ciphers HIGH:!aNULL:!MD5;
 
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" always;
+    add_header Content-Security-Policy "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; font-src 'self' https: data:; img-src 'self' https: data: blob:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' blob:; frame-ancestors 'self';" always;
     add_header Cache-Control "no-cache, no-store, must-revalidate" always;
     add_header CDN-Cache-Control "no-store" always;
     add_header Cloudflare-CDN-Cache-Control "no-store" always;
@@ -248,6 +279,7 @@ server {
     }
 }
 
+# 7. CyberRange / CyberQuest / CyberVerse (Nginx - Port 3003)
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -263,9 +295,12 @@ server {
     ssl_ciphers HIGH:!aNULL:!MD5;
 
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" always;
+    add_header Content-Security-Policy "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; font-src 'self' https: data:; img-src 'self' https: data: blob:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' blob:; frame-ancestors 'self';" always;
     add_header Cache-Control "no-cache, no-store, must-revalidate" always;
     add_header CDN-Cache-Control "no-store" always;
     add_header Cloudflare-CDN-Cache-Control "no-store" always;
