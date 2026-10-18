@@ -26,6 +26,8 @@ import {
   Linkedin
 } from 'lucide-react';
 import { OfficeLocationMap } from '../components/OfficeLocationMap';
+import { PageHeader } from '../components/PageHeader';
+import { WaterGlassCard } from '../components/WaterGlassCard';
 
 interface AboutUsProps {
   setCurrentView?: (view: string) => void;
@@ -112,13 +114,14 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
   ];
 
   return (
-    <div className="pt-24 min-h-screen relative bg-transparent text-slate-900 dark:text-stone-100 selection:bg-orange-500/20 selection:text-orange-900">
+    <div className="pt-24 min-h-screen relative bg-transparent text-slate-900 dark:text-stone-100 selection:bg-purple-500/20 selection:text-purple-900">
       {/* Atmospheric Cybernetic Background Glows & Dynamic Depth */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Neon Orange & Cyan Core Radial Nebulae */}
-        <div className="absolute top-10 left-1/4 -translate-x-1/2 w-[700px] h-[700px] bg-gradient-to-br from-blue-600/15 via-indigo-600/10 to-transparent rounded-full blur-[160px] animate-pulse" />
-        <div className="absolute top-1/3 right-0 w-[650px] h-[650px] bg-gradient-to-tl from-orange-500/15 via-amber-500/10 to-transparent rounded-full blur-[160px]" />
-        <div className="absolute bottom-1/4 left-10 w-[600px] h-[600px] bg-gradient-to-tr from-cyan-500/10 via-blue-500/10 to-transparent rounded-full blur-[150px]" />
+        {/* Subtle Architectural Vignette */}
+        <div 
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none opacity-40 dark:opacity-20 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]"
+          style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 70%)' }}
+        />
         {/* Subtle Cyber Grid Overlay */}
         <div 
           className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07]" 
@@ -132,64 +135,37 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
       <div className="relative z-10">
         
         {/* ============================================================
-           1. HERO SECTION
+           1. HERO SECTION (Unified Sarvam Editorial Craft)
         ============================================================ */}
-        <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto text-center relative">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.6 }}
-          >
-            {/* Government of India MCA Incorporation Verification Badge */}
-            <div className={`inline-flex items-center gap-2.5 px-4 py-2 rounded-full border backdrop-blur-md text-xs font-mono mb-8 shadow-sm ${
-              isDarkMode 
-                ? 'bg-stone-900/90 border-stone-700 text-stone-200' 
-                : 'bg-white/95 border-slate-300 text-slate-800 shadow-md'
-            }`}>
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="font-semibold">Govt. of India MCA Registered Entity</span>
-              <span className={isDarkMode ? 'text-stone-600' : 'text-slate-300'}>|</span>
-              <span className="text-orange-500 font-bold">CIN: U62099DL2026PTC470901</span>
-            </div>
-
-            <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.15] ${
-              isDarkMode ? 'text-white' : 'text-slate-950'
-            }`}>
-              Sovereign <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-400 to-blue-500">Cybersecurity Defense</span> for the Autonomous Era
-            </h1>
-
-            <p className={`text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto mb-10 leading-relaxed font-normal ${
-              isDarkMode ? 'text-stone-200' : 'text-slate-700'
-            }`}>
-              <strong className={isDarkMode ? 'text-white font-semibold' : 'text-slate-950 font-semibold'}>CYBRAVION SOLUTIONS PRIVATE LIMITED</strong> builds sovereign AI security appliances, air-gapped threat defense, offensive red-teaming, and continuous risk governance for global enterprises.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center justify-center gap-4">
+        <PageHeader
+          kicker="Govt. of India MCA Registered Entity · CIN: U62099DL2026PTC470901"
+          title="Sovereign Cybersecurity Defense"
+          italicTitle="for the Autonomous Era."
+          description="CYBRAVION SOLUTIONS PRIVATE LIMITED builds sovereign AI security appliances, air-gapped threat defense, offensive red-teaming, and continuous risk governance for global enterprises."
+          isDarkMode={isDarkMode}
+          actions={
+            <>
               <a
                 href="#corporate-profile"
-                className="px-6 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm transition-all shadow-lg shadow-orange-500/25 flex items-center gap-2 group cursor-pointer"
+                className="group inline-flex items-center justify-center cursor-pointer font-medium rounded-full min-h-[46px] px-8 py-3 text-xs text-white active:scale-[0.97] transition-all duration-200 btn-tactile-primary"
               >
-                <span>Explore Corporate Profile</span>
-                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                <span className="flex items-center gap-2">
+                  <span className="font-semibold tracking-wide">Explore Corporate Profile</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                </span>
               </a>
               <a
                 href="#office-location"
-                className={`px-6 py-3.5 rounded-xl border font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer shadow-sm ${
-                  isDarkMode 
-                    ? 'bg-stone-900/90 hover:bg-stone-800 text-stone-100 border-stone-700' 
-                    : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
-                }`}
+                className="inline-flex items-center justify-center cursor-pointer font-medium rounded-full min-h-[46px] px-8 py-3 text-xs active:scale-[0.97] transition-all duration-200 btn-tactile-outline"
               >
-                <MapPin size={15} className="text-orange-500" />
-                <span>Headquarters &amp; Map</span>
+                <span className="flex items-center gap-2">
+                  <MapPin size={14} className="text-amber-500" />
+                  <span className="font-semibold tracking-wide">Headquarters &amp; Map</span>
+                </span>
               </a>
-            </div>
-          </motion.div>
-        </section>
+            </>
+          }
+        />
 
         {/* ============================================================
            2. METRICS STRIP
@@ -209,7 +185,9 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                 transition={{ delay: i * 0.1 }}
                 className="text-center md:text-left"
               >
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-blue-500 font-mono">
+                <div className={`text-3xl sm:text-4xl lg:text-5xl font-black font-mono ${
+                  isDarkMode ? 'text-white' : 'text-slate-900'
+                }`}>
                   {metric.value}
                 </div>
                 <div className={`text-sm font-bold mt-1.5 uppercase tracking-wider ${
@@ -234,13 +212,14 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs uppercase tracking-[0.3em] text-orange-500 font-mono font-bold block">
+              <span className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-stone-400 font-mono font-semibold block">
                 Company Overview
               </span>
-              <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight ${
-                isDarkMode ? 'text-white' : 'text-slate-950'
-              }`}>
-                Architecting Uncompromised <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-orange-500">Cyber Sovereignty</span>
+              <h2 className="font-editorial text-3xl sm:text-5xl font-normal tracking-tight leading-tight text-neutral-900 dark:text-white">
+                Architecting Uncompromised <br className="hidden sm:inline" />
+                <span className="italic font-light text-neutral-500 dark:text-neutral-400">
+                  Cyber Sovereignty.
+                </span>
               </h2>
               <p className={`text-base sm:text-lg leading-relaxed font-normal ${
                 isDarkMode ? 'text-stone-200' : 'text-slate-700'
@@ -254,37 +233,29 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
               </p>
 
               <div className="pt-4 flex flex-col sm:flex-row gap-4">
-                <div className={`p-5 rounded-2xl border shadow-md flex items-start gap-3 flex-1 ${
-                  isDarkMode 
-                    ? 'bg-[#0b101e] border-stone-800' 
-                    : 'bg-white border-slate-200 shadow-slate-200/50'
-                }`}>
-                  <div className="p-2.5 rounded-xl bg-orange-500/10 text-orange-500 shrink-0">
+                <WaterGlassCard className="p-5 flex items-start gap-3 flex-1">
+                  <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-500 dark:text-purple-400 shrink-0">
                     <ShieldCheck size={22} />
                   </div>
                   <div>
-                    <h4 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-950'}`}>Our Mission</h4>
-                    <p className={`text-xs mt-1 font-normal ${isDarkMode ? 'text-stone-300' : 'text-slate-600'}`}>
+                    <h4 className="font-bold text-sm text-slate-900 dark:text-white">Our Mission</h4>
+                    <p className="text-xs mt-1 font-normal text-slate-600 dark:text-stone-300">
                       To neutralize advanced cyber threats through cryptographic precision, air-gapped AI, and proactive offensive auditing.
                     </p>
                   </div>
-                </div>
+                </WaterGlassCard>
 
-                <div className={`p-5 rounded-2xl border shadow-md flex items-start gap-3 flex-1 ${
-                  isDarkMode 
-                    ? 'bg-[#0b101e] border-stone-800' 
-                    : 'bg-white border-slate-200 shadow-slate-200/50'
-                }`}>
-                  <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-500 shrink-0">
+                <WaterGlassCard className="p-5 flex items-start gap-3 flex-1">
+                  <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-500 dark:text-blue-400 shrink-0">
                     <Compass size={22} />
                   </div>
                   <div>
-                    <h4 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-950'}`}>Our Vision</h4>
-                    <p className={`text-xs mt-1 font-normal ${isDarkMode ? 'text-stone-300' : 'text-slate-600'}`}>
+                    <h4 className="font-bold text-sm text-slate-900 dark:text-white">Our Vision</h4>
+                    <p className="text-xs mt-1 font-normal text-slate-600 dark:text-stone-300">
                       To become the global benchmark in sovereign cybersecurity appliances, resilient zero-trust frameworks, and gamified defense training.
                     </p>
                   </div>
-                </div>
+                </WaterGlassCard>
               </div>
             </div>
 
@@ -295,7 +266,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                   ? 'bg-[#0b1222] border-blue-500/20 text-stone-100' 
                   : 'bg-white border-slate-200 text-slate-900 shadow-slate-200/60'
               }`}>
-                <div className="absolute -top-12 -right-12 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 
                 <div className={`flex items-center justify-between pb-6 border-b ${
@@ -303,7 +274,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                 }`}>
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-slate-900 text-white dark:bg-stone-800 shrink-0">
-                      <Building2 size={22} className="text-orange-500" />
+                      <Building2 size={22} className="text-purple-500" />
                     </div>
                     <div>
                       <span className={`text-[10px] uppercase tracking-widest font-mono block ${
@@ -328,7 +299,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                     isDarkMode ? 'border-stone-800/80' : 'border-slate-100'
                   }`}>
                     <span className={isDarkMode ? 'text-stone-400' : 'text-slate-500'}>Corporate Identification (CIN):</span>
-                    <span className="font-bold text-orange-500">U62099DL2026PTC470901</span>
+                    <span className="font-bold text-purple-500">U62099DL2026PTC470901</span>
                   </div>
 
                   <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b ${
@@ -377,14 +348,14 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                         href="https://www.mca.gov.in/mcafoportal/companyLLPMasterData.do"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[10px] font-bold text-orange-500 hover:text-orange-400 flex items-center gap-1 hover:underline"
+                        className="text-[10px] font-bold text-purple-500 hover:text-purple-400 flex items-center gap-1 hover:underline"
                       >
                         <span>MCA Portal</span>
                         <ExternalLink size={10} />
                       </a>
                     </div>
                     <p className="text-[11px] leading-relaxed font-sans">
-                      Verify directly on the Govt. of India Ministry of Corporate Affairs portal by entering CIN <strong className="font-mono text-orange-500">U62099DL2026PTC470901</strong> under Company/LLP Master Data.
+                      Verify directly on the Govt. of India Ministry of Corporate Affairs portal by entering CIN <strong className="font-mono text-purple-500">U62099DL2026PTC470901</strong> under Company/LLP Master Data.
                     </p>
                   </div>
 
@@ -427,7 +398,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                     href="https://www.google.com/maps/dir/?api=1&destination=28.519429,77.201125"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md"
+                    className="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-md"
                   >
                     <Navigation size={14} />
                     <span>Map</span>
@@ -491,7 +462,7 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                   <span>3. Report Imposters Immediately</span>
                 </div>
                 <p className={isDarkMode ? 'text-stone-300' : 'text-slate-600'}>
-                  If contacted by scammers claiming to represent Cybravions, immediately report them to the National Cybercrime Portal at <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" className="text-blue-500 font-bold underline">cybercrime.gov.in</a> or dial Helpline <strong className="text-orange-500">1930</strong>.
+                  If contacted by scammers claiming to represent Cybravions, immediately report them to the National Cybercrime Portal at <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" className="text-blue-500 font-bold underline">cybercrime.gov.in</a> or dial Helpline <strong className="text-purple-500">1930</strong>.
                 </p>
               </div>
             </div>
@@ -508,13 +479,14 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
         }`}>
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="text-xs uppercase tracking-[0.3em] text-blue-500 font-mono font-bold block mb-2">
-                Capabilities &amp; Specialization
-              </span>
-              <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight ${
-                isDarkMode ? 'text-white' : 'text-slate-950'
-              }`}>
-                Core Architectural Pillars
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                <span className="text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-mono font-medium">
+                  Capabilities &amp; Specialization
+                </span>
+              </div>
+              <h2 className="font-editorial text-3xl sm:text-5xl font-normal tracking-tight text-neutral-900 dark:text-white">
+                Core Architectural <span className="italic font-light text-neutral-500 dark:text-neutral-400">Pillars.</span>
               </h2>
               <p className={`text-sm sm:text-base max-w-2xl mx-auto mt-3 font-normal ${
                 isDarkMode ? 'text-stone-300' : 'text-slate-600'
@@ -525,32 +497,24 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {corePillars.map((pillar, i) => (
-                <motion.div
+                <WaterGlassCard
                   key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className={`p-8 rounded-3xl border shadow-lg hover:border-orange-500/40 hover:shadow-2xl transition-all duration-300 group ${
-                    isDarkMode 
-                      ? 'bg-[#0b101e] border-stone-800/90 text-stone-100' 
-                      : 'bg-white border-slate-200 text-slate-900 shadow-slate-200/50'
-                  }`}
+                  className="p-8 flex flex-col justify-between"
                 >
-                  <div className="p-3.5 rounded-2xl bg-orange-500/10 text-orange-500 dark:text-orange-400 w-fit mb-6 group-hover:scale-110 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
-                    <pillar.icon size={24} />
+                  <div className="flex flex-col h-full justify-between">
+                    <div>
+                      <div className="p-3.5 rounded-2xl bg-slate-100 dark:bg-white/[0.06] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white w-fit mb-6">
+                        <pillar.icon size={24} />
+                      </div>
+                      <h3 className="text-lg font-bold mb-2.5 text-slate-900 dark:text-white">
+                        {pillar.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed font-normal text-slate-600 dark:text-stone-300">
+                        {pillar.desc}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className={`text-lg font-bold mb-2.5 ${
-                    isDarkMode ? 'text-white' : 'text-slate-900'
-                  }`}>
-                    {pillar.title}
-                  </h3>
-                  <p className={`text-sm leading-relaxed font-normal ${
-                    isDarkMode ? 'text-stone-300' : 'text-slate-600'
-                  }`}>
-                    {pillar.desc}
-                  </p>
-                </motion.div>
+                </WaterGlassCard>
               ))}
             </div>
           </div>
@@ -561,13 +525,14 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
         ============================================================ */}
         <section className="py-20 md:py-28 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-xs uppercase tracking-[0.3em] text-orange-500 font-mono font-bold block mb-2">
-              Lifecycle Methodology
-            </span>
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight ${
-              isDarkMode ? 'text-white' : 'text-slate-950'
-            }`}>
-              How We Protect Your Enterprise
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+              <span className="text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-mono font-medium">
+                Lifecycle Methodology
+              </span>
+            </div>
+            <h2 className="font-editorial text-3xl sm:text-5xl font-normal tracking-tight text-neutral-900 dark:text-white">
+              How We Protect <span className="italic font-light text-neutral-500 dark:text-neutral-400">Your Enterprise.</span>
             </h2>
             <p className={`text-sm sm:text-base max-w-2xl mx-auto mt-3 font-normal ${
               isDarkMode ? 'text-stone-300' : 'text-slate-600'
@@ -591,7 +556,9 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
                 }`}
               >
                 <div>
-                  <span className="text-2xl font-black font-mono text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400 block mb-3">
+                  <span className={`text-2xl font-black font-mono block mb-3 ${
+                    isDarkMode ? 'text-white' : 'text-slate-900'
+                  }`}>
                     {stage.step}
                   </span>
                   <h3 className={`text-base font-bold mb-2 ${
@@ -619,17 +586,14 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
            7. CALL TO ACTION / BOTTOM MANIFESTO
         ============================================================ */}
         <section className="py-20 px-6 md:px-12 lg:px-20 max-w-5xl mx-auto text-center">
-          <div className="p-10 sm:p-14 rounded-3xl bg-gradient-to-br from-[#060a14] via-[#0b1222] to-black text-white relative overflow-hidden border border-blue-500/20 shadow-2xl">
-            <div className="absolute top-0 right-0 w-72 h-72 bg-orange-500/20 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/20 rounded-full blur-[100px] pointer-events-none" />
-
-            <span className="text-xs uppercase tracking-[0.3em] text-orange-400 font-mono font-bold block mb-4">
+          <div className="p-10 sm:p-14 rounded-3xl bg-slate-900 dark:bg-[#0e1017] text-white relative overflow-hidden border border-slate-800 dark:border-white/10">
+            <span className="text-xs uppercase tracking-[0.3em] text-stone-400 font-mono font-semibold block mb-4">
               Sovereign Partnership
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-6 text-white">
-              Ready to Upgrade Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-blue-400">Defensive Posture?</span>
+              Ready to Upgrade Your <span className="text-white font-semibold">Defensive Posture?</span>
             </h2>
-            <p className="text-stone-200 text-sm sm:text-base max-w-2xl mx-auto mb-8 font-normal leading-relaxed">
+            <p className="text-stone-300 text-sm sm:text-base max-w-2xl mx-auto mb-8 font-normal leading-relaxed">
               Engage directly with our senior security researchers and principal zero-trust architects for a confidential posture evaluation or sovereign AI briefing.
             </p>
 
@@ -637,17 +601,26 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
               {onOpenAuditModal && (
                 <button
                   onClick={onOpenAuditModal}
-                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm transition-all shadow-lg shadow-orange-500/30 cursor-pointer"
+                  className="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-black font-semibold text-sm transition-all shadow-sm cursor-pointer active:scale-[0.99]"
                 >
                   Request Security Audit
                 </button>
               )}
               <a
                 href="mailto:support@cybravions.com"
-                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer backdrop-blur-sm"
+                className="px-6 py-3.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/15 font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer active:scale-[0.99]"
               >
                 <Mail size={15} />
                 <span>Contact Security Desk</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/cybravion-solutions-pvt-ltd/about/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/15 font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer active:scale-[0.99]"
+              >
+                <Linkedin size={15} />
+                <span>LinkedIn</span>
               </a>
             </div>
           </div>

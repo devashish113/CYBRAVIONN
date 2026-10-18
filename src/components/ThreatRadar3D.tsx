@@ -107,44 +107,40 @@ export const ThreatRadar3D: React.FC<ThreatRadar3DProps> = ({ onOpenAuditModal }
   const readinessGrade = exposureScore > 75 ? 'Critical Focus Required' : exposureScore > 50 ? 'Moderate Hardening' : 'Baseline Managed';
 
   return (
-    <section className="relative py-24 md:py-32 px-6 md:px-12 lg:px-20 overflow-hidden bg-transparent">
-      {/* Subtle depth lighting accent */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-600/10 rounded-full blur-[180px] pointer-events-none" />
-
+    <section className="relative py-20 md:py-28 px-6 md:px-12 lg:px-20 overflow-hidden bg-transparent border-t border-neutral-200 dark:border-white/[0.08]">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-600 dark:text-blue-400 text-xs uppercase tracking-widest font-semibold mb-4 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-ping" />
-            Interactive 3D Threat Engine
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-100 dark:bg-white/[0.03] border border-neutral-300 dark:border-white/10 text-neutral-700 dark:text-neutral-300 text-xs uppercase tracking-widest font-semibold mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span>Interactive Threat Surface Telemetry</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Simulate Your Enterprise <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-orange-600 dark:from-blue-400 dark:via-stone-100 dark:to-orange-400">Risk Surface</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
+            Simulate Your Enterprise <span className="text-neutral-500 dark:text-neutral-400 font-normal">Risk Surface.</span>
           </h2>
-          <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light">
-            Configure your infrastructure vectors and industry profile to calculate real-time threat exposure and simulate autonomous defense neutralization.
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base max-w-2xl mt-4 font-normal leading-relaxed">
+            Configure your infrastructure vectors and industry profile to calculate real-time threat exposure and verify sovereign defense posture.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left Column: Vector Configuration */}
-          <div className="lg:col-span-7 bg-white/90 dark:bg-stone-900/60 backdrop-blur-xl border border-slate-200 dark:border-stone-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-[0_10px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+          <div className="lg:col-span-7 bg-white dark:bg-[#0e1017] border border-neutral-200 dark:border-white/[0.08] rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-sm">
             <div>
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Select Threat Vectors</h3>
-                  <p className="text-xs text-slate-500 dark:text-stone-400 font-light">Toggle the surface areas active in your organization</p>
+                  <h3 className="text-base font-bold text-neutral-900 dark:text-white">Active Infrastructure Vectors</h3>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 font-normal">Select the attack surfaces present in your environment</p>
                 </div>
 
                 {/* Industry Selector */}
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-600 dark:text-stone-400 uppercase tracking-wider font-medium">Industry:</span>
+                  <label htmlFor="threat-industry-select" className="text-xs text-neutral-600 dark:text-neutral-400 uppercase tracking-wider font-medium">Industry:</label>
                   <select
+                    id="threat-industry-select"
                     value={industry}
-                    onChange={(e) => {
-                      cyberAudio.playClick();
-                      setIndustry(e.target.value);
-                    }}
-                    className="bg-white dark:bg-stone-950 border border-slate-300 dark:border-stone-700 text-blue-700 dark:text-blue-400 text-xs rounded-xl px-3 py-2 font-semibold focus:outline-none focus:border-blue-500 shadow-sm cursor-pointer"
+                    onChange={(e) => setIndustry(e.target.value)}
+                    aria-label="Target industry vertical for compliance and risk exposure"
+                    className="bg-neutral-50 dark:bg-[#131620] border border-neutral-300 dark:border-white/12 text-neutral-900 dark:text-white text-xs rounded-xl px-3 py-2 font-medium focus:outline-none focus:border-neutral-400 dark:focus:border-white/30 shadow-sm cursor-pointer"
                   >
                     <option value="fintech">Fintech & Banking</option>
                     <option value="healthcare">Healthcare & MedTech</option>
@@ -156,29 +152,32 @@ export const ThreatRadar3D: React.FC<ThreatRadar3DProps> = ({ onOpenAuditModal }
               </div>
 
               {/* Threat Vector Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8" role="group" aria-label="Infrastructure threat vectors">
                 {vectors.map((vec) => {
                   const isSelected = selectedVectors.includes(vec.id);
                   const Icon = vec.icon;
                   return (
                     <button
                       key={vec.id}
+                      type="button"
+                      aria-pressed={isSelected}
+                      aria-label={`${vec.name} vector: ${isSelected ? 'monitored' : 'unmonitored'}`}
                       onClick={() => toggleVector(vec.id)}
-                      className={`flex items-center gap-3.5 p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer ${
+                      className={`flex items-center gap-3.5 p-3.5 rounded-xl border text-left transition-all duration-150 cursor-pointer ${
                         isSelected
-                          ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-500 dark:border-blue-500/60 shadow-[0_0_20px_rgba(59,130,246,0.15)]'
-                          : 'bg-slate-50/80 dark:bg-stone-950/60 border-slate-200 dark:border-stone-800/80 hover:border-slate-300 dark:hover:border-stone-700 opacity-70 dark:opacity-60'
+                          ? 'bg-neutral-100 dark:bg-white/[0.06] border-neutral-400 dark:border-white/30 text-neutral-950 dark:text-white'
+                          : 'bg-neutral-50/50 dark:bg-white/[0.02] border-neutral-200 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:border-neutral-300 dark:hover:border-white/12'
                       }`}
                     >
-                      <div className={`p-2.5 rounded-xl ${isSelected ? 'bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'bg-slate-200 dark:bg-stone-800 text-slate-600 dark:text-stone-400'}`}>
-                        <Icon size={18} />
+                      <div className={`p-2 rounded-lg ${isSelected ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950' : 'bg-neutral-200/80 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-400'}`}>
+                        <Icon size={16} aria-hidden="true" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-semibold text-slate-900 dark:text-white truncate">{vec.name}</div>
-                        <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate font-medium">{vec.category}</div>
+                        <div className="text-xs font-semibold truncate">{vec.name}</div>
+                        <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">{vec.category}</div>
                       </div>
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isSelected ? 'border-blue-500 bg-blue-500' : 'border-slate-300 dark:border-stone-700'}`}>
-                        {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white dark:bg-stone-950" />}
+                      <div aria-hidden="true" className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${isSelected ? 'border-neutral-950 bg-neutral-950 dark:border-white dark:bg-white' : 'border-neutral-300 dark:border-white/20'}`}>
+                        {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white dark:bg-neutral-950" />}
                       </div>
                     </button>
                   );
@@ -186,100 +185,122 @@ export const ThreatRadar3D: React.FC<ThreatRadar3DProps> = ({ onOpenAuditModal }
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-200 dark:border-stone-800 flex flex-wrap items-center justify-between gap-3">
-              <span className="text-xs text-slate-600 dark:text-stone-400 font-medium">
-                {selectedVectors.length} vectors active • Dynamic risk telemetry
+            <div className="pt-4 border-t border-neutral-200 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
+              <span className="text-xs text-neutral-600 dark:text-neutral-400 font-medium">
+                {selectedVectors.length} vectors monitored • Real-time baseline
               </span>
               <div className="flex items-center gap-2">
                 <button
+                  type="button"
                   onClick={triggerAttackSimulation}
                   disabled={isSimulatingAttack}
-                  className="px-4 py-2.5 rounded-xl bg-orange-500/15 border border-orange-500/40 text-orange-600 dark:text-orange-400 hover:bg-orange-500 hover:text-white text-xs uppercase tracking-wider font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm disabled:opacity-50"
+                  aria-busy={isSimulatingAttack}
+                  className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-white/12 bg-neutral-100 dark:bg-white/[0.04] text-neutral-800 dark:text-neutral-200 hover:bg-neutral-200 dark:hover:bg-white/[0.08] text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.99]"
                 >
-                  <Zap size={14} className={isSimulatingAttack ? 'animate-bounce' : ''} />
-                  <span>{isSimulatingAttack ? 'Simulating Infiltration...' : 'Simulate Red Team Breach'}</span>
+                  <Zap size={14} aria-hidden="true" className={isSimulatingAttack ? 'animate-spin' : ''} />
+                  <span>{isSimulatingAttack ? 'Simulating Breach...' : 'Simulate Red Team Breach'}</span>
                 </button>
                 <button
+                  type="button"
                   onClick={triggerScan}
                   disabled={isScanning}
-                  className="px-4 py-2.5 rounded-xl bg-blue-500/15 dark:bg-blue-500/20 border border-blue-400 dark:border-blue-500/40 text-blue-700 dark:text-blue-300 hover:bg-blue-600 hover:text-white text-xs uppercase tracking-widest font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                  aria-busy={isScanning}
+                  className="px-4 py-2 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.99]"
                 >
-                  <RefreshCw size={14} className={isScanning ? 'animate-spin' : ''} />
+                  <RefreshCw size={13} aria-hidden="true" className={isScanning ? 'animate-spin' : ''} />
                   <span>{isScanning ? 'Scanning...' : 'Recalibrate'}</span>
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Right Column: 3D Telemetry Radar & Score */}
-          <div className="lg:col-span-5 bg-white/90 dark:bg-stone-900/60 backdrop-blur-xl border border-slate-200 dark:border-stone-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-[0_10px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.6)] relative overflow-hidden">
+          {/* Right Column: Aerospace Telemetry Radar & Score */}
+          <div className="lg:col-span-5 bg-white dark:bg-[#0e1017] border border-neutral-200 dark:border-white/[0.08] rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-sm relative overflow-hidden" role="region" aria-label="Risk Exposure Telemetry">
             
-            {/* 3D Radar Scanning Overlay */}
-            <div className="relative w-full aspect-square max-w-[280px] mx-auto flex items-center justify-center my-2">
-              {/* Radar Circles */}
-              <div className="absolute inset-0 rounded-full border border-blue-500/20" />
-              <div className="absolute inset-8 rounded-full border border-blue-500/25" />
-              <div className="absolute inset-16 rounded-full border border-blue-500/30" />
-              <div className="absolute inset-24 rounded-full border border-blue-500/40" />
+            {/* Live region for status telemetry */}
+            <div className="sr-only" role="status" aria-live="polite">
+              {isScanning 
+                ? `Calibrating threat radar: ${scanProgress}%` 
+                : isSimulatingAttack 
+                  ? 'Simulating breach vector test...' 
+                  : attackNeutralized 
+                    ? 'Breach neutralized by sovereign defense systems.' 
+                    : `Telemetry active. Enterprise exposure index: ${exposureScore} percent. Risk posture: ${readinessGrade}.`}
+            </div>
+
+            {/* Scan Progress Bar (Accessible) */}
+            {isScanning && (
+              <div 
+                role="progressbar" 
+                aria-valuenow={scanProgress} 
+                aria-valuemin={0} 
+                aria-valuemax={100} 
+                aria-label="Threat radar scan calibration progress"
+                className="w-full h-1 bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden mb-2"
+              >
+                <div 
+                  className="h-full bg-amber-500 transition-all duration-75"
+                  style={{ width: `${scanProgress}%` }}
+                />
+              </div>
+            )}
+
+            {/* Minimal Aerospace Telemetry Circle */}
+            <div className="relative w-full aspect-square max-w-[260px] mx-auto flex items-center justify-center my-2" aria-hidden="true">
+              {/* Radar Rings */}
+              <div className="absolute inset-0 rounded-full border border-neutral-200 dark:border-white/[0.08]" />
+              <div className="absolute inset-8 rounded-full border border-neutral-200 dark:border-white/[0.08]" />
+              <div className="absolute inset-16 rounded-full border border-neutral-200 dark:border-white/[0.08]" />
+              <div className="absolute inset-24 rounded-full border border-neutral-200 dark:border-white/[0.08]" />
 
               {/* Crosshair Lines */}
-              <div className="absolute inset-x-0 top-1/2 h-px bg-blue-500/20" />
-              <div className="absolute inset-y-0 left-1/2 w-px bg-blue-500/20" />
+              <div className="absolute inset-x-0 top-1/2 h-px bg-neutral-200 dark:border-t dark:border-white/[0.08]" />
+              <div className="absolute inset-y-0 left-1/2 w-px bg-neutral-200 dark:border-l dark:border-white/[0.08]" />
 
-              {/* 3D Rotating Radar Sweep */}
+              {/* Minimal Clean Radar Sweep */}
               <div 
-                className="absolute inset-0 rounded-full origin-center animate-[spin_4s_linear_infinite] pointer-events-none"
+                className="absolute inset-0 rounded-full origin-center animate-[spin_5s_linear_infinite] pointer-events-none"
                 style={{
-                  background: 'conic-gradient(from 0deg, rgba(37, 99, 235, 0.45) 0deg, rgba(37, 99, 235, 0) 60deg, transparent 360deg)',
+                  background: 'conic-gradient(from 0deg, rgba(255, 255, 255, 0.12) 0deg, rgba(255, 255, 255, 0.02) 45deg, transparent 180deg)',
                 }}
               />
 
-              {/* Core Score Display with Attack Simulation Feedback */}
-              <div className={`relative z-10 flex flex-col items-center justify-center bg-white/95 dark:bg-stone-950/90 border-2 rounded-full w-28 h-28 transition-all duration-500 ${
-                isSimulatingAttack 
-                  ? 'border-orange-500 shadow-[0_0_35px_rgba(249,115,22,0.6)] animate-pulse' 
-                  : attackNeutralized
-                  ? 'border-emerald-500 shadow-[0_0_35px_rgba(16,185,129,0.6)]'
-                  : 'border-blue-500 shadow-[0_0_30px_rgba(37,99,235,0.25)]'
-              }`}>
+              {/* Core Score Display with Calm Status Feedback */}
+              <div className="relative z-10 flex flex-col items-center justify-center bg-white dark:bg-[#131620] border border-neutral-300 dark:border-white/20 rounded-full w-28 h-28 transition-all duration-300 shadow-sm">
                 {isSimulatingAttack ? (
                   <>
-                    <ShieldAlert size={24} className="text-orange-500 animate-bounce" />
-                    <span className="text-[8px] uppercase tracking-wider font-bold text-orange-400 mt-1">Breach Test</span>
+                    <ShieldAlert size={22} className="text-amber-500 dark:text-amber-400 mb-1" />
+                    <span className="text-[9px] uppercase tracking-wider font-semibold text-amber-600 dark:text-amber-400">Testing Vector</span>
                   </>
                 ) : attackNeutralized ? (
                   <>
-                    <ShieldCheck size={26} className="text-emerald-500" />
-                    <span className="text-[8px] uppercase tracking-wider font-bold text-emerald-400 mt-1">Neutralized</span>
+                    <ShieldCheck size={24} className="text-emerald-500 mb-1" />
+                    <span className="text-[9px] uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400">Neutralized</span>
                   </>
                 ) : (
                   <>
-                    <span className="text-3xl font-bold text-slate-900 dark:text-white">{exposureScore}%</span>
-                    <span className="text-[9px] uppercase tracking-widest font-bold text-blue-600 dark:text-blue-400">Threat Index</span>
+                    <span className="text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{exposureScore}%</span>
+                    <span className="text-[9px] uppercase tracking-wider font-medium text-neutral-600 dark:text-neutral-400">Exposure Index</span>
                   </>
                 )}
               </div>
             </div>
 
             {/* Results & Actionable Remediation */}
-            <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-stone-800">
+            <div className="space-y-4 pt-4 border-t border-neutral-200 dark:border-white/[0.06]">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-600 dark:text-stone-400 uppercase tracking-wider font-bold">Risk Level</span>
-                <span className={`text-xs font-bold uppercase px-3 py-1 rounded-full border ${
-                  exposureScore > 75 
-                    ? 'text-orange-600 dark:text-orange-400 border-orange-400 dark:border-orange-500/40 bg-orange-50 dark:bg-orange-500/10' 
-                    : 'text-blue-600 dark:text-blue-400 border-blue-400 dark:border-blue-500/40 bg-blue-50 dark:bg-blue-500/10'
-                }`}>
+                <span className="text-xs text-neutral-600 dark:text-neutral-400 uppercase tracking-wider font-semibold">Risk Posture</span>
+                <span className="text-xs font-semibold uppercase px-3 py-1 rounded-full border border-neutral-200 dark:border-white/10 text-neutral-800 dark:text-neutral-200 bg-neutral-100 dark:bg-white/[0.03]">
                   {readinessGrade}
                 </span>
               </div>
 
               <div>
-                <span className="text-[11px] text-slate-600 dark:text-stone-400 block mb-1.5 uppercase tracking-wider font-bold">Required Framework Alignments</span>
+                <span className="text-[11px] text-neutral-600 dark:text-neutral-400 block mb-2 uppercase tracking-wider font-semibold">Required Regulatory Alignments</span>
                 <div className="flex flex-wrap gap-2">
                   {currentIndustry.compliance.map((item) => (
-                    <span key={item} className="inline-flex items-center gap-1.5 text-xs bg-slate-100 dark:bg-stone-950 border border-slate-200 dark:border-stone-700 px-2.5 py-1 rounded-lg text-slate-800 dark:text-stone-200 font-medium">
-                      <CheckCircle2 size={12} className="text-blue-600 dark:text-blue-400" />
+                    <span key={item} className="inline-flex items-center gap-1.5 text-xs bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] px-2.5 py-1 rounded-lg text-neutral-700 dark:text-neutral-300 font-medium">
+                      <CheckCircle2 size={12} aria-hidden="true" className="text-neutral-500 dark:text-neutral-400" />
                       {item}
                     </span>
                   ))}
@@ -289,23 +310,20 @@ export const ThreatRadar3D: React.FC<ThreatRadar3DProps> = ({ onOpenAuditModal }
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
                 {onOpenAuditModal && (
                   <button
-                    onClick={() => {
-                      cyberAudio.playShieldActivate();
-                      onOpenAuditModal();
-                    }}
-                    className="py-3 px-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-[11px] uppercase tracking-widest font-bold flex items-center justify-center gap-1.5 shadow-md transition-all cursor-pointer"
+                    type="button"
+                    onClick={onOpenAuditModal}
+                    className="py-3 px-4 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition-all duration-150 cursor-pointer active:scale-[0.99]"
                   >
-                    <Sparkles size={13} />
+                    <ShieldCheck size={14} aria-hidden="true" />
                     <span>Run Full Audit</span>
                   </button>
                 )}
                 <a
                   href="#contact"
-                  onClick={() => cyberAudio.playClick()}
-                  className="py-3 px-4 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-400 hover:to-amber-500 text-white text-[11px] uppercase tracking-widest font-bold flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all cursor-pointer text-center"
+                  className="py-3 px-4 rounded-xl border border-neutral-300 dark:border-white/12 bg-white dark:bg-white/[0.04] text-neutral-800 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-white/[0.08] text-xs font-medium flex items-center justify-center gap-2 shadow-sm transition-all duration-150 cursor-pointer text-center active:scale-[0.99]"
                 >
                   <span>Remediation Plan</span>
-                  <ArrowRight size={13} />
+                  <ArrowRight size={13} aria-hidden="true" />
                 </a>
               </div>
             </div>
@@ -315,4 +333,5 @@ export const ThreatRadar3D: React.FC<ThreatRadar3DProps> = ({ onOpenAuditModal }
     </section>
   );
 };
+
 

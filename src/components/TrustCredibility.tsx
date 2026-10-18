@@ -5,9 +5,9 @@ import { TiltCard3D } from './TiltCard3D';
 const certifications = [
   { name: "ISO/IEC 27001", desc: "Information Security Management", glow: "blue" as const },
   { name: "SOC 2 Type II", desc: "Trust Service Criteria", glow: "blue" as const },
-  { name: "NIST CSF 2.0", desc: "Cybersecurity Framework", glow: "orange" as const },
+  { name: "NIST CSF 2.0", desc: "Cybersecurity Framework", glow: "purple" as const },
   { name: "ISO/IEC 42001", desc: "AI Management System", glow: "blue" as const },
-  { name: "DPDP & GDPR", desc: "Digital Personal Data Protection", glow: "orange" as const },
+  { name: "DPDP & GDPR", desc: "Digital Personal Data Protection", glow: "purple" as const },
   { name: "CERT-In Directives", desc: "National Cyber Security Mandate", glow: "blue" as const }
 ];
 
@@ -31,7 +31,7 @@ const testimonials = [
     quote: "During their offensive red-team engagement, they uncovered and helped us patch 23 deep architectural vulnerabilities before our Series C audit. The executive reporting was flawless.",
     name: "VP of Engineering",
     company: "High-Growth Cloud Platform",
-    glow: "orange" as const
+    glow: "purple" as const
   },
   {
     quote: "Their sovereign security architecture and threat intelligence integration reduced our mean time to detect (MTTD) by over 80%. They are a true force multiplier for our security team.",
@@ -75,20 +75,20 @@ export const TrustCredibility: React.FC = () => {
         <div className="mb-20">
           <div className="text-center mb-8">
             <span className="text-xs uppercase text-slate-600 dark:text-stone-400 tracking-widest font-bold flex items-center justify-center gap-2">
-              <Award size={16} className="text-orange-500 dark:text-orange-400" />
+              <Award size={16} className="text-purple-500 dark:text-purple-400" />
               Supported Tooling &amp; Audited Security Ecosystems
             </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {partnerTech.map((tech, idx) => (
-              <div 
+              <TiltCard3D 
                 key={idx}
-                className="p-4 rounded-2xl bg-white/90 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800 text-center hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-colors shadow-sm"
+                className="!p-4 text-center"
               >
                 <div className="font-semibold text-sm text-slate-800 dark:text-stone-200">{tech.name}</div>
                 <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">{tech.category}</div>
-              </div>
+              </TiltCard3D>
             ))}
           </div>
         </div>

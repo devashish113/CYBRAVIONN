@@ -7,6 +7,7 @@ import {
   Award, 
   Layers, 
   ShieldCheck, 
+  Shield,
   Clock, 
   DollarSign, 
   FileText, 
@@ -18,6 +19,7 @@ import {
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../../utils/cyberAudio';
+import { PageHeader } from '../../components/PageHeader';
 
 interface Iso27001ServiceProps {
   setCurrentView?: (view: string) => void;
@@ -27,6 +29,7 @@ interface Iso27001ServiceProps {
 
 export const Iso27001ServicePage: React.FC<Iso27001ServiceProps> = ({
   setCurrentView,
+  isDarkMode = true,
   onOpenConsultation
 }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -145,7 +148,7 @@ export const Iso27001ServicePage: React.FC<Iso27001ServiceProps> = ({
   };
 
   return (
-    <div className="pt-24 min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
       <Helmet>
         <title>ISO 27001 Certification & Consulting in India | CYBRAVION Solutions</title>
         <meta name="description" content="Guaranteed ISO 27001:2022 certification consulting in Delhi NCR & India. Fast-track 8-week ISMS implementation roadmap, cost breakdown, gap analysis, and Stage 2 audit readiness." />
@@ -156,84 +159,67 @@ export const Iso27001ServicePage: React.FC<Iso27001ServiceProps> = ({
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      {/* Glow effects */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-1/4 -right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 -left-20 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px]" />
-      </div>
+      {/* Subtle Architectural Vignette */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none opacity-40 dark:opacity-20 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]"
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 70%)' }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-12">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-8 text-sm text-slate-500 dark:text-stone-400">
-          <ol className="flex items-center space-x-2">
-            <li>
-              <button 
-                type="button" 
-                onClick={() => setCurrentView?.('home')} 
-                className="hover:text-blue-500 transition-colors"
-              >
-                Home
-              </button>
-            </li>
-            <li>/</li>
-            <li>Services</li>
-            <li>/</li>
-            <li className="text-blue-600 dark:text-blue-400 font-medium">ISO 27001 Consulting</li>
-          </ol>
-        </nav>
-
-        {/* Hero */}
-        <header className="mb-20 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wider uppercase mb-6">
-            <Award className="w-4 h-4" />
-            <span>Turnkey ISMS Implementation &amp; Audit Assurance</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500 bg-clip-text text-transparent">ISO 27001:2022</span> Certification &amp; Consulting in India
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 dark:text-stone-300 max-w-3xl leading-relaxed mb-8">
-            Win high-value enterprise contracts and prove world-class data protection. CYBRAVION guides Indian and global businesses from initial gap assessment to full ISO/IEC 27001:2022 certification in as little as 8 to 12 weeks with zero business disruption.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-4 justify-center lg:justify-start">
+      <PageHeader
+        kicker="Turnkey ISMS Implementation & Audit Assurance"
+        title="ISO 27001:2022 Certification &"
+        italicTitle="Consulting in India."
+        description="Win high-value enterprise contracts and prove world-class data protection. CYBRAVION guides Indian and global businesses from initial gap assessment to full ISO/IEC 27001:2022 certification in as little as 8 to 12 weeks with zero business disruption."
+        isDarkMode={isDarkMode}
+        breadcrumbs={[
+          { label: 'Home', onClick: () => setCurrentView?.('home') },
+          { label: 'Services', onClick: () => setCurrentView?.('home') },
+          { label: 'ISO 27001 Consulting', active: true }
+        ]}
+        actions={
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
             <button
               type="button"
               onClick={() => {
                 cyberAudio.playClick();
                 onOpenConsultation?.();
               }}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold shadow-lg shadow-blue-500/25 flex items-center gap-2 transition-all transform hover:-translate-y-0.5"
+              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
               <span>Book Free ISO 27001 Gap Consultation</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </button>
             <a
               href="#roadmap"
-              className="px-6 py-4 rounded-xl bg-slate-100 dark:bg-stone-900/80 border border-slate-300 dark:border-stone-800 text-slate-800 dark:text-stone-200 font-semibold hover:bg-slate-200 dark:hover:bg-stone-800 transition-colors"
+              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
-              View 4-Phase Roadmap
+              <span>View 4-Phase Roadmap</span>
             </a>
           </div>
-        </header>
+        }
+      />
 
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-16">
         {/* Value Highlights */}
         <section className="mb-20 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div className="p-6 rounded-2xl bg-white/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80">
-            <div className="text-3xl font-extrabold text-blue-500 mb-1">8 – 12 Wks</div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-stone-400">Fast-Track Delivery</div>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80">
-            <div className="text-3xl font-extrabold text-emerald-500 mb-1">100%</div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-stone-400">First-Time Pass Rate</div>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80">
-            <div className="text-3xl font-extrabold text-orange-500 mb-1">93</div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-stone-400">2022 Annex A Controls</div>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80">
-            <div className="text-3xl font-extrabold text-indigo-500 mb-1">Zero</div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-stone-400">Policy Template Fluff</div>
-          </div>
+          {[
+            { val: '8 – 12 Wks', label: 'Fast-Track Delivery', sub: 'Zero Workflow Interruption', num: '01' },
+            { val: '100%', label: 'First-Time Pass Rate', sub: 'Guaranteed Audit Readiness', num: '02' },
+            { val: '93', label: '2022 Annex A Controls', sub: 'Full Modern Standard Scope', num: '03' },
+            { val: 'Zero', label: 'Policy Template Fluff', sub: 'Tailored Native ISMS Policies', num: '04' },
+          ].map((item, idx) => (
+            <div key={idx} className="surface-card p-6 flex flex-col justify-between text-left relative overflow-hidden">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-widest">{item.num}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500/60" />
+              </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-neutral-900 dark:text-white mb-1">{item.val}</div>
+                <div className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">{item.label}</div>
+                <div className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5">{item.sub}</div>
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* 4-Phase Roadmap */}
@@ -283,7 +269,7 @@ export const Iso27001ServicePage: React.FC<Iso27001ServiceProps> = ({
                     {step.phase}
                   </span>
                   <div className="text-sm font-semibold text-slate-500 dark:text-stone-400 flex items-center gap-1.5">
-                    <Clock className="w-4 h-4 text-orange-500" />
+                    <Clock className="w-4 h-4 text-purple-500" />
                     <span>{step.timeline}</span>
                   </div>
                 </div>
@@ -303,7 +289,7 @@ export const Iso27001ServicePage: React.FC<Iso27001ServiceProps> = ({
         {/* 11 New Controls of 2022 Edition */}
         <section className="mb-24">
           <div className="text-center mb-12">
-            <span className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-400 font-bold block mb-2">
+            <span className="text-xs uppercase tracking-[0.3em] text-purple-600 dark:text-purple-400 font-bold block mb-2">
               Modern Threat Alignment
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
@@ -321,7 +307,7 @@ export const Iso27001ServicePage: React.FC<Iso27001ServiceProps> = ({
                 className="p-5 rounded-2xl bg-white dark:bg-stone-900/50 border border-slate-200 dark:border-stone-800 hover:border-blue-500/40 transition-colors"
               >
                 <div className="font-bold text-slate-900 dark:text-white text-base mb-1 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-orange-500 shrink-0" />
+                  <Sparkles className="w-4 h-4 text-purple-500 shrink-0" />
                   <span>{ctrl.name}</span>
                 </div>
                 <p className="text-xs text-slate-600 dark:text-stone-400 leading-relaxed">
@@ -432,17 +418,25 @@ export const Iso27001ServicePage: React.FC<Iso27001ServiceProps> = ({
                 >
                   <button
                     type="button"
+                    id={`iso-faq-trigger-${idx}`}
+                    aria-expanded={isOpen}
+                    aria-controls={`iso-faq-answer-${idx}`}
                     onClick={() => {
                       cyberAudio.playHover();
                       setOpenFaq(isOpen ? null : idx);
                     }}
-                    className="w-full p-6 text-left flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white hover:text-blue-500 transition-colors"
+                    className="w-full p-6 text-left flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white hover:text-blue-500 transition-colors cursor-pointer"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 shrink-0 transition-transform ${isOpen ? 'rotate-180 text-blue-500' : 'text-slate-400'}`} />
+                    <ChevronDown aria-hidden="true" className={`w-5 h-5 shrink-0 transition-transform ${isOpen ? 'rotate-180 text-blue-500' : 'text-slate-400'}`} />
                   </button>
                   {isOpen && (
-                    <div className="px-6 pb-6 text-slate-600 dark:text-stone-300 text-sm leading-relaxed border-t border-slate-100 dark:border-stone-800/60 pt-4">
+                    <div 
+                      id={`iso-faq-answer-${idx}`}
+                      role="region"
+                      aria-labelledby={`iso-faq-trigger-${idx}`}
+                      className="px-6 pb-6 text-slate-700 dark:text-stone-300 text-sm leading-relaxed border-t border-slate-100 dark:border-stone-800/60 pt-4"
+                    >
                       {faq.a}
                     </div>
                   )}
@@ -453,23 +447,30 @@ export const Iso27001ServicePage: React.FC<Iso27001ServiceProps> = ({
         </section>
 
         {/* CTA Banner */}
-        <section className="text-center py-16 px-8 rounded-3xl bg-gradient-to-r from-blue-600/10 via-indigo-600/10 to-orange-500/10 border border-blue-500/20">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">
-            Achieve ISO 27001:2022 Certification with Complete Confidence
-          </h2>
-          <p className="text-slate-600 dark:text-stone-300 max-w-2xl mx-auto mb-8 text-base">
-            Speak with a Lead ISO 27001 Auditor at CYBRAVION in New Delhi to review your current posture and receive a roadmap and fixed-price quote today.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              cyberAudio.playClick();
-              onOpenConsultation?.();
-            }}
-            className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg shadow-blue-500/30 transition-transform transform hover:-translate-y-0.5"
-          >
-            Schedule Free ISO 27001 Readiness Review
-          </button>
+        <section className="surface-card text-center py-16 px-8 rounded-3xl relative overflow-hidden">
+          <div className="relative z-10 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-mono uppercase tracking-widest mb-4">
+              <Shield className="w-3.5 h-3.5" />
+              <span>Accredited Certification Advisory</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-editorial font-normal text-neutral-900 dark:text-white mb-4 tracking-tight">
+              Achieve ISO 27001:2022 Certification with <span className="italic font-normal">Complete Confidence</span>
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto mb-8 text-sm sm:text-base leading-relaxed">
+              Speak with a Lead ISO 27001 Auditor at CYBRAVION in New Delhi to review your current posture and receive a roadmap and fixed-price quote today.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                cyberAudio.playClick();
+                onOpenConsultation?.();
+              }}
+              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+            >
+              <span>Schedule Free ISO 27001 Readiness Review</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </section>
       </div>
     </div>

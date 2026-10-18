@@ -17,20 +17,26 @@ import {
   Phone,
   Play
 } from 'lucide-react';
+import { PageHeader } from '../components/PageHeader';
+import { WaterGlassCard } from '../components/WaterGlassCard';
 
 const ProgramModal = ({ program, isOpen, onClose }: { program: any, isOpen: boolean, onClose: () => void }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center px-4" onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}>
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
         className="absolute inset-0 bg-stone-950/80 backdrop-blur-md"
+        aria-hidden="true"
       />
       <motion.div 
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="training-program-modal-title"
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -38,17 +44,18 @@ const ProgramModal = ({ program, isOpen, onClose }: { program: any, isOpen: bool
       >
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+          aria-label="Close program details modal"
+          className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors cursor-pointer"
         >
-          <X className="w-5 h-5 text-slate-500 dark:text-stone-400" />
+          <X className="w-5 h-5 text-slate-500 dark:text-stone-400" aria-hidden="true" />
         </button>
 
         <div className="flex items-center gap-4 mb-6">
-          <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-600 dark:text-blue-400">
+          <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-600 dark:text-blue-400" aria-hidden="true">
             {program.icon}
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">{program.title}</h2>
+            <h2 id="training-program-modal-title" className="text-2xl font-semibold text-slate-900 dark:text-white">{program.title}</h2>
             <p className="text-slate-600 dark:text-stone-400 text-sm">{program.outcome}</p>
           </div>
         </div>
@@ -85,7 +92,7 @@ const ProgramModal = ({ program, isOpen, onClose }: { program: any, isOpen: bool
 
         <button 
           onClick={onClose}
-          className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-500/20 cursor-pointer"
+          className="w-full py-4 bg-purple-500 hover:bg-purple-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-purple-500/20 cursor-pointer"
         >
           Request Program Details
         </button>
@@ -149,7 +156,7 @@ export const TrainingPage = () => {
       audience: "IT teams, security analysts, developers.",
       duration: "3-5 Days Intensive",
       mode: "Hands-on Lab / In-person",
-      color: "orange"
+      color: "purple"
     },
     { 
       title: "GRC & Compliance", 
@@ -171,7 +178,7 @@ export const TrainingPage = () => {
       audience: "CxOs, Board members, Directors.",
       duration: "Half-day Briefing",
       mode: "Exclusive Executive Session",
-      color: "orange"
+      color: "purple"
     }
   ];
 
@@ -222,9 +229,9 @@ export const TrainingPage = () => {
 
   const processSteps = [
     { num: "01", title: "Assess", desc: "We evaluate current skill levels and identify knowledge gaps.", icon: <Search className="w-5 h-5" />, color: "blue" },
-    { num: "02", title: "Customize", desc: "Programs are tailored to your industry and specific tech stack.", icon: <Eye className="w-5 h-5" />, color: "orange" },
+    { num: "02", title: "Customize", desc: "Programs are tailored to your industry and specific tech stack.", icon: <Eye className="w-5 h-5" />, color: "purple" },
     { num: "03", title: "Deliver", desc: "Practical, high-impact training delivered by field experts.", icon: <GraduationCap className="w-5 h-5" />, color: "blue" },
-    { num: "04", title: "Evaluate", desc: "Post-training assessment to measure skill improvement.", icon: <Radar className="w-5 h-5" />, color: "orange" }
+    { num: "04", title: "Evaluate", desc: "Post-training assessment to measure skill improvement.", icon: <Radar className="w-5 h-5" />, color: "purple" }
   ];
 
   const faqs = [
@@ -238,129 +245,69 @@ export const TrainingPage = () => {
   const visibleFaqs = showAllFaqs ? faqs : faqs.slice(0, 3);
 
   return (
-    <div className="pt-24 min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
-      {/* Background Decor */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-1/4 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 -right-24 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px]" />
-      </div>
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
+      {/* Subtle Architectural Vignette */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none opacity-40 dark:opacity-20 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]"
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 70%)' }}
+      />
 
       <div className="relative z-10">
         {/* Hero */}
-        <section className="py-20 md:py-32 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto text-center relative">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          >
-            <motion.span 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-xs uppercase tracking-[0.4em] text-blue-600 dark:text-blue-400 font-bold mb-6 block"
-            >
-              Capability Development
-            </motion.span>
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight mb-8 text-slate-900 dark:text-white"
-            >
-              Empower your team with <br className="hidden md:block" />
-              <span className="bg-gradient-to-r from-blue-600 to-orange-500 dark:from-blue-400 dark:to-orange-400 bg-clip-text text-transparent italic font-light">battle-tested</span> security expertise.
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-slate-700 dark:text-stone-300 text-xl md:text-2xl max-w-3xl mx-auto mb-12 font-light leading-relaxed"
-            >
-              Customized cybersecurity training programs for enterprises and growing teams. 
-              <span className="block mt-3 text-slate-600 dark:text-stone-400 font-medium italic underline underline-offset-4 decoration-blue-500/30">No generic courses—only actionable, real-world skills.</span>
-            </motion.p>
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-5 justify-center"
-            >
-              <motion.a 
+        {/* Unified Editorial Hero */}
+        <PageHeader
+          kicker="Enterprise Cyber Academy & Defense Readiness"
+          title="Empower Your Workforce with"
+          italicTitle="Battle-Tested Security Expertise."
+          description="Customized cybersecurity engineering & defense training programs for enterprises. No generic courses—only actionable, mathematically verified operational skills."
+          actions={
+            <>
+              <a 
                 href="#contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-orange-500 text-white font-bold rounded-full transition-all shadow-xl shadow-orange-500/20 cursor-pointer"
+                className="inline-flex items-center justify-center cursor-pointer font-medium rounded-full min-h-[46px] px-8 py-3 text-xs text-white active:scale-[0.97] transition-all duration-200 btn-tactile-primary"
               >
-                Request Training
-              </motion.a>
-              <motion.a 
+                <span className="font-semibold tracking-wide">Request Training Program</span>
+              </a>
+              <a 
                 href="#programs"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white font-bold rounded-full transition-all backdrop-blur-md cursor-pointer"
+                className="inline-flex items-center justify-center cursor-pointer font-medium rounded-full min-h-[46px] px-8 py-3 text-xs active:scale-[0.97] transition-all duration-200 btn-tactile-outline"
               >
-                Explore Programs
-              </motion.a>
-            </motion.div>
-          </motion.div>
-        </section>
+                <span className="font-semibold tracking-wide">Explore Programs</span>
+              </a>
+            </>
+          }
+        />
 
         {/* Categories */}
         <section id="programs" className="py-24 border-t border-slate-200/80 dark:border-white/5 bg-slate-100/60 dark:bg-stone-950/40 relative">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {categories.map((cat, i) => (
-                <motion.div
+                <WaterGlassCard
                   key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { duration: 0.5, delay: i * 0.1 }
-                  }}
-                  viewport={{ once: true }}
-                  whileHover={{ 
-                    scale: 1.03, 
-                    y: -6,
-                    transition: { duration: 0.25 }
-                  }}
-                  className={`p-8 bg-white/90 dark:bg-white/[0.03] backdrop-blur-xl border rounded-3xl cursor-pointer group relative overflow-hidden flex flex-col h-full shadow-lg dark:shadow-none ${
-                    cat.color === 'blue' 
-                      ? 'border-blue-500/30 shadow-[0_4px_25px_rgba(59,130,246,0.12)] hover:border-blue-500/80' 
-                      : 'border-orange-500/30 shadow-[0_4px_25px_rgba(249,115,22,0.12)] hover:border-orange-500/80'
-                  }`}
+                  className="p-8 flex flex-col h-full justify-between"
                   onClick={() => setSelectedProgram(cat)}
                 >
-                  <div className={`absolute -top-12 -right-12 w-32 h-32 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full ${
-                    cat.color === 'blue' ? 'bg-blue-500/10' : 'bg-orange-500/10'
-                  }`} />
-                  
-                  <motion.div 
-                    whileHover={{ rotate: 10, scale: 1.1 }}
-                    className={`p-3 w-fit rounded-2xl mb-6 transition-colors ${
-                      cat.color === 'blue' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' : 'bg-orange-500/10 text-orange-600 dark:text-orange-400'
-                    }`}
-                  >
-                    {cat.icon}
-                  </motion.div>
-                  
-                  <h3 className="text-2xl font-bold mb-3 text-slate-900 dark:text-white">{cat.title}</h3>
-                  <p className={`text-base font-bold mb-4 ${cat.color === 'blue' ? 'text-blue-600 dark:text-blue-400' : 'text-orange-600 dark:text-orange-400'}`}>
-                    {cat.boldOutcome}
-                  </p>
-                  <p className="text-slate-600 dark:text-stone-300 text-base font-light mb-8 leading-relaxed flex-grow">
-                    {cat.outcome}
-                  </p>
-                  
-                  <div 
-                    className={`mt-auto w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 ${
-                      cat.color === 'blue' 
-                        ? 'border-blue-500/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500/10 group-hover:border-blue-500' 
-                        : 'border-orange-500/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-500/10 group-hover:border-orange-500'
-                    }`}
-                  >
-                    <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                  <div className="flex flex-col h-full justify-between">
+                    <div>
+                      <div className="p-3 w-fit rounded-2xl mb-6 bg-slate-100 dark:bg-white/[0.06] border border-slate-200 dark:border-white/10 text-slate-800 dark:text-white">
+                        {cat.icon}
+                      </div>
+                      
+                      <h3 className="text-2xl font-bold mb-3 text-slate-900 dark:text-white">{cat.title}</h3>
+                      <p className="text-base font-bold mb-4 text-slate-800 dark:text-slate-200">
+                        {cat.boldOutcome}
+                      </p>
+                      <p className="text-slate-600 dark:text-stone-300 text-base font-light mb-8 leading-relaxed">
+                        {cat.outcome}
+                      </p>
+                    </div>
+                    
+                    <div className="mt-auto w-10 h-10 rounded-full border border-slate-200 dark:border-white/20 text-slate-700 dark:text-white flex items-center justify-center transition-all duration-300 group-hover/water:translate-x-1">
+                      <ChevronRight className="w-5 h-5" />
+                    </div>
                   </div>
-                </motion.div>
+                </WaterGlassCard>
               ))}
             </div>
           </div>
@@ -370,7 +317,7 @@ export const TrainingPage = () => {
         <section className="py-24 bg-slate-50 dark:bg-stone-900/20 border-y border-slate-200/80 dark:border-white/5 relative">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="text-xs uppercase tracking-[0.4em] text-orange-600 dark:text-orange-500 font-bold mb-4 block underline underline-offset-8 decoration-blue-500/50">Modular Syllabus</span>
+              <span className="text-xs uppercase tracking-[0.4em] text-slate-600 dark:text-stone-400 font-bold mb-4 block underline underline-offset-8 decoration-slate-400/50">Modular Syllabus</span>
               <h2 className="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white">Enterprise Curriculum Tracks.</h2>
               <p className="mt-4 text-slate-600 dark:text-stone-400 max-w-2xl mx-auto text-sm md:text-base">
                 Hands-on simulation environments and role-tailored technical pathways designed for enterprise teams and defense engineers.
@@ -379,58 +326,55 @@ export const TrainingPage = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {curriculumTracks.map((track, i) => (
-                <motion.div 
+                <WaterGlassCard 
                   key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -4 }}
-                  className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-xl dark:hover:border-orange-500/30 transition-all duration-300 group"
+                  className="p-7 flex flex-col justify-between"
                 >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 bg-orange-500/10 px-2.5 py-1 rounded-md border border-orange-500/20">
-                        {track.tag}
-                      </span>
-                      <span className="text-[11px] font-medium text-slate-500 dark:text-stone-400 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-full border border-slate-200 dark:border-white/10">
-                        {track.badge}
-                      </span>
+                  <div className="flex flex-col h-full justify-between">
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-800 dark:text-white bg-slate-100 dark:bg-white/10 px-2.5 py-1 rounded-md border border-slate-200 dark:border-white/10">
+                          {track.tag}
+                        </span>
+                        <span className="text-[11px] font-medium text-slate-600 dark:text-stone-300 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-full border border-slate-200 dark:border-white/10">
+                          {track.badge}
+                        </span>
+                      </div>
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-3">
+                        {track.title}
+                      </h4>
+                      <p className="text-slate-600 dark:text-stone-300 text-sm leading-relaxed mb-6 font-light">
+                        {track.desc}
+                      </p>
                     </div>
-                    <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
-                      {track.title}
-                    </h4>
-                    <p className="text-slate-600 dark:text-stone-400 text-sm leading-relaxed mb-6 font-light">
-                      {track.desc}
-                    </p>
+                    <div className="pt-4 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs text-slate-600 dark:text-stone-300 font-medium">
+                      <span className="flex items-center gap-1.5 font-mono">
+                        <Zap className="w-3.5 h-3.5 text-slate-800 dark:text-white" />
+                        {track.duration}
+                      </span>
+                      <button 
+                        onClick={() => setSelectedProgram({
+                          title: track.title,
+                          boldOutcome: `${track.tag} • ${track.badge}`,
+                          outcome: track.desc,
+                          topics: [
+                            "Architecture & Threat Modeling",
+                            "Hands-on Simulation Lab Exercises",
+                            "Defense Hardening & Detection Rules",
+                            "Post-Assessment & Certification of Mastery"
+                          ],
+                          audience: "Security engineers, IT architects, SOC analysts, and technical leads.",
+                          duration: track.duration,
+                          mode: "Hands-on Cyber Lab / Enterprise Hybrid",
+                          color: "purple"
+                        })}
+                        className="text-slate-900 dark:text-white font-semibold hover:opacity-80 transition-opacity flex items-center gap-1 cursor-pointer"
+                      >
+                        View Syllabus &rarr;
+                      </button>
+                    </div>
                   </div>
-                  <div className="pt-4 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs text-slate-500 dark:text-stone-400 font-medium">
-                    <span className="flex items-center gap-1.5">
-                      <Zap className="w-3.5 h-3.5 text-blue-500" />
-                      {track.duration}
-                    </span>
-                    <button 
-                      onClick={() => setSelectedProgram({
-                        title: track.title,
-                        boldOutcome: `${track.tag} • ${track.badge}`,
-                        outcome: track.desc,
-                        topics: [
-                          "Architecture & Threat Modeling",
-                          "Hands-on Simulation Lab Exercises",
-                          "Defense Hardening & Detection Rules",
-                          "Post-Assessment & Certification of Mastery"
-                        ],
-                        audience: "Security engineers, IT architects, SOC analysts, and technical leads.",
-                        duration: track.duration,
-                        mode: "Hands-on Cyber Lab / Enterprise Hybrid",
-                        color: "orange"
-                      })}
-                      className="text-orange-600 dark:text-orange-400 font-semibold group-hover:translate-x-0.5 transition-transform flex items-center gap-1 cursor-pointer"
-                    >
-                      View Syllabus &rarr;
-                    </button>
-                  </div>
-                </motion.div>
+                </WaterGlassCard>
               ))}
             </div>
           </div>
@@ -454,17 +398,17 @@ export const TrainingPage = () => {
                   onClick={() => setActiveStep(activeStep === i ? null : i)}
                   className={`p-8 bg-slate-50/80 dark:bg-white/[0.01] border rounded-2xl transition-all cursor-pointer hover:bg-slate-100 dark:hover:bg-white/[0.03] ${
                     activeStep === i 
-                      ? (step.color === 'blue' ? 'border-blue-500/60 bg-blue-500/5' : 'border-orange-500/60 bg-orange-500/5')
+                      ? (step.color === 'blue' ? 'border-blue-500/60 bg-blue-500/5' : 'border-purple-500/60 bg-purple-500/5')
                       : 'border-slate-200 dark:border-white/10'
                   }`}
                 >
                   <div className={`text-3xl font-bold mb-4 transition-colors ${
                     activeStep === i 
-                      ? (step.color === 'blue' ? 'text-blue-500' : 'text-orange-500')
+                      ? (step.color === 'blue' ? 'text-blue-500' : 'text-purple-500')
                       : 'text-slate-400 dark:text-white/20'
                   }`}>{step.num}</div>
                   <div className={`p-2 w-fit rounded-lg mb-4 ${
-                    step.color === 'blue' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' : 'bg-orange-500/10 text-orange-600 dark:text-orange-400'
+                    step.color === 'blue' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' : 'bg-purple-500/10 text-purple-600 dark:text-purple-400'
                   }`}>
                     {step.icon}
                   </div>
@@ -504,7 +448,7 @@ export const TrainingPage = () => {
               <div className="space-y-8">
                 {[
                   { title: "Improved Security Awareness", desc: "Employees become the strongest link in your defense chain.", color: "blue" },
-                  { title: "Reduced Human Risk", desc: "Drastic drop in phishing success and policy violations.", color: "orange" },
+                  { title: "Reduced Human Risk", desc: "Drastic drop in phishing success and policy violations.", color: "purple" },
                   { title: "Skilled Workforce", desc: "IT teams equipped to handle modern threats independently.", color: "blue" }
                 ].map((item, i) => (
                   <motion.div 
@@ -515,9 +459,9 @@ export const TrainingPage = () => {
                     className="flex gap-5"
                   >
                     <div className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
-                      item.color === 'blue' ? 'bg-blue-500/20' : 'bg-orange-500/20'
+                      item.color === 'blue' ? 'bg-blue-500/20' : 'bg-purple-500/20'
                     }`}>
-                      <div className={`w-2 h-2 rounded-full ${item.color === 'blue' ? 'bg-blue-500' : 'bg-orange-500'}`} />
+                      <div className={`w-2 h-2 rounded-full ${item.color === 'blue' ? 'bg-blue-500' : 'bg-purple-500'}`} />
                     </div>
                     <div>
                       <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">{item.title}</h4>
@@ -542,7 +486,7 @@ export const TrainingPage = () => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.1 }}
                     className={`p-6 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center text-center transition-all hover:shadow-md ${
-                      i % 2 === 0 ? 'hover:border-blue-500/40' : 'hover:border-orange-500/40'
+                      i % 2 === 0 ? 'hover:border-blue-500/40' : 'hover:border-purple-500/40'
                     }`}
                   >
                     <span className="text-slate-900 dark:text-stone-100 font-semibold mb-1">{item.label}</span>
@@ -569,21 +513,28 @@ export const TrainingPage = () => {
                     className="border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden bg-white dark:bg-white/[0.01] shadow-sm hover:shadow-md transition-all"
                   >
                     <button 
+                      type="button"
+                      id={`training-faq-trigger-${i}`}
+                      aria-expanded={openFaq === i}
+                      aria-controls={`training-faq-answer-${i}`}
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
                       className="w-full p-6 flex justify-between items-center text-left group cursor-pointer"
                     >
-                      <span className="font-semibold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">{faq.q}</span>
-                      <ChevronDown className={`w-5 h-5 text-slate-500 dark:text-stone-500 transition-transform duration-500 ${openFaq === i ? 'rotate-180 text-blue-500' : ''}`} />
+                      <span className="font-semibold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">{faq.q}</span>
+                      <ChevronDown aria-hidden="true" className={`w-5 h-5 text-slate-500 dark:text-stone-500 transition-transform duration-300 ${openFaq === i ? 'rotate-180 text-amber-500' : ''}`} />
                     </button>
                     <AnimatePresence>
                       {openFaq === i && (
                         <motion.div 
+                          id={`training-faq-answer-${i}`}
+                          role="region"
+                          aria-labelledby={`training-faq-trigger-${i}`}
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          <p className="px-6 pb-6 text-slate-600 dark:text-stone-200 text-base font-light leading-relaxed border-t border-slate-200 dark:border-white/5 pt-4 mx-6">{faq.a}</p>
+                          <p className="px-6 pb-6 text-slate-700 dark:text-stone-200 text-base font-light leading-relaxed border-t border-slate-200 dark:border-white/5 pt-4 mx-6">{faq.a}</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -606,7 +557,6 @@ export const TrainingPage = () => {
         {/* Contact Section */}
         <section id="contact" className="py-24 md:py-32 bg-slate-900 dark:bg-stone-950/80 text-white relative overflow-hidden border-t border-slate-800 dark:border-white/10">
           <div className="absolute inset-0 bg-slate-950/90 dark:bg-stone-950/90 backdrop-blur-2xl pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
           
           <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
@@ -618,7 +568,7 @@ export const TrainingPage = () => {
               >
                 <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-blue-400 mb-6 block font-semibold">Capability Development</span>
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight leading-[1.1]">
-                  Ready to empower <br /><span className="bg-gradient-to-r from-blue-400 via-white to-orange-400 bg-clip-text text-transparent font-light">your workforce?</span>
+                  Ready to empower <br /><span className="text-white font-semibold">your workforce?</span>
                 </h2>
                 <p className="text-stone-300 font-light mb-12 max-w-md text-base md:text-lg leading-relaxed">
                   Request Training Today. Get a customized cybersecurity training program tailored to your team.
@@ -627,7 +577,7 @@ export const TrainingPage = () => {
                 <div className="flex flex-col gap-8">
                   {[
                     { icon: <Mail size={20} strokeWidth={1.5} />, label: "Inquiry Email", value: "cybravions@gmail.com", color: "blue" },
-                    { icon: <Phone size={20} strokeWidth={1.5} />, label: "Direct Support", value: "+91-9358683634", color: "orange" }
+                    { icon: <Phone size={20} strokeWidth={1.5} />, label: "Direct Support", value: "+91-9358683634", color: "purple" }
                   ].map((item, i) => (
                     <motion.div 
                       key={i} 
@@ -637,14 +587,12 @@ export const TrainingPage = () => {
                       viewport={{ once: true }}
                       className="flex items-center gap-6 group cursor-pointer"
                     >
-                      <div className={`w-12 h-12 rounded-2xl bg-white/[0.05] border flex items-center justify-center group-hover:bg-white/[0.12] transition-all duration-500 shadow-lg ${
-                        item.color === 'blue' ? 'text-blue-400 border-blue-500/30' : 'text-orange-400 border-orange-500/30'
-                      }`}>
+                      <div className="w-12 h-12 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-center group-hover:bg-white/[0.12] transition-all duration-300 text-stone-200">
                         {item.icon}
                       </div>
                       <div>
                         <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-400 mb-1.5 font-bold">{item.label}</p>
-                        <p className="text-white text-lg md:text-xl font-light tracking-wide group-hover:text-blue-300 transition-colors">{item.value}</p>
+                        <p className="text-white text-lg md:text-xl font-light tracking-wide group-hover:text-stone-300 transition-colors">{item.value}</p>
                       </div>
                     </motion.div>
                   ))}
@@ -658,11 +606,9 @@ export const TrainingPage = () => {
                 viewport={{ once: true }}
                 className="relative"
               >
-                <motion.div 
-                  className="bg-stone-900/70 backdrop-blur-2xl p-6 md:p-10 rounded-3xl border border-orange-500/20 shadow-[0_0_40px_rgba(249,115,22,0.1)] relative z-10 overflow-hidden"
+                <div 
+                  className="bg-[#0e1017] p-6 md:p-10 rounded-3xl border border-white/10 relative z-10 overflow-hidden"
                 >
-                  <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-500/10 rounded-full blur-[80px] pointer-events-none" />
-
                   <form onSubmit={handleTrainingInquiry} className="space-y-6 relative z-10">
                     <input type="hidden" name="subject" value="New Training Inquiry - Cybravion" />
                     <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
@@ -670,34 +616,32 @@ export const TrainingPage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2 group relative">
                         <label htmlFor="training-name" className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Full Name</label>
-                        <input id="training-name" type="text" name="name" required autoComplete="name" placeholder="John Doe" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
+                        <input id="training-name" type="text" name="name" required autoComplete="name" placeholder="John Doe" className="w-full bg-[#151823] border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 focus:ring-1 focus:ring-white/30 transition-all text-sm placeholder:text-stone-500" />
                       </div>
                       <div className="space-y-2 group relative">
                         <label htmlFor="training-organization" className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Company</label>
-                        <input id="training-organization" type="text" name="organization" autoComplete="organization" placeholder="Company Name" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
+                        <input id="training-organization" type="text" name="organization" autoComplete="organization" placeholder="Company Name" className="w-full bg-[#151823] border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 focus:ring-1 focus:ring-white/30 transition-all text-sm placeholder:text-stone-500" />
                       </div>
                     </div>
 
                     <div className="space-y-2 group relative">
                       <label htmlFor="training-email" className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Email Address</label>
-                      <input id="training-email" type="email" name="email" required autoComplete="email" placeholder="john@example.com" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500" />
+                      <input id="training-email" type="email" name="email" required autoComplete="email" placeholder="john@example.com" className="w-full bg-[#151823] border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 focus:ring-1 focus:ring-white/30 transition-all text-sm placeholder:text-stone-500" />
                     </div>
 
                     <div className="space-y-2 group relative">
                       <label htmlFor="training-message" className="text-[9px] uppercase tracking-[0.3em] text-stone-300 font-bold ml-1">Message</label>
-                      <textarea id="training-message" rows={3} name="message" required placeholder="How can we help with your training needs?" className="w-full bg-stone-950/70 border border-white/15 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500/60 focus:shadow-[0_0_20px_rgba(249,115,22,0.2)] transition-all text-sm placeholder:text-stone-500 resize-none" />
+                      <textarea id="training-message" rows={3} name="message" required placeholder="How can we help with your training needs?" className="w-full bg-[#151823] border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 focus:ring-1 focus:ring-white/30 transition-all text-sm placeholder:text-stone-500 resize-none" />
                     </div>
 
                     <div className="flex justify-center pt-2">
-                      <motion.button 
-                        whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(249,115,22,0.35)" }}
-                        whileTap={{ scale: 0.95 }}
+                      <button 
                         type="submit" 
                         disabled={formStatus === 'submitting'}
-                        className="w-full sm:w-auto px-12 py-3.5 bg-orange-500 text-white text-xs uppercase tracking-[0.2em] font-bold rounded-full hover:bg-orange-600 transition-all shadow-xl cursor-pointer"
+                        className="w-full sm:w-auto px-10 py-3.5 bg-white text-black text-xs uppercase tracking-wider font-semibold rounded-xl hover:bg-slate-100 transition-all cursor-pointer active:scale-[0.99] shadow-sm"
                       >
                         {formStatus === 'submitting' ? 'Sending...' : 'Request Training Today'}
-                      </motion.button>
+                      </button>
                     </div>
                     <p role="status" aria-live="polite" className="text-center text-sm text-stone-300">
                       {formStatus === 'success' && 'Thanks. Your training inquiry has been sent.'}
@@ -706,7 +650,7 @@ export const TrainingPage = () => {
                       )}
                     </p>
                   </form>
-                </motion.div>
+                </div>
               </motion.div>
             </div>
           </div>

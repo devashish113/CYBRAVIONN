@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../utils/cyberAudio';
-import { TiltCard3D } from '../components/TiltCard3D';
+import { PageHeader } from '../components/PageHeader';
 
 interface SocAiTriageProps {
   setCurrentView?: (view: string) => void;
@@ -86,64 +86,27 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
       {/* ========================================================================= */}
       {/* 1. HERO SECTION */}
       {/* ========================================================================= */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden border-b border-slate-200/80 dark:border-blue-500/20">
-        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] bg-gradient-to-br from-blue-600/20 via-indigo-600/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute top-1/3 right-12 w-[500px] h-[500px] bg-gradient-to-bl from-orange-600/20 via-amber-500/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 via-sky-500/5 to-orange-500/10 border border-blue-500/30 text-blue-800 dark:text-blue-300 text-xs uppercase tracking-[0.25em] font-bold mb-8 backdrop-blur-md shadow-sm"
-          >
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <BellRing className="w-4 h-4 text-orange-500" />
-            <span>AUTONOMOUS SOC ALERT TRIAGE &amp; SOAR</span>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.12]"
-          >
-            Autonomous Alert Triage with{' '}
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-400 to-orange-500 bg-clip-text text-transparent">
-              Explainable AI (XAI)
-            </span>
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-stone-300 max-w-3xl mx-auto mb-10 font-normal leading-relaxed"
-          >
-            Shatter alert fatigue. Triage 10,000+ daily SIEM events in milliseconds, 
-            understand the exact mathematical reasoning behind every verdict with SHAP feature attribution, 
-            and execute automated containment playbooks.
-          </motion.p>
-
-          {/* Action CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-          >
-            {/* Live Link to Deployed App */}
+      <PageHeader
+        kicker="Autonomous SOC Alert Triage & SOAR"
+        title="Autonomous Alert Triage with"
+        italicTitle="Explainable AI."
+        description="Shatter alert fatigue. Triage 10,000+ daily SIEM events in milliseconds, understand the exact mathematical reasoning behind every verdict with SHAP feature attribution, and execute automated containment playbooks."
+        isDarkMode={isDarkMode}
+        breadcrumbs={[
+          { label: 'Home', onClick: () => setCurrentView?.('home') },
+          { label: 'Products', onClick: () => setCurrentView?.('home') },
+          { label: 'SOC AI Triage', active: true }
+        ]}
+        actions={
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
             <a
               href="https://soc.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
-              className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 text-white shadow-lg bg-gradient-to-r from-blue-600 via-indigo-600 to-orange-500 hover:from-blue-500 hover:to-orange-400 shadow-[0_0_30px_rgba(59,130,246,0.4)] cursor-pointer transform hover:scale-[1.02]"
+              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
-              <ExternalLink size={17} />
+              <ExternalLink size={15} />
               <span>Launch Live SOC AI Portal</span>
             </a>
 
@@ -151,63 +114,67 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
               href="#triage-simulator"
               onClick={(e) => {
                 e.preventDefault();
+                cyberAudio.playClick();
                 document.querySelector('#triage-simulator')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className={`w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-2 min-h-[50px] border cursor-pointer ${
-                isDarkMode
-                  ? 'bg-stone-950/80 hover:bg-stone-900 text-stone-200 border-stone-800 hover:border-blue-500/50'
-                  : 'bg-white/90 hover:bg-white text-slate-800 border-slate-300 shadow-sm'
-              }`}
+              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
-              <Sliders size={16} className="text-orange-500" />
+              <Sliders size={15} />
               <span>Live Alert Investigation Simulator</span>
             </a>
-          </motion.div>
+          </div>
+        }
+      />
 
-          {/* Metrics Row */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-          >
-            {[
-              { val: '< 50ms', label: 'Triage Latency', sub: 'Instant Heuristic & ML Scoring' },
-              { val: 'SHAP XAI', label: 'Explainable AI', sub: 'Zero Black-Box Guesswork' },
-              { val: 'Automated SOAR', label: 'Playbook Execution', sub: 'Containment & Evidence Gen' },
-              { val: 'Air-Gapped Ready', label: 'Sovereign Privacy', sub: 'Zero External Egress' },
-            ].map((m, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-2xl bg-white/70 dark:bg-stone-950/70 border border-slate-200/80 dark:border-stone-800/80 backdrop-blur-md flex flex-col items-center justify-center text-center shadow-sm"
-              >
-                <span className="text-xl sm:text-2xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-orange-500">
+      {/* Metrics Row */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 mb-20 -mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { val: '< 50ms', label: 'Triage Latency', sub: 'Instant Heuristic & ML Scoring', num: '01' },
+            { val: 'SHAP XAI', label: 'Explainable AI', sub: 'Zero Black-Box Guesswork', num: '02' },
+            { val: 'Automated SOAR', label: 'Playbook Execution', sub: 'Containment & Evidence Gen', num: '03' },
+            { val: 'Air-Gapped Ready', label: 'Sovereign Privacy', sub: 'Zero External Egress', num: '04' },
+          ].map((m, idx) => (
+            <div
+              key={idx}
+              className="surface-card p-5 flex flex-col justify-between text-left relative overflow-hidden"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-widest">{m.num}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500/60" />
+              </div>
+              <div>
+                <span className="text-lg sm:text-xl font-bold font-mono text-neutral-900 dark:text-white block">
                   {m.val}
                 </span>
-                <span className="text-xs font-semibold text-slate-800 dark:text-stone-200 mt-1">
+                <span className="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mt-1 block">
                   {m.label}
                 </span>
-                <span className="text-[10px] text-slate-500 dark:text-stone-400 font-light">
+                <span className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5 block">
                   {m.sub}
                 </span>
               </div>
-            ))}
-          </motion.div>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
 
       {/* ========================================================================= */}
       {/* 2. INTERACTIVE ALERT TRIAGE SIMULATOR */}
       {/* ========================================================================= */}
       <section id="triage-simulator" className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-12">
-          <span className="text-xs uppercase tracking-[0.3em] text-orange-500 font-bold block mb-2">
-            Real-Time Investigation Simulator
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Watch the AI Triage Engine Reason
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
+              Real-Time Investigation Simulator
+            </span>
+            <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
+          </div>
+          <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl text-neutral-900 dark:text-white tracking-tight">
+            Watch the AI Triage <span className="italic font-light text-neutral-500 dark:text-neutral-400">Engine Reason.</span>
           </h2>
-          <p className="text-slate-600 dark:text-stone-400 text-sm sm:text-base max-w-2xl mx-auto mt-3">
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base max-w-2xl mx-auto mt-3">
             Select a synthetic security alert below to inspect how the autonomous agent classifies threats, isolates top SHAP features, and triggers response playbooks.
           </p>
         </div>
@@ -311,7 +278,7 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
                   href="https://soc.cybravions.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1 transition-colors"
+                  className="text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1 transition-colors"
                 >
                   <span>Open Live SOC AI Platform</span>
                   <ExternalLink size={13} />
@@ -327,68 +294,75 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
       {/* ========================================================================= */}
       <section className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10 border-t border-slate-200/80 dark:border-stone-900">
         <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-blue-500 font-bold block mb-2">
-            Pillars of Next-Gen SOC
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Beyond Traditional SIEM &amp; Rule Heuristics
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
+              Pillars of Next-Gen SOC
+            </span>
+            <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
+          </div>
+          <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl text-neutral-900 dark:text-white tracking-tight">
+            Beyond Traditional SIEM &amp; <span className="italic font-light text-neutral-500 dark:text-neutral-400">Rule Heuristics.</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <TiltCard3D glowColor="blue">
-            <div className="p-6 h-full flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 inline-block mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="surface-card surface-card-hover p-7 rounded-2xl flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-[10px] tracking-widest uppercase font-semibold text-amber-600 dark:text-amber-400">
                   TIER 1 AUTOMATION
                 </span>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Sub-Second Machine Scoring</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-stone-300 leading-relaxed font-light">
-                  Lightweight decision trees and TF-IDF classifiers evaluate standard false positives instantly without hogging expensive GPU cycles.
-                </p>
+                <span className="font-mono text-xs text-neutral-400">01</span>
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-stone-800 text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                <CheckCircle2 size={14} />
-                <span>Zero Latency Bottlenecks</span>
-              </div>
+              <h3 className="font-editorial font-normal text-2xl text-neutral-900 dark:text-white mb-2">Sub-Second Machine Scoring</h3>
+              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed font-light">
+                Lightweight decision trees and TF-IDF classifiers evaluate standard false positives instantly without hogging expensive GPU cycles.
+              </p>
             </div>
-          </TiltCard3D>
+            <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-white/[0.08] text-xs font-mono font-medium text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+              <CheckCircle2 size={14} />
+              <span>Zero Latency Bottlenecks</span>
+            </div>
+          </div>
 
-          <TiltCard3D glowColor="orange">
-            <div className="p-6 h-full flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-500 border border-orange-500/20 inline-block mb-4">
+          <div className="surface-card surface-card-hover p-7 rounded-2xl flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-[10px] tracking-widest uppercase font-semibold text-amber-600 dark:text-amber-400">
                   AGENTIC REASONING
                 </span>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">ReAct Multi-Step Investigation</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-stone-300 leading-relaxed font-light">
-                  High-risk anomalies engage an autonomous investigation agent that queries network telemetry, correlates user identity, and drafts incident reports.
-                </p>
+                <span className="font-mono text-xs text-neutral-400">02</span>
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-stone-800 text-xs font-bold text-orange-600 dark:text-orange-400 flex items-center gap-1.5">
-                <CheckCircle2 size={14} />
-                <span>Full Audit Trail Logging</span>
-              </div>
+              <h3 className="font-editorial font-normal text-2xl text-neutral-900 dark:text-white mb-2">ReAct Multi-Step Investigation</h3>
+              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed font-light">
+                High-risk anomalies engage an autonomous investigation agent that queries network telemetry, correlates user identity, and drafts incident reports.
+              </p>
             </div>
-          </TiltCard3D>
+            <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-white/[0.08] text-xs font-mono font-medium text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+              <CheckCircle2 size={14} />
+              <span>Full Audit Trail Logging</span>
+            </div>
+          </div>
 
-          <TiltCard3D glowColor="blue">
-            <div className="p-6 h-full flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 inline-block mb-4">
+          <div className="surface-card surface-card-hover p-7 rounded-2xl flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-[10px] tracking-widest uppercase font-semibold text-amber-600 dark:text-amber-400">
                   SOVEREIGN PRIVACY
                 </span>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Zero Data Egress Policy</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-stone-300 leading-relaxed font-light">
-                  Enforces complete network isolation. All model inference and RAG document embeddings execute on local hardware with zero external third-party API exposure.
-                </p>
+                <span className="font-mono text-xs text-neutral-400">03</span>
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-stone-800 text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                <CheckCircle2 size={14} />
-                <span>Strict Air-Gap Compliant</span>
-              </div>
+              <h3 className="font-editorial font-normal text-2xl text-neutral-900 dark:text-white mb-2">Zero Data Egress Policy</h3>
+              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed font-light">
+                Enforces complete network isolation. All model inference and RAG document embeddings execute on local hardware with zero external third-party API exposure.
+              </p>
             </div>
-          </TiltCard3D>
+            <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-white/[0.08] text-xs font-mono font-medium text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+              <CheckCircle2 size={14} />
+              <span>Strict Air-Gap Compliant</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -396,11 +370,18 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
       {/* 4. FINAL CTA BANNER */}
       {/* ========================================================================= */}
       <section className="py-20 px-6 md:px-12 max-w-5xl mx-auto text-center relative z-10">
-        <div className="p-10 sm:p-14 rounded-3xl bg-gradient-to-br from-indigo-950/60 via-stone-950 to-orange-950/40 border border-indigo-500/30 text-white shadow-2xl relative overflow-hidden">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Experience Autonomous Alert Triage Live
+        <div className="p-10 sm:p-14 rounded-3xl surface-card text-neutral-900 dark:text-white relative overflow-hidden text-center">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
+              Live Investigation
+            </span>
+            <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
+          </div>
+          <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl tracking-tight mb-4 text-neutral-900 dark:text-white">
+            Experience Autonomous Alert <span className="italic font-light text-neutral-500 dark:text-neutral-400">Triage Live.</span>
           </h2>
-          <p className="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base mb-8 font-light">
+          <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto text-sm sm:text-base mb-8 font-light leading-relaxed">
             Access the live SOC AI appliance directly on our cloud server and test real alert playbooks.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -409,10 +390,10 @@ export const SocAiTriagePage: React.FC<SocAiTriageProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
-              className="px-8 py-4 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm uppercase tracking-wider flex items-center gap-2 shadow-[0_0_25px_rgba(59,130,246,0.4)] transition-all cursor-pointer"
+              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
               <span>Launch Live SOC AI Portal</span>
-              <ExternalLink size={16} />
+              <ExternalLink size={15} />
             </a>
           </div>
         </div>

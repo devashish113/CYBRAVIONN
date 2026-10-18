@@ -21,6 +21,8 @@ import {
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../utils/cyberAudio';
+import { PageHeader } from '../components/PageHeader';
+import { WaterGlassCard } from '../components/WaterGlassCard';
 
 interface ResourcesPageProps {
   setCurrentView?: (view: string) => void;
@@ -48,6 +50,7 @@ interface Article {
 
 export const ResourcesPage: React.FC<ResourcesPageProps> = ({
   setCurrentView,
+  isDarkMode = true,
   onOpenConsultation
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -321,7 +324,7 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
   };
 
   return (
-    <div className="pt-24 min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
       <Helmet>
         <title>Regulatory Resource Center &amp; Cybersecurity Guides | CYBRAVION</title>
         <meta name="description" content="In-depth cybersecurity compliance guides, checklists, and technical blueprints. Master the DPDP Act 2023, ISO 27001:2022, VAPT scoping, and CERT-In directives." />
@@ -332,47 +335,29 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      {/* Background Gradients */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 -right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
-      </div>
+      {/* Subtle Architectural Vignette */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none opacity-40 dark:opacity-20 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]"
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 70%)' }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-12">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-8 text-sm text-slate-500 dark:text-stone-400">
-          <ol className="flex items-center space-x-2">
-            <li>
-              <button 
-                type="button" 
-                onClick={() => setCurrentView?.('home')} 
-                className="hover:text-orange-500 transition-colors"
-              >
-                Home
-              </button>
-            </li>
-            <li>/</li>
-            <li className="text-orange-600 dark:text-orange-400 font-medium">Resources &amp; Regulatory Guides</li>
-          </ol>
-        </nav>
+      <PageHeader
+        kicker="Cybersecurity Knowledge Hub & Statutory Blueprints"
+        title="Regulatory Guides &"
+        italicTitle="Technical Blueprints."
+        description="In-depth analysis, statutory checklists, and actionable security playbooks authored by CYBRAVION’s cybersecurity engineers and regulatory consultants in New Delhi."
+        isDarkMode={isDarkMode}
+        breadcrumbs={[
+          { label: 'Home', onClick: () => setCurrentView?.('home') },
+          { label: 'Resources & Regulatory Guides', active: true }
+        ]}
+      />
 
-        {/* Header */}
-        <header className="mb-16 text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-xs font-semibold tracking-wider uppercase mb-6">
-            <BookOpen className="w-4 h-4" />
-            <span>Cybersecurity Knowledge Hub</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
-            Regulatory Guides &amp; <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-blue-500 bg-clip-text text-transparent">Technical Blueprints</span>
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 dark:text-stone-300 leading-relaxed">
-            In-depth analysis, statutory checklists, and actionable security playbooks authored by CYBRAVION’s cybersecurity engineers and regulatory consultants in New Delhi.
-          </p>
-        </header>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-16">
 
         {/* Search & Category Filter Controls */}
         <div className="mb-12 flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Category Tabs */}
+          {/* Category Tabs (Tactile Pills) */}
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
             {categories.map(cat => (
               <button
@@ -382,10 +367,10 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
                   cyberAudio.playHover();
                   setSelectedCategory(cat);
                 }}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? 'bg-orange-500 text-white shadow-md shadow-orange-500/25'
-                    : 'bg-white dark:bg-stone-900 text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-stone-800 hover:bg-slate-100 dark:hover:bg-stone-800'
+                    ? 'btn-tactile-primary text-white shadow-sm'
+                    : 'btn-tactile-outline'
                 }`}
               >
                 {cat}
@@ -401,7 +386,7 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
               placeholder="Search guides, laws, standards..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-orange-500 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-purple-500 transition-colors"
             />
           </div>
         </div>
@@ -409,9 +394,9 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
         {/* Article Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
           {filteredArticles.map(article => (
-            <div
+            <WaterGlassCard
               key={article.id}
-              className="p-8 rounded-3xl bg-white dark:bg-stone-900/70 border border-slate-200 dark:border-stone-800 hover:border-orange-500/50 transition-all flex flex-col justify-between shadow-sm group cursor-pointer"
+              className="p-8 flex flex-col justify-between cursor-pointer"
               onClick={() => {
                 cyberAudio.playClick();
                 setActiveArticle(article);
@@ -419,35 +404,35 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <span className="text-[11px] font-bold font-mono uppercase tracking-wider px-3 py-1 rounded-full bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-white border border-slate-200 dark:border-white/10">
                     {article.category}
                   </span>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-stone-400 font-mono">
                     <Clock className="w-3.5 h-3.5" />
                     <span>{article.readTime}</span>
                   </div>
                 </div>
 
-                <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-orange-500 transition-colors">
+                <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-3 transition-colors">
                   {article.title}
                 </h2>
 
-                <p className="text-sm text-slate-600 dark:text-stone-300 leading-relaxed mb-6">
+                <p className="text-sm text-slate-600 dark:text-stone-300 leading-relaxed mb-6 font-normal">
                   {article.summary}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 dark:border-stone-800/60 flex items-center justify-between text-xs font-semibold text-orange-600 dark:text-orange-400">
-                <span className="flex items-center gap-1 text-slate-400">
+              <div className="pt-4 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs font-semibold text-slate-900 dark:text-white">
+                <span className="flex items-center gap-1 text-slate-500 dark:text-stone-400 font-mono">
                   <Calendar className="w-3.5 h-3.5" />
                   {article.publishedDate}
                 </span>
-                <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                <span className="flex items-center gap-1 group-hover/water:translate-x-1 transition-transform">
                   Read Full Guide
                   <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
-            </div>
+            </WaterGlassCard>
           ))}
         </div>
 
@@ -476,7 +461,7 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
                 </button>
 
                 <div className="mb-6 flex items-center gap-3 text-xs text-slate-400">
-                  <span className="px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 font-bold uppercase">
+                  <span className="px-3 py-1 rounded-full bg-purple-500/10 text-purple-500 font-bold uppercase">
                     {activeArticle.category}
                   </span>
                   <span>·</span>
@@ -548,7 +533,7 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
                       setActiveArticle(null);
                       onOpenConsultation?.();
                     }}
-                    className="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm shadow-md transition-colors"
+                    className="px-6 py-3 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold text-sm shadow-md transition-colors"
                   >
                     Consult with Senior Auditor
                   </button>
@@ -559,11 +544,11 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
         </AnimatePresence>
 
         {/* Lead Magnet CTA Banner */}
-        <section className="text-center py-16 px-8 rounded-3xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-blue-500/10 border border-orange-500/20">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">
+        <section className="text-center py-16 px-8 rounded-3xl bg-slate-900 dark:bg-[#0e1017] border border-slate-800 dark:border-white/10 text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">
             Need Expert Assistance with Indian Cyber Regulations?
           </h2>
-          <p className="text-slate-600 dark:text-stone-300 max-w-2xl mx-auto mb-8 text-base">
+          <p className="text-stone-300 max-w-2xl mx-auto mb-8 text-base font-light leading-relaxed">
             CYBRAVION delivers turnkey compliance advisory, risk assessments, and technical audits for DPDP Act, ISO 27001, SOC 2, and CERT-In directives.
           </p>
           <button
@@ -572,7 +557,7 @@ export const ResourcesPage: React.FC<ResourcesPageProps> = ({
               cyberAudio.playClick();
               onOpenConsultation?.();
             }}
-            className="px-8 py-4 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold shadow-lg shadow-orange-500/30 transition-transform transform hover:-translate-y-0.5"
+            className="px-8 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-black font-semibold text-sm transition-all cursor-pointer active:scale-[0.99] shadow-sm"
           >
             Request Regulatory Compliance Audit
           </button>

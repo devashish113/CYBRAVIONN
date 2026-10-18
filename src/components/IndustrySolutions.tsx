@@ -18,7 +18,7 @@ const industries = [
     title: "Global Enterprises",
     problem: "Complex multi-cloud hybrid infrastructure with fragmented risk visibility across multinational business units.",
     solution: "Comprehensive GRC governance, automated continuous compliance telemetry, and executive board reporting.",
-    glow: "orange" as const
+    glow: "purple" as const
   },
   {
     icon: Heart,
@@ -32,7 +32,7 @@ const industries = [
     title: "Fintech & Banking",
     problem: "High-value attack surface targeting payment rails, transaction APIs, and strict zero-downtime mandates.",
     solution: "Threat actor intelligence, red teaming, PCI-DSS v4.0 advisory, and transaction microservice isolation.",
-    glow: "orange" as const
+    glow: "purple" as const
   },
   {
     icon: ShoppingCart,
@@ -46,7 +46,7 @@ const industries = [
     title: "Government & Critical Infra",
     problem: "Advanced persistent threats (APTs), sovereign data privacy mandates, and critical utility protection.",
     solution: "NIST CSF alignment, CERT-In compliance protocols, and sovereign cloud security engineering.",
-    glow: "orange" as const
+    glow: "purple" as const
   }
 ];
 

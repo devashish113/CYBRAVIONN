@@ -29,7 +29,7 @@ interface ModalData {
   desc: string;
   standards?: string[];
   whatWeDo?: string[];
-  glow?: 'blue' | 'orange';
+  glow?: 'blue' | 'purple';
   route?: string;
 }
 
@@ -73,7 +73,7 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
           <div className={`p-3.5 rounded-2xl shrink-0 shadow-lg ${
             isBlue 
               ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/30' 
-              : 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/30'
+              : 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/30'
           }`}>
             <ShieldCheck className="w-7 h-7" />
           </div>
@@ -82,7 +82,7 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
               <span className={`text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border ${
                 isBlue 
                   ? 'text-blue-600 dark:text-blue-400 bg-blue-500/10 border-blue-500/30' 
-                  : 'text-orange-600 dark:text-orange-400 bg-orange-500/10 border-orange-500/30'
+                  : 'text-purple-600 dark:text-purple-400 bg-purple-500/10 border-purple-500/30'
               }`}>
                 {data.tag || 'SECURITY CAPABILITY'}
               </span>
@@ -108,7 +108,7 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
         {/* Left Column: Scope & Core Deliverables */}
         <div className="lg:col-span-7 space-y-4">
           <h4 className="text-xs uppercase tracking-[0.2em] font-mono font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Activity size={16} className={isBlue ? 'text-blue-500' : 'text-orange-500'} />
+            <Activity size={16} className={isBlue ? 'text-blue-500' : 'text-purple-500'} />
             <span>Execution Scope &amp; Technical Directives</span>
           </h4>
 
@@ -119,7 +119,7 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
                 className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white dark:bg-stone-900/90 border border-slate-200 dark:border-stone-800 hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-colors shadow-xs"
               >
                 <div className={`w-5 h-5 rounded-md flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 ${
-                  isBlue ? 'bg-blue-500/15 text-blue-500' : 'bg-orange-500/15 text-orange-500'
+                  isBlue ? 'bg-blue-500/15 text-blue-500' : 'bg-purple-500/15 text-purple-500'
                 }`}>
                   {i + 1}
                 </div>
@@ -134,7 +134,7 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
         {/* Right Column: Supported Frameworks & Safeguards */}
         <div className="lg:col-span-5 space-y-4">
           <h4 className="text-xs uppercase tracking-[0.2em] font-mono font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Lock size={16} className={isBlue ? 'text-blue-500' : 'text-orange-500'} />
+            <Lock size={16} className={isBlue ? 'text-blue-500' : 'text-purple-500'} />
             <span>Target Standards &amp; Compliance</span>
           </h4>
 
@@ -144,7 +144,7 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
                 key={idx} 
                 className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 dark:bg-stone-950 border border-slate-200 dark:border-stone-800/80"
               >
-                <CheckCircle2 size={16} className={isBlue ? 'text-blue-500 shrink-0' : 'text-orange-500 shrink-0'} />
+                <CheckCircle2 size={16} className={isBlue ? 'text-blue-500 shrink-0' : 'text-purple-500 shrink-0'} />
                 <span className="text-xs font-semibold font-mono text-slate-900 dark:text-stone-200">
                   {std}
                 </span>
@@ -175,7 +175,7 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
                 onNavigate(data.route!);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="w-full sm:w-auto px-5 py-3 rounded-xl border border-orange-500/40 hover:bg-orange-500/10 text-orange-600 dark:text-orange-400 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+              className="w-full sm:w-auto px-5 py-3 rounded-xl border border-purple-500/40 hover:bg-purple-500/10 text-purple-600 dark:text-purple-400 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
             >
               <span>Explore Full {data.title} Page</span>
               <ArrowRight size={14} />
@@ -195,7 +195,7 @@ export const UnifiedCapabilityModal: React.FC<ServiceModalProps> = ({
             className={`w-full sm:w-auto px-6 py-3 rounded-xl text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg ${
               isBlue
                 ? 'bg-blue-600 hover:bg-blue-500 shadow-blue-500/25'
-                : 'bg-orange-500 hover:bg-orange-600 shadow-orange-500/25'
+                : 'bg-purple-500 hover:bg-purple-600 shadow-purple-500/25'
             }`}
           >
             <span>Request Scope Briefing</span>
