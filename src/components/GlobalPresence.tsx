@@ -86,7 +86,7 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
-                  <MapPin size={14} className={isSelected ? 'text-purple-500' : 'text-slate-400'} />
+                  <MapPin size={14} className={isSelected ? 'text-orange-500' : 'text-slate-400'} />
                   <span className={`text-xs font-mono font-bold uppercase tracking-wider ${
                     isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-stone-400'
                   }`}>
@@ -124,7 +124,7 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
             <div className="flex flex-wrap gap-2 pt-2">
               {selectedRegion.keyMarkets.map((market) => (
                 <span key={market} className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-stone-800 text-xs font-mono text-slate-800 dark:text-stone-300 border border-slate-200 dark:border-stone-700 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                   {market}
                 </span>
               ))}
@@ -144,7 +144,7 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
                     <ShieldCheck size={16} className="text-blue-500" />
                     <span>{fw}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-purple-500 font-bold">ACTIVE MANDATE</span>
+                  <span className="text-[10px] font-mono text-orange-500 font-bold">ACTIVE MANDATE</span>
                 </div>
               ))}
             </div>

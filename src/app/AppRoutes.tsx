@@ -75,7 +75,7 @@ export function AppRoutes({ currentView, setCurrentView, isDarkMode, onOpenAudit
       <section className="min-h-[70vh] flex flex-col items-center justify-center gap-4 px-6 text-center">
         <h1 className="text-4xl font-bold">Page not found</h1>
         <p className="text-slate-600 dark:text-stone-400">The page you requested does not exist.</p>
-        <button type="button" onClick={() => setCurrentView('home')} className="px-5 py-3 rounded-lg bg-purple-500 text-white font-semibold">
+        <button type="button" onClick={() => setCurrentView('home')} className="px-5 py-3 rounded-lg bg-orange-500 text-white font-semibold">
           Return home
         </button>
       </section>

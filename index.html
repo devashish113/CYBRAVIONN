@@ -17,6 +17,9 @@
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
 
   <!-- Search Engine & Webmaster Verification Hooks -->
@@ -225,15 +228,16 @@
   <!-- Plain-text company context for compatible tools -->
   <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM Context Documentation" />
 
-  <!-- Favicon & Touch Icons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
   <link rel="manifest" href="/manifest.json" />
 
-  <!-- Editorial & Enterprise Fonts (Optimized payload: Newsreader, Plus Jakarta Sans, JetBrains Mono) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Use local system fonts to avoid a render-time dependency on Google Fonts. -->
+  <style>
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .font-orbitron { font-family: Orbitron, ui-sans-serif, system-ui, sans-serif; }
+  </style>
 </head>
 
 <body class="bg-stone-950 text-stone-100 font-sans antialiased overflow-x-hidden selection:bg-blue-600/40 selection:text-orange-200">

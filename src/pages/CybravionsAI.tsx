@@ -18,20 +18,12 @@ import {
   Building, 
   HardDrive
 } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
-import { PageHeader } from '../components/PageHeader';
 
 interface CybravionsAIProps {
-  setCurrentView?: (view: string) => void;
-  isDarkMode?: boolean;
   onOpenConsultation?: (serviceId?: string) => void;
 }
 
-export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({ 
-  setCurrentView, 
-  isDarkMode = true, 
-  onOpenConsultation 
-}) => {
+export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({ onOpenConsultation }) => {
   const [activeSector, setActiveSector] = useState<'defense' | 'police' | 'infra'>('defense');
   const [selectedAgentModel, setSelectedAgentModel] = useState<string>('Llama-3-70B-AirGap');
   const [isSimulatingAnalysis, setIsSimulatingAnalysis] = useState<boolean>(false);
@@ -61,37 +53,75 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 selection:bg-blue-500/20 selection:text-blue-900 relative">
       {/* --- Section 1: Sovereign Hero Banner --- */}
-      <PageHeader
-        kicker="Air-Gapped Sovereign Intelligence Appliance"
-        title="Air-Gapped Sovereign"
-        italicTitle="Agentic AI In-a-Box."
-        description="Deploy autonomous, self-contained multi-agent intelligence directly on-premises. Engineered with zero external cloud dependencies, hardware-level air-gapping, and complete sovereign data ownership."
-        isDarkMode={isDarkMode}
-        breadcrumbs={[
-          { label: 'Home', onClick: () => setCurrentView?.('home') },
-          { label: 'Products', onClick: () => setCurrentView?.('home') },
-          { label: 'Cybravions AI', active: true }
-        ]}
-        actions={
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-            <button
+      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-transparent text-slate-900 dark:text-white overflow-hidden border-b border-slate-200/80 dark:border-blue-500/20">
+        {/* Ambient Glowing Gradient Aura Backdrops */}
+        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] bg-gradient-to-br from-blue-600/20 via-blue-900/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-gradient-to-bl from-orange-600/15 via-amber-500/10 to-transparent rounded-full blur-[130px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 text-center">
+          {/* Brand Sovereign Pill */}
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-950/60 border border-blue-400/50 text-blue-800 dark:text-blue-300 text-xs uppercase tracking-[0.25em] font-bold mb-8 backdrop-blur-md shadow-sm"
+          >
+            <div className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-ping" />
+            <Shield className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <span>CYBRAVIONS AI</span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8 leading-[1.12]"
+          >
+            Air-Gapped Sovereign{' '}
+            <span className="bg-gradient-to-r from-blue-700 via-sky-600 to-orange-600 dark:from-blue-400 dark:via-sky-300 dark:to-orange-400 bg-clip-text text-transparent">
+              Agentic AI In-a-Box
+            </span>
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-slate-700 dark:text-stone-300 text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto font-normal leading-relaxed mb-10"
+          >
+            Deploy autonomous, self-contained multi-agent intelligence directly on-premises. 
+            Engineered with zero external cloud dependencies, hardware-level air-gapping, and complete sovereign data ownership.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center justify-center gap-4"
+          >
+            <motion.button
               onClick={handleDemoClick}
-              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+              whileHover={{ scale: 1.03, boxShadow: '0 0 30px rgba(249, 115, 22, 0.5)' }}
+              whileTap={{ scale: 0.98 }}
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 via-sky-500 to-orange-500 hover:from-blue-500 hover:via-sky-400 hover:to-orange-400 text-white font-bold text-sm uppercase tracking-widest rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all flex items-center gap-2 cursor-pointer"
             >
-              <span>Request a Demo</span>
+              <span>REQUEST A DEMO</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </motion.button>
 
             <a
               href="#see-in-action"
-              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+              className="px-8 py-4 bg-white/80 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-slate-800 dark:text-stone-200 border border-slate-300 dark:border-white/10 hover:border-orange-500 dark:hover:border-orange-400/40 font-semibold text-sm uppercase tracking-widest rounded-xl backdrop-blur-sm transition-all flex items-center gap-2 shadow-sm"
             >
-              <span>Explore Capabilities</span>
-              <ChevronRight className="w-4 h-4 text-neutral-400" />
+              <span>EXPLORE CAPABILITIES</span>
+              <ChevronRight className="w-4 h-4 text-orange-600 dark:text-orange-400" />
             </a>
-          </div>
-        }
-      />
+          </motion.div>
+        </div>
+      </section>
 
       {/* --- Section 2: Sovereign Mission & Overview --- */}
       <section className="py-20 px-6 md:px-12 max-w-5xl mx-auto text-center">
@@ -101,7 +131,7 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-xs font-bold uppercase tracking-[0.3em] text-purple-600 dark:text-purple-400 mb-3 block">
+          <span className="text-xs font-bold uppercase tracking-[0.3em] text-orange-600 dark:text-orange-400 mb-3 block">
             SOVEREIGN INTELLIGENCE PARADIGM
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
@@ -116,17 +146,13 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
       {/* --- Section 3: "See It In Action" Interactive Showcases --- */}
       <section id="see-in-action" className="py-20 px-6 md:px-12 max-w-7xl mx-auto border-t border-slate-200/80 dark:border-white/10">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
-              Interactive System Preview
-            </span>
-            <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
-          </div>
-          <h2 className="font-editorial font-normal text-3xl md:text-5xl text-neutral-900 dark:text-white tracking-tight">
-            See it in <span className="italic font-light text-neutral-500 dark:text-neutral-400">Action.</span>
+          <span className="text-xs font-bold uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-2 block">
+            INTERACTIVE SYSTEM PREVIEW
+          </span>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            See it in Action
           </h2>
-          <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-lg mt-3 max-w-2xl mx-auto">
+          <p className="text-slate-600 dark:text-stone-300 text-base md:text-lg mt-3 max-w-2xl mx-auto">
             Experience the sovereign multi-agent workflow operating inside an isolated, air-gapped secure envelope.
           </p>
         </div>
@@ -152,15 +178,15 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
             </p>
             <ul className="space-y-3 text-slate-700 dark:text-stone-300 text-sm">
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0" />
                 <span>Zero telemetry — 0 bytes broadcast externally</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0" />
                 <span>Hot-swappable local LLMs (Llama-3, DeepSeek-R1, Defense-Tuned)</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0" />
                 <span>Hardware-enforced memory isolation & encrypted vector storage</span>
               </li>
             </ul>
@@ -183,8 +209,8 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
                 <span className="text-xs font-mono text-slate-400 ml-2">cybravions-ai://workspace/agent-config</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   AIR-GAP: SECURE
                 </span>
               </div>
@@ -232,7 +258,7 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
 
                   <div className="p-3 bg-white dark:bg-stone-900 rounded-lg border border-slate-200 dark:border-stone-800 flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-1.5 bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded-md">
+                      <div className="p-1.5 bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 rounded-md">
                         <ShieldAlert className="w-4 h-4" />
                       </div>
                       <div>
@@ -274,9 +300,9 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
               <button
                 onClick={handleSimulate}
                 disabled={isSimulatingAnalysis}
-                className="px-3 py-1 bg-white hover:bg-slate-200 text-black font-mono text-[10px] font-semibold rounded flex items-center gap-1 transition-all cursor-pointer active:scale-95"
+                className="px-2.5 py-1 bg-gradient-to-r from-blue-600 to-orange-500 hover:from-blue-500 hover:to-orange-400 text-white font-mono text-[10px] font-bold rounded flex items-center gap-1 transition-colors cursor-pointer"
               >
-                <Zap className="w-3 h-3 text-black" />
+                <Zap className="w-3 h-3" />
                 {isSimulatingAnalysis ? 'RUNNING...' : 'EXECUTE PIPELINE'}
               </button>
             </div>
@@ -298,9 +324,9 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
                 </div>
 
                 <div className={`p-3 rounded-xl border transition-all ${
-                  simulationStep >= 2 ? 'bg-white dark:bg-stone-900 border-purple-500 shadow-md ring-2 ring-purple-400/20' : 'bg-slate-100 dark:bg-stone-800 border-slate-200 dark:border-stone-700 text-slate-400'
+                  simulationStep >= 2 ? 'bg-white dark:bg-stone-900 border-orange-500 shadow-md ring-2 ring-orange-400/20' : 'bg-slate-100 dark:bg-stone-800 border-slate-200 dark:border-stone-700 text-slate-400'
                 }`}>
-                  <div className="text-[10px] font-mono font-bold text-purple-600 dark:text-purple-400 mb-1">STAGE 02</div>
+                  <div className="text-[10px] font-mono font-bold text-orange-600 dark:text-orange-400 mb-1">STAGE 02</div>
                   <div className="text-xs font-bold text-slate-800 dark:text-stone-200">Agent Reasoning</div>
                   <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-1">Cross-entity correlation</div>
                 </div>
@@ -331,8 +357,8 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
             transition={{ duration: 0.5 }}
             className="order-1 lg:order-2 space-y-5"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-purple-100 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300 text-xs font-bold uppercase tracking-wider">
-              <Brain className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-800 dark:text-orange-300 text-xs font-bold uppercase tracking-wider">
+              <Brain className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
               Module 02
             </div>
             <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -379,15 +405,15 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
             </p>
             <ul className="space-y-3 text-slate-700 dark:text-stone-300 text-sm">
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0" />
                 <span>Hardware-anchored TPM cryptographic signing of all decision logs</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0" />
                 <span>Real-time red-line containment and policy veto gates</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0" />
                 <span>Tamper-proof compliance reporting compliant with military standards</span>
               </li>
             </ul>
@@ -451,7 +477,7 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
       {/* --- Section 4: Core Capabilities of Cybravions AI --- */}
       <section className="py-24 px-6 md:px-12 bg-slate-900 text-white relative overflow-hidden border-y border-slate-800">
         <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[400px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), transparent 70%)' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-600/10 rounded-full blur-[150px]" />
           <div 
             className="w-full h-full opacity-15"
             style={{
@@ -463,11 +489,11 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
 
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-purple-400 mb-2 block">
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-orange-400 mb-2 block">
               DEFENSE-GRADE ARCHITECTURE
             </span>
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
-              Core Capabilities of <span className="text-purple-400">Cybravions AI</span>
+              Core Capabilities of <span className="text-orange-400">Cybravions AI</span>
             </h2>
             <p className="text-slate-400 text-base md:text-lg mt-3 max-w-2xl mx-auto">
               Engineered from the ground up for zero trust, zero leakage, and autonomous agent resilience.
@@ -498,9 +524,9 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="p-6 rounded-2xl bg-white/[0.04] border border-purple-500/20 hover:border-purple-400/50 transition-all backdrop-blur-md"
+                className="p-6 rounded-2xl bg-white/[0.04] border border-orange-500/20 hover:border-orange-400/50 transition-all backdrop-blur-md"
               >
-                <div className="p-3 bg-purple-500/10 text-purple-400 rounded-xl w-fit mb-4">
+                <div className="p-3 bg-orange-500/10 text-orange-400 rounded-xl w-fit mb-4">
                   <Network className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Autonomous Multi-Agent Swarms</h3>
@@ -518,27 +544,27 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
               transition={{ duration: 0.6 }}
               className="relative flex items-center justify-center p-8"
             >
-              <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-full border border-white/10 relative flex items-center justify-center bg-[#0e1017] backdrop-blur-xl">
+              <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-full border border-blue-500/40 relative flex items-center justify-center shadow-[0_0_80px_rgba(37,99,235,0.25)] bg-gradient-to-br from-blue-950/40 to-slate-950/80 backdrop-blur-xl">
                 {/* Rotating ring 1 */}
-                <div className="absolute inset-2 rounded-full border border-dashed border-white/15 animate-spin" style={{ animationDuration: '30s' }} />
+                <div className="absolute inset-2 rounded-full border border-dashed border-blue-400/30 animate-spin" style={{ animationDuration: '30s' }} />
                 
                 {/* Rotating ring 2 */}
-                <div className="absolute inset-8 rounded-full border border-dotted border-white/10 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '20s' }} />
+                <div className="absolute inset-8 rounded-full border border-dotted border-orange-400/40 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '20s' }} />
 
                 {/* Central AI Node Icon */}
                 <div className="text-center relative z-10 space-y-2">
-                  <div className="w-20 h-20 mx-auto rounded-2xl bg-[#151823] border border-white/15 flex items-center justify-center">
+                  <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-blue-600 to-orange-500 flex items-center justify-center shadow-[0_0_30px_rgba(249,115,22,0.6)]">
                     <Brain className="w-10 h-10 text-white" />
                   </div>
-                  <div className="text-sm font-bold tracking-widest text-white font-mono">SOVEREIGN CORE</div>
-                  <div className="text-[11px] text-stone-400">Zero-Trust Kernel</div>
+                  <div className="text-sm font-bold tracking-widest text-orange-300 font-mono">SOVEREIGN CORE</div>
+                  <div className="text-[11px] text-slate-400">Zero-Trust Kernel</div>
                 </div>
 
                 {/* Node connection pulses */}
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-stone-900 border border-white/15 text-[10px] font-mono text-stone-300">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-blue-900/90 border border-blue-400/60 text-[10px] font-mono text-blue-300">
                   TPM SEALED
                 </div>
-                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-stone-900 border border-white/15 text-[10px] font-mono text-stone-300">
+                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-orange-900/90 border border-orange-400/60 text-[10px] font-mono text-orange-300">
                   ISOLATED LAN
                 </div>
               </div>
@@ -585,7 +611,7 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
       {/* --- Section 5: Key Product Features Grid --- */}
       <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-xs font-bold uppercase tracking-[0.3em] text-purple-600 dark:text-purple-400 mb-2 block">
+          <span className="text-xs font-bold uppercase tracking-[0.3em] text-orange-600 dark:text-orange-400 mb-2 block">
             ENGINEERING EXCELLENCE
           </span>
           <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -604,7 +630,7 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
               desc: "Turnkey deployable on rack-mounted servers, ruggedized tactical laptops, or isolated private cloud clusters."
             },
             {
-              icon: <Sliders className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
+              icon: <Sliders className="w-6 h-6 text-orange-600 dark:text-orange-400" />,
               title: "Custom Model Fine-Tuning",
               desc: "Support for on-premise LoRA and full-parameter fine-tuning on confidential domain-specific intelligence."
             },
@@ -614,7 +640,7 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
               desc: "Complete visibility into the reasoning steps and verified source citations behind every generated insight."
             },
             {
-              icon: <Activity className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
+              icon: <Activity className="w-6 h-6 text-orange-600 dark:text-orange-400" />,
               title: "Multi-Agent Orchestration",
               desc: "Autonomous workflow pipelines capable of planning, executing, verifying, and reporting without human bottlenecks."
             },
@@ -635,9 +661,9 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="p-8 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 hover:border-purple-400 dark:hover:border-purple-400/50 hover:shadow-xl transition-all group"
+              className="p-8 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 hover:border-orange-400 dark:hover:border-orange-400/50 hover:shadow-xl transition-all group"
             >
-              <div className="p-3 bg-slate-50 dark:bg-white/[0.04] group-hover:bg-purple-50 dark:group-hover:bg-purple-950/40 rounded-xl w-fit mb-5 transition-colors">
+              <div className="p-3 bg-slate-50 dark:bg-white/[0.04] group-hover:bg-orange-50 dark:group-hover:bg-orange-950/40 rounded-xl w-fit mb-5 transition-colors">
                 {feature.icon}
               </div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{feature.title}</h3>
@@ -673,8 +699,8 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
                   onClick={() => setActiveSector(tab.id as any)}
                   className={`px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
                     activeSector === tab.id
-                      ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-sm font-bold'
-                      : 'bg-white/60 dark:bg-white/[0.04] text-slate-700 dark:text-stone-300 hover:bg-slate-100 dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/10'
+                      ? 'bg-gradient-to-r from-blue-600 to-orange-500 text-white shadow-lg'
+                      : 'bg-white dark:bg-stone-800 text-slate-700 dark:text-stone-200 hover:bg-slate-200 dark:hover:bg-stone-700 border border-slate-200 dark:border-stone-700'
                   }`}
                 >
                   {tab.icon}
@@ -698,14 +724,14 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
                 {/* Featured Defense Hero Card */}
                 <div className="bg-slate-900 text-white rounded-3xl p-8 md:p-12 border border-slate-800 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center shadow-2xl">
                   <div className="space-y-4">
-                    <span className="text-xs font-bold uppercase tracking-[0.25em] text-purple-400">DEFENSE FLAGSHIP APPLICATION</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.25em] text-orange-400">DEFENSE FLAGSHIP APPLICATION</span>
                     <h3 className="text-2xl md:text-4xl font-extrabold">Predictive Battlefield Logistics & Intel Discovery</h3>
                     <p className="text-slate-300 text-sm md:text-base leading-relaxed">
                       Correlate tactical telemetry, reconnaissance drone feeds, radar signals, and field dispatches in real time inside tactical mobile command posts with zero cloud latency.
                     </p>
                     <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono">
                       <span className="px-3 py-1 bg-blue-950/80 border border-blue-400/40 text-blue-300 rounded-full">Tactical Edge Compute</span>
-                      <span className="px-3 py-1 bg-purple-950/80 border border-purple-400/40 text-purple-300 rounded-full">Zero RF Emissions Mode</span>
+                      <span className="px-3 py-1 bg-orange-950/80 border border-orange-400/40 text-orange-300 rounded-full">Zero RF Emissions Mode</span>
                     </div>
                   </div>
                   <div className="bg-slate-950 p-6 rounded-2xl border border-blue-500/30 text-xs font-mono text-blue-300 space-y-2">
@@ -747,14 +773,14 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
                 {/* Featured Police Hero Card */}
                 <div className="bg-slate-900 text-white rounded-3xl p-8 md:p-12 border border-slate-800 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center shadow-2xl">
                   <div className="space-y-4">
-                    <span className="text-xs font-bold uppercase tracking-[0.25em] text-purple-400">LAW ENFORCEMENT & FORENSICS</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.25em] text-orange-400">LAW ENFORCEMENT & FORENSICS</span>
                     <h3 className="text-2xl md:text-4xl font-extrabold">Forensic Analysis & Crime Pattern Detection</h3>
                     <p className="text-slate-300 text-sm md:text-base leading-relaxed">
                       Cross-reference terabytes of seized digital evidence, encrypted chat dumps, and forensic disk images without violating chain of custody or privacy laws.
                     </p>
                     <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono">
                       <span className="px-3 py-1 bg-blue-950/80 border border-blue-400/40 text-blue-300 rounded-full">Chain-of-Custody Verified</span>
-                      <span className="px-3 py-1 bg-purple-950/80 border border-purple-400/40 text-purple-300 rounded-full">Forensic Hardening</span>
+                      <span className="px-3 py-1 bg-orange-950/80 border border-orange-400/40 text-orange-300 rounded-full">Forensic Hardening</span>
                     </div>
                   </div>
                   <div className="bg-slate-950 p-6 rounded-2xl border border-blue-500/30 text-xs font-mono text-blue-300 space-y-2">
@@ -796,14 +822,14 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
                 {/* Featured Infra Hero Card */}
                 <div className="bg-slate-900 text-white rounded-3xl p-8 md:p-12 border border-slate-800 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center shadow-2xl">
                   <div className="space-y-4">
-                    <span className="text-xs font-bold uppercase tracking-[0.25em] text-purple-400">CRITICAL INFRASTRUCTURE</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.25em] text-orange-400">CRITICAL INFRASTRUCTURE</span>
                     <h3 className="text-2xl md:text-4xl font-extrabold">Surveillance & Threat Detection for Sensitive Facilities</h3>
                     <p className="text-slate-300 text-sm md:text-base leading-relaxed">
                       Defend nuclear installations, power grids, and aerospace fabrication plants from Advanced Persistent Threats (APTs) and insider risks with air-gapped autonomous agents.
                     </p>
                     <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono">
                       <span className="px-3 py-1 bg-blue-950/80 border border-blue-400/40 text-blue-300 rounded-full">SCADA / OT Protocol Support</span>
-                      <span className="px-3 py-1 bg-purple-950/80 border border-purple-400/40 text-purple-300 rounded-full">IEC 62443 Aligned</span>
+                      <span className="px-3 py-1 bg-orange-950/80 border border-orange-400/40 text-orange-300 rounded-full">IEC 62443 Aligned</span>
                     </div>
                   </div>
                   <div className="bg-slate-950 p-6 rounded-2xl border border-blue-500/30 text-xs font-mono text-blue-300 space-y-2">
@@ -837,37 +863,37 @@ export const CybravionsAIPage: React.FC<CybravionsAIProps> = ({
       </section>
 
       {/* --- Section 7: Conversion Banner & CTA --- */}
-      <section className="py-20 px-6 md:px-12 bg-transparent border-t border-slate-200/80 dark:border-white/[0.08]">
-        <div className="max-w-5xl mx-auto surface-card text-neutral-900 dark:text-white rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+      <section className="py-20 px-6 md:px-12 bg-white dark:bg-stone-950 border-t border-slate-200/80 dark:border-white/10">
+        <div className="max-w-5xl mx-auto bg-gradient-to-r from-slate-900 to-[#08152c] text-white rounded-3xl p-10 md:p-16 text-center relative overflow-hidden shadow-2xl border border-blue-500/30">
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-orange-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -left-20 -top-20 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+
           <div className="relative z-10 space-y-6">
-            <div className="inline-flex items-center gap-2 mb-2">
-              <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
-              <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
-                Confidential Briefing
-              </span>
-              <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
-            </div>
-            <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl tracking-tight">
-              Ready to Put Cybravions AI to Work Within Your <span className="italic font-light text-neutral-500 dark:text-neutral-400">Secure Organization?</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+              Ready to Put <span className="text-orange-400">Cybravions AI</span> to Work Within Your Secure Organization?
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
               Schedule a confidential technical briefing or test an on-premises air-gapped evaluation appliance with our sovereign AI engineering team.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-              <button
+              <motion.button
                 onClick={handleDemoClick}
-                className="btn-tactile-primary px-8 py-3.5 text-white font-semibold text-xs sm:text-sm rounded-full transition-all cursor-pointer active:scale-[0.98] shadow-sm"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-orange-500 hover:from-blue-500 hover:to-orange-400 text-white font-bold text-sm uppercase tracking-widest rounded-xl shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all cursor-pointer"
               >
                 REQUEST A DEMO
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
                 onClick={handleDemoClick}
-                className="btn-tactile-outline px-8 py-3.5 font-semibold text-xs sm:text-sm rounded-full transition-all cursor-pointer active:scale-[0.98]"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm uppercase tracking-widest rounded-xl transition-all cursor-pointer"
               >
                 TALK TO AN AI EXPERT
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>

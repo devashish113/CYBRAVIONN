@@ -20,31 +20,12 @@ export const LegalModal: React.FC<LegalModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<LegalTabType>(initialTab);
 
-  // Close modal on Escape key (WCAG 2.1.2)
-  React.useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
   if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      <div 
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-xl"
-        onClick={onClose}
-      >
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-xl">
         <motion.div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="legal-modal-title"
-          onClick={(e) => e.stopPropagation()}
           initial={{ opacity: 0, scale: 0.96, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 20 }}
@@ -59,14 +40,14 @@ export const LegalModal: React.FC<LegalModalProps> = ({
             isDarkMode ? 'border-stone-800 bg-[#070b14]' : 'border-slate-200 bg-slate-50'
           }`}>
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-purple-500/15 text-purple-500 border border-purple-500/25" aria-hidden="true">
+              <div className="p-2.5 rounded-xl bg-orange-500/15 text-orange-500 border border-orange-500/25">
                 <Scale size={20} />
               </div>
               <div>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-purple-600 dark:text-purple-400 font-bold block">
+                <span className="text-[10px] uppercase font-mono tracking-widest text-orange-500 font-bold block">
                   Legal &amp; Regulatory Compliance
                 </span>
-                <h2 id="legal-modal-title" className="text-lg sm:text-xl font-bold">
+                <h2 className="text-lg sm:text-xl font-bold">
                   CYBRAVION Governance Center
                 </h2>
               </div>
@@ -77,25 +58,20 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                 cyberAudio.playClick();
                 onClose();
               }}
-              aria-label="Close governance center modal"
               className={`p-2 rounded-full border transition-colors cursor-pointer ${
                 isDarkMode
                   ? 'bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white border-stone-700'
                   : 'bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-slate-950 border-slate-300'
               }`}
             >
-              <X size={18} aria-hidden="true" />
+              <X size={18} />
             </button>
           </div>
 
           {/* Tab Navigation */}
-          <div 
-            role="tablist"
-            aria-label="Legal and regulatory compliance tabs"
-            className={`flex border-b px-6 overflow-x-auto gap-2 py-3 ${
-              isDarkMode ? 'border-stone-800 bg-[#060a12]' : 'border-slate-200 bg-slate-100/70'
-            }`}
-          >
+          <div className={`flex border-b px-6 overflow-x-auto gap-2 py-3 ${
+            isDarkMode ? 'border-stone-800 bg-[#060a12]' : 'border-slate-200 bg-slate-100/70'
+          }`}>
             {[
               { id: 'privacy' as LegalTabType, label: 'Privacy Policy (DPDP & GDPR)', icon: Lock },
               { id: 'terms' as LegalTabType, label: 'Terms of Service', icon: FileText },
@@ -109,23 +85,19 @@ export const LegalModal: React.FC<LegalModalProps> = ({
               return (
                 <button
                   key={tab.id}
-                  id={`legal-tab-${tab.id}`}
-                  role="tab"
-                  aria-selected={isSelected}
-                  aria-controls={`legal-tabpanel-${tab.id}`}
                   onClick={() => {
                     cyberAudio.playClick();
                     setActiveTab(tab.id);
                   }}
                   className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold flex items-center gap-2 transition-all shrink-0 cursor-pointer ${
                     isSelected
-                      ? 'bg-purple-600 text-white shadow-md'
+                      ? 'bg-orange-500 text-white shadow-md'
                       : isDarkMode
                       ? 'bg-stone-900/60 text-stone-400 hover:text-stone-200 border border-stone-800'
-                      : 'bg-white text-slate-700 hover:text-slate-900 border border-slate-200'
+                      : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
                   }`}
                 >
-                  <Icon size={14} aria-hidden="true" />
+                  <Icon size={14} />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -133,13 +105,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({
           </div>
 
           {/* Tab Body Content */}
-          <div 
-            id={`legal-tabpanel-${activeTab}`}
-            role="tabpanel"
-            aria-labelledby={`legal-tab-${activeTab}`}
-            tabIndex={0}
-            className="p-6 sm:p-8 overflow-y-auto space-y-6 text-sm leading-relaxed font-light focus:outline-none"
-          >
+          <div className="p-6 sm:p-8 overflow-y-auto space-y-6 text-sm leading-relaxed font-light">
             {activeTab === 'privacy' && (
               <div className="space-y-5">
                 <div className="flex items-center justify-between pb-3 border-b border-stone-800/80">
@@ -160,21 +126,21 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                 </p>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">1. Information Collection &amp; Zero Telemetry Principle</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">1. Information Collection &amp; Zero Telemetry Principle</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300">
                     We only collect business contact details voluntarily provided during advisory requests (Name, Corporate Email, Phone, Organization Scope). We <strong>never</strong> sell, broker, or monetize user data. All enterprise AI appliances operate air-gapped with zero external model telemetry.
                   </p>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">2. Legal Grounds &amp; Compliance Alignment</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">2. Legal Grounds &amp; Compliance Alignment</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300">
                     Processing aligns with the Digital Personal Data Protection (DPDP) Act 2023 (India), General Data Protection Regulation (EU GDPR), and NIST Privacy Framework.
                   </p>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">3. Data Retention &amp; Rights</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">3. Data Retention &amp; Rights</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300">
                     You hold complete rights to access, rectify, or demand cryptographic erasure of your personal records at any time by contacting our Data Protection Officer at <a href="mailto:support@cybravions.com" className="text-blue-500 font-semibold">support@cybravions.com</a>.
                   </p>
@@ -188,27 +154,27 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                     Terms of Engagement &amp; Service
                   </h3>
-                  <span className="text-[11px] font-mono text-purple-500 font-semibold">
+                  <span className="text-[11px] font-mono text-orange-500 font-semibold">
                     Governed by Indian Law &amp; MCA Jurisdiction
                   </span>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">1. Scope of Cybersecurity Advisory</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">1. Scope of Cybersecurity Advisory</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300">
                     All technical security assessments, penetration testing (VAPT), and red teaming services are conducted strictly under mutually executed Non-Disclosure Agreements (NDA) and formal Rules of Engagement (RoE).
                   </p>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">2. Intellectual Property &amp; Sovereign Blueprints</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">2. Intellectual Property &amp; Sovereign Blueprints</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300">
                     All proprietary neural weights, simulation sandbox algorithms, and trademarked logos belonging to CYBRAVION SOLUTIONS PRIVATE LIMITED remain exclusive corporate property.
                   </p>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">3. Limitation of Liability</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">3. Limitation of Liability</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300">
                     While our offensive methodologies uncover deep architectural vulnerabilities, cybersecurity is an evolving discipline. CYBRAVION operates under industry-standard liability caps as defined in formal client Master Services Agreements (MSAs).
                   </p>
@@ -220,7 +186,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({
               <div className="space-y-5">
                 <div className="flex items-center justify-between pb-3 border-b border-stone-800/80">
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <RefreshCw size={20} className="text-purple-500" />
+                    <RefreshCw size={20} className="text-orange-500" />
                     Refund, Milestone Billing &amp; Cancellation Policy
                   </h3>
                   <span className="text-[11px] font-mono text-blue-500 font-semibold">
@@ -238,21 +204,21 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">1. Scoping &amp; Pre-Execution Cancellation</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">1. Scoping &amp; Pre-Execution Cancellation</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
                     Clients may cancel or reschedule a scheduled engagement up to <strong>7 business days</strong> prior to the agreed assessment start date with zero penalty. Any advance retainer fees allocated for uncommenced milestone scopes will be refunded in full within 7–10 banking days.
                   </p>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">2. Milestone Execution &amp; Deliverables Sign-off</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">2. Milestone Execution &amp; Deliverables Sign-off</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
                     Billing occurs strictly against verified milestone deliveries (e.g. Scoping Dossier, Preliminary VAPT Technical Findings, Final Remediation Verification Certificate). If deliverables do not satisfy the contractual Rules of Engagement (RoE), CYBRAVION provides complimentary re-testing and engineering remediation until full acceptance criteria are met.
                   </p>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">3. Dispute Resolution &amp; Invoicing Contact</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">3. Dispute Resolution &amp; Invoicing Contact</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
                     For billing inquiries, milestone adjustments, or formal refund requests, please contact our enterprise finance department at <a href="mailto:support@cybravions.com" className="text-blue-500 font-bold underline">support@cybravions.com</a>.
                   </p>
@@ -282,26 +248,26 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">1. Identification of Fraudulent Impersonators</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">1. Identification of Fraudulent Impersonators</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
                     Fraudulent actors frequently misuse legitimate corporate names registered on the Ministry of Corporate Affairs (MCA) to run task-based employment or investment schemes. Any contact from unofficial channels claiming to be Cybravions is an unauthorized criminal imposter.
                   </p>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">2. How to Report Fraud to Indian Authorities</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">2. How to Report Fraud to Indian Authorities</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
                     If you have been approached by fraudsters or suffered financial loss from an imposter claiming to represent Cybravions, immediately report them to:
                   </p>
                   <div className="p-3.5 rounded-xl border border-slate-200 dark:border-stone-800 bg-slate-50 dark:bg-stone-900/60 font-mono text-xs space-y-1.5">
                     <div><strong>National Cybercrime Helpline:</strong> <a href="tel:1930" className="text-blue-500 font-bold">1930</a> (Toll-Free, Govt. of India)</div>
                     <div><strong>Official Cybercrime Reporting Portal:</strong> <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" className="text-blue-500 font-bold underline">https://cybercrime.gov.in</a></div>
-                    <div><strong>CYBRAVION Incident Desk:</strong> <a href="mailto:support@cybravions.com" className="text-purple-500 font-bold">support@cybravions.com</a></div>
+                    <div><strong>CYBRAVION Incident Desk:</strong> <a href="mailto:support@cybravions.com" className="text-orange-500 font-bold">support@cybravions.com</a></div>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-purple-500 font-mono">3. Authentic Corporate Channels</h4>
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-orange-500 font-mono">3. Authentic Corporate Channels</h4>
                   <p className="text-xs text-slate-600 dark:text-stone-300 leading-relaxed">
                     Legitimate business inquiries are conducted strictly through verified email addresses ending in <code>@cybravions.com</code> and through our registered corporate office at H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi 110030.
                   </p>
@@ -355,7 +321,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                   <div className="p-3.5 rounded-xl border border-slate-200 dark:border-stone-800 bg-slate-50 dark:bg-stone-900/40">
-                    <div className="font-mono font-bold text-xs text-purple-500">Essential Security Cookies</div>
+                    <div className="font-mono font-bold text-xs text-orange-500">Essential Security Cookies</div>
                     <div className="text-[11px] text-slate-500 dark:text-stone-400 mt-1">Required for CSRF defense and load balancing.</div>
                   </div>
                   <div className="p-3.5 rounded-xl border border-slate-200 dark:border-stone-800 bg-slate-50 dark:bg-stone-900/40">
@@ -372,7 +338,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({
             isDarkMode ? 'border-stone-800 bg-[#070b14]' : 'border-slate-200 bg-slate-50'
           }`}>
             <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-stone-400">
-              <Building2 size={14} className="text-purple-500" />
+              <Building2 size={14} className="text-orange-500" />
               <span>CIN: U62099DL2026PTC470901 · Registered in New Delhi, India</span>
             </div>
 
@@ -381,7 +347,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                 cyberAudio.playClick();
                 onClose();
               }}
-              className="px-6 py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-md"
+              className="px-6 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-md"
             >
               Close Policy
             </button>

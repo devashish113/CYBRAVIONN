@@ -74,16 +74,16 @@ export const CyberCursor: React.FC = () => {
         transition={{ type: 'spring', damping: 20, stiffness: 300 }}
         className={`w-9 h-9 rounded-full border transition-colors duration-200 flex items-center justify-center ${
           isHovered
-            ? 'border-purple-500 bg-purple-500/10 shadow-[0_0_20px_rgba(168,85,247,0.4)]'
+            ? 'border-orange-500 bg-orange-500/10 shadow-[0_0_20px_rgba(249,115,22,0.4)]'
             : 'border-blue-500/50 bg-transparent'
         }`}
       >
         {isHovered && (
           <>
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-0.5 bg-purple-400" />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-0.5 bg-purple-400" />
-            <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-1.5 bg-purple-400" />
-            <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-0.5 h-1.5 bg-purple-400" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-0.5 bg-orange-400" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-0.5 bg-orange-400" />
+            <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-1.5 bg-orange-400" />
+            <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-0.5 h-1.5 bg-orange-400" />
           </>
         )}
       </motion.div>
@@ -100,7 +100,7 @@ export const CyberCursor: React.FC = () => {
           scale: isHovered ? 1.4 : 1,
         }}
         className={`w-1.5 h-1.5 rounded-full ${
-          isHovered ? 'bg-purple-400 shadow-[0_0_8px_#a855f7]' : 'bg-blue-400 shadow-[0_0_6px_#3b82f6]'
+          isHovered ? 'bg-orange-400 shadow-[0_0_8px_#f97316]' : 'bg-blue-400 shadow-[0_0_6px_#3b82f6]'
         }`}
       />
     </div>

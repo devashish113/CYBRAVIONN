@@ -25,7 +25,7 @@ interface PhaseData {
   icon: React.ComponentType<{ size?: number; className?: string }>;
   deliverables: string[];
   slaGuarantee: string;
-  themeColor: 'blue' | 'purple';
+  themeColor: 'blue' | 'orange';
 }
 
 const phases: PhaseData[] = [
@@ -59,7 +59,7 @@ const phases: PhaseData[] = [
       "Threat telemetry mapping against MITRE ATT&CK framework"
     ],
     slaGuarantee: "Zero Disruption to Live Production Workloads",
-    themeColor: "purple"
+    themeColor: "orange"
   },
   {
     number: "03",
@@ -91,7 +91,7 @@ const phases: PhaseData[] = [
       "24/7 Dedicated Incident Response & Triage SLA"
     ],
     slaGuarantee: "< 15 Min Zero-Day Threat Triage SLA",
-    themeColor: "purple"
+    themeColor: "orange"
   }
 ];
 
@@ -137,19 +137,19 @@ export const EngagementLifecycle: React.FC<EngagementLifecycleProps> = ({ isDark
               <button
                 key={phase.number}
                 onClick={() => handleSelectPhase(idx)}
-                className={`p-4 rounded-2xl border text-left transition-all duration-300 relative cursor-pointer backdrop-blur-xl ${
+                className={`p-4 rounded-2xl border text-left transition-all duration-300 relative cursor-pointer ${
                   isSelected
-                    ? 'bg-white/95 dark:bg-white/[0.08] border-slate-400 dark:border-white/30 shadow-md ring-1 ring-slate-400/20'
-                    : 'bg-white/70 dark:bg-[#0c0e14]/60 border-slate-200/90 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20'
+                    ? 'bg-white dark:bg-stone-900 border-blue-500/60 dark:border-blue-500/80 shadow-[0_10px_30px_rgba(37,99,235,0.15)] ring-1 ring-blue-500/30'
+                    : 'bg-white/60 dark:bg-stone-900/40 border-slate-200 dark:border-stone-800/80 hover:border-slate-300 dark:hover:border-stone-700'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className={`text-xs font-mono font-bold tracking-widest ${
-                    isSelected ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-stone-400'
+                    isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400 dark:text-stone-500'
                   }`}>
                     PHASE {phase.number}
                   </span>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-stone-300">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-stone-800 text-slate-600 dark:text-stone-400">
                     {phase.timeline}
                   </span>
                 </div>
@@ -159,7 +159,7 @@ export const EngagementLifecycle: React.FC<EngagementLifecycleProps> = ({ isDark
                 {isSelected && (
                   <motion.div 
                     layoutId="phaseActiveIndicator" 
-                    className="absolute bottom-0 left-4 right-4 h-0.5 bg-slate-900 dark:bg-white rounded-full" 
+                    className="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-blue-500 to-orange-500 rounded-full" 
                   />
                 )}
               </button>
@@ -168,12 +168,10 @@ export const EngagementLifecycle: React.FC<EngagementLifecycleProps> = ({ isDark
         </div>
 
         {/* Active Phase Deep Dive Card */}
-        <div className="surface-card p-6 md:p-10 rounded-3xl shadow-xl relative overflow-hidden">
-          {/* Subtle Architectural Vignette */}
-          <div 
-            className="absolute top-0 right-0 w-96 h-96 pointer-events-none opacity-40 dark:opacity-20 [mask-image:radial-gradient(ellipse_at_top_right,black,transparent_70%)]"
-            style={{ background: 'radial-gradient(circle at 100% 0%, rgba(255,255,255,0.06), transparent 70%)' }}
-          />
+        <div className="bg-white dark:bg-stone-900/80 rounded-3xl border border-slate-200/90 dark:border-stone-800 p-6 md:p-10 shadow-xl relative overflow-hidden">
+          {/* Subtle Ambient Glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-500/10 rounded-full blur-[90px] pointer-events-none" />
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -188,7 +186,7 @@ export const EngagementLifecycle: React.FC<EngagementLifecycleProps> = ({ isDark
               <div className="lg:col-span-7 space-y-6">
                 <div className="flex items-center gap-3.5">
                   <div className={`p-3.5 rounded-2xl bg-slate-100 dark:bg-stone-800 border shrink-0 ${
-                    isBlue ? 'text-blue-600 dark:text-blue-400 border-blue-500/30' : 'text-purple-500 dark:text-purple-400 border-purple-500/30'
+                    isBlue ? 'text-blue-600 dark:text-blue-400 border-blue-500/30' : 'text-orange-500 dark:text-orange-400 border-orange-500/30'
                   }`}>
                     <Icon size={26} />
                   </div>
@@ -215,7 +213,7 @@ export const EngagementLifecycle: React.FC<EngagementLifecycleProps> = ({ isDark
                 {/* SLA Quality Guarantee Callout */}
                 <div className="p-4 rounded-2xl bg-slate-50 dark:bg-stone-950/70 border border-slate-200 dark:border-stone-800/80 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2.5">
-                    <ShieldCheck size={18} className="text-purple-500 dark:text-purple-400 shrink-0" />
+                    <ShieldCheck size={18} className="text-orange-500 dark:text-orange-400 shrink-0" />
                     <div>
                       <div className="text-[10px] uppercase font-mono tracking-wider text-slate-500 dark:text-stone-400 font-semibold">Service Level Guarantee</div>
                       <div className="text-xs font-bold text-slate-900 dark:text-white font-mono">{activePhase.slaGuarantee}</div>
@@ -247,7 +245,7 @@ export const EngagementLifecycle: React.FC<EngagementLifecycleProps> = ({ isDark
 
                 <a
                   href="#contact"
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold font-mono uppercase tracking-widest text-white bg-gradient-to-r from-blue-600 to-purple-500 hover:from-blue-500 hover:to-purple-400 shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer mt-4"
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-bold font-mono uppercase tracking-widest text-white bg-gradient-to-r from-blue-600 to-orange-500 hover:from-blue-500 hover:to-orange-400 shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer mt-4"
                 >
                   <span>Initiate Phase 01 Scoping</span>
                   <ArrowRight size={14} />

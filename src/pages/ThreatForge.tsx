@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../utils/cyberAudio';
-import { PageHeader } from '../components/PageHeader';
+import { TiltCard3D } from '../components/TiltCard3D';
 
 interface ThreatForgeProps {
   setCurrentView?: (view: string) => void;
@@ -117,7 +117,7 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
       name: 'PASTA Engine',
       desc: 'Process for Attack Simulation and Threat Analysis — seven-stage risk-centric threat modeling aligning business impact with attacker motives.',
       badge: 'RISK-CENTRIC',
-      color: 'purple'
+      color: 'orange'
     },
     {
       name: 'VAST Framework',
@@ -133,30 +133,67 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
         <title>ThreatForge - Enterprise STRIDE & PASTA Threat Modeling | CYBRAVIONS</title>
         <meta name="description" content="Automate enterprise threat modeling with STRIDE, PASTA, and VAST frameworks. Real-time attack tree generation, CVSS 3.1 risk scoring, and air-gapped threat intelligence." />
       </Helmet>
+
       {/* ========================================================================= */}
       {/* 1. HERO SECTION */}
       {/* ========================================================================= */}
-      <PageHeader
-        kicker="Enterprise Threat Modeling Platform"
-        title="Anticipate Adversaries with"
-        italicTitle="ThreatForge Intelligence."
-        description="Eliminate blind spots before code ships. Automatically map Data Flow Diagrams (DFDs), evaluate STRIDE / PASTA attack trees, and generate mitigation playbooks with air-gapped model narratives."
-        isDarkMode={isDarkMode}
-        breadcrumbs={[
-          { label: 'Home', onClick: () => setCurrentView?.('home') },
-          { label: 'Products', onClick: () => setCurrentView?.('home') },
-          { label: 'ThreatForge', active: true }
-        ]}
-        actions={
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden border-b border-slate-200/80 dark:border-blue-500/20">
+        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] bg-gradient-to-br from-blue-600/20 via-sky-600/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/3 right-12 w-[500px] h-[500px] bg-gradient-to-bl from-orange-600/20 via-amber-500/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 text-center">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 via-sky-500/5 to-orange-500/10 border border-blue-500/30 text-blue-800 dark:text-blue-300 text-xs uppercase tracking-[0.25em] font-bold mb-8 backdrop-blur-md shadow-sm"
+          >
+            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            <ShieldAlert className="w-4 h-4 text-orange-500" />
+            <span>ENTERPRISE THREAT MODELING PLATFORM</span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.12]"
+          >
+            Anticipate Adversaries with{' '}
+            <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 bg-clip-text text-transparent">
+              ThreatForge Intelligence
+            </span>
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-stone-300 max-w-3xl mx-auto mb-10 font-normal leading-relaxed"
+          >
+            Eliminate blind spots before code ships. Automatically map Data Flow Diagrams (DFDs), 
+            evaluate STRIDE / PASTA attack trees, and generate mitigation playbooks with air-gapped model narratives.
+          </motion.p>
+
+          {/* Action CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+          >
+            {/* Direct Deployed Redirect Link */}
             <a
               href="https://threatforge.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
-              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 text-white shadow-lg bg-gradient-to-r from-orange-500 via-amber-500 to-blue-600 hover:from-orange-600 hover:to-blue-500 shadow-[0_0_30px_rgba(249,115,22,0.4)] cursor-pointer transform hover:scale-[1.02]"
             >
-              <ExternalLink size={15} />
+              <ExternalLink size={17} />
               <span>Launch Live ThreatForge Platform</span>
             </a>
 
@@ -164,67 +201,63 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
               href="#threat-simulator"
               onClick={(e) => {
                 e.preventDefault();
-                cyberAudio.playClick();
                 document.querySelector('#threat-simulator')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+              className={`w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-2 min-h-[50px] border cursor-pointer ${
+                isDarkMode
+                  ? 'bg-stone-950/80 hover:bg-stone-900 text-stone-200 border-stone-800 hover:border-blue-500/50'
+                  : 'bg-white/90 hover:bg-white text-slate-800 border-slate-300 shadow-sm'
+              }`}
             >
-              <Sliders size={15} />
+              <Sliders size={16} className="text-blue-500" />
               <span>Explore STRIDE Sandbox</span>
             </a>
-          </div>
-        }
-      />
+          </motion.div>
 
-      {/* Metrics Row */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 mb-20 -mt-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { val: 'STRIDE & PASTA', label: 'Dual Methodology', sub: 'ISO 27005 & NIST CSF', num: '01' },
-            { val: 'Automated DFD', label: 'Data Flow Graphs', sub: 'Interactive Node Diagrams', num: '02' },
-            { val: 'CVSS 3.1 Scoring', label: 'Quantitative Math', sub: 'Exploitability & Impact', num: '03' },
-            { val: '100% Air-Gapped', label: 'Zero Telemetry', sub: 'Local LLM Inference', num: '04' },
-          ].map((m, idx) => (
-            <div
-              key={idx}
-              className="surface-card p-5 flex flex-col justify-between text-left relative overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-widest">{m.num}</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500/60" />
-              </div>
-              <div>
-                <span className="text-lg sm:text-xl font-bold font-mono text-neutral-900 dark:text-white block">
+          {/* Metrics Row */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+          >
+            {[
+              { val: 'STRIDE & PASTA', label: 'Dual Methodology', sub: 'ISO 27005 & NIST CSF' },
+              { val: 'Automated DFD', label: 'Data Flow Graphs', sub: 'Interactive Node Diagrams' },
+              { val: 'CVSS 3.1 Scoring', label: 'Quantitative Math', sub: 'Exploitability & Impact' },
+              { val: '100% Air-Gapped', label: 'Zero Telemetry', sub: 'Local LLM Inference' },
+            ].map((m, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded-2xl bg-white/70 dark:bg-stone-950/70 border border-slate-200/80 dark:border-stone-800/80 backdrop-blur-md flex flex-col items-center justify-center text-center shadow-sm"
+              >
+                <span className="text-xl sm:text-2xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-orange-500">
                   {m.val}
                 </span>
-                <span className="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mt-1 block">
+                <span className="text-xs font-semibold text-slate-800 dark:text-stone-200 mt-1">
                   {m.label}
                 </span>
-                <span className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5 block">
+                <span className="text-[10px] text-slate-500 dark:text-stone-400 font-light">
                   {m.sub}
                 </span>
               </div>
-            </div>
-          ))}
+            ))}
+          </motion.div>
         </div>
-      </div>
+      </section>
 
       {/* ========================================================================= */}
       {/* 2. INTERACTIVE STRIDE & THREAT DISCOVERY SANDBOX */}
       {/* ========================================================================= */}
       <section id="threat-simulator" className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
-              Interactive Threat Engine Simulator
-            </span>
-            <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
-          </div>
-          <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl text-neutral-900 dark:text-white tracking-tight">
-            Simulate Attack Surface <span className="italic font-light text-neutral-500 dark:text-neutral-400">Analysis.</span>
+        <div className="text-center mb-12">
+          <span className="text-xs uppercase tracking-[0.3em] text-orange-500 font-bold block mb-2">
+            Interactive Threat Engine Simulator
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Simulate Attack Surface Analysis
           </h2>
-          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base max-w-2xl mx-auto mt-3">
+          <p className="text-slate-600 dark:text-stone-400 text-sm sm:text-base max-w-2xl mx-auto mt-3">
             Select an architecture component below to witness how ThreatForge automatically discovers vulnerabilities, assesses CVSS severities, and formulates compensating controls.
           </p>
         </div>
@@ -272,7 +305,7 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
                 ANALYSIS COMPONENT: {assetsInfo[targetAsset].name.toUpperCase()}
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                <AlertTriangle size={20} className="text-purple-400" />
+                <AlertTriangle size={20} className="text-orange-400" />
                 <span>{simulatedRisk.threat}</span>
               </h3>
             </div>
@@ -309,7 +342,7 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
                         key={cat}
                         className={`text-xs px-2.5 py-1 rounded-lg font-mono border ${
                           isActive
-                            ? 'bg-purple-500/20 text-purple-300 border-purple-500/40 font-bold'
+                            ? 'bg-orange-500/20 text-orange-300 border-orange-500/40 font-bold'
                             : 'bg-slate-800/60 text-slate-500 border-slate-700/60'
                         }`}
                       >
@@ -342,7 +375,7 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
                   href="https://threatforge.cybravions.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1 transition-colors"
+                  className="text-xs font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1 transition-colors"
                 >
                   <span>Open in ThreatForge Portal</span>
                   <ExternalLink size={13} />
@@ -358,41 +391,33 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
       {/* ========================================================================= */}
       <section className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10 border-t border-slate-200/80 dark:border-stone-900">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
-              Enterprise Architecture
-            </span>
-            <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
-          </div>
-          <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl text-neutral-900 dark:text-white tracking-tight">
-            Built for High-Stakes <span className="italic font-light text-neutral-500 dark:text-neutral-400">Threat Engineering.</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-blue-500 font-bold block mb-2">
+            Enterprise Architecture
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Built for High-Stakes Threat Engineering
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {frameworks.map((fw, idx) => (
-            <div 
-              key={idx}
-              className="surface-card surface-card-hover p-7 rounded-2xl flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-[10px] tracking-widest uppercase font-semibold text-amber-600 dark:text-amber-400">
+            <TiltCard3D key={idx} glowColor={fw.color === 'orange' ? 'orange' : 'blue'}>
+              <div className="p-6 h-full flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 inline-block mb-4">
                     {fw.badge}
                   </span>
-                  <span className="font-mono text-xs text-neutral-400">0{idx + 1}</span>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{fw.name}</h3>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-stone-300 leading-relaxed font-light">
+                    {fw.desc}
+                  </p>
                 </div>
-                <h3 className="font-editorial font-normal text-2xl text-neutral-900 dark:text-white mb-2">{fw.name}</h3>
-                <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed font-light">
-                  {fw.desc}
-                </p>
+                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-stone-800 flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400">
+                  <CheckCircle2 size={14} />
+                  <span>Compliant with NIST SP 800-154</span>
+                </div>
               </div>
-              <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-white/[0.08] flex items-center gap-2 text-xs font-mono font-medium text-amber-600 dark:text-amber-400">
-                <CheckCircle2 size={14} />
-                <span>Compliant with NIST SP 800-154</span>
-              </div>
-            </div>
+            </TiltCard3D>
           ))}
         </div>
       </section>
@@ -401,18 +426,11 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
       {/* 4. FINAL CTA BANNER */}
       {/* ========================================================================= */}
       <section className="py-20 px-6 md:px-12 max-w-5xl mx-auto text-center relative z-10">
-        <div className="p-10 sm:p-14 rounded-3xl surface-card text-neutral-900 dark:text-white relative overflow-hidden text-center">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
-              Immediate Access
-            </span>
-            <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
-          </div>
-          <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl tracking-tight mb-4 text-neutral-900 dark:text-white">
-            Start Automated Threat <span className="italic font-light text-neutral-500 dark:text-neutral-400">Modeling Today.</span>
+        <div className="p-10 sm:p-14 rounded-3xl bg-gradient-to-br from-blue-900/40 via-stone-950 to-orange-950/30 border border-blue-500/30 text-white shadow-2xl relative overflow-hidden">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            Start Automated Threat Modeling Today
           </h2>
-          <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto text-sm sm:text-base mb-8 font-light leading-relaxed">
+          <p className="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base mb-8 font-light">
             Access the live ThreatForge appliance deployed directly on our high-performance infrastructure.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -421,10 +439,10 @@ export const ThreatForgePage: React.FC<ThreatForgeProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
-              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+              className="px-8 py-4 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm uppercase tracking-wider flex items-center gap-2 shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all cursor-pointer"
             >
               <span>Launch ThreatForge Application</span>
-              <ExternalLink size={15} />
+              <ExternalLink size={16} />
             </a>
           </div>
         </div>

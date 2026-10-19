@@ -110,23 +110,21 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
 
   return (
     <div 
-      role="status"
-      aria-label={`Total verified site visitors: ${formattedCount}`}
-      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border font-mono transition-all ${
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border font-mono transition-all select-none ${
         isDarkMode 
-          ? 'bg-neutral-900/90 border-neutral-800 text-neutral-300 shadow-sm' 
-          : 'bg-neutral-50 border-neutral-200 text-neutral-700 shadow-sm'
+          ? 'bg-stone-900/90 border-stone-800 text-stone-300 shadow-[0_0_20px_rgba(16,185,129,0.06)]' 
+          : 'bg-white border-slate-200 text-slate-700 shadow-sm'
       } ${className}`}
       title="Verified Real-Time Site Visitors Telemetry"
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-neutral-400 dark:bg-neutral-500 shrink-0" aria-hidden="true" />
+      <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
 
-      <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 font-semibold">
-        <Users size={12} aria-hidden="true" className="text-neutral-500 dark:text-neutral-400" />
+      <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-slate-500 dark:text-stone-400 font-semibold">
+        <Users size={12} className="text-emerald-500" />
         <span>Total Visitors:</span>
       </span>
 
-      <span className="text-xs font-bold text-neutral-900 dark:text-white tracking-wider">
+      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 tracking-wider">
         {formattedCount}
       </span>
     </div>

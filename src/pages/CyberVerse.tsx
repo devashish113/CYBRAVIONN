@@ -28,7 +28,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
-import { PageHeader } from '../components/PageHeader';
+import { TiltCard3D } from '../components/TiltCard3D';
 
 interface CyberVerseProps {
   onOpenConsultation?: (serviceId?: string) => void;
@@ -254,27 +254,64 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
       {/* ========================================================================= */}
       {/* 1. HERO SECTION: THE CYBER RPG BATTLEGROUND */}
       {/* ========================================================================= */}
-      <PageHeader
-        kicker="CYBRAVIONS CYBERRANGE & GAMIFIED QUEST"
-        title="Play The Code."
-        italicTitle="Defend The Grid."
-        description="Instead of boring lectures, embark on story-driven missions where real offensive security and AI engineering skills are the only way to advance."
-        isDarkMode={isDarkMode}
-        breadcrumbs={[
-          { label: 'Home', onClick: () => setCurrentView?.('home') },
-          { label: 'Products', onClick: () => setCurrentView?.('home') },
-          { label: 'CyberVerse', active: true }
-        ]}
-        actions={
-          <div className="flex flex-col sm:flex-row gap-3.5 items-center justify-center">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-transparent text-slate-900 dark:text-white overflow-hidden border-b border-slate-200/80 dark:border-blue-500/20">
+        {/* Glowing Backdrops */}
+        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] bg-gradient-to-br from-blue-600/20 via-blue-900/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/3 right-12 w-[500px] h-[500px] bg-gradient-to-bl from-orange-600/20 via-amber-500/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 text-center">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 via-sky-500/5 to-orange-500/10 border border-blue-500/30 text-blue-800 dark:text-blue-300 text-xs uppercase tracking-[0.25em] font-bold mb-8 backdrop-blur-md shadow-[0_0_20px_rgba(249,115,22,0.15)]"
+          >
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-orange-500 animate-pulse" />
+            <Gamepad2 className="w-4 h-4 text-orange-500" />
+            <span className="bg-gradient-to-r from-blue-600 via-sky-500 to-orange-500 dark:from-sky-400 dark:via-blue-300 dark:to-orange-400 bg-clip-text text-transparent font-extrabold">
+              CYBRAVIONS CYBERRANGE
+            </span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.12]"
+          >
+            Play The Code.{' '}
+            <span className="bg-gradient-to-r from-blue-600 via-sky-400 via-amber-500 to-orange-500 dark:from-sky-400 dark:via-blue-400 dark:via-amber-400 dark:to-orange-500 bg-clip-text text-transparent drop-shadow-sm dark:drop-shadow-[0_0_30px_rgba(249,115,22,0.30)]">
+              Defend The Grid.
+            </span>
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-stone-300 max-w-3xl mx-auto mb-10 font-normal leading-relaxed"
+          >
+            Instead of boring lectures, embark on story-driven missions where real offensive security and AI engineering skills are the only way to advance.
+          </motion.p>
+
+          {/* Action CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+          >
             <a
               href="https://cyberrange.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
-              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 text-white shadow-lg bg-gradient-to-r from-orange-500 via-amber-500 to-blue-600 hover:from-orange-600 hover:to-blue-500 shadow-[0_0_30px_rgba(249,115,22,0.4)] cursor-pointer transform hover:scale-[1.02]"
             >
-              <ExternalLink size={15} />
+              <ExternalLink size={16} />
               <span>Launch Live CyberQuest Platform</span>
             </a>
 
@@ -282,12 +319,11 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               href="#mission-simulator"
               onClick={(e) => {
                 e.preventDefault();
-                cyberAudio.playClick();
                 document.querySelector('#mission-simulator')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+              className="w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-3 text-white shadow-lg bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-[0_0_25px_rgba(59,130,246,0.35)] cursor-pointer"
             >
-              <Play size={15} />
+              <Play size={16} className="fill-white" />
               <span>Mission Sandbox</span>
             </a>
 
@@ -295,62 +331,57 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               href="#guilds"
               onClick={(e) => {
                 e.preventDefault();
-                cyberAudio.playClick();
                 document.querySelector('#guilds')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+              className={`w-full sm:w-auto px-9 py-4 rounded-full text-xs sm:text-sm uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center gap-2 min-h-[50px] border cursor-pointer ${
+                isDarkMode
+                  ? 'bg-stone-950/80 hover:bg-stone-900 text-stone-200 border-stone-800 hover:border-orange-500/50'
+                  : 'bg-white/90 hover:bg-white text-slate-800 border-slate-300 shadow-sm'
+              }`}
             >
-              <Layers size={15} className="text-amber-500" />
-              <span>Explore 10 Guilds</span>
+              <Layers size={16} className="text-orange-400" />
+              <span>Explore 10 Cyber Guilds</span>
             </a>
-          </div>
-        }
-      />
+          </motion.div>
 
-      {/* Real-time Feature Metrics Bar */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 mb-20 -mt-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { val: '10 Worlds', label: 'CyberSec Guilds', sub: 'Interactive Tracks', num: '01' },
-            { val: '100% Cloud', label: 'Zero Local Installs', sub: 'Browser WebAssembly', num: '02' },
-            { val: 'AI/ML Track', label: 'Adversarial Defense', sub: 'Model Hardening', num: '03' },
-            { val: 'Guild Leagues', label: 'Inter-College CTF', sub: 'Live Arena Leaderboard', num: '04' },
-          ].map((m, idx) => (
-            <div
-              key={idx}
-              className="surface-card p-5 flex flex-col justify-between text-left relative overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-widest">{m.num}</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500/60" />
-              </div>
-              <div>
-                <span className="text-lg sm:text-xl font-bold font-mono text-neutral-900 dark:text-white block">
-                  {m.val}
-                </span>
-                <span className="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mt-1 block">
-                  {m.label}
-                </span>
-                <span className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5 block">
-                  {m.sub}
-                </span>
-              </div>
+          {/* Real-time Feature Metrics Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+          >
+            <div className="p-4 rounded-2xl bg-white/80 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800/80 backdrop-blur-md">
+              <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400 mb-1">10 Worlds</div>
+              <div className="text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 font-semibold">CyberSec Guilds</div>
             </div>
-          ))}
+            <div className="p-4 rounded-2xl bg-white/80 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800/80 backdrop-blur-md">
+              <div className="text-2xl sm:text-3xl font-extrabold text-orange-500 mb-1">100% Cloud</div>
+              <div className="text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 font-semibold">Zero Local Installs</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/80 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800/80 backdrop-blur-md">
+              <div className="text-2xl sm:text-3xl font-extrabold text-sky-500 mb-1">AI/ML Track</div>
+              <div className="text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 font-semibold">Adversarial Defense</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/80 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800/80 backdrop-blur-md">
+              <div className="text-2xl sm:text-3xl font-extrabold text-amber-500 mb-1">Guild Leagues</div>
+              <div className="text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 font-semibold">Inter-College CTF</div>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
 
       {/* ========================================================================= */}
       {/* 2. INTERACTIVE MISSION SIMULATOR (LIVE GAMEPLAY PREVIEW) */}
       {/* ========================================================================= */}
       <section id="mission-simulator" className="py-20 md:py-28 px-6 md:px-12 max-w-6xl mx-auto border-b border-slate-200/80 dark:border-stone-800">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/[0.05] border border-slate-300 dark:border-white/10 text-slate-800 dark:text-stone-300 text-xs uppercase tracking-widest font-semibold mb-4">
-            <Flame className="w-3.5 h-3.5 text-slate-700 dark:text-stone-300" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-500 text-xs uppercase tracking-widest font-bold mb-4">
+            <Flame className="w-3.5 h-3.5 animate-bounce" />
             <span>Interactive Story Mode Mission</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Experience The <span className="text-slate-900 dark:text-white font-semibold">RPG Mission Mechanics</span>
+            Experience The <span className="bg-gradient-to-r from-blue-600 to-orange-500 dark:from-sky-400 dark:to-orange-400 bg-clip-text text-transparent">RPG Mission Mechanics</span>
           </h2>
           <p className="text-slate-600 dark:text-stone-300 text-base md:text-lg mt-3">
             Choose a challenge mode and execute your real exploit or AI defense payload right here in the browser.
@@ -364,10 +395,10 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               cyberAudio.playClick();
               setActiveSimMode('sqli');
             }}
-            className={`px-5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
               activeSimMode === 'sqli'
-                ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-sm font-bold'
-                : 'bg-white/60 dark:bg-white/[0.04] text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-white/10'
+                ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]'
+                : 'bg-white/80 dark:bg-stone-900 text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-stone-800'
             }`}
           >
             <Shield className="w-4 h-4" />
@@ -379,10 +410,10 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               cyberAudio.playClick();
               setActiveSimMode('prompt_inject');
             }}
-            className={`px-5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
               activeSimMode === 'prompt_inject'
-                ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-sm font-bold'
-                : 'bg-white/60 dark:bg-white/[0.04] text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-white/10'
+                ? 'bg-orange-500 text-white shadow-[0_0_20px_rgba(249,115,22,0.4)]'
+                : 'bg-white/80 dark:bg-stone-900 text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-stone-800'
             }`}
           >
             <Brain className="w-4 h-4" />
@@ -394,10 +425,10 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               cyberAudio.playClick();
               setActiveSimMode('crypto');
             }}
-            className={`px-5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
               activeSimMode === 'crypto'
-                ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-sm font-bold'
-                : 'bg-white/60 dark:bg-white/[0.04] text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-white/10'
+                ? 'bg-sky-500 text-white shadow-[0_0_20px_rgba(2,132,199,0.4)]'
+                : 'bg-white/80 dark:bg-stone-900 text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-stone-800'
             }`}
           >
             <KeyRound className="w-4 h-4" />
@@ -409,10 +440,10 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               cyberAudio.playClick();
               setActiveSimMode('ml_boundary');
             }}
-            className={`px-5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
               activeSimMode === 'ml_boundary'
-                ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-sm font-bold'
-                : 'bg-white/60 dark:bg-white/[0.04] text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-white/10'
+                ? 'bg-amber-500 text-white shadow-[0_0_20px_rgba(217,119,6,0.4)]'
+                : 'bg-white/80 dark:bg-stone-900 text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-stone-800'
             }`}
           >
             <Cpu className="w-4 h-4" />
@@ -435,7 +466,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
                 cyberrange-sandbox-vm // session-id: 0x9a882
               </span>
             </div>
-            <div className="text-xs text-purple-400 font-bold flex items-center gap-1.5">
+            <div className="text-xs text-orange-400 font-bold flex items-center gap-1.5">
               <Trophy size={14} />
               Reward: +500 XP
             </div>
@@ -453,7 +484,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
                 </div>
                 <div className="w-full md:w-48 bg-stone-900 rounded-full h-4 overflow-hidden border border-stone-700">
                   <div 
-                    className="h-full bg-gradient-to-r from-red-500 to-purple-500 transition-all duration-500" 
+                    className="h-full bg-gradient-to-r from-red-500 to-orange-500 transition-all duration-500" 
                     style={{ width: `${sqliResult.bossHp}%` }} 
                   />
                 </div>
@@ -466,12 +497,12 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
                     type="text"
                     value={sqliPayload}
                     onChange={(e) => setSqliPayload(e.target.value)}
-                    className="flex-1 bg-stone-900/90 border border-blue-500/40 rounded-xl px-4 py-3 text-sm text-green-400 font-mono focus:outline-none focus:border-purple-500"
+                    className="flex-1 bg-stone-900/90 border border-blue-500/40 rounded-xl px-4 py-3 text-sm text-green-400 font-mono focus:outline-none focus:border-orange-500"
                     placeholder="Enter SQL injection payload..."
                   />
                   <button
                     onClick={handleSqliAttack}
-                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-500 rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-110 cursor-pointer shadow-md"
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-orange-500 rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-110 cursor-pointer shadow-md"
                   >
                     Execute Exploit
                   </button>
@@ -490,8 +521,8 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
           {/* Mode 2: Prompt Injection Adversarial AI */}
           {activeSimMode === 'prompt_inject' && (
             <div className="space-y-6">
-              <div className="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30">
-                <div className="text-sm font-bold text-purple-300">AI LAB 2.1: "Break The Model" (Prompt Extraction)</div>
+              <div className="p-4 rounded-xl bg-orange-950/40 border border-orange-500/30">
+                <div className="text-sm font-bold text-orange-300">AI LAB 2.1: "Break The Model" (Prompt Extraction)</div>
                 <div className="text-xs text-stone-300 font-sans mt-1">
                   Craft an adversarial jailbreak or prompt injection attack to trick the LLM guardrail into leaking its hidden secret token.
                 </div>
@@ -504,12 +535,12 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
                     type="text"
                     value={promptInput}
                     onChange={(e) => setPromptInput(e.target.value)}
-                    className="flex-1 bg-stone-900/90 border border-purple-500/40 rounded-xl px-4 py-3 text-sm text-purple-300 font-mono focus:outline-none focus:border-blue-500"
+                    className="flex-1 bg-stone-900/90 border border-orange-500/40 rounded-xl px-4 py-3 text-sm text-orange-300 font-mono focus:outline-none focus:border-blue-500"
                     placeholder="Enter prompt injection jailbreak..."
                   />
                   <button
                     onClick={handlePromptInject}
-                    className="px-6 py-3 bg-gradient-to-r from-purple-500 to-amber-500 rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-110 cursor-pointer shadow-md"
+                    className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-110 cursor-pointer shadow-md"
                   >
                     Test Guardrail
                   </button>
@@ -575,7 +606,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-mono text-stone-300">
                   <span>Decision Boundary Hyperparameter (Threshold):</span>
-                  <span className="text-purple-400 font-bold">{mlThreshold}%</span>
+                  <span className="text-orange-400 font-bold">{mlThreshold}%</span>
                 </div>
                 <input
                   type="range"
@@ -583,13 +614,13 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
                   max="90"
                   value={mlThreshold}
                   onChange={(e) => setMlThreshold(Number(e.target.value))}
-                  className="w-full accent-purple-500 cursor-pointer"
+                  className="w-full accent-orange-500 cursor-pointer"
                 />
               </div>
 
               <div className="h-36 rounded-xl bg-stone-950 border border-stone-800 p-4 relative overflow-hidden flex items-center justify-center">
                 <div 
-                  className="absolute inset-0 bg-gradient-to-r from-blue-600/30 via-transparent to-purple-600/30 transition-all duration-300"
+                  className="absolute inset-0 bg-gradient-to-r from-blue-600/30 via-transparent to-orange-600/30 transition-all duration-300"
                   style={{ opacity: mlThreshold / 100 }}
                 />
                 <div className="relative z-10 text-center font-mono text-xs space-y-1">
@@ -613,7 +644,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               <span>Structured Skill Guilds</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              10 Worlds to <span className="text-slate-900 dark:text-white font-semibold">Conquer &amp; Master</span>
+              10 Worlds to <span className="bg-gradient-to-r from-blue-600 to-orange-500 dark:from-sky-400 dark:to-orange-400 bg-clip-text text-transparent">Conquer &amp; Master</span>
             </h2>
           </div>
           <p className="text-slate-600 dark:text-stone-300 text-sm md:text-base max-w-md font-light">
@@ -625,36 +656,37 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {guilds.map((g, idx) => {
             const IconComp = g.icon;
-            const isPurple = idx % 2 === 0;
+            const isOrange = idx % 2 === 0;
             return (
-              <div 
-                key={g.id} 
-                className="surface-card surface-card-hover p-6 rounded-2xl flex flex-col h-full justify-between"
-              >
+              <TiltCard3D key={g.id} glowColor={isOrange ? 'orange' : 'blue'}>
                 <div className="flex flex-col h-full justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <div className={`p-3 rounded-2xl border transition-all duration-200 shadow-sm ${
-                        isPurple 
-                          ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' 
-                          : 'bg-neutral-500/10 text-neutral-800 dark:text-neutral-200 border-neutral-500/20'
+                      <div className={`p-3 rounded-2xl border transition-all duration-300 group-hover:scale-110 shadow-sm ${
+                        isOrange 
+                          ? 'bg-orange-500/10 text-orange-500 border-orange-500/20 group-hover:border-orange-500/50 group-hover:bg-orange-500/20' 
+                          : 'bg-blue-500/10 text-blue-500 border-blue-500/20 group-hover:border-blue-500/50 group-hover:bg-blue-500/20'
                       }`}>
                         <IconComp size={22} />
                       </div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20">
+                      <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${
+                        isOrange 
+                          ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' 
+                          : 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+                      }`}>
                         {g.level}
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-editorial font-normal text-slate-900 dark:text-white mb-2">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
                       {g.name}
                     </h3>
-                    <p className="text-xs text-neutral-600 dark:text-neutral-300 font-light leading-relaxed mb-6">
+                    <p className="text-xs text-slate-600 dark:text-stone-300 font-light leading-relaxed mb-6">
                       {g.desc}
                     </p>
 
-                    <div className="p-3.5 rounded-xl bg-neutral-100 dark:bg-stone-900/80 border border-neutral-200 dark:border-stone-800 mb-6">
-                      <div className="text-[10px] text-amber-600 dark:text-amber-400 uppercase font-mono font-bold tracking-wider mb-1 flex items-center gap-1.5">
+                    <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 mb-6 group-hover:border-slate-300 dark:group-hover:border-stone-700 transition-colors">
+                      <div className="text-[10px] text-orange-600 dark:text-orange-400 uppercase font-mono font-bold tracking-wider mb-1 flex items-center gap-1.5">
                         <span>👑</span> Guild Boss Fight:
                       </div>
                       <div className="text-xs font-semibold text-slate-800 dark:text-stone-200">{g.boss}</div>
@@ -662,17 +694,17 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
                   </div>
 
                   <div>
-                    <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2">Core Competencies:</div>
+                    <div className="text-[10px] font-mono text-slate-500 dark:text-stone-400 uppercase tracking-wider mb-2">Core Competencies:</div>
                     <div className="flex flex-wrap gap-1.5">
                       {g.skills.map((s, si) => (
-                        <span key={si} className="text-[10px] px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-stone-800/80 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-stone-700/60 font-mono">
+                        <span key={si} className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 dark:bg-stone-800/80 text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-stone-700/60 font-mono">
                           {s}
                         </span>
                       ))}
                     </div>
                   </div>
                 </div>
-              </div>
+              </TiltCard3D>
             );
           })}
         </div>
@@ -689,8 +721,8 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             AI/ML Track:{' '}
-            <span className="text-slate-900 dark:text-white font-semibold">
-              Learn By Doing, Not Memorizing
+            <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 dark:from-sky-400 dark:via-blue-300 dark:to-orange-400 bg-clip-text text-transparent">
+              Learn By Doing, Not Mugging
             </span>
           </h2>
           <p className="text-slate-600 dark:text-stone-300 text-base md:text-lg mt-3 font-light">
@@ -704,14 +736,14 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
             return (
               <div 
                 key={fi}
-                className="p-6 rounded-3xl bg-white/80 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800/80 hover:border-purple-500/40 transition-all shadow-sm flex flex-col justify-between"
+                className="p-6 rounded-3xl bg-white/80 dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800/80 hover:border-orange-500/40 transition-all shadow-sm flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
                       <IconComp size={20} />
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-purple-400 uppercase tracking-widest">
+                    <span className="text-[10px] font-mono font-bold text-orange-400 uppercase tracking-widest">
                       {f.tag}
                     </span>
                   </div>
@@ -738,7 +770,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
               <span>Seasonal Guild Battlegrounds</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Guild Rivalries &amp; <span className="text-slate-900 dark:text-white font-semibold">Tactical Glory</span>
+              Guild Rivalries &amp; <span className="bg-gradient-to-r from-blue-600 to-orange-500 dark:from-sky-400 dark:to-orange-400 bg-clip-text text-transparent">Tactical Glory</span>
             </h2>
             <p className="text-slate-600 dark:text-stone-300 text-sm md:text-base font-light leading-relaxed">
               Form guilds with your peers and technical teammates. Compete in monthly seasonal King-of-the-Hill CTFs, climb the global leaderboard, and demonstrate verified hands-on security proficiency.
@@ -747,12 +779,12 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
             <div className="p-4 rounded-2xl bg-black/60 border border-stone-800 space-y-3">
               <div className="text-xs font-mono text-stone-400 uppercase tracking-wider flex items-center justify-between">
                 <span>🔥 Season 4 Live Standings</span>
-                <span className="text-purple-400">Ends in 8 Days</span>
+                <span className="text-orange-400">Ends in 8 Days</span>
               </div>
               {guildLeaderboard.map((c, ci) => (
                 <div key={ci} className="flex items-center justify-between p-2.5 rounded-xl bg-stone-900/80 border border-stone-800 text-xs">
                   <div className="flex items-center gap-2.5">
-                    <span className="font-bold text-purple-400">{c.rank}</span>
+                    <span className="font-bold text-orange-400">{c.rank}</span>
                     <span className="text-base">{c.crest}</span>
                     <span className="font-bold text-white">{c.name}</span>
                   </div>
@@ -767,9 +799,9 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
 
           {/* Right Column: Verified Industry Resume Certificates */}
           <div className="lg:col-span-6 p-8 rounded-3xl bg-gradient-to-b from-blue-950/40 via-stone-900/60 to-stone-950 border border-blue-500/30 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-36 h-36 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-36 h-36 bg-orange-500/10 rounded-full blur-2xl pointer-events-none" />
 
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 text-purple-400 border border-purple-500/30 inline-block mb-6">
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-blue-500/20 text-orange-400 border border-orange-500/30 inline-block mb-6">
               <Award size={28} />
             </div>
 
@@ -804,7 +836,7 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
                   setCurrentView('home');
                 }
               }}
-              className="w-full py-3.5 rounded-xl bg-white hover:bg-slate-100 text-black font-semibold text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer active:scale-[0.99] flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-orange-500 hover:from-blue-500 hover:to-orange-400 text-white font-bold text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] cursor-pointer flex items-center justify-center gap-2"
             >
               <span>Register Your Campus Guild</span>
               <ArrowRight size={14} />
@@ -817,16 +849,16 @@ export const CyberVersePage: React.FC<CyberVerseProps> = ({ onOpenConsultation, 
       {/* 6. ETHICAL GUARDRAILS & INDIAN IT ACT COMPLIANCE */}
       {/* ========================================================================= */}
       <section className="py-16 px-6 md:px-12 max-w-5xl mx-auto">
-        <div className="p-8 rounded-3xl bg-slate-900 dark:bg-[#0e1017] border border-slate-800 dark:border-white/10 flex flex-col md:flex-row items-start md:items-center gap-6 text-white">
-          <div className="p-4 rounded-2xl bg-white/[0.05] border border-white/10 text-stone-300 shrink-0">
-            <AlertTriangle size={28} />
+        <div className="p-8 rounded-3xl bg-orange-950/30 border border-orange-500/40 backdrop-blur-md flex flex-col md:flex-row items-start md:items-center gap-6">
+          <div className="p-4 rounded-2xl bg-orange-500/20 text-orange-400 border border-orange-500/30 shrink-0">
+            <AlertTriangle size={32} />
           </div>
           <div className="space-y-2">
             <h4 className="text-lg font-bold text-white flex items-center gap-2">
               <span>Zero-Harm Sandboxing &amp; Indian IT Act Ethics Guardrail</span>
             </h4>
             <p className="text-xs text-stone-300 font-light leading-relaxed">
-              Because real offensive skills are taught, all challenges run strictly against isolated, ephemeral sandbox containers. Every student must complete the <strong className="text-white font-semibold">Section 66 IT Act &amp; Responsible Disclosure</strong> ethics module prior to unlocking high-tier exploit environments.
+              Because real offensive skills are taught, all challenges run strictly against isolated, ephemeral sandbox containers. Every student must complete the <strong className="text-orange-300">Section 66 IT Act &amp; Responsible Disclosure</strong> ethics module prior to unlocking high-tier exploit environments.
             </p>
           </div>
         </div>
