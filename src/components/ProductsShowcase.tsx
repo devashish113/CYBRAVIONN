@@ -94,7 +94,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
   ];
 
   const filterCategories = [
-    { id: 'ALL', label: 'All Products (6)' },
+    { id: 'ALL', label: 'All (6)' },
     { id: 'THREAT', label: 'Threat Modeling' },
     { id: 'SOAR', label: 'Autonomous SOAR' },
     { id: 'GOVERNANCE', label: 'AI Governance' },
@@ -114,11 +114,14 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
   };
 
   return (
-    <section id="products" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent border-t border-neutral-200 dark:border-white/[0.08]">
+    <section 
+      id="products" 
+      className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent border-t border-neutral-200 dark:border-white/[0.08] scroll-mt-24 sm:scroll-mt-28"
+    >
       <div className="max-w-7xl mx-auto relative z-10">
         
-        {/* Section Header matching Sarvam Craft */}
-        <div className="text-center mb-12 sm:mb-16 max-w-4xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-10 sm:mb-14 max-w-4xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
             <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-neutral-500 dark:text-neutral-400 text-shadow-subtle">
@@ -134,7 +137,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
         </div>
 
         {/* Interactive Controls: Category Filter & Layout Switcher */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 max-w-5xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 max-w-5xl mx-auto px-2">
           {/* Category Filter Pills */}
           <div className="flex items-center gap-1.5 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
             {filterCategories.map((filter) => (
@@ -144,7 +147,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
                   cyberAudio.playClick();
                   setSelectedFilter(filter.id);
                 }}
-                className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
+                className={`px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
                   selectedFilter === filter.id
                     ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
                     : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
@@ -194,9 +197,9 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
 
         {/* Polygon Cards Presentation */}
         {layoutMode === 'honeycomb' && selectedFilter === 'ALL' ? (
-          /* Honeycomb Cluster: 3-3 Nestled Hexagonal Grid */
+          /* True Honeycomb Cluster: 3 - 2 - 1 Symmetrical Nestled Cluster */
           <div className="flex flex-col items-center w-full">
-            {/* Top Row: 3 Hexagons */}
+            {/* Row 1: 3 Hexagons */}
             <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 z-10 w-full max-w-6xl">
               {displayedCards.slice(0, 3).map((prod) => (
                 <PolygonHexCard
@@ -214,9 +217,27 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
               ))}
             </div>
 
-            {/* Bottom Row: 3 Hexagons nestled into the valleys of Row 1 */}
-            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 lg:-mt-16 z-20 w-full max-w-6xl">
-              {displayedCards.slice(3, 6).map((prod) => (
+            {/* Row 2: 2 Hexagons nestled into the 2 valleys between Row 1 cards */}
+            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 lg:-mt-16 z-20 w-full max-w-4xl">
+              {displayedCards.slice(3, 5).map((prod) => (
+                <PolygonHexCard
+                  key={prod.id}
+                  title={prod.name}
+                  tag={prod.tag}
+                  subtitle={prod.subtitle}
+                  desc={prod.desc}
+                  icon={prod.icon}
+                  image={prod.image}
+                  actionLabel=">"
+                  onAction={() => handleProductClick(prod.targetView)}
+                  isDarkMode={isDarkMode}
+                />
+              ))}
+            </div>
+
+            {/* Row 3: 1 Hexagon (Cybravions AI) nestled into the central valley between Row 2 cards */}
+            <div className="flex justify-center lg:-mt-16 z-30 w-full max-w-sm">
+              {displayedCards.slice(5, 6).map((prod) => (
                 <PolygonHexCard
                   key={prod.id}
                   title={prod.name}
@@ -233,8 +254,8 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
             </div>
           </div>
         ) : (
-          /* Responsive Matrix Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center max-w-6xl mx-auto">
+          /* Responsive Matrix Grid: Clean non-overlapping 3-column layout */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 justify-items-center max-w-6xl mx-auto">
             {displayedCards.map((prod) => (
               <PolygonHexCard
                 key={prod.id}
