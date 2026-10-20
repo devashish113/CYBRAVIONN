@@ -35,6 +35,12 @@ export function AppRoutes({ currentView, setCurrentView, isDarkMode, onOpenAudit
   if (currentView === 'about') {
     return <AboutUsPage setCurrentView={setCurrentView} onOpenAuditModal={onOpenAuditModal} isDarkMode={isDarkMode} />;
   }
+  if (currentView === 'ai') {
+    return <CybravionsAIPage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
+  }
+  if (currentView === 'compliance') {
+    return <CompliancePage setCurrentView={setCurrentView} isDarkMode={isDarkMode} />;
+  }
   if (currentView === 'exception-manager') {
     return <ExceptionManagerPage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
   }

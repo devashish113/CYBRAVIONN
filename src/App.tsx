@@ -2623,6 +2623,15 @@ export default function App() {
     };
   }, []);
 
+  // Ensure instant scroll-to-top on route changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    const lenis = (window as unknown as { __lenis?: Lenis }).__lenis;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+  }, [currentView]);
+
   // Mount WebGL 3D Universe smoothly after initial DOM paint
   useEffect(() => {
     const timer = window.setTimeout(() => setIsCyberUniverseReady(true), 300);
