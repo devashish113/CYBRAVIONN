@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
+  Home,
   Shield, 
   Lock, 
   Cpu, 
@@ -77,6 +78,8 @@ import { TiltCard3D } from './components/TiltCard3D';
 import { cyberAudio } from './utils/cyberAudio';
 import { VisitorCounter } from './components/VisitorCounter';
 import { DeferredMount } from './components/DeferredMount';
+import { ThemeToggleNeumorphic } from './components/ThemeToggleNeumorphic';
+import { HoneycombNavCard } from './components/HoneycombNavCard';
 
 // Dynamic lazy-loaded 3D scenes & interactive modals (drops initial bundle size drastically)
 const CyberUniverse3D = lazyWithRetry(() => import('./components/CyberUniverse3D').then(m => ({ default: m.CyberUniverse3D })));
@@ -96,6 +99,12 @@ interface NavbarProps {
   onOpenCommandPalette?: () => void;
 }
 
+interface NavRipple {
+  id: number;
+  x: number;
+  y: number;
+}
+
 const Navbar: React.FC<NavbarProps> = ({ 
   currentView, 
   setCurrentView, 
@@ -108,10 +117,122 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
-  const [isMobileCompanyOpen, setIsMobileCompanyOpen] = useState(false);
+
+  // Water Glassmorphism Hover Wave Physics State
+  const [navCoords, setNavCoords] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isNavHovered, setIsNavHovered] = useState(false);
+  const [navRipples, setNavRipples] = useState<NavRipple[]>([]);
+  const lastNavRippleTime = useRef<number>(0);
+
+  const spawnNavRipple = useCallback((x: number, y: number) => {
+    const now = Date.now();
+    if (now - lastNavRippleTime.current < 160) return;
+    lastNavRippleTime.current = now;
+
+    const newRipple: NavRipple = { id: now, x, y };
+    setNavRipples((prev) => [...prev.slice(-2), newRipple]);
+
+    setTimeout(() => {
+      setNavRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
+    }, 1350);
+  }, []);
+
+  const handleNavMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (!navRef.current) return;
+    const rect = navRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setNavCoords({ x, y });
+    spawnNavRipple(x, y);
+  };
+
+  const handleNavMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    setIsNavHovered(true);
+    cyberAudio.playHover();
+    if (!navRef.current) return;
+    const rect = navRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setNavCoords({ x, y });
+    spawnNavRipple(x, y);
+  };
+
+  const handleNavMouseLeave = () => {
+    setIsNavHovered(false);
+    setNavCoords({ x: 0, y: 0 });
+  };
+
+  const navRef = useRef<HTMLElement>(null);
+  const productsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const servicesTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const toggleProducts = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cyberAudio.playClick();
+    if (productsTimerRef.current) clearTimeout(productsTimerRef.current);
+    if (servicesTimerRef.current) clearTimeout(servicesTimerRef.current);
+    setIsServicesOpen(false);
+    setIsProductsOpen(prev => !prev);
+  };
+
+  const toggleServices = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cyberAudio.playClick();
+    if (productsTimerRef.current) clearTimeout(productsTimerRef.current);
+    if (servicesTimerRef.current) clearTimeout(servicesTimerRef.current);
+    setIsProductsOpen(false);
+    setIsServicesOpen(prev => !prev);
+  };
+
+  const handleProductsEnter = () => {
+    if (productsTimerRef.current) clearTimeout(productsTimerRef.current);
+    if (servicesTimerRef.current) clearTimeout(servicesTimerRef.current);
+    setIsServicesOpen(false);
+    setIsProductsOpen(true);
+  };
+
+  const handleProductsLeave = () => {
+    if (productsTimerRef.current) clearTimeout(productsTimerRef.current);
+    productsTimerRef.current = setTimeout(() => {
+      setIsProductsOpen(false);
+    }, 250);
+  };
+
+  const handleServicesEnter = () => {
+    if (productsTimerRef.current) clearTimeout(productsTimerRef.current);
+    if (servicesTimerRef.current) clearTimeout(servicesTimerRef.current);
+    setIsProductsOpen(false);
+    setIsServicesOpen(true);
+  };
+
+  const handleServicesLeave = () => {
+    if (servicesTimerRef.current) clearTimeout(servicesTimerRef.current);
+    servicesTimerRef.current = setTimeout(() => {
+      setIsServicesOpen(false);
+    }, 250);
+  };
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setIsProductsOpen(false);
+        setIsServicesOpen(false);
+      }
+    };
+    if (isProductsOpen || isServicesOpen) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      if (productsTimerRef.current) clearTimeout(productsTimerRef.current);
+      if (servicesTimerRef.current) clearTimeout(servicesTimerRef.current);
+    };
+  }, [isProductsOpen, isServicesOpen]);
 
   // Lock body/html scroll and pause Lenis when mobile menu is open
   useEffect(() => {
@@ -146,13 +267,15 @@ const Navbar: React.FC<NavbarProps> = ({
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
+      if (e.key === 'Escape') {
+        if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+        if (isProductsOpen) setIsProductsOpen(false);
+        if (isServicesOpen) setIsServicesOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, isProductsOpen, isServicesOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -187,326 +310,315 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="relative z-50">
+    <header className="relative w-full z-50" role="banner">
+      {/* Section 1: Top-Left Brand Logo (Independent, 100% Transparent, Fixed to Hero Section) */}
+      <div className="absolute top-3 sm:top-5 md:top-6 left-5 sm:left-8 md:left-10 lg:left-12 xl:left-14 z-40 pointer-events-auto">
+        <a 
+          href="#" 
+          onClick={(e) => {
+            e.preventDefault();
+            setCurrentView('home');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="flex items-center group shrink-0"
+          aria-label="CYBRAVIONS Home"
+        >
+          <picture>
+            <source srcSet="/logo.webp" type="image/webp" />
+            <img 
+              src="/logo.png" 
+              alt="CYBRAVIONS" 
+              width="340"
+              height="312"
+              loading="eager"
+              decoding="async"
+              className="h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px] xl:h-[90px] w-auto object-contain object-left transition-transform duration-200 hover:scale-105 drop-shadow-md" 
+            />
+          </picture>
+        </a>
+      </div>
+
+      {/* Section 2: Top-Right Controls (Independent, Fixed to Hero Section) */}
+      <div className="absolute top-3 sm:top-4 md:top-5 right-4 sm:right-6 lg:right-8 xl:right-10 z-40 flex items-center gap-2 sm:gap-2.5 pointer-events-auto">
+        {/* Circular Tactile Neumorphic Search Button */}
+        <motion.button
+          onClick={() => {
+            cyberAudio.playClick();
+            onOpenCommandPalette?.();
+          }}
+          whileTap={{ scale: 0.94 }}
+          whileHover={{ scale: 1.05 }}
+          className={`w-[42px] h-[42px] xl:w-[44px] xl:h-[44px] rounded-full flex items-center justify-center shrink-0 cursor-pointer transition-colors duration-200 ${
+            isDarkMode 
+              ? 'bg-[#18181b] border border-white/[0.08] text-neutral-400 hover:text-white' 
+              : 'bg-[#e3e8f0] border border-black/[0.06] text-[#4c586b] hover:text-[#0f172a]'
+          }`}
+          style={{
+            boxShadow: isDarkMode
+              ? 'inset 2.5px 3px 6px rgba(0, 0, 0, 0.75), inset -1.5px -1.5px 4px rgba(255, 255, 255, 0.08)'
+              : 'inset 2.5px 3px 5px rgba(140, 155, 178, 0.45), inset -2.5px -2.5px 5px rgba(255, 255, 255, 0.95)',
+          }}
+          aria-label="Search (Ctrl+K or ⌘K)"
+          title="Search (Ctrl+K or ⌘K)"
+        >
+          <Search size={16} className={isDarkMode ? 'text-neutral-400' : 'text-[#5a677a]'} />
+        </motion.button>
+
+        {/* Tactile Neumorphic Dark / Light Mode Toggle Button */}
+        <ThemeToggleNeumorphic isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+
+        {/* Contact CTA */}
+        <a 
+          href="#contact"
+          onClick={(e) => handleNavClick(e, '#contact')}
+          className="px-4.5 sm:px-5.5 h-[42px] xl:h-[44px] rounded-full text-xs xl:text-[13px] font-bold tracking-normal transition-all duration-150 shrink-0 whitespace-nowrap cursor-pointer bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 shadow-sm active:scale-[0.98] border border-neutral-700/50 dark:border-white/20 flex items-center justify-center"
+          title="Contact"
+        >
+          <span>Contact</span>
+        </a>
+      </div>
+
+      {/* Section 3: Center Floating Navigation Capsule (Independent, Fixed to Screen across Scroll) */}
       <nav 
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          (isScrolled || isMobileMenuOpen)
-            ? isDarkMode
-              ? 'bg-[#05070d]/98 backdrop-blur-xl py-3 border-b border-stone-800 shadow-[0_4px_30px_rgba(0,0,0,0.8)]' 
-              : 'bg-white/98 backdrop-blur-xl py-3 border-b border-slate-200 shadow-[0_4px_25px_rgba(0,0,0,0.06)]'
-            : isDarkMode
-              ? 'bg-gradient-to-b from-[#05070d]/90 to-transparent py-5'
-              : 'bg-gradient-to-b from-white/90 to-transparent py-5'
+        ref={navRef}
+        className={`fixed top-3 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 z-50 rounded-full transition-all duration-300 pointer-events-auto px-2.5 sm:px-3.5 xl:px-4.5 h-[50px] xl:h-[52px] flex items-center justify-center max-w-[calc(100vw-1.5rem)] select-none ${
+          isDarkMode
+            ? isScrolled
+              ? 'bg-[#141416]/95 border border-white/[0.08] backdrop-blur-2xl'
+              : 'bg-[#18181b] border border-white/[0.08] backdrop-blur-xl'
+            : isScrolled
+              ? 'bg-[#e3e8f0]/95 border border-black/[0.06] backdrop-blur-2xl'
+              : 'bg-[#e3e8f0] border border-black/[0.06] backdrop-blur-xl'
         }`}
+        style={{
+          boxShadow: isDarkMode
+            ? 'inset 3px 3.5px 8px rgba(0, 0, 0, 0.8), inset -2px -2px 5px rgba(255, 255, 255, 0.08)'
+            : 'inset 3px 3.5px 7px rgba(140, 155, 178, 0.45), inset -3px -3px 7px rgba(255, 255, 255, 0.95)',
+        }}
         aria-label="Main navigation"
       >
-        <div className="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          {/* Brand Logo & Desktop Navigation Container */}
-          <div className="flex items-center gap-3 lg:gap-5 xl:gap-6 2xl:gap-8 min-w-0">
-            {/* Brand Logo Image Only */}
-            <a 
-              href="#" 
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentView('home');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="flex items-center group shrink-0"
-              aria-label="CYBRAVIONS Home"
+        {/* Desktop View: Clickable Pages */}
+        <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 relative z-10">
+          {/* Home Link */}
+          <button 
+            onClick={() => {
+              setCurrentView('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className={`relative text-xs xl:text-[12.5px] uppercase tracking-wider font-bold cursor-pointer py-2 xl:py-2.5 px-4.5 xl:px-5 rounded-full whitespace-nowrap transition-colors duration-200 select-none ${
+              currentView === 'home' 
+                ? isDarkMode ? 'text-white' : 'text-[#1e293b]' 
+                : isDarkMode ? 'text-neutral-400 hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
+            }`}
+          >
+            {currentView === 'home' && (
+              <motion.div
+                layoutId="neumorphic-nav-active-pill"
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: isDarkMode ? '#27272a' : '#ffffff',
+                  boxShadow: isDarkMode
+                    ? '2.5px 3px 8px rgba(0, 0, 0, 0.65), -1.5px -1.5px 4px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18)'
+                    : '3px 3.5px 8px rgba(140, 155, 175, 0.42), -2.5px -2.5px 6px rgba(255, 255, 255, 0.98), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 480,
+                  damping: 34,
+                  mass: 0.75,
+                }}
+              />
+            )}
+            <span className="relative z-10 leading-none">Home</span>
+          </button>
+
+          {/* Products & Platforms Dropdown */}
+          <div 
+            onMouseEnter={handleProductsEnter}
+            onMouseLeave={handleProductsLeave}
+          >
+            <button
+              type="button"
+              onClick={toggleProducts}
+              className={`relative text-xs xl:text-[12.5px] uppercase tracking-wider font-bold flex items-center gap-1.5 cursor-pointer py-2 xl:py-2.5 px-4.5 xl:px-5 rounded-full whitespace-nowrap transition-colors duration-200 select-none ${
+                ['threatforge', 'threatintel', 'ai', 'cyberverse', 'exception-manager', 'soc-ai', 'threat-collector'].includes(currentView) || isProductsOpen
+                  ? isDarkMode ? 'text-white' : 'text-[#1e293b]' 
+                  : isDarkMode ? 'text-neutral-400 hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
+              }`}
+              aria-label="Products menu"
+              aria-expanded={isProductsOpen}
+              aria-haspopup="true"
+              aria-controls="products-menu-dropdown"
             >
-              <picture>
-                <source srcSet="/logo.webp" type="image/webp" />
-                <img 
-                  src="/logo.png" 
-                  alt="CYBRAVIONS" 
-                  width="180"
-                  height="56"
-                  loading="eager"
-                  decoding="async"
-                  className="h-9 sm:h-10 xl:h-11 2xl:h-12 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.4)] group-hover:scale-105 transition-all duration-300" 
+              {(['threatforge', 'threatintel', 'ai', 'cyberverse', 'exception-manager', 'soc-ai', 'threat-collector'].includes(currentView) || isProductsOpen) && (
+                <motion.div
+                  layoutId="neumorphic-nav-active-pill"
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: isDarkMode ? '#27272a' : '#ffffff',
+                    boxShadow: isDarkMode
+                      ? '2.5px 3px 8px rgba(0, 0, 0, 0.65), -1.5px -1.5px 4px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18)'
+                      : '3px 3.5px 8px rgba(140, 155, 175, 0.42), -2.5px -2.5px 6px rgba(255, 255, 255, 0.98), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                  }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 480,
+                    damping: 34,
+                    mass: 0.75,
+                  }}
                 />
-              </picture>
-            </a>
+              )}
+              <span className="relative z-10 leading-none">Products</span>
+              <ChevronDown size={14} aria-hidden="true" className={`relative z-10 transition-transform duration-200 pointer-events-none ${isProductsOpen ? 'rotate-180' : ''} ${(['threatforge', 'threatintel', 'ai', 'cyberverse', 'exception-manager', 'soc-ai', 'threat-collector'].includes(currentView) || isProductsOpen) ? (isDarkMode ? 'text-white' : 'text-[#1e293b]') : (isDarkMode ? 'text-neutral-400' : 'text-[#64748b]')}`} />
+            </button>
 
-            {/* Desktop Navigation Links */}
-            <div className="hidden lg:flex items-center gap-1.5 lg:gap-2.5 xl:gap-3 2xl:gap-5">
-              {/* Products & Platforms Dropdown */}
-              <div 
-                className="relative"
-                onMouseEnter={() => setIsProductsOpen(true)}
-                onMouseLeave={() => setIsProductsOpen(false)}
-              >
-              <button
-                className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
-                  currentView === 'ai' 
-                    ? isDarkMode ? 'text-blue-400 font-bold' : 'text-blue-600 font-bold' 
-                    : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
-                }`}
-                aria-label="Products menu"
-                aria-expanded={isProductsOpen}
-                aria-haspopup="true"
-              >
-                <span>Products</span>
-                <ChevronDown size={14} className={`transition-transform duration-300 ${isProductsOpen ? 'rotate-180 text-blue-400' : ''}`} />
-              </button>
+            {/* Products Dropdown Mega-Menu */}
+            <AnimatePresence>
+              {isProductsOpen && (
+                <motion.div
+                  id="products-menu-dropdown"
+                  role="region"
+                  aria-label="Products and platforms menu"
+                  initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                  transition={{ duration: 0.16, ease: "easeOut" }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-[720px] xl:w-[760px] max-w-[calc(100vw-2rem)] z-[999] pointer-events-auto"
+                >
+                  {/* Invisible Safe Hover Bridge */}
+                  <div className="absolute -top-3.5 left-0 right-0 h-4 bg-transparent pointer-events-auto" />
 
-              {/* Products Dropdown Mega-Menu */}
-              <AnimatePresence>
-                {isProductsOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: "easeOut" }}
-                    className={`absolute top-full left-4 xl:left-6 mt-2.5 w-[720px] xl:w-[760px] max-w-[calc(100vw-2rem)] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
+                    {/* Dropdown Card */}
+                    <div className={`rounded-3xl p-6 overflow-hidden transition-all duration-300 ${
                       isDarkMode 
-                        ? 'bg-stone-950/95 border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.85),0_0_30px_rgba(59,130,246,0.1)] text-white backdrop-blur-2xl' 
-                        : 'bg-white/98 border border-slate-200/90 shadow-[0_25px_60px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.05)] text-slate-900 backdrop-blur-2xl'
-                    }`}
-                  >
-                    {/* Ambient subtle backdrop glows */}
-                    <div className="absolute -top-16 -left-16 w-52 h-52 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute -bottom-16 -right-16 w-52 h-52 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
-
+                        ? 'bg-[#111113]/98 border border-white/[0.10] text-white shadow-[0_28px_70px_-15px_rgba(0,0,0,0.9),0_12px_28px_-8px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.08)] backdrop-blur-2xl' 
+                        : 'bg-white/98 border border-black/[0.08] text-slate-900 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.18),0_10px_24px_-8px_rgba(0,0,0,0.1),0_0_1px_rgba(0,0,0,0.15)] backdrop-blur-2xl'
+                    }`}>
                     <div className="relative z-10 space-y-4">
                       {/* Top Header Row */}
-                      <div className="flex items-center justify-between px-1 pb-2.5 border-b border-slate-100 dark:border-white/5">
-                        <div className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                          <span className="text-[11px] uppercase tracking-[0.2em] font-mono font-bold text-slate-500 dark:text-stone-400">
+                      <div className="flex items-center justify-between px-1 pb-3 border-b border-slate-200/80 dark:border-white/[0.08]">
+                        <div className="flex items-center gap-2.5">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                          </span>
+                          <span className="text-[11px] uppercase tracking-widest font-mono font-bold text-slate-700 dark:text-neutral-300">
                             Enterprise Security Platforms &amp; Autonomous Engines
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
-                          6 Platforms
+                        <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-neutral-300 border border-slate-200/80 dark:border-white/[0.08] flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
+                          <span>6 Honeycomb Platforms</span>
                         </span>
                       </div>
 
-                      {/* 2x3 Seamless Interactive Grid */}
-                      <div className="grid grid-cols-2 gap-2.5">
-                        {/* Product 1: ThreatForge */}
-                        <button
+                      {/* 2x3 Honeycomb Cyber-Cells Grid */}
+                      <div className="grid grid-cols-2 gap-3">
+                        <HoneycombNavCard
+                          title="ThreatForge"
+                          tag="STRIDE / PASTA"
+                          desc="Automated threat modeling, attack path trees & CVSS 3.1 quantitative scoring."
+                          icon={ShieldAlert}
+                          isActive={currentView === 'threatforge'}
                           onClick={() => {
                             setCurrentView('threatforge');
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'threatforge'
-                              ? isDarkMode
-                                ? 'bg-white/[0.06] border-orange-500/40 shadow-sm'
-                                : 'bg-slate-50 border-orange-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-orange-500/20 transition-all duration-200">
-                            <ShieldAlert size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
-                                ThreatForge
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
-                                STRIDE / PASTA
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Automated threat modeling, attack path trees &amp; CVSS 3.1 quantitative scoring.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-orange-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* Product 2: SOC AI Triage */}
-                        <button
+                        <HoneycombNavCard
+                          title="SOC AI Triage"
+                          tag="SOAR Engine"
+                          desc="Autonomous SIEM alert investigation with SHAP explainable verdicts & playbooks."
+                          icon={BellRing}
+                          isActive={currentView === 'soc-ai'}
                           onClick={() => {
                             setCurrentView('soc-ai');
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'soc-ai'
-                              ? isDarkMode
-                                ? 'bg-white/[0.06] border-blue-500/40 shadow-sm'
-                                : 'bg-slate-50 border-blue-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all duration-200">
-                            <BellRing size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                                SOC AI Triage
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shrink-0">
-                                SOAR Engine
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Autonomous SIEM alert investigation with SHAP explainable verdicts &amp; playbooks.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* Product 3: AI Exception Manager */}
-                        <button
+                        <HoneycombNavCard
+                          title="Exception Manager"
+                          tag="AI Governance"
+                          desc="Automated cyber risk waiver assessment, drift tracking & audit PDF workflows."
+                          icon={ShieldCheck}
+                          isActive={currentView === 'exception-manager'}
                           onClick={() => {
                             setCurrentView('exception-manager');
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'exception-manager'
-                              ? isDarkMode
-                                ? 'bg-white/[0.06] border-amber-500/40 shadow-sm'
-                                : 'bg-slate-50 border-amber-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 border border-amber-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-amber-500/20 transition-all duration-200">
-                            <ShieldCheck size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
-                                Exception Manager
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shrink-0">
-                                AI Governance
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Automated cyber risk waiver assessment, drift tracking &amp; audit PDF workflows.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-amber-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* Product 4: CyberRange (CyberQuest) */}
-                        <button
+                        <HoneycombNavCard
+                          title="CyberRange Arena"
+                          tag="CTF & CISM"
+                          desc="Gamified CyberQuest labs, hands-on cryptography puzzles & CISM scenarios."
+                          icon={Gamepad2}
+                          isActive={currentView === 'cyberverse'}
                           onClick={() => {
                             setCurrentView('cyberverse');
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'cyberverse'
-                              ? isDarkMode
-                                ? 'bg-white/[0.06] border-orange-500/40 shadow-sm'
-                                : 'bg-slate-50 border-orange-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-orange-500/20 transition-all duration-200">
-                            <Gamepad2 size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors">
-                                CyberRange Arena
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
-                                CTF &amp; CISM
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Gamified CyberQuest labs, hands-on cryptography puzzles &amp; CISM scenarios.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-orange-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* Product 5: Threat Intel Collector */}
-                        <button
+                        <HoneycombNavCard
+                          title="Intel Collector"
+                          tag="MISP & OTX"
+                          desc="Multi-source IOC ingestion, automated STIX 2.1 normalization & air-gap bundles."
+                          icon={Radio}
+                          isActive={currentView === 'threat-collector'}
                           onClick={() => {
                             setCurrentView('threat-collector');
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'threat-collector'
-                              ? isDarkMode
-                                ? 'bg-white/[0.06] border-cyan-500/40 shadow-sm'
-                                : 'bg-slate-50 border-cyan-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-cyan-500/20 transition-all duration-200">
-                            <Radio size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">
-                                Intel Collector
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 shrink-0">
-                                MISP &amp; OTX
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Multi-source IOC ingestion, automated STIX 2.1 normalization &amp; air-gap bundles.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-cyan-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* Product 6: Cybravions AI */}
-                        <button
+                        <HoneycombNavCard
+                          title="Cybravions AI"
+                          tag="Secure Core"
+                          desc="Air-gapped offline agentic AI in-a-box for enterprise private environments."
+                          icon={Brain}
+                          isActive={currentView === 'ai'}
                           onClick={() => {
                             setCurrentView('ai');
                             setIsProductsOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'ai'
-                              ? isDarkMode
-                                ? 'bg-white/[0.06] border-indigo-500/40 shadow-sm'
-                                : 'bg-slate-50 border-indigo-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-200">
-                            <Brain size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">
-                                Cybravions AI
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 shrink-0">
-                                Sovereign Core
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Air-gapped offline agentic AI in-a-box for defense &amp; critical infrastructure.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
                       </div>
 
                       {/* Bottom Footer Bar */}
-                      <div className="pt-3 px-3 pb-1 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs">
-                        <span className="text-slate-500 dark:text-stone-400 text-[11px]">
-                          Looking for custom air-gapped sovereign deployments?
-                        </span>
+                      <div className="pt-3 px-1 pb-0.5 border-t border-slate-200/80 dark:border-white/[0.08] flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-2 text-slate-600 dark:text-neutral-400">
+                          <span className="font-bold text-slate-900 dark:text-white">Custom Deployment?</span>
+                          <span className="text-[11px]">Air-gapped secure compute &amp; private enclaves.</span>
+                        </div>
                         <a
                           href="#contact"
                           onClick={(e) => {
                             handleNavClick(e, '#contact');
                             setIsProductsOpen(false);
                           }}
-                          className="font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-500 flex items-center gap-1 transition-colors text-[11px]"
+                          className="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-900 text-white hover:bg-black dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 shadow-sm flex items-center gap-1.5 shrink-0 group/cta"
                         >
                           <span>Consult Architect</span>
-                          <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                          <ArrowRight size={12} className="group-hover/cta:translate-x-0.5 transition-transform" />
                         </a>
                       </div>
                     </div>
+                  </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -514,255 +626,210 @@ const Navbar: React.FC<NavbarProps> = ({
 
             {/* Services Dropdown Mega-Menu */}
             <div 
-              className="relative"
-              onMouseEnter={() => setIsServicesOpen(true)}
-              onMouseLeave={() => setIsServicesOpen(false)}
+              onMouseEnter={handleServicesEnter}
+              onMouseLeave={handleServicesLeave}
             >
               <button
-                className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
-                  ['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance'].includes(currentView)
-                    ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
-                    : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
+                type="button"
+                onClick={toggleServices}
+                className={`relative text-xs xl:text-[12.5px] uppercase tracking-wider font-bold flex items-center gap-1.5 cursor-pointer py-2 xl:py-2.5 px-4.5 xl:px-5 rounded-full whitespace-nowrap transition-colors duration-200 select-none ${
+                  ['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance', 'compliance', 'training'].includes(currentView) || isServicesOpen
+                    ? isDarkMode ? 'text-white' : 'text-[#1e293b]' 
+                    : isDarkMode ? 'text-neutral-400 hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
                 }`}
                 aria-label="Services menu"
                 aria-expanded={isServicesOpen}
                 aria-haspopup="true"
+                aria-controls="services-menu-dropdown"
               >
-                <span>Services</span>
-                <ChevronDown size={14} className={`transition-transform duration-300 ${isServicesOpen ? 'rotate-180 text-orange-400' : ''}`} />
+                {(['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance', 'compliance', 'training'].includes(currentView) || isServicesOpen) && (
+                  <motion.div
+                    layoutId="neumorphic-nav-active-pill"
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: isDarkMode ? '#27272a' : '#ffffff',
+                      boxShadow: isDarkMode
+                        ? '2.5px 3px 8px rgba(0, 0, 0, 0.65), -1.5px -1.5px 4px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18)'
+                        : '3px 3.5px 8px rgba(140, 155, 175, 0.42), -2.5px -2.5px 6px rgba(255, 255, 255, 0.98), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                    }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 480,
+                      damping: 34,
+                      mass: 0.75,
+                    }}
+                  />
+                )}
+                <span className="relative z-10 leading-none">Services</span>
+                <ChevronDown size={14} aria-hidden="true" className={`relative z-10 transition-transform duration-200 pointer-events-none ${isServicesOpen ? 'rotate-180' : ''} ${(['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance', 'compliance', 'training'].includes(currentView) || isServicesOpen) ? (isDarkMode ? 'text-white' : 'text-[#1e293b]') : (isDarkMode ? 'text-neutral-400' : 'text-[#64748b]')}`} />
               </button>
 
               <AnimatePresence>
                 {isServicesOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    id="services-menu-dropdown"
+                    role="region"
+                    aria-label="Cybersecurity capabilities and services menu"
+                    initial={{ opacity: 0, y: 6, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: "easeOut" }}
-                    className={`absolute top-full left-[-30px] xl:left-[-40px] mt-2.5 w-[720px] xl:w-[760px] max-w-[calc(100vw-2rem)] rounded-3xl p-5 z-[999] overflow-hidden transition-colors ${
-                      isDarkMode 
-                        ? 'bg-stone-950/95 border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.85),0_0_30px_rgba(249,115,22,0.1)] text-white backdrop-blur-2xl' 
-                        : 'bg-white/98 border border-slate-200/90 shadow-[0_25px_60px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.05)] text-slate-900 backdrop-blur-2xl'
-                    }`}
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.16, ease: "easeOut" }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-[760px] xl:w-[800px] max-w-[calc(100vw-2rem)] z-[999] pointer-events-auto"
                   >
+                    {/* Invisible Safe Hover Bridge */}
+                    <div className="absolute -top-3.5 left-0 right-0 h-4 bg-transparent pointer-events-auto" />
+
+                    {/* Dropdown Card */}
+                    <div className={`rounded-3xl p-6 overflow-hidden transition-all duration-300 ${
+                      isDarkMode 
+                        ? 'bg-[#111113]/98 border border-white/[0.10] text-white shadow-[0_28px_70px_-15px_rgba(0,0,0,0.9),0_12px_28px_-8px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.08)] backdrop-blur-2xl' 
+                        : 'bg-white/98 border border-black/[0.08] text-slate-900 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.18),0_10px_24px_-8px_rgba(0,0,0,0.1),0_0_1px_rgba(0,0,0,0.15)] backdrop-blur-2xl'
+                    }`}>
                     <div className="relative z-10 space-y-4">
                       {/* Top Header Row */}
-                      <div className="flex items-center justify-between px-1 pb-2.5 border-b border-slate-100 dark:border-white/5">
-                        <div className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                          <span className="text-[11px] uppercase tracking-[0.2em] font-mono font-bold text-slate-500 dark:text-stone-400">
+                      <div className="flex items-center justify-between px-1 pb-3 border-b border-slate-200/80 dark:border-white/[0.08]">
+                        <div className="flex items-center gap-2.5">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                          </span>
+                          <span className="text-[11px] uppercase tracking-widest font-mono font-bold text-slate-700 dark:text-neutral-300">
                             Enterprise Cybersecurity Services &amp; Regulatory Advisory
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
-                          6 Practices
+                        <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-neutral-300 border border-slate-200/80 dark:border-white/[0.08] flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
+                          <span>7 Practices + GRC Hub</span>
                         </span>
                       </div>
 
-                      {/* 2x3 Grid of Services */}
-                      <div className="grid grid-cols-2 gap-2.5">
-                        {/* 1: VAPT */}
-                        <button
+                      {/* 2x4 Honeycomb Cyber-Cells Grid */}
+                      <div className="grid grid-cols-2 gap-3">
+                        <HoneycombNavCard
+                          title="VAPT & Offensive Security"
+                          tag="CERT-In Aligned"
+                          desc="Web, mobile, API & cloud network penetration testing with manual exploit proofs."
+                          icon={ShieldCheck}
+                          isActive={currentView === 'vapt'}
                           onClick={() => {
                             setCurrentView('vapt');
                             setIsServicesOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'vapt'
-                              ? isDarkMode ? 'bg-white/[0.06] border-orange-500/40 shadow-sm' : 'bg-slate-50 border-orange-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-orange-500/20 transition-all duration-200">
-                            <ShieldCheck size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-orange-500 transition-colors">
-                                VAPT &amp; Offensive Security
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shrink-0">
-                                CERT-In Aligned
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Web, mobile, API &amp; cloud network penetration testing with manual exploit proofs.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-orange-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* 2: ISO 27001 */}
-                        <button
+                        <HoneycombNavCard
+                          title="ISO 27001:2022 Certification"
+                          tag="8-12 Wks"
+                          desc="Turnkey ISMS implementation, Statement of Applicability & Stage 2 audit pass guarantee."
+                          icon={Award}
+                          isActive={currentView === 'iso-27001'}
                           onClick={() => {
                             setCurrentView('iso-27001');
                             setIsServicesOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'iso-27001'
-                              ? isDarkMode ? 'bg-white/[0.06] border-blue-500/40 shadow-sm' : 'bg-slate-50 border-blue-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all duration-200">
-                            <Award size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">
-                                ISO 27001:2022 Certification
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shrink-0">
-                                8-12 Wks
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Turnkey ISMS implementation, Statement of Applicability &amp; Stage 2 audit pass guarantee.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* 3: SOC 2 */}
-                        <button
+                        <HoneycombNavCard
+                          title="SOC 2 Type I & Type II"
+                          tag="AICPA Trust"
+                          desc="Accelerate enterprise SaaS procurement with continuous audit evidence & CPA partner liaison."
+                          icon={FileCheck}
+                          isActive={currentView === 'soc-2'}
                           onClick={() => {
                             setCurrentView('soc-2');
                             setIsServicesOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'soc-2'
-                              ? isDarkMode ? 'bg-white/[0.06] border-indigo-500/40 shadow-sm' : 'bg-slate-50 border-indigo-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-200">
-                            <FileCheck size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-500 transition-colors">
-                                SOC 2 Type I &amp; Type II
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 shrink-0">
-                                AICPA Trust
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Accelerate enterprise SaaS procurement with continuous audit evidence &amp; CPA partner liaison.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* 4: Cloud Security */}
-                        <button
+                        <HoneycombNavCard
+                          title="Cloud Security & DevSecOps"
+                          tag="Multi-Cloud"
+                          desc="AWS, Azure, GCP & Kubernetes CIS benchmark hardening and automated CI/CD gating."
+                          icon={Cloud}
+                          isActive={currentView === 'cloud-security'}
                           onClick={() => {
                             setCurrentView('cloud-security');
                             setIsServicesOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'cloud-security'
-                              ? isDarkMode ? 'bg-white/[0.06] border-cyan-500/40 shadow-sm' : 'bg-slate-50 border-cyan-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-cyan-500/20 transition-all duration-200">
-                            <Cloud size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-500 transition-colors">
-                                Cloud Security &amp; DevSecOps
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 shrink-0">
-                                Multi-Cloud
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              AWS, Azure, GCP &amp; Kubernetes CIS benchmark hardening and automated CI/CD gating.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-cyan-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* 5: AI Security */}
-                        <button
+                        <HoneycombNavCard
+                          title="AI Security & LLM Red Teaming"
+                          tag="OWASP LLM"
+                          desc="Prompt injection defenses, RAG poisoning audits, and enterprise safety testing."
+                          icon={Brain}
+                          isActive={currentView === 'ai-security'}
                           onClick={() => {
                             setCurrentView('ai-security');
                             setIsServicesOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'ai-security'
-                              ? isDarkMode ? 'bg-white/[0.06] border-purple-500/40 shadow-sm' : 'bg-slate-50 border-purple-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-purple-500/20 transition-all duration-200">
-                            <Brain size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-purple-500 transition-colors">
-                                AI Security &amp; LLM Red Teaming
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 shrink-0">
-                                OWASP LLM
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Prompt injection defenses, RAG poisoning audits, and sovereign air-gapped safety.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-purple-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
 
-                        {/* 6: DPDP Compliance */}
-                        <button
+                        <HoneycombNavCard
+                          title="DPDP Act 2023 Compliance"
+                          tag="Statutory Mandate"
+                          desc="Data Fiduciary advisory, consent architectures, and preventing penalties up to ₹250 Crores."
+                          icon={Scale}
+                          isActive={currentView === 'dpdp-compliance'}
                           onClick={() => {
                             setCurrentView('dpdp-compliance');
                             setIsServicesOpen(false);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className={`text-left p-3.5 rounded-2xl transition-all duration-200 group cursor-pointer flex items-start gap-3.5 border ${
-                            currentView === 'dpdp-compliance'
-                              ? isDarkMode ? 'bg-white/[0.06] border-emerald-500/40 shadow-sm' : 'bg-slate-50 border-emerald-400/50 shadow-sm'
-                              : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.04] border-transparent hover:border-slate-200/60 dark:hover:border-white/5'
-                          }`}
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all duration-200">
-                            <Scale size={19} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors">
-                                DPDP Act 2023 Compliance
-                              </span>
-                              <span className="text-[9px] font-mono font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
-                                India Mandate
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light leading-snug line-clamp-2">
-                              Data Fiduciary advisory, consent architectures, and preventing penalties up to ₹250 Crores.
-                            </p>
-                          </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0 mt-2.5" />
-                        </button>
+                          isDarkMode={isDarkMode}
+                        />
+
+                        {/* 7: Online IT & Cyber Training */}
+                        <HoneycombNavCard
+                          title="Online IT & Cyber Training"
+                          tag="Live Labs & LMS"
+                          desc="Workforce cyber awareness, hands-on offensive/defensive labs, and executive defense bootcamps."
+                          icon={GraduationCap}
+                          isActive={currentView === 'training'}
+                          onClick={() => {
+                            setCurrentView('training');
+                            setIsServicesOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          isDarkMode={isDarkMode}
+                        />
+
+                        {/* 8: Global Compliance & GRC Automation Hub */}
+                        <HoneycombNavCard
+                          title="Compliance & Automated GRC Hub"
+                          tag="All Frameworks"
+                          desc="Continuous compliance automation for ISO 27001, SOC 2, HIPAA, NIST, GDPR & DPDP."
+                          icon={ShieldCheck}
+                          isActive={currentView === 'compliance'}
+                          onClick={() => {
+                            setCurrentView('compliance');
+                            setIsServicesOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          isDarkMode={isDarkMode}
+                          actionText="Launch Hub"
+                        />
                       </div>
 
                       {/* Bottom Footer Bar */}
-                      <div className="pt-3 px-3 pb-1 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs">
+                      <div className="pt-3 px-1 pb-0.5 border-t border-slate-200/80 dark:border-white/[0.08] flex items-center justify-between text-xs">
                         <a
                           href="#services"
                           onClick={(e) => {
                             handleNavClick(e, '#services');
                             setIsServicesOpen(false);
                           }}
-                          className="text-slate-500 dark:text-stone-400 hover:text-orange-500 text-[11px]"
+                          className="text-slate-500 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white text-xs font-medium transition-colors"
                         >
                           View all security capability frameworks →
                         </a>
@@ -771,32 +838,18 @@ const Navbar: React.FC<NavbarProps> = ({
                             setIsServicesOpen(false);
                             onOpenAuditModal?.();
                           }}
-                          className="font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-500 flex items-center gap-1 transition-colors text-[11px]"
+                          className="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-900 text-white hover:bg-black dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 shadow-sm flex items-center gap-1.5 shrink-0 group/cta"
                         >
                           <span>Request Scoping Call</span>
-                          <ArrowRight size={12} />
+                          <ArrowRight size={12} className="group-hover/cta:translate-x-0.5 transition-transform" />
                         </button>
                       </div>
                     </div>
+                  </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
-
-            {/* Resources Link */}
-            <button 
-              onClick={() => {
-                setCurrentView('resources');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
-                currentView === 'resources' 
-                  ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
-                  : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
-              }`}
-            >
-              Resources
-            </button>
 
             {/* About Us Page Link */}
             <button 
@@ -804,232 +857,91 @@ const Navbar: React.FC<NavbarProps> = ({
                 setCurrentView('about');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
+              className={`relative text-xs xl:text-[12.5px] uppercase tracking-wider font-bold cursor-pointer py-2 xl:py-2.5 px-4.5 xl:px-5 rounded-full whitespace-nowrap transition-colors duration-200 select-none ${
                 currentView === 'about' 
-                  ? 'text-orange-500 font-bold border-b-2 border-orange-500 pb-0.5' 
-                  : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
+                  ? isDarkMode ? 'text-white' : 'text-[#1e293b]' 
+                  : isDarkMode ? 'text-neutral-400 hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
               }`}
             >
-              About Us
+              {currentView === 'about' && (
+                <motion.div
+                  layoutId="neumorphic-nav-active-pill"
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: isDarkMode ? '#27272a' : '#ffffff',
+                    boxShadow: isDarkMode
+                      ? '2.5px 3px 8px rgba(0, 0, 0, 0.65), -1.5px -1.5px 4px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18)'
+                      : '3px 3.5px 8px rgba(140, 155, 175, 0.42), -2.5px -2.5px 6px rgba(255, 255, 255, 0.98), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                  }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 480,
+                    damping: 34,
+                    mass: 0.75,
+                  }}
+                />
+              )}
+              <span className="relative z-10 leading-none">About Us</span>
             </button>
+          </div>
 
-            {/* Compliance Link */}
-            <button 
+          {/* Smartphone / Mobile View: Floating Micro-Capsule */}
+          <div className="flex lg:hidden items-center gap-1.5 relative z-10 px-1 py-0.5">
+            {/* Search trigger */}
+            <button
               onClick={() => {
-                setCurrentView('compliance');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                cyberAudio.playClick();
+                onOpenCommandPalette?.();
               }}
-              className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
-                currentView === 'compliance' 
-                  ? 'text-blue-500 font-bold border-b-2 border-blue-500 pb-0.5' 
-                  : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
+              className={`flex items-center justify-center w-8.5 h-8.5 rounded-full text-xs transition-colors cursor-pointer ${
+                isDarkMode
+                  ? 'text-neutral-300 hover:text-white bg-[#27272a]'
+                  : 'text-[#4c586b] hover:text-[#1e293b] bg-[#ffffff]'
               }`}
+              style={{
+                boxShadow: isDarkMode
+                  ? '1.5px 2px 5px rgba(0, 0, 0, 0.5), -1px -1px 2.5px rgba(255, 255, 255, 0.08)'
+                  : '2px 2.5px 5px rgba(140, 155, 178, 0.4), -1.5px -1.5px 4px rgba(255, 255, 255, 0.95)',
+              }}
+              aria-label="Search"
+              title="Search"
             >
-              Compliance
+              <Search size={14} className={isDarkMode ? 'text-neutral-300' : 'text-[#5a677a]'} />
             </button>
 
-            {/* Training Link */}
-            <button 
-              onClick={() => {
-                setCurrentView('training');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium cursor-pointer whitespace-nowrap ${
-                currentView === 'training' 
-                  ? 'text-blue-500 font-bold border-b-2 border-blue-500 pb-0.5' 
-                  : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
-              }`}
-            >
-              Training
-            </button>
-
-            {/* Company Dropdown (About, FAQ, Contact) */}
             <div 
-              className="relative"
-              onMouseEnter={() => setIsCompanyOpen(true)}
-              onMouseLeave={() => setIsCompanyOpen(false)}
-            >
-              <button
-                className={`text-[11px] xl:text-xs 2xl:text-sm uppercase tracking-wider xl:tracking-widest transition-colors font-medium flex items-center gap-1 cursor-pointer py-2 whitespace-nowrap ${
-                  currentView === 'about'
-                    ? 'text-orange-500 font-bold'
-                    : isDarkMode ? 'text-stone-300 hover:text-white' : 'text-slate-700 hover:text-slate-950'
-                }`}
-                aria-label="Company menu"
-                aria-expanded={isCompanyOpen}
-                aria-haspopup="true"
-              >
-                <span>Company</span>
-                <ChevronDown size={14} className={`transition-transform duration-300 ${isCompanyOpen ? 'rotate-180 text-blue-400' : ''}`} />
-              </button>
-
-              <AnimatePresence>
-                {isCompanyOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.18 }}
-                    style={{ backgroundColor: isDarkMode ? '#070a12' : '#ffffff' }}
-                    className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 rounded-xl p-2 z-[999] ${
-                      isDarkMode 
-                        ? 'bg-[#070a12] border border-stone-800 shadow-[0_20px_50px_rgba(0,0,0,0.9)]' 
-                        : 'bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.1)]'
-                    }`}
-                  >
-                    <a
-                      href="#faq"
-                      onClick={(e) => {
-                        handleNavClick(e, '#faq');
-                        setIsCompanyOpen(false);
-                      }}
-                      className={`block px-3 py-2 text-xs uppercase tracking-wider rounded-lg transition-colors whitespace-nowrap ${
-                        isDarkMode ? 'text-stone-300 hover:text-white hover:bg-white/5' : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100'
-                      }`}
-                    >
-                      FAQ
-                    </a>
-                    <a
-                      href="#contact"
-                      onClick={(e) => {
-                        handleNavClick(e, '#contact');
-                        setIsCompanyOpen(false);
-                      }}
-                      className={`block px-3 py-2 text-xs uppercase tracking-wider rounded-lg transition-colors whitespace-nowrap ${
-                        isDarkMode ? 'text-stone-300 hover:text-white hover:bg-white/5' : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100'
-                      }`}
-                    >
-                      Contact
-                    </a>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            </div>
-          </div>
-
-          {/* Right Desktop Actions (Search, Theme Toggle, Consult CTA) */}
-          <div className="hidden lg:flex items-center gap-2 xl:gap-3 2xl:gap-3.5 shrink-0 ml-3 xl:ml-5 2xl:ml-6 pl-3 xl:pl-5 2xl:pl-6 border-l border-slate-200/80 dark:border-stone-800">
-            {/* Command Palette Trigger Button (⌘K) */}
-            <motion.button
-              onClick={() => {
-                cyberAudio.playClick();
-                onOpenCommandPalette?.();
-              }}
-              whileTap={{ scale: 0.95 }}
-              className={`hidden xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-mono transition-all duration-300 cursor-pointer ${
+              className={`w-[1px] h-3.5 mx-0.5 rounded-full shrink-0 ${
                 isDarkMode 
-                  ? 'bg-stone-900/90 hover:bg-stone-850 border-stone-700/80 text-stone-300 hover:text-white hover:border-blue-500/50 shadow-[0_0_15px_rgba(0,0,0,0.5)]' 
-                  : 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700 hover:text-slate-900 shadow-sm'
-              }`}
-              aria-label="Search and command palette (Ctrl+K)"
-              title="Search and quick actions (Ctrl+K or ⌘K)"
-            >
-              <Search size={13} className="text-blue-500 shrink-0" />
-              <span className="hidden 2xl:inline text-[11px] font-sans font-medium">Search</span>
-              <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 font-bold border border-blue-500/20">
-                ⌘K
-              </kbd>
-            </motion.button>
+                  ? 'bg-black/60 shadow-[1px_0_0_rgba(255,255,255,0.08)]' 
+                  : 'bg-[#cbd5e1] shadow-[1px_0_0_rgba(255,255,255,0.95)]'
+              }`} 
+            />
 
-            {/* Dark / Light Mode Toggle Button */}
-            <motion.button
-              onClick={toggleDarkMode}
-              whileTap={{ scale: 0.92 }}
-              className={`p-2 xl:p-2.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer group shrink-0 ${
-                isDarkMode
-                  ? 'bg-stone-900/80 hover:bg-stone-800 border-stone-700/80 text-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.15)] hover:border-amber-400/40'
-                  : 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-800 shadow-sm hover:border-slate-400'
-              }`}
-              aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {isDarkMode ? (
-                  <motion.div
-                    key="dark-sun"
-                    initial={{ rotate: -90, scale: 0.6, opacity: 0 }}
-                    animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                    exit={{ rotate: 90, scale: 0.6, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex items-center gap-1.5"
-                  >
-                    <Sun size={15} className="text-amber-400 group-hover:rotate-45 transition-transform duration-300" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="light-moon"
-                    initial={{ rotate: 90, scale: 0.6, opacity: 0 }}
-                    animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                    exit={{ rotate: -90, scale: 0.6, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex items-center gap-1.5"
-                  >
-                    <Moon size={15} className="text-indigo-600 group-hover:-rotate-12 transition-transform duration-300" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
-
-            {/* CTA Button */}
-            <motion.a 
-              href="#contact"
-              onClick={(e) => handleNavClick(e, '#contact')}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-3.5 xl:px-4 2xl:px-5 py-2 xl:py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-[11px] xl:text-xs uppercase tracking-wider xl:tracking-widest font-bold shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 whitespace-nowrap"
-            >
-              Consult an Advisor
-            </motion.a>
-          </div>
-
-          {/* Mobile Right Bar: Search + Theme Toggle + Menu Button */}
-          <div className="flex items-center gap-2 lg:hidden">
+            {/* Menu Drawer Toggle */}
             <button
-              onClick={() => {
-                cyberAudio.playClick();
-                onOpenCommandPalette?.();
-              }}
-              className={`p-2 rounded-full border transition-all cursor-pointer ${
-                isDarkMode
-                  ? 'bg-stone-900 border-stone-700 text-blue-400'
-                  : 'bg-slate-100 border-slate-300 text-blue-600'
-              }`}
-              aria-label="Search and command palette"
-            >
-              <Search size={18} />
-            </button>
-
-            <button
-              onClick={toggleDarkMode}
-              className={`p-2 rounded-full border transition-all cursor-pointer ${
-                isDarkMode
-                  ? 'bg-stone-900 border-stone-700 text-amber-400'
-                  : 'bg-slate-100 border-slate-300 text-slate-800'
-              }`}
-              aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-
-            <button 
-              className={`p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl border transition-all cursor-pointer ${
-                isDarkMode 
-                  ? 'bg-stone-900 border-stone-700 text-stone-100 hover:bg-stone-800' 
-                  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
-              }`}
               onClick={() => {
                 cyberAudio.playClick();
                 setIsMobileMenuOpen(!isMobileMenuOpen);
               }}
-              aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer ${
+                isDarkMode
+                  ? 'text-neutral-300 hover:text-white bg-[#27272a]'
+                  : 'text-[#4c586b] hover:text-[#1e293b] bg-[#ffffff]'
+              }`}
+              style={{
+                boxShadow: isDarkMode
+                  ? '1.5px 2px 5px rgba(0, 0, 0, 0.5), -1px -1px 2.5px rgba(255, 255, 255, 0.08)'
+                  : '2px 2.5px 5px rgba(140, 155, 178, 0.4), -1.5px -1.5px 4px rgba(255, 255, 255, 0.95)',
+              }}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
             >
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {isMobileMenuOpen ? <X size={14} /> : <Menu size={14} />}
+              <span className="text-[10px] font-bold">{isMobileMenuOpen ? 'Close' : 'Menu'}</span>
             </button>
           </div>
-        </div>
-      </nav>
+        </nav>
+
 
       {/* Mobile Full-Screen Navigation Drawer via Portal (immune to backdrop-filter containing block bugs) */}
       {typeof document !== 'undefined' && createPortal(
@@ -1041,6 +953,9 @@ const Navbar: React.FC<NavbarProps> = ({
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
               data-lenis-prevent="true"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
               className={`fixed inset-0 z-[999999] lg:hidden flex flex-col ${
                 isDarkMode 
                   ? 'bg-[#07090e] text-stone-100' 
@@ -1071,9 +986,10 @@ const Navbar: React.FC<NavbarProps> = ({
                       src="/logo.png" 
                       alt="CYBRAVIONS" 
                       width="160"
-                      height="48"
+                      height="148"
                       loading="eager"
-                      className="h-9 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,240,255,0.4)]" 
+                      decoding="async"
+                      className="h-10 sm:h-11 w-auto object-contain drop-shadow-sm" 
                     />
                   </picture>
                 </a>
@@ -1082,41 +998,30 @@ const Navbar: React.FC<NavbarProps> = ({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => {
-                      cyberAudio.playClick();
                       setIsMobileMenuOpen(false);
                       onOpenCommandPalette?.();
                     }}
                     className={`p-2 rounded-full border transition-all cursor-pointer ${
                       isDarkMode
-                        ? 'bg-stone-900 border-stone-700 text-blue-400'
-                        : 'bg-white border-slate-300 text-blue-600 shadow-sm'
+                        ? 'bg-neutral-900 border-neutral-700 text-neutral-300'
+                        : 'bg-white border-neutral-300 text-neutral-700 shadow-sm'
                     }`}
                     aria-label="Search and command palette"
                   >
                     <Search size={18} />
                   </button>
 
-                  <button
-                    onClick={() => {
-                      cyberAudio.playClick();
-                      toggleDarkMode();
-                    }}
-                    className={`p-2 rounded-full border transition-all cursor-pointer ${
-                      isDarkMode
-                        ? 'bg-stone-900 border-stone-700 text-amber-400'
-                        : 'bg-white border-slate-300 text-slate-800 shadow-sm'
-                    }`}
-                    aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                  >
-                    {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-                  </button>
+                  <ThemeToggleNeumorphic 
+                    isDarkMode={isDarkMode} 
+                    toggleDarkMode={toggleDarkMode} 
+                    size="sm" 
+                  />
 
                   <button 
                     className={`p-2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-xl border transition-all cursor-pointer ${
-                      isDarkMode ? 'bg-white/10 hover:bg-white/15 border-white/10 text-white' : 'bg-slate-200 hover:bg-slate-300 border-slate-300 text-slate-900'
+                      isDarkMode ? 'bg-white/10 hover:bg-white/15 border-white/10 text-white' : 'bg-neutral-200 hover:bg-neutral-300 border-neutral-300 text-neutral-900'
                     }`}
                     onClick={() => {
-                      cyberAudio.playClick();
                       setIsMobileMenuOpen(false);
                     }}
                     aria-label="Close navigation menu"
@@ -1127,49 +1032,35 @@ const Navbar: React.FC<NavbarProps> = ({
               </div>
 
               {/* Scrollable Navigation Body */}
-              <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 space-y-4">
-                {/* 1. Featured Spotlight Card: Cybravions AI */}
+              <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 space-y-2.5">
+                {/* 1. Home */}
                 <button
                   onClick={() => {
                     cyberAudio.playClick();
-                    setCurrentView('ai');
+                    setCurrentView('home');
                     setIsMobileMenuOpen(false);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className={`w-full p-3.5 rounded-2xl border text-left transition-all duration-200 relative overflow-hidden group cursor-pointer ${
-                    currentView === 'ai'
-                      ? isDarkMode
-                        ? 'bg-gradient-to-r from-blue-950/60 to-purple-950/60 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.2)]'
-                        : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-400/60 shadow-md'
-                      : isDarkMode
-                        ? 'bg-stone-900/80 hover:bg-stone-800/90 border-stone-800 hover:border-blue-500/30'
-                        : 'bg-slate-50 hover:bg-slate-100/90 border-slate-200 hover:border-blue-300'
+                  className={`w-full p-3.5 rounded-2xl text-left flex items-center justify-between transition-colors border cursor-pointer ${
+                    currentView === 'home'
+                      ? isDarkMode ? 'bg-white/[0.08] text-white font-bold border-white/20' : 'bg-neutral-100 text-neutral-950 font-bold border-neutral-300'
+                      : isDarkMode ? 'bg-[#0e1017] hover:bg-white/[0.04] text-neutral-200 border-white/[0.08]' : 'bg-white hover:bg-neutral-50 text-neutral-800 border-neutral-200'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.4)]">
-                        <Sparkles size={20} className="animate-pulse" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold tracking-wide">Cybravions AI</span>
-                          <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
-                            SOVEREIGN
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-slate-500 dark:text-stone-400 font-light mt-0.5">
-                          Enterprise GenAI Security &amp; LLM Defense Suite
-                        </p>
-                      </div>
-                    </div>
-                    <ChevronRight size={18} className="text-blue-500 shrink-0" />
+                  <div className="flex items-center gap-3">
+                    <Home size={18} className={currentView === 'home' ? 'text-neutral-900 dark:text-white' : 'text-neutral-500 dark:text-neutral-400'} />
+                    <span className="text-xs font-bold uppercase tracking-wider">Home</span>
                   </div>
+                  {currentView === 'home' ? (
+                    <span className="w-2 h-2 rounded-full bg-neutral-900 dark:bg-white" />
+                  ) : (
+                    <ChevronRight size={16} className="text-neutral-400 dark:text-neutral-500" />
+                  )}
                 </button>
 
-                {/* 2. Products & Platforms (Collapsible Accordion) */}
+                {/* 2. Products (Collapsible Accordion) */}
                 <div className={`rounded-2xl border overflow-hidden transition-colors ${
-                  isDarkMode ? 'bg-stone-900/60 border-stone-800/80' : 'bg-slate-50/80 border-slate-200'
+                  isDarkMode ? 'bg-[#0e1017] border-white/[0.08]' : 'bg-white border-neutral-200 shadow-sm'
                 }`}>
                   <button
                     onClick={() => {
@@ -1179,14 +1070,14 @@ const Navbar: React.FC<NavbarProps> = ({
                     className="w-full p-3.5 flex items-center justify-between text-left cursor-pointer"
                     aria-expanded={isMobileProductsOpen}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <ShieldAlert size={18} className="text-orange-500" />
-                      <span className="text-xs font-bold uppercase tracking-wider">Products &amp; Platforms</span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 font-semibold">
+                    <div className="flex items-center gap-3">
+                      <ShieldAlert size={18} className={isMobileProductsOpen ? 'text-neutral-900 dark:text-white' : 'text-neutral-500 dark:text-neutral-400'} />
+                      <span className="text-xs font-bold uppercase tracking-wider">Products</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-white/[0.05] text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-white/[0.08] font-semibold">
                         6
                       </span>
                     </div>
-                    <ChevronDown size={18} className={`transition-transform duration-300 ${isMobileProductsOpen ? 'rotate-180 text-orange-500' : 'text-slate-400 dark:text-stone-500'}`} />
+                    <ChevronDown size={18} className={`transition-transform duration-200 ${isMobileProductsOpen ? 'rotate-180 text-neutral-900 dark:text-white' : 'text-neutral-400 dark:text-neutral-500'}`} />
                   </button>
 
                   <AnimatePresence>
@@ -1195,7 +1086,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="px-3 pb-3 space-y-2 border-t border-slate-200/60 dark:border-white/5 pt-2.5"
+                        className="px-3 pb-3 space-y-2 border-t border-neutral-200/80 dark:border-white/[0.06] pt-2.5"
                       >
                         {/* ThreatForge */}
                         <button
@@ -1207,18 +1098,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'threatforge'
-                              ? isDarkMode ? 'bg-orange-500/15 text-orange-400 border border-orange-500/30' : 'bg-orange-50 text-orange-600 border border-orange-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <ShieldAlert size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">ThreatForge</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">STRIDE &amp; PASTA Threat Modeling</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">STRIDE &amp; PASTA Threat Modeling</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* SOC AI Triage */}
@@ -1231,18 +1122,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'soc-ai'
-                              ? isDarkMode ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30' : 'bg-blue-50 text-blue-600 border border-blue-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <BellRing size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">SOC AI Triage</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">Autonomous SOAR Alert Engine</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">Autonomous SOAR Alert Engine</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* Exception Manager */}
@@ -1255,18 +1146,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'exception-manager'
-                              ? isDarkMode ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : 'bg-amber-50 text-amber-600 border border-amber-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 border border-amber-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <ShieldCheck size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">Exception Manager</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">Cyber Risk Waiver &amp; Governance</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">Cyber Risk Waiver &amp; Governance</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* CyberRange */}
@@ -1279,18 +1170,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'cyberverse'
-                              ? isDarkMode ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30' : 'bg-pink-50 text-pink-600 border border-pink-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-pink-500/10 text-pink-500 border border-pink-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <Gamepad2 size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">CyberRange</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">CTF &amp; CISM Live Quest Arena</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">CTF &amp; CISM Live Quest Arena</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* Threat Intel Collector */}
@@ -1303,18 +1194,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'threat-collector'
-                              ? isDarkMode ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-cyan-50 text-cyan-600 border border-cyan-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <Radio size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">Threat Intel Collector</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">MISP &amp; OTX Automated Feed Ingestion</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">MISP &amp; OTX Automated Feed Ingestion</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* Cybravions AI Platform */}
@@ -1327,27 +1218,27 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'ai'
-                              ? isDarkMode ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/30' : 'bg-indigo-50 text-indigo-600 border border-indigo-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <Brain size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">Cybravions AI Platform</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">On-Prem Sovereign LLM Security Suite</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">On-Prem Enterprise LLM Security Suite</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                {/* 3. Services & Advisory (Collapsible Accordion) */}
+                {/* 3. Services (Collapsible Accordion) */}
                 <div className={`rounded-2xl border overflow-hidden transition-colors ${
-                  isDarkMode ? 'bg-stone-900/60 border-stone-800/80' : 'bg-slate-50/80 border-slate-200'
+                  isDarkMode ? 'bg-[#0e1017] border-white/[0.08]' : 'bg-white border-neutral-200 shadow-sm'
                 }`}>
                   <button
                     onClick={() => {
@@ -1357,14 +1248,14 @@ const Navbar: React.FC<NavbarProps> = ({
                     className="w-full p-3.5 flex items-center justify-between text-left cursor-pointer"
                     aria-expanded={isMobileServicesOpen}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <ShieldCheck size={18} className="text-blue-500" />
-                      <span className="text-xs font-bold uppercase tracking-wider">Services &amp; Advisory</span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 font-semibold">
-                        6
+                    <div className="flex items-center gap-3">
+                      <ShieldCheck size={18} className={isMobileServicesOpen ? 'text-neutral-900 dark:text-white' : 'text-neutral-500 dark:text-neutral-400'} />
+                      <span className="text-xs font-bold uppercase tracking-wider">Services</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-white/[0.05] text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-white/[0.08] font-semibold">
+                        8
                       </span>
                     </div>
-                    <ChevronDown size={18} className={`transition-transform duration-300 ${isMobileServicesOpen ? 'rotate-180 text-blue-500' : 'text-slate-400 dark:text-stone-500'}`} />
+                    <ChevronDown size={18} className={`transition-transform duration-200 ${isMobileServicesOpen ? 'rotate-180 text-neutral-900 dark:text-white' : 'text-neutral-400 dark:text-neutral-500'}`} />
                   </button>
 
                   <AnimatePresence>
@@ -1373,7 +1264,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="px-3 pb-3 space-y-2 border-t border-slate-200/60 dark:border-white/5 pt-2.5"
+                        className="px-3 pb-3 space-y-2 border-t border-neutral-200/80 dark:border-white/[0.06] pt-2.5"
                       >
                         {/* VAPT */}
                         <button
@@ -1385,18 +1276,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'vapt'
-                              ? isDarkMode ? 'bg-orange-500/15 text-orange-400 border border-orange-500/30' : 'bg-orange-50 text-orange-600 border border-orange-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <ShieldCheck size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">VAPT &amp; Offensive Security</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">CERT-In Aligned Pentesting</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">CERT-In Aligned Pentesting</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* ISO 27001 */}
@@ -1409,18 +1300,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'iso-27001'
-                              ? isDarkMode ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30' : 'bg-blue-50 text-blue-600 border border-blue-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <Award size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">ISO 27001:2022 Certification</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">Turnkey ISMS Audit Pass Guarantee</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">Turnkey ISMS Audit Pass Guarantee</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* SOC 2 */}
@@ -1433,18 +1324,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'soc-2'
-                              ? isDarkMode ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/30' : 'bg-indigo-50 text-indigo-600 border border-indigo-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <FileCheck size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">SOC 2 Type I &amp; II Readiness</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">AICPA Trust Services Criteria</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">AICPA Trust Services Criteria</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* Cloud Security */}
@@ -1457,18 +1348,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'cloud-security'
-                              ? isDarkMode ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-cyan-50 text-cyan-600 border border-cyan-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <Cloud size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">Cloud &amp; DevSecOps</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">AWS, Azure &amp; GCP Hardening</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">AWS, Azure &amp; GCP Hardening</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* AI Security */}
@@ -1481,18 +1372,18 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'ai-security'
-                              ? isDarkMode ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' : 'bg-purple-50 text-purple-600 border border-purple-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-500 border border-purple-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <Brain size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">AI Security &amp; LLM Red Teaming</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">OWASP LLM Top 10 Defense</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">OWASP LLM Top 10 Defense</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
 
                         {/* DPDP Compliance */}
@@ -1505,173 +1396,144 @@ const Navbar: React.FC<NavbarProps> = ({
                           }}
                           className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
                             currentView === 'dpdp-compliance'
-                              ? isDarkMode ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'bg-emerald-50 text-emerald-600 border border-emerald-200'
-                              : 'hover:bg-slate-200/50 dark:hover:bg-white/[0.04]'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                           }`}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                             <Scale size={16} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold leading-tight">DPDP Act 2023 Compliance</div>
-                            <div className="text-[10px] text-slate-500 dark:text-stone-400 truncate">Indian Regulatory Readiness</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">Statutory Regulatory Readiness</div>
                           </div>
-                          <ChevronRight size={14} className="text-slate-400 dark:text-stone-500 shrink-0" />
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
+                        </button>
+
+                        {/* Training */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('training');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'training'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
+                            <GraduationCap size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">Online IT &amp; Cyber Training</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">Workforce Defense, Labs &amp; Bootcamps</div>
+                          </div>
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
+                        </button>
+
+                        {/* Compliance & GRC Hub */}
+                        <button
+                          onClick={() => {
+                            cyberAudio.playClick();
+                            setCurrentView('compliance');
+                            setIsMobileMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                            currentView === 'compliance'
+                              ? isDarkMode ? 'bg-white/[0.12] text-white border border-white/20' : 'bg-neutral-200/80 text-neutral-950 border border-neutral-300'
+                              : 'hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
+                            <ShieldCheck size={16} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold leading-tight">Compliance &amp; GRC Hub</div>
+                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">Global Frameworks &amp; Telemetry</div>
+                          </div>
+                          <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
                         </button>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                {/* 4. Knowledge & Company Hub (2x2 Grid) */}
-                <div className="grid grid-cols-2 gap-2.5">
-                  {/* Resources & Guides */}
-                  <button
-                    onClick={() => {
-                      cyberAudio.playClick();
-                      setCurrentView('resources');
-                      setIsMobileMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
-                      currentView === 'resources'
-                        ? isDarkMode ? 'bg-orange-500/15 border-orange-500/40 text-orange-400' : 'bg-orange-50 border-orange-300 text-orange-600'
-                        : isDarkMode ? 'bg-stone-900/60 border-stone-800/80 hover:bg-stone-800' : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    <BookOpen size={18} className="text-orange-500 mb-2" />
-                    <div>
-                      <div className="text-xs font-bold">Resources &amp; Guides</div>
-                      <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Whitepapers &amp; Docs</div>
-                    </div>
-                  </button>
-
-                  {/* Compliance Hub */}
-                  <button
-                    onClick={() => {
-                      cyberAudio.playClick();
-                      setCurrentView('compliance');
-                      setIsMobileMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
-                      currentView === 'compliance'
-                        ? isDarkMode ? 'bg-blue-500/15 border-blue-500/40 text-blue-400' : 'bg-blue-50 border-blue-300 text-blue-600'
-                        : isDarkMode ? 'bg-stone-900/60 border-stone-800/80 hover:bg-stone-800' : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    <ShieldCheck size={18} className="text-blue-500 mb-2" />
-                    <div>
-                      <div className="text-xs font-bold">Compliance Hub</div>
-                      <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Global Frameworks</div>
-                    </div>
-                  </button>
-
-                  {/* About Us */}
-                  <button
-                    onClick={() => {
-                      cyberAudio.playClick();
-                      setCurrentView('about');
-                      setIsMobileMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
-                      currentView === 'about'
-                        ? isDarkMode ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-400' : 'bg-indigo-50 border-indigo-300 text-indigo-600'
-                        : isDarkMode ? 'bg-stone-900/60 border-stone-800/80 hover:bg-stone-800' : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    <Building2 size={18} className="text-indigo-500 mb-2" />
-                    <div>
-                      <div className="text-xs font-bold">About Us</div>
-                      <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Mission &amp; Leadership</div>
-                    </div>
-                  </button>
-
-                  {/* Corporate Training */}
-                  <button
-                    onClick={() => {
-                      cyberAudio.playClick();
-                      setCurrentView('training');
-                      setIsMobileMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
-                      currentView === 'training'
-                        ? isDarkMode ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400' : 'bg-emerald-50 border-emerald-300 text-emerald-600'
-                        : isDarkMode ? 'bg-stone-900/60 border-stone-800/80 hover:bg-stone-800' : 'bg-slate-50/80 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    <GraduationCap size={18} className="text-emerald-500 mb-2" />
-                    <div>
-                      <div className="text-xs font-bold">Corporate Training</div>
-                      <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Cyber Academy</div>
-                    </div>
-                  </button>
-                </div>
-
-                {/* 5. Quick Anchors Row */}
-                <div className="flex items-center justify-between gap-2 px-1">
-                  <a
-                    href="#radar"
-                    onClick={(e) => {
-                      cyberAudio.playClick();
-                      handleNavClick(e, '#radar');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`flex-1 py-2 px-2.5 rounded-xl border text-center text-[11px] font-mono font-semibold transition-colors ${
-                      isDarkMode ? 'bg-stone-900/60 border-stone-800 text-stone-300 hover:text-white' : 'bg-slate-100 border-slate-200 text-slate-700 hover:text-slate-900'
-                    }`}
-                  >
-                    3D Radar
-                  </a>
-                  <a
-                    href="#faq"
-                    onClick={(e) => {
-                      cyberAudio.playClick();
-                      handleNavClick(e, '#faq');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`flex-1 py-2 px-2.5 rounded-xl border text-center text-[11px] font-mono font-semibold transition-colors ${
-                      isDarkMode ? 'bg-stone-900/60 border-stone-800 text-stone-300 hover:text-white' : 'bg-slate-100 border-slate-200 text-slate-700 hover:text-slate-900'
-                    }`}
-                  >
-                    FAQ
-                  </a>
-                  {onOpenAuditModal && (
-                    <button
-                      onClick={() => {
-                        cyberAudio.playClick();
-                        setIsMobileMenuOpen(false);
-                        onOpenAuditModal();
-                      }}
-                      className={`flex-1 py-2 px-2.5 rounded-xl border text-center text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
-                        isDarkMode ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-blue-50 border-blue-200 text-blue-600'
-                      }`}
-                    >
-                      Fast Audit
-                    </button>
-                  )}
-                </div>
-
-                {/* 6. Sticky Bottom Action Footer */}
-                <div className="pt-3 border-t border-slate-200/60 dark:border-white/5 space-y-2 pb-6">
-                  <a
-                    href="#contact"
-                    onClick={(e) => {
-                      cyberAudio.playClick();
-                      handleNavClick(e, '#contact');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl text-xs uppercase tracking-widest font-bold text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all cursor-pointer"
-                  >
-                    <span>Consult An Advisor</span>
-                    <ArrowRight size={16} />
-                  </a>
-                  <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 dark:text-stone-500 font-mono">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>24/7 Security Advisory • CERT-In &amp; ISO Certified</span>
+                {/* 4. About Us */}
+                <button
+                  onClick={() => {
+                    cyberAudio.playClick();
+                    setCurrentView('about');
+                    setIsMobileMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className={`w-full p-3.5 rounded-2xl text-left flex items-center justify-between transition-colors border cursor-pointer ${
+                    currentView === 'about'
+                      ? isDarkMode ? 'bg-white/[0.08] text-white font-bold border-white/20' : 'bg-neutral-100 text-neutral-950 font-bold border-neutral-300'
+                      : isDarkMode ? 'bg-[#0e1017] hover:bg-white/[0.04] text-neutral-200 border-white/[0.08]' : 'bg-white hover:bg-neutral-50 text-neutral-800 border-neutral-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Building2 size={18} className={currentView === 'about' ? 'text-neutral-900 dark:text-white' : 'text-neutral-500 dark:text-neutral-400'} />
+                    <span className="text-xs font-bold uppercase tracking-wider">About Us</span>
                   </div>
+                  {currentView === 'about' ? (
+                    <span className="w-2 h-2 rounded-full bg-neutral-900 dark:bg-white" />
+                  ) : (
+                    <ChevronRight size={16} className="text-neutral-400 dark:text-neutral-500" />
+                  )}
+                </button>
+
+                {/* 6. Search & Quick Actions */}
+                <button
+                  onClick={() => {
+                    cyberAudio.playClick();
+                    setIsMobileMenuOpen(false);
+                    onOpenCommandPalette?.();
+                  }}
+                  className={`w-full p-3.5 rounded-2xl text-left flex items-center justify-between transition-colors border cursor-pointer ${
+                    isDarkMode
+                      ? 'bg-[#0e1017] hover:bg-white/[0.04] text-neutral-300 border-white/[0.08]'
+                      : 'bg-white hover:bg-neutral-50 text-neutral-700 border-neutral-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Search size={18} className="text-neutral-700 dark:text-neutral-300" />
+                    <span className="text-xs font-semibold">Search Platforms &amp; Actions</span>
+                  </div>
+                  <ChevronRight size={16} className="text-neutral-400 dark:text-neutral-500" />
+                </button>
+              </div>
+
+              {/* Sticky Bottom Action Footer */}
+              <div className={`p-4 border-t shrink-0 space-y-2.5 ${
+                isDarkMode ? 'border-white/[0.08] bg-[#05070d]' : 'border-neutral-200 bg-white'
+              }`}>
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    handleNavClick(e, '#contact');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full py-3.5 bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 rounded-xl text-xs font-semibold uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-sm transition-all duration-150 active:scale-[0.99] cursor-pointer"
+                >
+                  <span>Contact</span>
+                  <ArrowRight size={15} />
+                </a>
+                <div className="flex items-center justify-between gap-2 text-[10px] text-neutral-500 dark:text-neutral-400 font-mono">
+                  <span>CYBRAVIONS SOLUTIONS PVT LTD</span>
+                  <a
+                    href="https://www.linkedin.com/company/cybravion-solutions-pvt-ltd/about/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-blue-500 dark:text-blue-400 hover:underline"
+                  >
+                    <Linkedin size={12} />
+                    <span>LinkedIn</span>
+                  </a>
                 </div>
               </div>
             </motion.div>

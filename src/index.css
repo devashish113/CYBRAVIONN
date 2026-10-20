@@ -147,3 +147,84 @@ html.light .glass-panel-3d,
   background-color: #ffffff !important;
   color: #0f172a !important;
 }
+
+/* =========================================================================
+   Ultra-Smooth B&W Water Surface Wave & Glassmorphism (Hover Physics)
+   ========================================================================= */
+
+.water-ripple-ring-dark {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.06), inset 0 0 6px rgba(255, 255, 255, 0.04);
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: waterRippleExpandDark 1.35s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+}
+
+.water-ripple-ring-light {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  border-radius: 9999px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.03), inset 0 0 6px rgba(255, 255, 255, 0.7);
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: waterRippleExpandLight 1.35s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes waterRippleExpandDark {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.35;
+  }
+  35% {
+    opacity: 0.22;
+  }
+  70% {
+    opacity: 0.08;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(15);
+    opacity: 0;
+  }
+}
+
+@keyframes waterRippleExpandLight {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.28;
+  }
+  35% {
+    opacity: 0.16;
+  }
+  70% {
+    opacity: 0.06;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(15);
+    opacity: 0;
+  }
+}
+
+/* Glassmorphism Liquid Surface Base Utilities */
+.glass-water-surface {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 8px 24px -5px rgba(0, 0, 0, 0.05), inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+}
+
+html.dark .glass-water-surface,
+.dark .glass-water-surface {
+  background: rgba(12, 14, 20, 0.7);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+}
+
