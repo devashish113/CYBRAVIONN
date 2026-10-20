@@ -5,9 +5,7 @@ import {
   ShieldCheck, 
   ShieldAlert,
   BellRing,
-  Radio,
-  Hexagon,
-  LayoutGrid
+  Radio
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
 import { PolygonHexCard } from './PolygonHexCard';
@@ -22,7 +20,6 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
   isDarkMode = true 
 }) => {
   const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
-  const [layoutMode, setLayoutMode] = useState<'honeycomb' | 'grid'>('honeycomb');
 
   const products = [
     {
@@ -136,71 +133,31 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
           </p>
         </div>
 
-        {/* Interactive Controls: Category Filter & Layout Switcher */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 max-w-5xl mx-auto px-2">
-          {/* Category Filter Pills */}
-          <div className="flex items-center gap-1.5 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
-            {filterCategories.map((filter) => (
-              <button
-                key={filter.id}
-                onClick={() => {
-                  cyberAudio.playClick();
-                  setSelectedFilter(filter.id);
-                }}
-                className={`px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
-                  selectedFilter === filter.id
-                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
-                }`}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Layout Mode Pill Switcher */}
-          <div className="flex items-center gap-1 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] shrink-0">
+        {/* Category Filter Pills (Centered & Accessible) */}
+        <div className="flex items-center justify-center gap-1.5 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] overflow-x-auto max-w-fit mx-auto mb-12 sm:mb-14">
+          {filterCategories.map((filter) => (
             <button
+              key={filter.id}
               onClick={() => {
                 cyberAudio.playClick();
-                setLayoutMode('honeycomb');
+                setSelectedFilter(filter.id);
               }}
-              title="Honeycomb Cluster Layout"
-              aria-label="Honeycomb Cluster Layout"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
-                layoutMode === 'honeycomb'
+              className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
+                selectedFilter === filter.id
                   ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
                   : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
               }`}
             >
-              <Hexagon size={13} aria-hidden={true} />
-              <span className="hidden sm:inline">Honeycomb</span>
+              {filter.label}
             </button>
-            <button
-              onClick={() => {
-                cyberAudio.playClick();
-                setLayoutMode('grid');
-              }}
-              title="Matrix Grid Layout"
-              aria-label="Matrix Grid Layout"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
-                layoutMode === 'grid'
-                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
-              }`}
-            >
-              <LayoutGrid size={13} aria-hidden={true} />
-              <span className="hidden sm:inline">Matrix</span>
-            </button>
-          </div>
+          ))}
         </div>
 
-        {/* Polygon Cards Presentation */}
-        {layoutMode === 'honeycomb' && selectedFilter === 'ALL' ? (
-          /* True Honeycomb Cluster: 3 - 2 - 1 Symmetrical Nestled Cluster */
-          <div className="flex flex-col items-center w-full">
+        {/* Polygon Cards Presentation: 3-3 Layout in Each Row */}
+        {selectedFilter === 'ALL' ? (
+          <div className="flex flex-col items-center w-full gap-8 sm:gap-10 lg:gap-12">
             {/* Row 1: 3 Hexagons */}
-            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 z-10 w-full max-w-6xl">
+            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 sm:gap-8 z-10 w-full max-w-6xl">
               {displayedCards.slice(0, 3).map((prod) => (
                 <PolygonHexCard
                   key={prod.id}
@@ -217,27 +174,9 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
               ))}
             </div>
 
-            {/* Row 2: 2 Hexagons nestled into the 2 valleys between Row 1 cards */}
-            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 lg:-mt-16 z-20 w-full max-w-4xl">
-              {displayedCards.slice(3, 5).map((prod) => (
-                <PolygonHexCard
-                  key={prod.id}
-                  title={prod.name}
-                  tag={prod.tag}
-                  subtitle={prod.subtitle}
-                  desc={prod.desc}
-                  icon={prod.icon}
-                  image={prod.image}
-                  actionLabel=">"
-                  onAction={() => handleProductClick(prod.targetView)}
-                  isDarkMode={isDarkMode}
-                />
-              ))}
-            </div>
-
-            {/* Row 3: 1 Hexagon (Cybravions AI) nestled into the central valley between Row 2 cards */}
-            <div className="flex justify-center lg:-mt-16 z-30 w-full max-w-sm">
-              {displayedCards.slice(5, 6).map((prod) => (
+            {/* Row 2: 3 Hexagons (4th, 5th, and 6th card right after 5th card) */}
+            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 sm:gap-8 z-20 w-full max-w-6xl">
+              {displayedCards.slice(3, 6).map((prod) => (
                 <PolygonHexCard
                   key={prod.id}
                   title={prod.name}
@@ -254,8 +193,8 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
             </div>
           </div>
         ) : (
-          /* Responsive Matrix Grid: Clean non-overlapping 3-column layout */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 justify-items-center max-w-6xl mx-auto">
+          /* Filtered Matrix Grid */
+          <div className="flex flex-wrap justify-center gap-8 sm:gap-10 max-w-6xl mx-auto">
             {displayedCards.map((prod) => (
               <PolygonHexCard
                 key={prod.id}
