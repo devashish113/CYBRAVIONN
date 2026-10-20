@@ -113,7 +113,7 @@ export const ThemeToggleNeumorphic: React.FC<ThemeToggleNeumorphicProps> = ({
       whileHover={{ scale: 1.02 }}
       className={`relative inline-flex items-center rounded-full select-none cursor-pointer transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 ${config.track} ${
         isDarkMode
-          ? 'bg-[#1a1f2c] border border-white/[0.08]'
+          ? 'bg-[#18181b] border border-white/[0.08]'
           : 'bg-[#e3e8f0] border border-black/[0.06]'
       } ${className}`}
       style={{
@@ -139,7 +139,7 @@ export const ThemeToggleNeumorphic: React.FC<ThemeToggleNeumorphicProps> = ({
         className={`absolute right-2.5 top-0 bottom-0 ${config.textWidth} flex items-center justify-center font-bold tracking-wider uppercase pointer-events-none transition-opacity duration-200 ${
           config.fontSize
         } ${
-          isDarkMode ? 'opacity-100 text-[#9cb0c6]' : 'opacity-0 text-transparent'
+          isDarkMode ? 'opacity-100 text-[#a1a1aa]' : 'opacity-0 text-transparent'
         }`}
         style={{ fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
       >
@@ -160,7 +160,7 @@ export const ThemeToggleNeumorphic: React.FC<ThemeToggleNeumorphicProps> = ({
         className={`relative z-10 flex items-center justify-center rounded-full shrink-0 transition-colors duration-200 ${
           config.thumb
         } ${
-          isDarkMode ? 'bg-[#222838] text-white' : 'bg-[#ffffff] text-slate-600'
+          isDarkMode ? 'bg-[#27272a] text-white' : 'bg-[#ffffff] text-slate-600'
         }`}
         style={{
           boxShadow: isDarkMode

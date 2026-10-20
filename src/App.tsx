@@ -353,7 +353,7 @@ const Navbar: React.FC<NavbarProps> = ({
           whileHover={{ scale: 1.05 }}
           className={`w-[42px] h-[42px] xl:w-[44px] xl:h-[44px] rounded-full flex items-center justify-center shrink-0 cursor-pointer transition-colors duration-200 ${
             isDarkMode 
-              ? 'bg-[#1a1f2c] border border-white/[0.08] text-[#8ca0b7] hover:text-white' 
+              ? 'bg-[#18181b] border border-white/[0.08] text-neutral-400 hover:text-white' 
               : 'bg-[#e3e8f0] border border-black/[0.06] text-[#4c586b] hover:text-[#0f172a]'
           }`}
           style={{
@@ -364,7 +364,7 @@ const Navbar: React.FC<NavbarProps> = ({
           aria-label="Search (Ctrl+K or ⌘K)"
           title="Search (Ctrl+K or ⌘K)"
         >
-          <Search size={16} className={isDarkMode ? 'text-[#8ca0b7]' : 'text-[#5a677a]'} />
+          <Search size={16} className={isDarkMode ? 'text-neutral-400' : 'text-[#5a677a]'} />
         </motion.button>
 
         {/* Tactile Neumorphic Dark / Light Mode Toggle Button */}
@@ -387,8 +387,8 @@ const Navbar: React.FC<NavbarProps> = ({
         className={`fixed top-3 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 z-50 rounded-full transition-all duration-300 pointer-events-auto px-2.5 sm:px-3.5 xl:px-4.5 h-[50px] xl:h-[52px] flex items-center justify-center max-w-[calc(100vw-1.5rem)] select-none ${
           isDarkMode
             ? isScrolled
-              ? 'bg-[#151926]/95 border border-white/[0.08] backdrop-blur-2xl'
-              : 'bg-[#1a1f2c] border border-white/[0.08] backdrop-blur-xl'
+              ? 'bg-[#141416]/95 border border-white/[0.08] backdrop-blur-2xl'
+              : 'bg-[#18181b] border border-white/[0.08] backdrop-blur-xl'
             : isScrolled
               ? 'bg-[#e3e8f0]/95 border border-black/[0.06] backdrop-blur-2xl'
               : 'bg-[#e3e8f0] border border-black/[0.06] backdrop-blur-xl'
@@ -411,7 +411,7 @@ const Navbar: React.FC<NavbarProps> = ({
             className={`relative text-xs xl:text-[12.5px] uppercase tracking-wider font-bold cursor-pointer py-2 xl:py-2.5 px-4.5 xl:px-5 rounded-full whitespace-nowrap transition-colors duration-200 select-none ${
               currentView === 'home' 
                 ? isDarkMode ? 'text-white' : 'text-[#1e293b]' 
-                : isDarkMode ? 'text-[#8ca0b7] hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
+                : isDarkMode ? 'text-neutral-400 hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
             }`}
           >
             {currentView === 'home' && (
@@ -419,7 +419,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 layoutId="neumorphic-nav-active-pill"
                 className="absolute inset-0 rounded-full"
                 style={{
-                  background: isDarkMode ? '#222838' : '#ffffff',
+                  background: isDarkMode ? '#27272a' : '#ffffff',
                   boxShadow: isDarkMode
                     ? '2.5px 3px 8px rgba(0, 0, 0, 0.65), -1.5px -1.5px 4px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18)'
                     : '3px 3.5px 8px rgba(140, 155, 175, 0.42), -2.5px -2.5px 6px rgba(255, 255, 255, 0.98), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
@@ -446,7 +446,7 @@ const Navbar: React.FC<NavbarProps> = ({
               className={`relative text-xs xl:text-[12.5px] uppercase tracking-wider font-bold flex items-center gap-1.5 cursor-pointer py-2 xl:py-2.5 px-4.5 xl:px-5 rounded-full whitespace-nowrap transition-colors duration-200 select-none ${
                 ['threatforge', 'threatintel', 'ai', 'cyberverse', 'exception-manager', 'soc-ai', 'threat-collector'].includes(currentView) || isProductsOpen
                   ? isDarkMode ? 'text-white' : 'text-[#1e293b]' 
-                  : isDarkMode ? 'text-[#8ca0b7] hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
+                  : isDarkMode ? 'text-neutral-400 hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
               }`}
               aria-label="Products menu"
               aria-expanded={isProductsOpen}
@@ -458,7 +458,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   layoutId="neumorphic-nav-active-pill"
                   className="absolute inset-0 rounded-full"
                   style={{
-                    background: isDarkMode ? '#222838' : '#ffffff',
+                    background: isDarkMode ? '#27272a' : '#ffffff',
                     boxShadow: isDarkMode
                       ? '2.5px 3px 8px rgba(0, 0, 0, 0.65), -1.5px -1.5px 4px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18)'
                       : '3px 3.5px 8px rgba(140, 155, 175, 0.42), -2.5px -2.5px 6px rgba(255, 255, 255, 0.98), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
@@ -472,7 +472,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 />
               )}
               <span className="relative z-10 leading-none">Products</span>
-              <ChevronDown size={14} aria-hidden="true" className={`relative z-10 transition-transform duration-200 pointer-events-none ${isProductsOpen ? 'rotate-180' : ''} ${(['threatforge', 'threatintel', 'ai', 'cyberverse', 'exception-manager', 'soc-ai', 'threat-collector'].includes(currentView) || isProductsOpen) ? (isDarkMode ? 'text-white' : 'text-[#1e293b]') : (isDarkMode ? 'text-[#8ca0b7]' : 'text-[#64748b]')}`} />
+              <ChevronDown size={14} aria-hidden="true" className={`relative z-10 transition-transform duration-200 pointer-events-none ${isProductsOpen ? 'rotate-180' : ''} ${(['threatforge', 'threatintel', 'ai', 'cyberverse', 'exception-manager', 'soc-ai', 'threat-collector'].includes(currentView) || isProductsOpen) ? (isDarkMode ? 'text-white' : 'text-[#1e293b]') : (isDarkMode ? 'text-neutral-400' : 'text-[#64748b]')}`} />
             </button>
 
             {/* Products Dropdown Mega-Menu */}
@@ -494,7 +494,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     {/* Dropdown Card */}
                     <div className={`rounded-3xl p-6 overflow-hidden transition-all duration-300 ${
                       isDarkMode 
-                        ? 'bg-[#0e121c]/98 border border-white/[0.12] text-white shadow-[0_28px_70px_-15px_rgba(0,0,0,0.9),0_12px_28px_-8px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-2xl' 
+                        ? 'bg-[#111113]/98 border border-white/[0.10] text-white shadow-[0_28px_70px_-15px_rgba(0,0,0,0.9),0_12px_28px_-8px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.08)] backdrop-blur-2xl' 
                         : 'bg-white/98 border border-black/[0.08] text-slate-900 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.18),0_10px_24px_-8px_rgba(0,0,0,0.1),0_0_1px_rgba(0,0,0,0.15)] backdrop-blur-2xl'
                     }`}>
                     <div className="relative z-10 space-y-4">
@@ -505,11 +505,11 @@ const Navbar: React.FC<NavbarProps> = ({
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                           </span>
-                          <span className="text-[11px] uppercase tracking-widest font-mono font-bold text-slate-700 dark:text-slate-300">
+                          <span className="text-[11px] uppercase tracking-widest font-mono font-bold text-slate-700 dark:text-neutral-300">
                             Enterprise Security Platforms &amp; Autonomous Engines
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-white/[0.08] flex items-center gap-1.5">
+                        <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-neutral-300 border border-slate-200/80 dark:border-white/[0.08] flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
                           <span>6 Honeycomb Platforms</span>
                         </span>
@@ -604,7 +604,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
                       {/* Bottom Footer Bar */}
                       <div className="pt-3 px-1 pb-0.5 border-t border-slate-200/80 dark:border-white/[0.08] flex items-center justify-between text-xs">
-                        <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                        <div className="flex items-center gap-2 text-slate-600 dark:text-neutral-400">
                           <span className="font-bold text-slate-900 dark:text-white">Custom Deployment?</span>
                           <span className="text-[11px]">Air-gapped secure compute &amp; private enclaves.</span>
                         </div>
@@ -638,7 +638,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 className={`relative text-xs xl:text-[12.5px] uppercase tracking-wider font-bold flex items-center gap-1.5 cursor-pointer py-2 xl:py-2.5 px-4.5 xl:px-5 rounded-full whitespace-nowrap transition-colors duration-200 select-none ${
                   ['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance', 'compliance', 'training'].includes(currentView) || isServicesOpen
                     ? isDarkMode ? 'text-white' : 'text-[#1e293b]' 
-                    : isDarkMode ? 'text-[#8ca0b7] hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
+                    : isDarkMode ? 'text-neutral-400 hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
                 }`}
                 aria-label="Services menu"
                 aria-expanded={isServicesOpen}
@@ -650,7 +650,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     layoutId="neumorphic-nav-active-pill"
                     className="absolute inset-0 rounded-full"
                     style={{
-                      background: isDarkMode ? '#222838' : '#ffffff',
+                      background: isDarkMode ? '#27272a' : '#ffffff',
                       boxShadow: isDarkMode
                         ? '2.5px 3px 8px rgba(0, 0, 0, 0.65), -1.5px -1.5px 4px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18)'
                         : '3px 3.5px 8px rgba(140, 155, 175, 0.42), -2.5px -2.5px 6px rgba(255, 255, 255, 0.98), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
@@ -664,7 +664,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   />
                 )}
                 <span className="relative z-10 leading-none">Services</span>
-                <ChevronDown size={14} aria-hidden="true" className={`relative z-10 transition-transform duration-200 pointer-events-none ${isServicesOpen ? 'rotate-180' : ''} ${(['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance', 'compliance', 'training'].includes(currentView) || isServicesOpen) ? (isDarkMode ? 'text-white' : 'text-[#1e293b]') : (isDarkMode ? 'text-[#8ca0b7]' : 'text-[#64748b]')}`} />
+                <ChevronDown size={14} aria-hidden="true" className={`relative z-10 transition-transform duration-200 pointer-events-none ${isServicesOpen ? 'rotate-180' : ''} ${(['vapt', 'iso-27001', 'soc-2', 'cloud-security', 'ai-security', 'dpdp-compliance', 'compliance', 'training'].includes(currentView) || isServicesOpen) ? (isDarkMode ? 'text-white' : 'text-[#1e293b]') : (isDarkMode ? 'text-neutral-400' : 'text-[#64748b]')}`} />
               </button>
 
               <AnimatePresence>
@@ -685,7 +685,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     {/* Dropdown Card */}
                     <div className={`rounded-3xl p-6 overflow-hidden transition-all duration-300 ${
                       isDarkMode 
-                        ? 'bg-[#0e121c]/98 border border-white/[0.12] text-white shadow-[0_28px_70px_-15px_rgba(0,0,0,0.9),0_12px_28px_-8px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-2xl' 
+                        ? 'bg-[#111113]/98 border border-white/[0.10] text-white shadow-[0_28px_70px_-15px_rgba(0,0,0,0.9),0_12px_28px_-8px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.08)] backdrop-blur-2xl' 
                         : 'bg-white/98 border border-black/[0.08] text-slate-900 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.18),0_10px_24px_-8px_rgba(0,0,0,0.1),0_0_1px_rgba(0,0,0,0.15)] backdrop-blur-2xl'
                     }`}>
                     <div className="relative z-10 space-y-4">
@@ -696,11 +696,11 @@ const Navbar: React.FC<NavbarProps> = ({
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                           </span>
-                          <span className="text-[11px] uppercase tracking-widest font-mono font-bold text-slate-700 dark:text-slate-300">
+                          <span className="text-[11px] uppercase tracking-widest font-mono font-bold text-slate-700 dark:text-neutral-300">
                             Enterprise Cybersecurity Services &amp; Regulatory Advisory
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-white/[0.08] flex items-center gap-1.5">
+                        <span className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-neutral-300 border border-slate-200/80 dark:border-white/[0.08] flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
                           <span>7 Practices + GRC Hub</span>
                         </span>
@@ -832,7 +832,7 @@ const Navbar: React.FC<NavbarProps> = ({
                             handleNavClick(e, '#services');
                             setIsServicesOpen(false);
                           }}
-                          className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs font-medium transition-colors"
+                          className="text-slate-500 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white text-xs font-medium transition-colors"
                         >
                           View all security capability frameworks →
                         </a>
@@ -863,7 +863,7 @@ const Navbar: React.FC<NavbarProps> = ({
               className={`relative text-xs xl:text-[12.5px] uppercase tracking-wider font-bold cursor-pointer py-2 xl:py-2.5 px-4.5 xl:px-5 rounded-full whitespace-nowrap transition-colors duration-200 select-none ${
                 currentView === 'about' 
                   ? isDarkMode ? 'text-white' : 'text-[#1e293b]' 
-                  : isDarkMode ? 'text-[#8ca0b7] hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
+                  : isDarkMode ? 'text-neutral-400 hover:text-white' : 'text-[#4c586b] hover:text-[#0f172a]'
               }`}
             >
               {currentView === 'about' && (
@@ -871,7 +871,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   layoutId="neumorphic-nav-active-pill"
                   className="absolute inset-0 rounded-full"
                   style={{
-                    background: isDarkMode ? '#222838' : '#ffffff',
+                    background: isDarkMode ? '#27272a' : '#ffffff',
                     boxShadow: isDarkMode
                       ? '2.5px 3px 8px rgba(0, 0, 0, 0.65), -1.5px -1.5px 4px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18)'
                       : '3px 3.5px 8px rgba(140, 155, 175, 0.42), -2.5px -2.5px 6px rgba(255, 255, 255, 0.98), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
@@ -898,18 +898,18 @@ const Navbar: React.FC<NavbarProps> = ({
               }}
               className={`flex items-center justify-center w-8.5 h-8.5 rounded-full text-xs transition-colors cursor-pointer ${
                 isDarkMode
-                  ? 'text-[#9cb0c6] hover:text-white bg-[#222838]'
+                  ? 'text-neutral-300 hover:text-white bg-[#27272a]'
                   : 'text-[#4c586b] hover:text-[#1e293b] bg-[#ffffff]'
               }`}
               style={{
                 boxShadow: isDarkMode
                   ? '1.5px 2px 5px rgba(0, 0, 0, 0.5), -1px -1px 2.5px rgba(255, 255, 255, 0.08)'
-                  : '2px 2.5px 5px rgba(140, 155, 175, 0.4), -1.5px -1.5px 4px rgba(255, 255, 255, 0.95)',
+                  : '2px 2.5px 5px rgba(140, 155, 178, 0.4), -1.5px -1.5px 4px rgba(255, 255, 255, 0.95)',
               }}
               aria-label="Search"
               title="Search"
             >
-              <Search size={14} className={isDarkMode ? 'text-[#8ca0b7]' : 'text-[#5a677a]'} />
+              <Search size={14} className={isDarkMode ? 'text-neutral-300' : 'text-[#5a677a]'} />
             </button>
 
             <div 
@@ -928,13 +928,13 @@ const Navbar: React.FC<NavbarProps> = ({
               }}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer ${
                 isDarkMode
-                  ? 'text-[#9cb0c6] hover:text-white bg-[#222838]'
+                  ? 'text-neutral-300 hover:text-white bg-[#27272a]'
                   : 'text-[#4c586b] hover:text-[#1e293b] bg-[#ffffff]'
               }`}
               style={{
                 boxShadow: isDarkMode
                   ? '1.5px 2px 5px rgba(0, 0, 0, 0.5), -1px -1px 2.5px rgba(255, 255, 255, 0.08)'
-                  : '2px 2.5px 5px rgba(140, 155, 175, 0.4), -1.5px -1.5px 4px rgba(255, 255, 255, 0.95)',
+                  : '2px 2.5px 5px rgba(140, 155, 178, 0.4), -1.5px -1.5px 4px rgba(255, 255, 255, 0.95)',
               }}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
