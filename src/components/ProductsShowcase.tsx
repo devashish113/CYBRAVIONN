@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Brain, 
   Gamepad2, 
-  ArrowRight, 
   ShieldCheck, 
   ShieldAlert,
   BellRing,
   Radio,
-  CheckCircle2
+  Hexagon,
+  LayoutGrid
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
-import { WaterGlassCard } from './WaterGlassCard';
+import { PolygonHexCard } from './PolygonHexCard';
 
 interface ProductsShowcaseProps {
   setCurrentView: (view: string) => void;
@@ -19,112 +19,93 @@ interface ProductsShowcaseProps {
 
 export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({ 
   setCurrentView,
-  isDarkMode: _isDarkMode = true 
+  isDarkMode = true 
 }) => {
+  const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
+  const [layoutMode, setLayoutMode] = useState<'honeycomb' | 'grid'>('honeycomb');
+
   const products = [
     {
       id: 'threatforge',
-      num: '01',
       name: 'ThreatForge Platform',
-      badge: 'THREAT MODELING',
-      tagline: 'Automated STRIDE & PASTA Engine',
+      tag: 'THREAT MODELING',
+      filterCategory: 'THREAT',
+      subtitle: 'Automated STRIDE & PASTA Engine',
       desc: 'Automated threat modeling and attack surface mapping with live attack tree generation, CVSS 3.1 quantitative scoring, and air-gapped threat narratives.',
       icon: ShieldAlert,
-      glow: 'amber' as const,
-      features: [
-        'Automated STRIDE & PASTA Analysis',
-        'Interactive Attack Path Trees',
-        'CVSS 3.1 Quantitative Scoring'
-      ],
-      actionLabel: 'Explore ThreatForge',
+      image: '/images/services/offensive-sec.jpg',
       targetView: 'threatforge'
     },
     {
       id: 'soc-ai',
-      num: '02',
       name: 'SOC AI Triage',
-      badge: 'AUTONOMOUS SOAR',
-      tagline: 'Explainable AI Incident Investigation',
+      tag: 'AUTONOMOUS SOAR',
+      filterCategory: 'SOAR',
+      subtitle: 'Explainable AI Incident Investigation',
       desc: 'Sub-second autonomous SIEM alert investigation. Features SHAP explainable ML verdicts, ReAct investigation agents, and automated SOAR playbooks.',
       icon: BellRing,
-      glow: 'cyan' as const,
-      features: [
-        'Sub-Second Alert Investigation',
-        'SHAP Mathematical Explainability',
-        'Automated Containment Playbooks'
-      ],
-      actionLabel: 'Explore SOC AI Triage',
+      image: '/images/services/soc-triage.jpg',
       targetView: 'soc-ai'
     },
     {
       id: 'exception-manager',
-      num: '03',
       name: 'AI Exception Manager',
-      badge: 'COMPLIANCE GOVERNANCE',
-      tagline: 'Automated Risk Waiver Platform',
+      tag: 'AI GOVERNANCE',
+      filterCategory: 'GOVERNANCE',
+      subtitle: 'Automated Risk Waiver Platform',
       desc: 'Centralized compliance exception tracking platform with machine learning risk scoring, automated review workflows, and continuous policy drift governance.',
       icon: ShieldCheck,
-      glow: 'emerald' as const,
-      features: [
-        'Automated Risk Scoring & Telemetry',
-        'ISO 27001 & SOC 2 Waiver Tracking',
-        'Tamper-Proof Audit PDF Reports'
-      ],
-      actionLabel: 'Open Exception Manager',
+      image: '/images/services/grc.jpg',
       targetView: 'exception-manager'
     },
     {
       id: 'cyberverse',
-      num: '04',
       name: 'CyberRange Arena',
-      badge: 'DEFENSE SANDBOX',
-      tagline: 'Adversary Emulation & Hands-on Labs',
+      tag: 'DEFENSE SANDBOX',
+      filterCategory: 'SANDBOX',
+      subtitle: 'Adversary Emulation & Hands-on Labs',
       desc: 'Browser-based hands-on cyber defense sandboxes, active adversary emulation scenarios, and interactive incident response training for technical teams.',
       icon: Gamepad2,
-      glow: 'purple' as const,
-      features: [
-        'Interactive Kali & CTF Sandboxes',
-        'Hands-on Cryptography & Web Exploits',
-        'Real-World Incident Response Quests'
-      ],
-      actionLabel: 'Launch CyberRange Labs',
+      image: '/images/services/training.jpg',
       targetView: 'cyberverse'
     },
     {
       id: 'threat-collector',
-      num: '05',
       name: 'Threat Intel Collector',
-      badge: 'INGESTION ENGINE',
-      tagline: 'Unified MISP & OTX Intelligence Hub',
+      tag: 'INGESTION ENGINE',
+      filterCategory: 'INTEL',
+      subtitle: 'Unified MISP & OTX Intelligence Hub',
       desc: 'Ingests, deduplicates, and scores IOCs from MISP, AlienVault OTX, and URLhaus with automated STIX 2.1 air-gap export bundles for isolated enclaves.',
       icon: Radio,
-      glow: 'blue' as const,
-      features: [
-        'Multi-Feed Ingestion (MISP, OTX, URLhaus)',
-        'STIX 2.1 Unified Normalization',
-        'Cryptographically Signed Air-Gap Bundles'
-      ],
-      actionLabel: 'Explore Intel Collector',
+      image: '/images/services/threat-intel.jpg',
       targetView: 'threat-collector'
     },
     {
       id: 'ai',
-      num: '06',
       name: 'Cybravions AI',
-      badge: 'AIR-GAPPED PRIVATE AI',
-      tagline: 'Private Enterprise Neural Appliance',
+      tag: 'PRIVATE AI CORE',
+      filterCategory: 'AI',
+      subtitle: 'Private Enterprise Neural Appliance',
       desc: 'Deploy high-performance agentic AI directly inside private infrastructure with mathematical data isolation and zero cloud telemetry.',
       icon: Brain,
-      glow: 'cyan' as const,
-      features: [
-        '100% Offline & Private VPC Isolation',
-        'Zero Cloud Model Data Leakage',
-        'Prompt Armor & Safety Boundary'
-      ],
-      actionLabel: 'Explore Cybravions AI',
+      image: '/images/services/ai-security.jpg',
       targetView: 'ai'
     }
   ];
+
+  const filterCategories = [
+    { id: 'ALL', label: 'All Products (6)' },
+    { id: 'THREAT', label: 'Threat Modeling' },
+    { id: 'SOAR', label: 'Autonomous SOAR' },
+    { id: 'GOVERNANCE', label: 'AI Governance' },
+    { id: 'SANDBOX', label: 'Defense Sandbox' },
+    { id: 'INTEL', label: 'Threat Intel' },
+    { id: 'AI', label: 'Private AI' }
+  ];
+
+  const displayedCards = selectedFilter === 'ALL'
+    ? products
+    : products.filter((p) => p.filterCategory === selectedFilter);
 
   const handleProductClick = (view: string) => {
     cyberAudio.playClick();
@@ -134,10 +115,10 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
 
   return (
     <section id="products" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent border-t border-neutral-200 dark:border-white/[0.08]">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10">
         
-        {/* Section Header with Sarvam Craft */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+        {/* Section Header matching Sarvam Craft */}
+        <div className="text-center mb-12 sm:mb-16 max-w-4xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
             <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-neutral-500 dark:text-neutral-400 text-shadow-subtle">
@@ -147,69 +128,129 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
           <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-neutral-900 dark:text-white tracking-tight text-shadow-editorial">
             Autonomous Platforms &amp; Secure Core
           </h2>
-          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base mt-4 font-normal leading-relaxed">
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base mt-4 font-normal leading-relaxed max-w-3xl mx-auto">
             Engineered defense software and private neural appliances built to solve structural security, compliance, and governance challenges across modern enterprise environments.
           </p>
         </div>
 
-        {/* 6 High-Craft Enterprise Product Cards with Glassmorphism & Water Surface Physics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((prod) => {
-            const Icon = prod.icon;
-            return (
-              <WaterGlassCard 
-                key={prod.id}
-                accentGlow={prod.glow}
-                className="p-7 sm:p-8 flex flex-col justify-between h-full"
+        {/* Interactive Controls: Category Filter & Layout Switcher */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 max-w-5xl mx-auto">
+          {/* Category Filter Pills */}
+          <div className="flex items-center gap-1.5 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
+            {filterCategories.map((filter) => (
+              <button
+                key={filter.id}
+                onClick={() => {
+                  cyberAudio.playClick();
+                  setSelectedFilter(filter.id);
+                }}
+                className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
+                  selectedFilter === filter.id
+                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                }`}
               >
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-2xl bg-neutral-100 dark:bg-white/[0.05] border border-neutral-200 dark:border-white/10 backdrop-blur-md text-neutral-900 dark:text-white flex items-center justify-center transition-all duration-300 group-hover/water:scale-105 group-hover/water:border-neutral-300 dark:group-hover/water:border-white/30 shadow-xs">
-                        <Icon size={20} aria-hidden="true" className="text-amber-500 dark:text-amber-400 transition-colors" />
-                      </div>
-                      <span className="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500">
-                        {prod.num}
-                      </span>
-                    </div>
-                    <span className="text-[10px] uppercase font-mono font-semibold tracking-wider px-3 py-1 rounded-full border border-neutral-200 dark:border-white/10 text-neutral-700 dark:text-neutral-300 bg-neutral-100/80 dark:bg-white/[0.04] backdrop-blur-md shadow-xs">
-                      {prod.badge}
-                    </span>
-                  </div>
+                {filter.label}
+              </button>
+            ))}
+          </div>
 
-                  <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-1.5 transition-colors group-hover/water:text-neutral-950 dark:group-hover/water:text-white">
-                    {prod.name}
-                  </h3>
-                  <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 mb-3 tracking-normal">
-                    {prod.tagline}
-                  </p>
-
-                  <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 font-normal leading-relaxed mb-6">
-                    {prod.desc}
-                  </p>
-
-                  <div className="space-y-2.5 mb-7 pt-4 border-t border-neutral-200/80 dark:border-white/[0.08]">
-                    {prod.features.map((feat, idx) => (
-                      <div key={idx} className="flex items-center gap-2.5 text-xs text-neutral-800 dark:text-neutral-200">
-                        <CheckCircle2 size={14} aria-hidden="true" className="text-emerald-500 shrink-0" />
-                        <span>{feat}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => handleProductClick(prod.targetView)}
-                  className="w-full py-3.5 px-4 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer mt-auto bg-neutral-950/90 text-white hover:bg-neutral-900 dark:bg-white/[0.08] dark:text-white dark:border dark:border-white/15 dark:hover:bg-white dark:hover:text-neutral-950 dark:hover:border-white shadow-sm active:scale-[0.98] group/btn backdrop-blur-md"
-                >
-                  <span>{prod.actionLabel}</span>
-                  <ArrowRight size={14} aria-hidden="true" className="group-hover/btn:translate-x-1.5 transition-transform duration-200" />
-                </button>
-              </WaterGlassCard>
-            );
-          })}
+          {/* Layout Mode Pill Switcher */}
+          <div className="flex items-center gap-1 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] shrink-0">
+            <button
+              onClick={() => {
+                cyberAudio.playClick();
+                setLayoutMode('honeycomb');
+              }}
+              title="Honeycomb Cluster Layout"
+              aria-label="Honeycomb Cluster Layout"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                layoutMode === 'honeycomb'
+                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+              }`}
+            >
+              <Hexagon size={13} aria-hidden={true} />
+              <span className="hidden sm:inline">Honeycomb</span>
+            </button>
+            <button
+              onClick={() => {
+                cyberAudio.playClick();
+                setLayoutMode('grid');
+              }}
+              title="Matrix Grid Layout"
+              aria-label="Matrix Grid Layout"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                layoutMode === 'grid'
+                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+              }`}
+            >
+              <LayoutGrid size={13} aria-hidden={true} />
+              <span className="hidden sm:inline">Matrix</span>
+            </button>
+          </div>
         </div>
+
+        {/* Polygon Cards Presentation */}
+        {layoutMode === 'honeycomb' && selectedFilter === 'ALL' ? (
+          /* Honeycomb Cluster: 3-3 Nestled Hexagonal Grid */
+          <div className="flex flex-col items-center w-full">
+            {/* Top Row: 3 Hexagons */}
+            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 z-10 w-full max-w-6xl">
+              {displayedCards.slice(0, 3).map((prod) => (
+                <PolygonHexCard
+                  key={prod.id}
+                  title={prod.name}
+                  tag={prod.tag}
+                  subtitle={prod.subtitle}
+                  desc={prod.desc}
+                  icon={prod.icon}
+                  image={prod.image}
+                  actionLabel=">"
+                  onAction={() => handleProductClick(prod.targetView)}
+                  isDarkMode={isDarkMode}
+                />
+              ))}
+            </div>
+
+            {/* Bottom Row: 3 Hexagons nestled into the valleys of Row 1 */}
+            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 lg:-mt-16 z-20 w-full max-w-6xl">
+              {displayedCards.slice(3, 6).map((prod) => (
+                <PolygonHexCard
+                  key={prod.id}
+                  title={prod.name}
+                  tag={prod.tag}
+                  subtitle={prod.subtitle}
+                  desc={prod.desc}
+                  icon={prod.icon}
+                  image={prod.image}
+                  actionLabel=">"
+                  onAction={() => handleProductClick(prod.targetView)}
+                  isDarkMode={isDarkMode}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* Responsive Matrix Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center max-w-6xl mx-auto">
+            {displayedCards.map((prod) => (
+              <PolygonHexCard
+                key={prod.id}
+                title={prod.name}
+                tag={prod.tag}
+                subtitle={prod.subtitle}
+                desc={prod.desc}
+                icon={prod.icon}
+                image={prod.image}
+                actionLabel=">"
+                onAction={() => handleProductClick(prod.targetView)}
+                isDarkMode={isDarkMode}
+              />
+            ))}
+          </div>
+        )}
 
       </div>
     </section>
