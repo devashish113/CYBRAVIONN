@@ -2704,11 +2704,11 @@ export default function App() {
         <meta property="og:url" content={`https://cybravions.com${pathForView(currentView) ?? '/404'}`} />
         <meta property="og:title" content={seo.title} />
         <meta property="og:description" content={seo.description} />
-        <meta property="og:image" content="https://cybravions.com/og-image.png" />
+        <meta property="og:image" content="https://cybravions.com/og-image.png?v=20261021" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={seo.title} />
         <meta name="twitter:description" content={seo.description} />
-        <meta name="twitter:image" content="https://cybravions.com/og-image.png" />
+        <meta name="twitter:image" content="https://cybravions.com/og-image.png?v=20261021" />
       </Helmet>
 
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
