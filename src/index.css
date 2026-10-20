@@ -228,3 +228,20 @@ html.dark .glass-water-surface,
   box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
 }
 
+/* Tactile Brand CTA Buttons Aligned with Cybravions Theme */
+.btn-tactile-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #f97316 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35), 0 0 12px rgba(249, 115, 22, 0.20);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-tactile-primary:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 6px 26px rgba(37, 99, 235, 0.48), 0 0 18px rgba(249, 115, 22, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-tactile-primary:active {
+  transform: translateY(0) scale(0.98);
+}

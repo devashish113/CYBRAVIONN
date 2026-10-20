@@ -350,12 +350,17 @@ export const CloudHostingServicePage: React.FC<CloudHostingServiceProps> = ({
       {/* Interactive Cloud Provider Matrix: AWS vs Azure vs Multi-Cloud */}
       <section id="cloud-providers" className="relative z-10 py-20 px-6 max-w-6xl mx-auto">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 mb-4">
-            <Cloud className="w-3.5 h-3.5" />
-            <span>CLOUD PROVIDER SPECIALIZATIONS</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 border border-cyan-500/30 dark:border-cyan-400/30 mb-4 shadow-[0_0_15px_rgba(6,182,212,0.15)] text-cyan-600 dark:text-cyan-400 font-mono text-[11px] font-bold uppercase tracking-[0.22em]">
+            <Cloud className="w-3.5 h-3.5 animate-pulse" />
+            <span>Cloud Provider Specializations</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Full-Stack Cloud Provider Capabilities</h2>
-          <p className="text-sm text-slate-600 dark:text-stone-400 mt-2 max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Full-Stack Cloud{' '}
+            <span className="bg-gradient-to-r from-cyan-500 via-sky-400 to-blue-600 dark:from-cyan-400 dark:via-sky-300 dark:to-blue-400 bg-clip-text text-transparent">
+              Provider Capabilities
+            </span>
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-stone-300 mt-2 max-w-2xl mx-auto">
             Whether deploying purely on AWS, scaling inside Microsoft Azure, or architecting a resilient multi-cloud mesh, we deliver turnkey infrastructure excellence.
           </p>
         </div>
@@ -380,8 +385,8 @@ export const CloudHostingServicePage: React.FC<CloudHostingServiceProps> = ({
                 }}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 shadow-md'
-                    : 'bg-white dark:bg-white/[0.04] text-slate-600 dark:text-stone-400 hover:text-black dark:hover:text-white border border-slate-200/60 dark:border-white/[0.06]'
+                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md shadow-cyan-500/25 border border-cyan-400/30'
+                    : 'bg-white dark:bg-white/[0.04] text-slate-600 dark:text-stone-400 hover:text-cyan-600 dark:hover:text-cyan-400 border border-slate-200/60 dark:border-white/[0.06]'
                 }`}
               >
                 <TabIcon className="w-3.5 h-3.5" />
@@ -392,7 +397,7 @@ export const CloudHostingServicePage: React.FC<CloudHostingServiceProps> = ({
         </div>
 
         {/* Selected Provider Card */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-[#0c0d12] border border-slate-200 dark:border-white/10 shadow-xl max-w-5xl mx-auto">
+        <div className="p-8 sm:p-10 rounded-3xl bg-white/90 dark:bg-[#0b1222]/90 border border-slate-200/90 dark:border-cyan-500/20 backdrop-blur-xl shadow-xl max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-white/10">
             <div>
               <span className="text-[11px] font-mono uppercase tracking-widest font-bold text-amber-600 dark:text-amber-400">

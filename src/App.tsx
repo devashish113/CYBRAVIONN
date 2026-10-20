@@ -1612,7 +1612,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       subtitle: "Enterprise Applications & Cloud Architecture",
       desc: "Deployment and orchestration solutions for business applications and websites through suitable infrastructure partnerships, zero-trust cloud isolation, and high-availability architecture.",
       icon: Cloud,
-      glow: "blue" as const,
+      glow: "cyan" as const,
       image: "/images/services/cloud-sec.jpg",
       standards: ["Multi-Cloud Orchestration", "CI/CD & DevOps", "Zero-Trust Mesh", "Automated DR & Scaling"],
       whatWeDo: [
@@ -1629,7 +1629,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       subtitle: "Workforce Awareness & Technical Capabilities",
       desc: "Helping individuals and organisations strengthen their IT knowledge, cybersecurity awareness, and technical capabilities through interactive simulated labs.",
       icon: GraduationCap,
-      glow: "purple" as const,
+      glow: "orange" as const,
       image: "/images/services/training.jpg",
       standards: ["Interactive Cyber Labs", "Phishing Simulation", "Technical Bootcamps", "Executive Crisis Training"],
       whatWeDo: [
@@ -1677,25 +1677,30 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
     <section id="services" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12 sm:mb-16 max-w-4xl mx-auto">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-neutral-500 dark:text-neutral-400">
+          {/* Cyber Badge Kicker */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 dark:bg-blue-500/15 border border-blue-500/30 dark:border-blue-400/30 mb-4 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+            <span className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.22em] font-bold text-blue-600 dark:text-blue-400">
               Our Key Service Areas
             </span>
           </div>
-          <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-neutral-900 dark:text-white tracking-tight">
-            Research, Innovation &amp; Practical Solutions.
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Research, Innovation &amp;{' '}
+            <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 dark:from-sky-400 dark:via-blue-400 dark:to-orange-400 bg-clip-text text-transparent">
+              Practical Solutions
+            </span>.
           </h2>
-          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base mt-4 font-normal leading-relaxed max-w-3xl mx-auto">
+          <p className="text-slate-600 dark:text-stone-300 text-sm sm:text-base mt-4 font-normal leading-relaxed max-w-3xl mx-auto">
             Are you looking for a growth-focused research-oriented cybersecurity and technology partner for your B2B or B2G requirements?
-            At <strong className="text-neutral-900 dark:text-white">CYBRAVION Solutions Pvt Ltd</strong>, we bring together cybersecurity, IT solutions, online training, and digital marketing to help organizations strengthen &amp; secure digital foundations, build capabilities, and expand their online presence.
+            At <strong className="text-slate-900 dark:text-white font-semibold">CYBRAVION Solutions Pvt Ltd</strong>, we bring together cybersecurity, IT solutions, online training, and digital marketing to help organizations strengthen &amp; secure digital foundations, build capabilities, and expand their online presence.
           </p>
         </div>
 
         {/* Interactive Controls: Category Filter & Layout Switcher */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 max-w-5xl mx-auto">
           {/* Category Filter Pills */}
-          <div className="flex items-center gap-1.5 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
+          <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
             {filterCategories.map((filter) => (
               <button
                 key={filter.id}
@@ -1703,10 +1708,10 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
                   cyberAudio.playClick();
                   setSelectedFilter(filter.id);
                 }}
-                className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
+                className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                   selectedFilter === filter.id
-                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-200/50 dark:hover:bg-white/[0.06]'
                 }`}
               >
                 {filter.label}
@@ -1715,7 +1720,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
           </div>
 
           {/* Layout Mode Pill Switcher */}
-          <div className="flex items-center gap-1 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] shrink-0">
+          <div className="flex items-center gap-1 p-1 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] shrink-0">
             <button
               onClick={() => {
                 cyberAudio.playClick();
@@ -1723,10 +1728,10 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
               }}
               title="Honeycomb Cluster Layout"
               aria-label="Honeycomb Cluster Layout"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                 layoutMode === 'honeycomb'
-                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'
               }`}
             >
               <Hexagon size={13} aria-hidden={true} />
@@ -1739,10 +1744,10 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
               }}
               title="Matrix Grid Layout"
               aria-label="Matrix Grid Layout"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                 layoutMode === 'grid'
-                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'
               }`}
             >
               <LayoutGrid size={13} aria-hidden={true} />
@@ -1769,6 +1774,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
                   actionLabel=">"
                   onAction={() => handleServiceClick(service.route)}
                   isDarkMode={isDarkMode}
+                  glowColor={service.glow}
                 />
               ))}
             </div>
@@ -1787,6 +1793,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
                   actionLabel=">"
                   onAction={() => handleServiceClick(service.route)}
                   isDarkMode={isDarkMode}
+                  glowColor={service.glow}
                 />
               ))}
             </div>
@@ -1806,6 +1813,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
                 actionLabel=">"
                 onAction={() => handleServiceClick(service.route)}
                 isDarkMode={isDarkMode}
+                glowColor={service.glow}
               />
             ))}
           </div>

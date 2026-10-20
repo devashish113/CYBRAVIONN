@@ -239,12 +239,17 @@ export const ItCyberSolutionsServicePage: React.FC<ItCyberSolutionsServiceProps>
       {/* Solutions Matrix */}
       <section id="solutions" className="relative z-10 py-20 px-6 max-w-6xl mx-auto">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-widest text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-white/10 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 dark:bg-white" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 dark:bg-purple-500/15 border border-purple-500/30 dark:border-purple-400/30 mb-4 shadow-[0_0_15px_rgba(139,92,246,0.15)] text-purple-600 dark:text-purple-400 font-mono text-[11px] font-bold uppercase tracking-[0.22em]">
+            <span className="w-2 h-2 rounded-full bg-purple-500 dark:bg-purple-400 animate-pulse" />
             Engineering Practices
           </div>
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Enterprise IT & Cyber Engineering</h2>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-stone-400 max-w-2xl mx-auto mt-3">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Enterprise IT &amp;{' '}
+            <span className="bg-gradient-to-r from-purple-500 via-indigo-400 to-blue-500 dark:from-purple-400 dark:via-indigo-300 dark:to-blue-400 bg-clip-text text-transparent">
+              Cyber Engineering
+            </span>
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-stone-300 max-w-2xl mx-auto mt-3">
             Select a core engineering discipline below to examine architecture specifications, telemetry processing, and live integrations.
           </p>
         </div>
@@ -270,8 +275,8 @@ export const ItCyberSolutionsServicePage: React.FC<ItCyberSolutionsServiceProps>
                 }}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 shadow-md'
-                    : 'bg-slate-100 dark:bg-white/[0.04] text-slate-600 dark:text-stone-400 hover:text-black dark:hover:text-white border border-slate-200/60 dark:border-white/[0.06]'
+                    ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-500/25 border border-purple-400/30'
+                    : 'bg-slate-100 dark:bg-white/[0.04] text-slate-600 dark:text-stone-400 hover:text-purple-600 dark:hover:text-purple-400 border border-slate-200/60 dark:border-white/[0.06]'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -282,9 +287,9 @@ export const ItCyberSolutionsServicePage: React.FC<ItCyberSolutionsServiceProps>
         </div>
 
         {/* Selected Solution Card */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-white/70 dark:bg-[#0c0d12]/80 border border-slate-200 dark:border-white/10 backdrop-blur-xl shadow-xl">
+        <div className="p-8 sm:p-10 rounded-3xl bg-white/90 dark:bg-[#0b1222]/90 border border-slate-200/90 dark:border-purple-500/20 backdrop-blur-xl shadow-xl">
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl sm:text-3xl font-semibold mb-4 text-neutral-900 dark:text-white">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-slate-900 dark:text-white">
               {solutions[activeSolution].title}
             </h3>
             <p className="text-slate-600 dark:text-stone-300 text-sm sm:text-base leading-relaxed mb-8">
