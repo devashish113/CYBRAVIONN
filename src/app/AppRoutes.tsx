@@ -18,6 +18,10 @@ const CloudSecurityServicePage = lazyWithRetry(() => import('../pages/services/C
 const AiSecurityServicePage = lazyWithRetry(() => import('../pages/services/AiSecurityService').then(m => ({ default: m.AiSecurityServicePage })));
 const DpdpComplianceServicePage = lazyWithRetry(() => import('../pages/services/DpdpComplianceService').then(m => ({ default: m.DpdpComplianceServicePage })));
 const ResourcesPage = lazyWithRetry(() => import('../pages/Resources').then(m => ({ default: m.ResourcesPage })));
+const CybersecurityConsultancyServicePage = lazyWithRetry(() => import('../pages/services/CybersecurityConsultancyService').then(m => ({ default: m.CybersecurityConsultancyServicePage })));
+const ItCyberSolutionsServicePage = lazyWithRetry(() => import('../pages/services/ItCyberSolutionsService').then(m => ({ default: m.ItCyberSolutionsServicePage })));
+const CloudHostingServicePage = lazyWithRetry(() => import('../pages/services/CloudHostingService').then(m => ({ default: m.CloudHostingServicePage })));
+const DigitalMarketingServicePage = lazyWithRetry(() => import('../pages/services/DigitalMarketingService').then(m => ({ default: m.DigitalMarketingServicePage })));
 
 interface AppRoutesProps {
   currentView: AppView;
@@ -46,9 +50,9 @@ export function AppRoutes({ currentView, setCurrentView, isDarkMode, onOpenAudit
   if (currentView === 'cyberverse') {
     return <CyberVersePage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
   }
-  if (currentView === 'ai') return <CybravionsAIPage />;
-  if (currentView === 'training') return <TrainingPage />;
-  if (currentView === 'compliance') return <CompliancePage />;
+  if (currentView === 'training') {
+    return <TrainingPage isDarkMode={isDarkMode} setCurrentView={setCurrentView} onOpenConsultation={onOpenAuditModal} />;
+  }
   if (currentView === 'vapt') {
     return <VaptServicePage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
   }
@@ -70,12 +74,24 @@ export function AppRoutes({ currentView, setCurrentView, isDarkMode, onOpenAudit
   if (currentView === 'resources') {
     return <ResourcesPage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
   }
+  if (currentView === 'cybersecurity-consultancy') {
+    return <CybersecurityConsultancyServicePage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
+  }
+  if (currentView === 'it-cyber-solutions') {
+    return <ItCyberSolutionsServicePage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
+  }
+  if (currentView === 'cloud-hosting') {
+    return <CloudHostingServicePage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
+  }
+  if (currentView === 'digital-marketing') {
+    return <DigitalMarketingServicePage setCurrentView={setCurrentView} isDarkMode={isDarkMode} onOpenConsultation={onOpenAuditModal} />;
+  }
   if (currentView === 'not-found') {
     return (
       <section className="min-h-[70vh] flex flex-col items-center justify-center gap-4 px-6 text-center">
         <h1 className="text-4xl font-bold">Page not found</h1>
         <p className="text-slate-600 dark:text-stone-400">The page you requested does not exist.</p>
-        <button type="button" onClick={() => setCurrentView('home')} className="px-5 py-3 rounded-lg bg-orange-500 text-white font-semibold">
+        <button type="button" onClick={() => setCurrentView('home')} className="px-5 py-3 rounded-lg bg-purple-500 text-white font-semibold">
           Return home
         </button>
       </section>

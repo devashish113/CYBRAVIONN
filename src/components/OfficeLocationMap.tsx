@@ -23,11 +23,11 @@ const OFFICE_DETAILS = {
   cin: "U62099DL2026PTC470901",
   lat: 28.519429,
   lng: 77.201125,
-  label: "New Delhi, Delhi, India",
+  label: "New Delhi, Delhi",
   street: "H. IN.KH.NO.293 S/F Western Marg, Saidulajab",
   landmark: "Near Kher Singh Estate",
   cityStateZip: "New Delhi, Delhi 110030",
-  country: "India",
+  country: "",
   primaryPhone: "+91-7258880881",
   alternatePhone: "+91-9358683634",
   email: "cybravions@gmail.com",
@@ -53,18 +53,18 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({ isDarkMode
         
         {/* Section Header */}
         <div className="text-center mb-14">
-          <span className="text-xs uppercase tracking-[0.3em] text-orange-500 font-mono font-bold block mb-2">
+          <span className="text-xs uppercase tracking-[0.3em] text-purple-500 font-mono font-bold block mb-2">
             Registered Headquarters &amp; Physical Presence
           </span>
           <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight ${
             isDarkMode ? 'text-white' : 'text-slate-950'
           }`}>
-            Where to Find <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-400 to-blue-500">CYBRAVION</span>
+            Where to Find <span className="text-slate-950 dark:text-white font-semibold">CYBRAVION</span>
           </h2>
           <p className={`text-sm sm:text-base max-w-2xl mx-auto mt-3 font-normal ${
             isDarkMode ? 'text-stone-300' : 'text-slate-600'
           }`}>
-            Incorporated Indian enterprise with active global cybersecurity defense coverage, sovereign laboratories, and client advisory operations.
+            Incorporated enterprise with comprehensive cybersecurity services, security testing laboratories, and client advisory operations.
           </p>
         </div>
 
@@ -86,8 +86,8 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({ isDarkMode
                 ? 'bg-stone-900/90 border-stone-700 text-stone-200' 
                 : 'bg-white/95 border-slate-300 text-slate-800'
             }`}>
-              <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping" />
-              <MapPin size={13} className="text-orange-500" />
+              <span className="w-2 h-2 rounded-full bg-purple-500 animate-ping" />
+              <MapPin size={13} className="text-purple-500" />
               <span>{OFFICE_DETAILS.label} (GPS: 28.5194° N, 77.2011° E)</span>
             </div>
 
@@ -96,7 +96,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({ isDarkMode
               href={directionsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-lg cursor-pointer"
+              className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-500 hover:bg-purple-600 text-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-lg cursor-pointer"
             >
               <Navigation size={13} />
               <span>Get Directions</span>
@@ -133,12 +133,12 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({ isDarkMode
             }`}
           >
             {/* Background Glow */}
-            <div className="absolute -top-16 -right-16 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -top-16 -right-16 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div>
               {/* Header Badge */}
               <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-orange-500 font-bold flex items-center gap-1.5">
+                <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-purple-500 font-bold flex items-center gap-1.5">
                   <Building2 size={13} />
                   Incorporated Entity
                 </span>
@@ -170,7 +170,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({ isDarkMode
               <div className="space-y-4">
                 {/* Address */}
                 <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 shrink-0 mt-0.5">
+                  <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20 shrink-0 mt-0.5">
                     <MapPin size={16} />
                   </div>
                   <div>
@@ -184,7 +184,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({ isDarkMode
                     }`}>
                       <div>{OFFICE_DETAILS.street}</div>
                       <div className={`text-xs ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>{OFFICE_DETAILS.landmark}</div>
-                      <div className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-950'}`}>{OFFICE_DETAILS.cityStateZip}, {OFFICE_DETAILS.country}</div>
+                      <div className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-950'}`}>{OFFICE_DETAILS.cityStateZip}</div>
                     </div>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({ isDarkMode
                     <div className={`text-xs ${isDarkMode ? 'text-stone-200' : 'text-slate-800'}`}>
                       {OFFICE_DETAILS.hours}
                     </div>
-                    <div className="text-[10px] text-orange-500 font-mono mt-0.5 font-semibold">
+                    <div className="text-[10px] text-purple-500 font-mono mt-0.5 font-semibold">
                       24/7 Rapid Incident Dispatch for Retained Clients
                     </div>
                   </div>
@@ -283,7 +283,7 @@ export const OfficeLocationMap: React.FC<OfficeLocationMapProps> = ({ isDarkMode
 
               <a
                 href={`mailto:${OFFICE_DETAILS.email}?subject=Enterprise%20Advisory%20Inquiry%20-%20CYBRAVION`}
-                className="py-2.5 px-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-md text-center cursor-pointer"
+                className="py-2.5 px-3 rounded-xl bg-purple-500 hover:bg-purple-600 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-md text-center cursor-pointer"
               >
                 <Mail size={13} />
                 <span>Send Dispatch</span>

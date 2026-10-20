@@ -1,21 +1,16 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { 
   Brain, 
   Gamepad2, 
-  Fingerprint, 
   ArrowRight, 
   ShieldCheck, 
-  Cpu, 
-  Lock, 
-  ExternalLink,
-  Sparkles,
   ShieldAlert,
   BellRing,
-  Radio
+  Radio,
+  CheckCircle2
 } from 'lucide-react';
-import { TiltCard3D } from './TiltCard3D';
 import { cyberAudio } from '../utils/cyberAudio';
+import { WaterGlassCard } from './WaterGlassCard';
 
 interface ProductsShowcaseProps {
   setCurrentView: (view: string) => void;
@@ -24,17 +19,18 @@ interface ProductsShowcaseProps {
 
 export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({ 
   setCurrentView,
-  isDarkMode = true 
+  isDarkMode: _isDarkMode = true 
 }) => {
   const products = [
     {
       id: 'threatforge',
+      num: '01',
       name: 'ThreatForge Platform',
       badge: 'THREAT MODELING',
-      tagline: 'STRIDE & PASTA Risk Engine',
+      tagline: 'Automated STRIDE & PASTA Engine',
       desc: 'Automated threat modeling and attack surface mapping with live attack tree generation, CVSS 3.1 quantitative scoring, and air-gapped threat narratives.',
       icon: ShieldAlert,
-      glow: 'orange' as const,
+      glow: 'amber' as const,
       features: [
         'Automated STRIDE & PASTA Analysis',
         'Interactive Attack Path Trees',
@@ -45,12 +41,13 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
     },
     {
       id: 'soc-ai',
+      num: '02',
       name: 'SOC AI Triage',
       badge: 'AUTONOMOUS SOAR',
-      tagline: 'Explainable AI Incident Triage',
+      tagline: 'Explainable AI Incident Investigation',
       desc: 'Sub-second autonomous SIEM alert investigation. Features SHAP explainable ML verdicts, ReAct investigation agents, and automated SOAR playbooks.',
       icon: BellRing,
-      glow: 'blue' as const,
+      glow: 'cyan' as const,
       features: [
         'Sub-Second Alert Investigation',
         'SHAP Mathematical Explainability',
@@ -61,12 +58,13 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
     },
     {
       id: 'exception-manager',
+      num: '03',
       name: 'AI Exception Manager',
       badge: 'COMPLIANCE GOVERNANCE',
       tagline: 'Automated Risk Waiver Platform',
       desc: 'Centralized compliance exception tracking platform with machine learning risk scoring, automated review workflows, and continuous policy drift governance.',
       icon: ShieldCheck,
-      glow: 'blue' as const,
+      glow: 'emerald' as const,
       features: [
         'Automated Risk Scoring & Telemetry',
         'ISO 27001 & SOC 2 Waiver Tracking',
@@ -77,25 +75,27 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
     },
     {
       id: 'cyberverse',
+      num: '04',
       name: 'CyberRange Arena',
       badge: 'DEFENSE SANDBOX',
-      tagline: 'Gamified CyberQuest Training',
+      tagline: 'Adversary Emulation & Hands-on Labs',
       desc: 'Browser-based hands-on cyber defense sandboxes, active adversary emulation scenarios, and interactive incident response training for technical teams.',
       icon: Gamepad2,
-      glow: 'orange' as const,
+      glow: 'purple' as const,
       features: [
         'Interactive Kali & CTF Sandboxes',
         'Hands-on Cryptography & Web Exploits',
-        'CISM Real-World Scenario Quests'
+        'Real-World Incident Response Quests'
       ],
       actionLabel: 'Launch CyberRange Labs',
       targetView: 'cyberverse'
     },
     {
       id: 'threat-collector',
+      num: '05',
       name: 'Threat Intel Collector',
       badge: 'INGESTION ENGINE',
-      tagline: 'MISP & OTX Intelligence Hub',
+      tagline: 'Unified MISP & OTX Intelligence Hub',
       desc: 'Ingests, deduplicates, and scores IOCs from MISP, AlienVault OTX, and URLhaus with automated STIX 2.1 air-gap export bundles for isolated enclaves.',
       icon: Radio,
       glow: 'blue' as const,
@@ -109,16 +109,17 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
     },
     {
       id: 'ai',
+      num: '06',
       name: 'Cybravions AI',
-      badge: 'AIR-GAPPED SOVEREIGN AI',
+      badge: 'AIR-GAPPED PRIVATE AI',
       tagline: 'Private Enterprise Neural Appliance',
       desc: 'Deploy high-performance agentic AI directly inside private infrastructure with mathematical data isolation and zero cloud telemetry.',
       icon: Brain,
-      glow: 'blue' as const,
+      glow: 'cyan' as const,
       features: [
         '100% Offline & Private VPC Isolation',
         'Zero Cloud Model Data Leakage',
-        'Prompt Armor & Model Safety Boundary'
+        'Prompt Armor & Safety Boundary'
       ],
       actionLabel: 'Explore Cybravions AI',
       targetView: 'ai'
@@ -132,86 +133,80 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
   };
 
   return (
-    <section id="products" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-slate-50/50 dark:bg-stone-950/40 border-t border-slate-200/80 dark:border-stone-900">
+    <section id="products" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent border-t border-neutral-200 dark:border-white/[0.08]">
       <div className="max-w-7xl mx-auto">
         
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-orange-500 font-mono font-bold block mb-2">
-            PROPRIETARY PLATFORMS
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            What We Build
+        {/* Section Header with Sarvam Craft */}
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-neutral-500 dark:text-neutral-400 text-shadow-subtle">
+              Proprietary Defense Engines
+            </span>
+          </div>
+          <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-neutral-900 dark:text-white tracking-tight text-shadow-editorial">
+            Autonomous Platforms &amp; Secure Core
           </h2>
-          <p className="text-slate-600 dark:text-stone-400 text-sm sm:text-base max-w-xl mt-3 font-normal mx-auto">
-            Engineered software and sovereign appliances designed to solve structural security and governance challenges.
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base mt-4 font-normal leading-relaxed">
+            Engineered defense software and private neural appliances built to solve structural security, compliance, and governance challenges across modern enterprise environments.
           </p>
         </div>
 
-        {/* 6 Enterprise Product Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* 6 High-Craft Enterprise Product Cards with Glassmorphism & Water Surface Physics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((prod) => {
             const Icon = prod.icon;
-            const isBlue = prod.glow === 'blue';
             return (
-              <TiltCard3D key={prod.id} glowColor={prod.glow}>
-                <div className="flex flex-col h-full justify-between group p-2">
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <div className={`p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 shadow-sm group-hover:scale-110 transition-all duration-300 ${
-                        isBlue 
-                          ? 'text-blue-600 dark:text-blue-400 group-hover:border-blue-500/50 group-hover:bg-blue-500/10' 
-                          : 'text-orange-500 dark:text-orange-400 group-hover:border-orange-500/50 group-hover:bg-orange-500/10'
-                      }`}>
-                        <Icon size={24} />
+              <WaterGlassCard 
+                key={prod.id}
+                accentGlow={prod.glow}
+                className="p-7 sm:p-8 flex flex-col justify-between h-full"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-2xl bg-neutral-100 dark:bg-white/[0.05] border border-neutral-200 dark:border-white/10 backdrop-blur-md text-neutral-900 dark:text-white flex items-center justify-center transition-all duration-300 group-hover/water:scale-105 group-hover/water:border-neutral-300 dark:group-hover/water:border-white/30 shadow-xs">
+                        <Icon size={20} aria-hidden="true" className="text-amber-500 dark:text-amber-400 transition-colors" />
                       </div>
-                      <span className={`text-[10px] uppercase font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full border ${
-                        isBlue
-                          ? 'text-blue-500 border-blue-500/30 bg-blue-500/10'
-                          : 'text-orange-500 border-orange-500/30 bg-orange-500/10'
-                      }`}>
-                        {prod.badge}
+                      <span className="font-mono text-xs font-bold text-neutral-400 dark:text-neutral-500">
+                        {prod.num}
                       </span>
                     </div>
-
-                    <h3 className={`text-xl font-bold text-slate-900 dark:text-white mb-1 transition-colors ${
-                      isBlue ? 'group-hover:text-blue-600 dark:group-hover:text-blue-400' : 'group-hover:text-orange-500 dark:group-hover:text-orange-400'
-                    }`}>
-                      {prod.name}
-                    </h3>
-                    <p className={`text-xs uppercase font-semibold mb-3 tracking-wider ${
-                      isBlue ? 'text-blue-500' : 'text-orange-500'
-                    }`}>
-                      {prod.tagline}
-                    </p>
-
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-stone-300 font-normal leading-relaxed mb-6">
-                      {prod.desc}
-                    </p>
-
-                    <div className="space-y-2 mb-6 pt-2 border-t border-slate-100 dark:border-stone-800/80">
-                      {prod.features.map((feat, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-xs text-slate-700 dark:text-stone-300">
-                          <span className={`w-1.5 h-1.5 rounded-full ${isBlue ? 'bg-blue-500' : 'bg-orange-500'}`} />
-                          <span>{feat}</span>
-                        </div>
-                      ))}
-                    </div>
+                    <span className="text-[10px] uppercase font-mono font-semibold tracking-wider px-3 py-1 rounded-full border border-neutral-200 dark:border-white/10 text-neutral-700 dark:text-neutral-300 bg-neutral-100/80 dark:bg-white/[0.04] backdrop-blur-md shadow-xs">
+                      {prod.badge}
+                    </span>
                   </div>
 
-                  <button
-                    onClick={() => handleProductClick(prod.targetView)}
-                    className={`w-full py-3.5 px-4 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer mt-2 shadow-sm group/btn ${
-                      isBlue
-                        ? 'bg-slate-900 hover:bg-blue-600 text-white dark:bg-stone-900 dark:hover:bg-blue-600/30 border-slate-800 dark:border-stone-700/80 dark:hover:border-blue-500/60 dark:text-blue-300 dark:hover:text-white'
-                        : 'bg-slate-900 hover:bg-orange-600 text-white dark:bg-stone-900 dark:hover:bg-orange-600/30 border-slate-800 dark:border-stone-700/80 dark:hover:border-orange-500/60 dark:text-orange-300 dark:hover:text-white'
-                    }`}
-                  >
-                    <span>{prod.actionLabel}</span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
+                  <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-1.5 transition-colors group-hover/water:text-neutral-950 dark:group-hover/water:text-white">
+                    {prod.name}
+                  </h3>
+                  <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 mb-3 tracking-normal">
+                    {prod.tagline}
+                  </p>
+
+                  <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 font-normal leading-relaxed mb-6">
+                    {prod.desc}
+                  </p>
+
+                  <div className="space-y-2.5 mb-7 pt-4 border-t border-neutral-200/80 dark:border-white/[0.08]">
+                    {prod.features.map((feat, idx) => (
+                      <div key={idx} className="flex items-center gap-2.5 text-xs text-neutral-800 dark:text-neutral-200">
+                        <CheckCircle2 size={14} aria-hidden="true" className="text-emerald-500 shrink-0" />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </TiltCard3D>
+
+                <button
+                  type="button"
+                  onClick={() => handleProductClick(prod.targetView)}
+                  className="w-full py-3.5 px-4 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer mt-auto bg-neutral-950/90 text-white hover:bg-neutral-900 dark:bg-white/[0.08] dark:text-white dark:border dark:border-white/15 dark:hover:bg-white dark:hover:text-neutral-950 dark:hover:border-white shadow-sm active:scale-[0.98] group/btn backdrop-blur-md"
+                >
+                  <span>{prod.actionLabel}</span>
+                  <ArrowRight size={14} aria-hidden="true" className="group-hover/btn:translate-x-1.5 transition-transform duration-200" />
+                </button>
+              </WaterGlassCard>
             );
           })}
         </div>

@@ -16,6 +16,7 @@ import {
   Briefcase
 } from 'lucide-react';
 import { TiltCard3D } from './TiltCard3D';
+import { WaterGlassCard } from './WaterGlassCard';
 import { cyberAudio } from '../utils/cyberAudio';
 
 interface WhyCybravionProps {
@@ -36,7 +37,7 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
       title: "OFFENSIVE + DEFENSIVE",
       desc: "Red team intelligence directly informs defensive architecture.",
       icon: Target,
-      glow: "orange" as const
+      glow: "purple" as const
     },
     {
       tag: "EXECUTIVE",
@@ -50,7 +51,7 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
       title: "CONTINUOUS GOVERNANCE",
       desc: "Security posture doesn't end with a static PDF report.",
       icon: Zap,
-      glow: "orange" as const
+      glow: "purple" as const
     },
     {
       tag: "COMPLIANCE",
@@ -83,7 +84,7 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
       industry: "Healthcare Network",
       icon: Heart,
       title: "HIPAA & ISO 27001 ISMS Alignment for Hospital Chain",
-      glow: "orange" as const,
+      glow: "purple" as const,
       problem: "A multi-hospital healthcare provider faced regulatory penalties following medical device vulnerabilities and fragmented data privacy.",
       solution: "We conducted a full HIPAA & ISO 27001 gap assessment, rebuilt the ISMS suite, and trained 1,200+ staff on medical phishing defense.",
       results: [
@@ -124,71 +125,68 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
         
         {/* Section Header */}
         <div className="text-center mb-14">
-          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-2 block font-bold font-mono">
+          <span className="text-xs uppercase tracking-[0.3em] text-amber-700 dark:text-amber-400 mb-2 block font-bold font-mono">
             WHY CYBRAVION
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Why High-Consequence Organizations Trust CYBRAVION
           </h2>
-          <p className="text-slate-600 dark:text-stone-400 text-sm sm:text-base max-w-2xl mt-3 font-normal mx-auto">
+          <p className="text-slate-700 dark:text-stone-300 text-sm sm:text-base max-w-2xl mt-3 font-normal mx-auto">
             Combining proactive offensive intelligence with unyielding regulatory governance to safeguard mission-critical assets.
           </p>
         </div>
 
         {/* Top Proof Bar / Stat Badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
-          <div className="p-4 rounded-2xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 text-center shadow-sm">
-            <div className="text-xs font-mono font-bold text-orange-500 uppercase tracking-wider mb-1">Registered Entity</div>
-            <div className="text-sm font-bold text-slate-900 dark:text-white">Govt. of India MCA</div>
-            <div className="text-[10px] text-slate-500 dark:text-stone-400 font-mono mt-0.5">CIN: U62099DL2026PTC470901</div>
-          </div>
+          <WaterGlassCard className="p-4 text-center">
+            <div className="text-xs font-mono font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-1">Registered Entity</div>
+            <div className="text-sm font-bold text-slate-900 dark:text-white">MCA Corporate Entity</div>
+            <div className="text-[10px] text-slate-600 dark:text-stone-300 font-mono mt-0.5">CIN: U62099DL2026PTC470901</div>
+          </WaterGlassCard>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 text-center shadow-sm">
-            <div className="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider mb-1">Compliance Frameworks</div>
+          <WaterGlassCard className="p-4 text-center">
+            <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-1">Compliance Frameworks</div>
             <div className="text-sm font-bold text-slate-900 dark:text-white">ISO 27001 &bull; SOC 2 &bull; NIST</div>
-            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">DPDP Act &bull; GDPR &bull; HIPAA Alignment</div>
-          </div>
+            <div className="text-[10px] text-slate-600 dark:text-stone-300 mt-0.5">DPDP Act &bull; GDPR &bull; HIPAA Alignment</div>
+          </WaterGlassCard>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 text-center shadow-sm">
-            <div className="text-xs font-mono font-bold text-orange-500 uppercase tracking-wider mb-1">Architecture Scale</div>
+          <WaterGlassCard className="p-4 text-center">
+            <div className="text-xs font-mono font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-1">Architecture Scale</div>
             <div className="text-sm font-bold text-slate-900 dark:text-white">Enterprise Cloud &amp; AI</div>
-            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">Zero-Trust IAM &amp; Micro-Segmentation</div>
-          </div>
+            <div className="text-[10px] text-slate-600 dark:text-stone-300 mt-0.5">Zero-Trust IAM &amp; Micro-Segmentation</div>
+          </WaterGlassCard>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 text-center shadow-sm">
-            <div className="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider mb-1">Jurisdictional Reach</div>
+          <WaterGlassCard className="p-4 text-center">
+            <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-1">Jurisdictional Reach</div>
             <div className="text-sm font-bold text-slate-900 dark:text-white">Global Regulatory Align</div>
-            <div className="text-[10px] text-slate-500 dark:text-stone-400 mt-0.5">India, Middle East, EU &amp; US Mandates</div>
-          </div>
+            <div className="text-[10px] text-slate-600 dark:text-stone-300 mt-0.5">Multi-Region, EU, UK &amp; US Mandates</div>
+          </WaterGlassCard>
         </div>
 
         {/* 4 Compact Horizontal Proof Pillars */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
           {pillars.map((p, idx) => {
             const Icon = p.icon;
-            const isBlue = p.glow === 'blue';
             return (
-              <div 
+              <WaterGlassCard 
                 key={idx}
-                className="p-5 rounded-2xl bg-white/90 dark:bg-stone-900/70 border border-slate-200 dark:border-stone-800/90 shadow-sm hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all group"
+                className="p-5"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <div className={`p-2.5 rounded-xl bg-slate-100 dark:bg-stone-800 ${
-                    isBlue ? 'text-blue-600 dark:text-blue-400' : 'text-orange-500 dark:text-orange-400'
-                  }`}>
-                    <Icon size={20} />
+                  <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-white/[0.06] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+                    <Icon size={20} aria-hidden="true" />
                   </div>
-                  <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-stone-500">
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-600 dark:text-stone-400">
                     {p.tag}
                   </span>
                 </div>
                 <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-slate-900 dark:text-white mb-1.5">
                   {p.title}
                 </h3>
-                <p className="text-xs text-slate-600 dark:text-stone-300 font-normal leading-relaxed">
+                <p className="text-xs text-slate-700 dark:text-stone-300 font-normal leading-relaxed">
                   {p.desc}
                 </p>
-              </div>
+              </WaterGlassCard>
             );
           })}
         </div>
@@ -197,7 +195,7 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
         <div className="mb-14">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
-              <span className="text-xs uppercase tracking-widest text-blue-600 dark:text-blue-400 font-mono font-bold block mb-1">
+              <span className="text-xs uppercase tracking-widest text-amber-700 dark:text-amber-400 font-mono font-bold block mb-1">
                 Proven Track Record
               </span>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -205,7 +203,7 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
               </h3>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs text-slate-500 dark:text-stone-400 font-medium mr-1">Industries:</span>
+              <span className="text-xs text-slate-600 dark:text-stone-400 font-medium mr-1">Industries:</span>
               {industries.map((ind, i) => (
                 <span 
                   key={i} 
@@ -225,11 +223,11 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
                   <div className="flex flex-col h-full justify-between">
                     <div>
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-[11px] font-mono font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                        <span className="text-[11px] font-mono font-bold text-blue-700 dark:text-blue-400 uppercase tracking-wider">
                           {cs.industry}
                         </span>
                         <div className="p-2 rounded-xl bg-slate-100 dark:bg-stone-800 text-slate-700 dark:text-stone-300">
-                          <Icon size={16} />
+                          <Icon size={16} aria-hidden="true" />
                         </div>
                       </div>
 
@@ -237,21 +235,21 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
                         {cs.title}
                       </h4>
 
-                      <p className="text-xs text-slate-600 dark:text-stone-300 font-normal leading-relaxed mb-4">
+                      <p className="text-xs text-slate-700 dark:text-stone-300 font-normal leading-relaxed mb-4">
                         {cs.problem}
                       </p>
 
                       <div className="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 dark:border-stone-800/80 mb-4 bg-slate-50/50 dark:bg-stone-900/40 rounded-xl px-2">
                         {cs.results.map((r, i) => (
                           <div key={i} className="text-center">
-                            <div className="text-xs font-bold text-orange-500 font-mono">{r.metric}</div>
-                            <div className="text-[9px] text-slate-500 dark:text-stone-400 font-sans leading-tight mt-0.5">{r.label}</div>
+                            <div className="text-xs font-bold text-amber-700 dark:text-amber-400 font-mono">{r.metric}</div>
+                            <div className="text-[9px] text-slate-600 dark:text-stone-300 font-sans leading-tight mt-0.5">{r.label}</div>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="text-[10px] text-slate-500 dark:text-stone-400 font-mono">
+                    <div className="text-[10px] text-slate-600 dark:text-stone-300 font-mono">
                       &bull; Architecture Scope &bull; {cs.role}
                     </div>
                   </div>
@@ -265,14 +263,15 @@ export const WhyCybravion: React.FC<WhyCybravionProps> = ({
         <div className="text-center">
           {onOpenAuditModal && (
             <button
+              type="button"
               onClick={() => {
                 cyberAudio.playClick();
                 onOpenAuditModal();
               }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-mono font-bold bg-slate-900 hover:bg-orange-500 text-white dark:bg-stone-900 dark:hover:bg-orange-600 border border-slate-700 dark:border-stone-700 transition-all cursor-pointer shadow-md group"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-mono font-bold bg-slate-900 hover:bg-neutral-800 text-white dark:bg-stone-900 dark:hover:bg-neutral-800 border border-slate-700 dark:border-stone-700 transition-all cursor-pointer shadow-md group"
             >
               <span>Explore Custom Enterprise Scoping</span>
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={14} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
             </button>
           )}
         </div>

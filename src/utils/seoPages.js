@@ -11,7 +11,7 @@ export const seoPages = {
   },
   '/ai': {
     view: 'ai',
-    title: 'Cybravions AI | Sovereign, Air-Gapped AI Appliance',
+    title: 'Cybravions AI | On-Premises, Air-Gapped AI Appliance',
     description: 'Explore Cybravions AI, an on-premises and air-gapped AI appliance for organizations with strict data-control requirements.',
   },
   '/cyberverse': {
@@ -51,38 +51,58 @@ export const seoPages = {
   },
   '/vapt': {
     view: 'vapt',
-    title: 'VAPT Services in Delhi NCR & India | CYBRAVION Solutions',
-    description: 'Top-tier VAPT services in New Delhi NCR & India. CERT-In aligned manual penetration testing for web apps, mobile, APIs, networks, and cloud. Zero false positives.',
+    title: 'VAPT Services & Offensive Penetration Testing | CYBRAVION Solutions',
+    description: 'Top-tier VAPT services for enterprise organizations. CERT-In and OWASP aligned manual penetration testing for web apps, mobile, APIs, networks, and cloud. Zero false positives.',
   },
   '/iso-27001': {
     view: 'iso-27001',
-    title: 'ISO 27001 Certification & Consulting in India | CYBRAVION Solutions',
-    description: 'Guaranteed ISO 27001:2022 certification consulting in Delhi NCR & India. Fast-track 8-week ISMS implementation roadmap, cost breakdown, gap analysis, and Stage 2 audit readiness.',
+    title: 'ISO 27001 Certification & Consulting | CYBRAVION Solutions',
+    description: 'Guaranteed ISO 27001:2022 certification consulting for global organizations. Fast-track 8-week ISMS implementation roadmap, cost breakdown, gap analysis, and Stage 2 audit readiness.',
   },
   '/soc-2': {
     view: 'soc-2',
     title: 'SOC 2 Type II Compliance & Readiness Advisory | CYBRAVION Solutions',
-    description: 'Fast-track your SOC 2 Type I & Type II compliance in India. AICPA Trust Services Criteria scoping, gap assessment, automated evidence, and CPA audit readiness.',
+    description: 'Fast-track your SOC 2 Type I & Type II compliance. AICPA Trust Services Criteria scoping, gap assessment, automated evidence, and CPA audit readiness.',
   },
   '/cloud-security': {
     view: 'cloud-security',
     title: 'Cloud Security Assessment & DevSecOps Engineering | CYBRAVION Solutions',
-    description: 'Enterprise cloud security audits for AWS, Azure, GCP, and Kubernetes in India. IAM privilege hardening, CSPM, CIS benchmarks, and automated DevSecOps CI/CD pipeline security.',
+    description: 'Enterprise cloud security audits for AWS, Azure, GCP, and Kubernetes. IAM privilege hardening, CSPM, CIS benchmarks, and automated DevSecOps CI/CD pipeline security.',
   },
   '/ai-security': {
     view: 'ai-security',
     title: 'AI Security Testing & LLM Red Teaming | CYBRAVION Solutions',
-    description: 'Pioneering AI security testing and LLM red teaming in India. Guard against OWASP Top 10 for LLMs, prompt injection, RAG data poisoning, and unauthorized autonomous actions.',
+    description: 'Pioneering AI security testing and LLM red teaming for enterprises. Guard against OWASP Top 10 for LLMs, prompt injection, RAG data poisoning, and unauthorized autonomous actions.',
   },
   '/dpdp-compliance': {
     view: 'dpdp-compliance',
-    title: 'DPDP Act 2023 Compliance & Indian Regulatory Advisory | CYBRAVION Solutions',
-    description: 'Turnkey DPDP Act 2023 compliance consulting in Delhi NCR & India. Data Fiduciary readiness, consent architecture, DPO advisory, CERT-In alignment, and penalty prevention.',
+    title: 'DPDP Act 2023 Compliance & Statutory Advisory | CYBRAVION Solutions',
+    description: 'Turnkey DPDP Act 2023 compliance consulting for modern enterprises. Data Fiduciary readiness, consent architecture, DPO advisory, CERT-In alignment, and penalty prevention.',
   },
   '/resources': {
     view: 'resources',
     title: 'Regulatory Resource Center & Cybersecurity Guides | CYBRAVION',
     description: 'In-depth cybersecurity compliance guides, checklists, and technical blueprints. Master the DPDP Act 2023, ISO 27001:2022, VAPT scoping, and CERT-In directives.',
+  },
+  '/services/cybersecurity-consultancy': {
+    view: 'cybersecurity-consultancy',
+    title: 'Cybersecurity Consultancy & GRC Services | CYBRAVION Solutions',
+    description: 'Enterprise cybersecurity consultancy. GRC, TPRM, SCRM, VAPT, WAPT, Threat Modeling, ISO 27001, and statutory compliance advisory.',
+  },
+  '/services/it-cyber-solutions': {
+    view: 'it-cyber-solutions',
+    title: 'IT & Cyber Solutions | AI/ML SOC Triage & GRC Automation | CYBRAVION Solutions',
+    description: 'Custom cybersecurity software engineering, AI/ML-driven SOC alert triage engines, GRC workflow automation, and enterprise microservices security hardening.',
+  },
+  '/services/cloud-hosting': {
+    view: 'cloud-hosting',
+    title: 'Enterprise Cloud Deployment & Zero-Trust Infrastructure | CYBRAVION Solutions',
+    description: 'High-availability enterprise cloud deployment and hosting for business applications and websites. Tier-3/4 data center partnerships, DDoS mitigation, WAF gating, and zero-trust mesh architecture.',
+  },
+  '/services/digital-marketing': {
+    view: 'digital-marketing',
+    title: 'Digital Marketing & B2B Visibility Architecture | CYBRAVION Solutions',
+    description: 'Strategic B2B & B2G digital presence engineering, technical SEO, conversion rate optimization, and brand narrative positioning for technology and security enterprises.',
   },
 };
 

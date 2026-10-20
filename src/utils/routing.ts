@@ -16,6 +16,10 @@ export type AppView =
   | 'ai-security'
   | 'dpdp-compliance'
   | 'resources'
+  | 'cybersecurity-consultancy'
+  | 'it-cyber-solutions'
+  | 'cloud-hosting'
+  | 'digital-marketing'
   | 'not-found';
 
 const viewPaths: Record<Exclude<AppView, 'not-found'>, string> = {
@@ -36,11 +40,24 @@ const viewPaths: Record<Exclude<AppView, 'not-found'>, string> = {
   'ai-security': '/ai-security',
   'dpdp-compliance': '/dpdp-compliance',
   resources: '/resources',
+  'cybersecurity-consultancy': '/services/cybersecurity-consultancy',
+  'it-cyber-solutions': '/services/it-cyber-solutions',
+  'cloud-hosting': '/services/cloud-hosting',
+  'digital-marketing': '/services/digital-marketing',
 };
 
 const pathViews = Object.fromEntries(
   Object.entries(viewPaths).map(([view, path]) => [path, view]),
 ) as Record<string, Exclude<AppView, 'not-found'>>;
+
+// Additional friendly aliases for direct URLs
+pathViews['/cybersecurity-consultancy'] = 'cybersecurity-consultancy';
+pathViews['/it-cyber-solutions'] = 'it-cyber-solutions';
+pathViews['/cloud-hosting'] = 'cloud-hosting';
+pathViews['/cloud-deployment'] = 'cloud-hosting';
+pathViews['/services/cloud-deployment'] = 'cloud-hosting';
+pathViews['/digital-marketing'] = 'digital-marketing';
+pathViews['/services/training'] = 'training';
 
 const hashViews: Record<string, Exclude<AppView, 'not-found'>> = {
   '#about': 'about',
@@ -68,6 +85,16 @@ const hashViews: Record<string, Exclude<AppView, 'not-found'>> = {
   '#dpdp-compliance': 'dpdp-compliance',
   '#resources': 'resources',
   '#blog': 'resources',
+  '#cybersecurity-consultancy': 'cybersecurity-consultancy',
+  '#consultancy': 'cybersecurity-consultancy',
+  '#it-cyber-solutions': 'it-cyber-solutions',
+  '#cyber-solutions': 'it-cyber-solutions',
+  '#cloud-hosting': 'cloud-hosting',
+  '#cloud-deployment': 'cloud-hosting',
+  '#deployment': 'cloud-hosting',
+  '#hosting': 'cloud-hosting',
+  '#digital-marketing': 'digital-marketing',
+  '#marketing': 'digital-marketing',
 };
 
 export function resolveAppView(pathname: string, hash = ''): AppView {

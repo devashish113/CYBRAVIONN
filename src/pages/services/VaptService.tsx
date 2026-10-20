@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../../utils/cyberAudio';
+import { PageHeader } from '../../components/PageHeader';
 
 interface VaptServiceProps {
   setCurrentView?: (view: string) => void;
@@ -28,6 +29,7 @@ interface VaptServiceProps {
 
 export const VaptServicePage: React.FC<VaptServiceProps> = ({
   setCurrentView,
+  isDarkMode = true,
   onOpenConsultation
 }) => {
   const [activeScope, setActiveScope] = useState<'web' | 'api' | 'mobile' | 'cloud' | 'network'>('web');
@@ -97,8 +99,8 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
       a: 'Vulnerability Assessment (VA) is an automated, high-level scanning process designed to identify known security weaknesses across systems. Penetration Testing (PT) goes much further: our certified ethical hackers manually exploit those vulnerabilities to verify impact, chain multiple low-risk flaws into critical exploits, and test your team’s defensive detection capabilities.'
     },
     {
-      q: 'Is CYBRAVION’s VAPT audit certified for Indian regulatory compliance like CERT-In and RBI?',
-      a: 'Yes. Our VAPT audit methodologies strictly comply with CERT-In directives, RBI Cybersecurity Framework guidelines for banks and NBFCs, SEBI cyber circulars, and the DPDP Act 2023 requirements. Our reports include executive summaries and technical annexures structured for immediate regulatory submission.'
+      q: 'Is CYBRAVION’s VAPT audit certified for regulatory compliance like CERT-In and RBI?',
+      a: 'Yes. Our VAPT audit methodologies strictly comply with CERT-In directives, RBI Cybersecurity Framework guidelines for banks and NBFCs, SEBI cyber circulars, and statutory privacy requirements. Our reports include executive summaries and technical annexures structured for immediate regulatory submission.'
     },
     {
       q: 'Will penetration testing cause downtime or disruption to our production systems?',
@@ -109,7 +111,7 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
       a: 'Yes! Every CYBRAVION VAPT engagement includes one complimentary round of comprehensive re-testing within 30 to 60 days of the initial report. Once our team verifies all remediations, we issue a formal Security Clearance Certificate.'
     },
     {
-      q: 'How quickly can we initiate a VAPT engagement in Delhi NCR or remotely?',
+      q: 'How quickly can we initiate a VAPT engagement on-premise or remotely?',
       a: 'We can scope and initiate engagements within 24 to 48 hours. After signing the Mutual Non-Disclosure Agreement (NDA) and Rules of Engagement (RoE), our security engineering team begins active reconnaissance immediately.'
     }
   ];
@@ -134,12 +136,9 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
       }
     },
     areaServed: [
-      { '@type': 'City', 'name': 'New Delhi' },
-      { '@type': 'AdministrativeArea', 'name': 'Delhi NCR' },
-      { '@type': 'Country', 'name': 'India' },
       { '@type': 'Place', 'name': 'Worldwide' }
     ],
-    description: 'Enterprise VAPT services in New Delhi NCR and India. OWASP Top 10, CERT-In aligned manual penetration testing for Web, Mobile, API, and Cloud Networks.',
+    description: 'Enterprise VAPT services. OWASP Top 10, CERT-In aligned manual penetration testing for Web, Mobile, API, and Cloud Networks.',
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'VAPT Services Portfolio',
@@ -153,95 +152,78 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
   };
 
   return (
-    <div className="pt-24 min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
       <Helmet>
-        <title>VAPT Services in Delhi NCR & India | CYBRAVION Solutions</title>
-        <meta name="description" content="Top-tier VAPT services in New Delhi NCR & India. CERT-In aligned manual penetration testing for web apps, mobile, APIs, networks, and cloud. Zero false positives." />
+        <title>VAPT Services & Offensive Penetration Testing | CYBRAVION Solutions</title>
+        <meta name="description" content="Top-tier VAPT services for enterprise organizations. CERT-In aligned manual penetration testing for web apps, mobile, APIs, networks, and cloud. Zero false positives." />
         <link rel="canonical" href="https://cybravions.com/vapt" />
-        <meta property="og:title" content="VAPT Services in Delhi NCR & India | CYBRAVION Solutions" />
-        <meta property="og:description" content="Enterprise VAPT services in India. OWASP Top 10 & SANS 25 certified manual penetration testing for Web, API, Mobile, and Cloud environments." />
+        <meta property="og:title" content="VAPT Services & Offensive Penetration Testing | CYBRAVION Solutions" />
+        <meta property="og:description" content="Enterprise VAPT services. OWASP Top 10 & SANS 25 certified manual penetration testing for Web, API, Mobile, and Cloud environments." />
         <meta property="og:url" content="https://cybravions.com/vapt" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      {/* Background Gradients */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 -right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
-      </div>
+      {/* Subtle Architectural Vignette */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none opacity-40 dark:opacity-20 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]"
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 70%)' }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-12">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-8 text-sm text-slate-500 dark:text-stone-400">
-          <ol className="flex items-center space-x-2">
-            <li>
-              <button 
-                type="button" 
-                onClick={() => setCurrentView?.('home')} 
-                className="hover:text-orange-500 transition-colors"
-              >
-                Home
-              </button>
-            </li>
-            <li>/</li>
-            <li>Services</li>
-            <li>/</li>
-            <li className="text-orange-600 dark:text-orange-400 font-medium">VAPT Services</li>
-          </ol>
-        </nav>
-
-        {/* Hero Section */}
-        <header className="mb-20 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-xs font-semibold tracking-wider uppercase mb-6">
-            <ShieldCheck className="w-4 h-4" />
-            <span>Offensive Cybersecurity &amp; Ethical Hacking Authority</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
-            Enterprise <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-blue-500 bg-clip-text text-transparent">VAPT Services</span> in Delhi NCR &amp; India
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 dark:text-stone-300 max-w-3xl leading-relaxed mb-8">
-            Expose and remediate critical security vulnerabilities before adversaries exploit them. CYBRAVION delivers rigorous, CERT-In aligned Vulnerability Assessment &amp; Penetration Testing across web apps, APIs, cloud environments, and enterprise networks. Zero false positives, deep manual exploit verification, and free re-testing.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-4 justify-center lg:justify-start">
+      <PageHeader
+        kicker="Offensive Cybersecurity & Ethical Hacking Authority"
+        title="Enterprise VAPT Services &"
+        italicTitle="Penetration Testing."
+        description="Expose and remediate critical security vulnerabilities before adversaries exploit them. CYBRAVION delivers rigorous, CERT-In aligned Vulnerability Assessment & Penetration Testing across web apps, APIs, cloud environments, and enterprise networks. Zero false positives, deep manual exploit verification, and free re-testing."
+        isDarkMode={isDarkMode}
+        breadcrumbs={[
+          { label: 'Home', onClick: () => setCurrentView?.('home') },
+          { label: 'Services', onClick: () => setCurrentView?.('home') },
+          { label: 'VAPT Services', active: true }
+        ]}
+        actions={
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
             <button
               type="button"
               onClick={() => {
                 cyberAudio.playClick();
                 onOpenConsultation?.();
               }}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold shadow-lg shadow-orange-500/25 flex items-center gap-2 transition-all transform hover:-translate-y-0.5"
+              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
               <span>Schedule Free VAPT Scoping</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </button>
             <a
               href="#scopes"
-              className="px-6 py-4 rounded-xl bg-slate-100 dark:bg-stone-900/80 border border-slate-300 dark:border-stone-800 text-slate-800 dark:text-stone-200 font-semibold hover:bg-slate-200 dark:hover:bg-stone-800 transition-colors"
+              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
-              Explore Testing Scopes
+              <span>Explore Testing Scopes</span>
             </a>
           </div>
-        </header>
+        }
+      />
 
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-16">
         {/* Trust Badges */}
         <section className="mb-20 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div className="p-6 rounded-2xl bg-white/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80">
-            <div className="text-3xl font-extrabold text-orange-500 mb-1">100%</div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-stone-400">Manual Exploit Verification</div>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80">
-            <div className="text-3xl font-extrabold text-blue-500 mb-1">CERT-In</div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-stone-400">Aligned Methodology</div>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80">
-            <div className="text-3xl font-extrabold text-emerald-500 mb-1">0%</div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-stone-400">False Positive Guarantee</div>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/60 dark:bg-stone-900/40 border border-slate-200/80 dark:border-stone-800/80">
-            <div className="text-3xl font-extrabold text-amber-500 mb-1">Free</div>
-            <div className="text-xs uppercase tracking-wider text-slate-500 dark:text-stone-400">Remediation Re-Testing</div>
-          </div>
+          {[
+            { val: '100%', label: 'Manual Exploit Verification', sub: 'Zero Script Automation Bluff', num: '01' },
+            { val: 'CERT-In', label: 'Aligned Methodology', sub: 'Empaneled Standard Protocols', num: '02' },
+            { val: '0%', label: 'False Positive Guarantee', sub: 'Verified Proof-of-Concepts', num: '03' },
+            { val: 'Free', label: 'Remediation Re-Testing', sub: 'Post-Patch Validation Sign-Off', num: '04' },
+          ].map((item, idx) => (
+            <div key={idx} className="surface-card p-6 flex flex-col justify-between text-left relative overflow-hidden">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-widest">{item.num}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500/60" />
+              </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-neutral-900 dark:text-white mb-1">{item.val}</div>
+                <div className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">{item.label}</div>
+                <div className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5">{item.sub}</div>
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* Interactive Scope Section */}
@@ -276,7 +258,7 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
                   }}
                   className={`flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all ${
                     isActive
-                      ? 'bg-orange-500 text-white shadow-md shadow-orange-500/30'
+                      ? 'bg-purple-500 text-white shadow-md shadow-purple-500/30'
                       : 'bg-white/80 dark:bg-stone-900/60 text-slate-700 dark:text-stone-300 border border-slate-200 dark:border-stone-800 hover:bg-slate-100 dark:hover:bg-stone-800'
                   }`}
                 >
@@ -297,7 +279,7 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
                 {scopeDetails[activeScope].desc}
               </p>
 
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-4">
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-4">
                 Audit Checklist &amp; Attack Vectors Tested:
               </h4>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
@@ -319,7 +301,7 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
                     cyberAudio.playClick();
                     onOpenConsultation?.();
                   }}
-                  className="px-6 py-2.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm transition-colors"
+                  className="px-6 py-2.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-semibold text-sm transition-colors"
                 >
                   Request Scope Estimate
                 </button>
@@ -331,7 +313,7 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
         {/* 4-Stage Engagement Methodology */}
         <section className="mb-24">
           <div className="text-center mb-16">
-            <span className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-400 font-bold block mb-2">
+            <span className="text-xs uppercase tracking-[0.3em] text-purple-600 dark:text-purple-400 font-bold block mb-2">
               Execution Excellence
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
@@ -364,9 +346,9 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
             ].map((phase, idx) => (
               <div 
                 key={idx}
-                className="p-6 rounded-2xl bg-white dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800 relative hover:border-orange-500/50 transition-colors"
+                className="p-6 rounded-2xl bg-white dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800 relative hover:border-purple-500/50 transition-colors"
               >
-                <div className="text-4xl font-black text-orange-500/20 dark:text-orange-500/20 mb-3">
+                <div className="text-4xl font-black text-purple-500/20 dark:text-purple-500/20 mb-3">
                   {phase.step}
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
@@ -413,7 +395,7 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
                   cyberAudio.playClick();
                   onOpenConsultation?.();
                 }}
-                className="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm transition-colors"
+                className="px-6 py-3 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold text-sm transition-colors"
               >
                 Request Sample Audit Report
               </button>
@@ -422,7 +404,7 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
             <div className="bg-stone-950 p-6 rounded-2xl border border-stone-800 font-mono text-xs text-stone-300 shadow-2xl">
               <div className="flex items-center justify-between pb-3 mb-4 border-b border-stone-800 text-stone-500">
                 <span className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-orange-400" />
+                  <Terminal className="w-4 h-4 text-purple-400" />
                   CYB-VAPT-REPORT-2026.pdf
                 </span>
                 <span className="text-emerald-400 font-semibold">VERIFIED EXPLOIT</span>
@@ -442,10 +424,17 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
         {/* FAQs */}
         <section className="mb-24 max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
-              VAPT Frequently Asked Questions
+            <div className="inline-flex items-center gap-2 mb-3">
+              <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
+              <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
+                Auditor Guidance
+              </span>
+              <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
+            </div>
+            <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl text-neutral-900 dark:text-white mb-4 tracking-tight">
+              VAPT Frequently Asked <span className="italic font-light text-neutral-500 dark:text-neutral-400">Questions.</span>
             </h2>
-            <p className="text-slate-600 dark:text-stone-400">
+            <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto text-sm sm:text-base">
               Clear answers to common questions about scoping, methodologies, certifications, and timelines.
             </p>
           </div>
@@ -456,21 +445,29 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl border border-slate-200 dark:border-stone-800 bg-white dark:bg-stone-900/60 overflow-hidden"
+                  className="surface-card rounded-2xl overflow-hidden transition-all"
                 >
                   <button
                     type="button"
+                    id={`vapt-faq-trigger-${idx}`}
+                    aria-expanded={isOpen}
+                    aria-controls={`vapt-faq-answer-${idx}`}
                     onClick={() => {
                       cyberAudio.playHover();
                       setOpenFaq(isOpen ? null : idx);
                     }}
-                    className="w-full p-6 text-left flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white hover:text-orange-500 transition-colors"
+                    className="w-full p-6 text-left flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white hover:text-amber-500 transition-colors cursor-pointer"
                   >
-                    <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 shrink-0 transition-transform ${isOpen ? 'rotate-180 text-orange-500' : 'text-slate-400'}`} />
+                    <span className="text-sm sm:text-base">{faq.q}</span>
+                    <ChevronDown aria-hidden="true" className={`w-5 h-5 shrink-0 transition-transform ${isOpen ? 'rotate-180 text-amber-500' : 'text-neutral-400'}`} />
                   </button>
                   {isOpen && (
-                    <div className="px-6 pb-6 text-slate-600 dark:text-stone-300 text-sm leading-relaxed border-t border-slate-100 dark:border-stone-800/60 pt-4">
+                    <div 
+                      id={`vapt-faq-answer-${idx}`}
+                      role="region"
+                      aria-labelledby={`vapt-faq-trigger-${idx}`}
+                      className="px-6 pb-6 text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed border-t border-neutral-200 dark:border-white/[0.08] pt-4 font-light"
+                    >
                       {faq.a}
                     </div>
                   )}
@@ -481,11 +478,18 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
         </section>
 
         {/* CTA Bar */}
-        <section className="text-center py-16 px-8 rounded-3xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-blue-500/10 border border-orange-500/20">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">
-            Ready to Secure Your Digital Attack Surface?
+        <section className="text-center py-16 px-8 rounded-3xl surface-card text-neutral-900 dark:text-white">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
+              Immediate Engagement
+            </span>
+            <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
+          </div>
+          <h2 className="font-editorial font-normal text-3xl md:text-5xl mb-4 tracking-tight">
+            Ready to Secure Your <span className="italic font-light text-neutral-500 dark:text-neutral-400">Digital Attack Surface?</span>
           </h2>
-          <p className="text-slate-600 dark:text-stone-300 max-w-2xl mx-auto mb-8 text-base">
+          <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto mb-8 text-sm sm:text-base font-light leading-relaxed">
             Speak directly with a Senior Cybersecurity Auditor in New Delhi to scope your targets, define Rules of Engagement, and receive a fixed-price proposal within 24 hours.
           </p>
           <button
@@ -494,7 +498,7 @@ export const VaptServicePage: React.FC<VaptServiceProps> = ({
               cyberAudio.playClick();
               onOpenConsultation?.();
             }}
-            className="px-8 py-4 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold shadow-lg shadow-orange-500/30 transition-transform transform hover:-translate-y-0.5"
+            className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
           >
             Schedule Confidential VAPT Consultation
           </button>

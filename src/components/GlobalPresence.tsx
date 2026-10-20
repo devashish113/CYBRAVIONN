@@ -23,14 +23,14 @@ const regions: RegionData[] = [
     region: "Europe & United Kingdom",
     keyMarkets: ["European Union", "United Kingdom", "Cross-Border Data"],
     frameworks: ["ISO/IEC 27001", "EU AI Act Compliance", "GDPR / Data Privacy", "NIS2 Directives"],
-    specialty: "Sovereign AI air-gapped deployments, cross-border data protection, and critical infrastructure hardening."
+    specialty: "Private AI air-gapped deployments, cross-border data protection, and enterprise infrastructure hardening."
   },
   {
     id: "apac",
-    region: "Asia-Pacific & India",
-    keyMarkets: ["India (DPDP)", "Singapore (MAS)", "Australia"],
+    region: "Asia-Pacific (APAC)",
+    keyMarkets: ["Regional Hubs (DPDP)", "Singapore (MAS)", "Australia"],
     frameworks: ["DPDP Act 2023", "CERT-In Cyber Mandate", "ISO 27001", "MAS TRM Guidelines"],
-    specialty: "Rapid startup SOC 2 certification, high-frequency banking VAPT, and sovereign defense advisory."
+    specialty: "Rapid startup SOC 2 certification, high-frequency banking VAPT, and enterprise defense advisory."
   },
   {
     id: "middle-east",
@@ -61,13 +61,13 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-3 block font-bold">
-            Worldwide Sovereign Reach
+            Worldwide Strategic Reach
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Global Advisory &amp; Sovereign Jurisdiction Coverage
+            Global Advisory &amp; Regulatory Jurisdiction Coverage
           </h2>
           <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light mx-auto">
-            Cross-border compliance governance engineered to satisfy regional data sovereignty laws across the Americas, EMEA, and Asia-Pacific.
+            Cross-border compliance governance engineered to satisfy regional data privacy and compliance standards across the Americas, EMEA, and Asia-Pacific.
           </p>
         </div>
 
@@ -86,7 +86,7 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
-                  <MapPin size={14} className={isSelected ? 'text-orange-500' : 'text-slate-400'} />
+                  <MapPin size={14} className={isSelected ? 'text-purple-500' : 'text-slate-400'} />
                   <span className={`text-xs font-mono font-bold uppercase tracking-wider ${
                     isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-stone-400'
                   }`}>
@@ -124,7 +124,7 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
             <div className="flex flex-wrap gap-2 pt-2">
               {selectedRegion.keyMarkets.map((market) => (
                 <span key={market} className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-stone-800 text-xs font-mono text-slate-800 dark:text-stone-300 border border-slate-200 dark:border-stone-700 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
                   {market}
                 </span>
               ))}
@@ -144,7 +144,7 @@ export const GlobalPresence: React.FC<GlobalPresenceProps> = ({ isDarkMode }) =>
                     <ShieldCheck size={16} className="text-blue-500" />
                     <span>{fw}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-orange-500 font-bold">ACTIVE MANDATE</span>
+                  <span className="text-[10px] font-mono text-purple-500 font-bold">ACTIVE MANDATE</span>
                 </div>
               ))}
             </div>

@@ -38,6 +38,7 @@ import {
   Shield
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
+import { PageHeader } from '../components/PageHeader';
 
 interface ExceptionManagerPageProps {
   setCurrentView: (view: string) => void;
@@ -114,8 +115,8 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
       approverRole = 'Chief Information Security Officer (CISO)';
     } else if (score >= 70) {
       level = 'High';
-      levelColor = 'text-orange-500';
-      levelBg = 'bg-orange-500/20 border-orange-500/40 text-orange-400';
+      levelColor = 'text-purple-500';
+      levelBg = 'bg-purple-500/20 border-purple-500/40 text-purple-400';
       recommendation = 'Approve only with Mandatory WAF & Daily Telemetry Isolation';
       approverRole = 'Head of Cyber Risk & Security Operations';
     } else if (score >= 40) {
@@ -169,61 +170,30 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 selection:bg-orange-500/20 selection:text-orange-400 relative">
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 selection:bg-purple-500/20 selection:text-purple-400 relative">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto z-10">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          {/* Top Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 dark:bg-orange-500/15 border border-orange-500/30 text-orange-600 dark:text-orange-400 text-xs font-mono font-bold tracking-widest uppercase mb-6 shadow-[0_0_20px_rgba(249,115,22,0.15)]"
-          >
-            <ShieldCheck size={14} className="text-orange-500" />
-            <span>ENTERPRISE RISK GOVERNANCE &amp; AI EXCEPTION PLATFORM</span>
-          </motion.div>
-
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-6"
-          >
-            Automate Security Policy Exceptions with{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-blue-500">
-              Deterministic AI &amp; Risk Math
-            </span>
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-stone-300 max-w-3xl leading-relaxed mb-10 font-light"
-          >
-            Transform chaotic manual waiver emails and unmanaged spreadsheet exceptions into a 
-            fully auditable, multi-tenant risk governance engine. Powered by Scikit-Learn NLP classification, 
-            100,000+ historical precedent matching, zero-drift online retraining loops, and instant ReportLab compliance PDFs.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-wrap items-center justify-center gap-4 w-full sm:w-auto"
-          >
+      <PageHeader
+        kicker="ENTERPRISE RISK GOVERNANCE & AI EXCEPTION PLATFORM"
+        title="Automate Security Policy Exceptions with"
+        italicTitle="Deterministic AI & Risk Math."
+        description="Transform chaotic manual waiver emails and unmanaged spreadsheet exceptions into a fully auditable, multi-tenant risk governance engine. Powered by Scikit-Learn NLP classification, 100,000+ historical precedent matching, zero-drift online retraining loops, and instant ReportLab compliance PDFs."
+        isDarkMode={isDarkMode}
+        breadcrumbs={[
+          { label: 'Home', onClick: () => setCurrentView('home') },
+          { label: 'Products', onClick: () => setCurrentView('home') },
+          { label: 'Exception Manager', active: true }
+        ]}
+        actions={
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
             <a
               href="https://exceptions.cybravions.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm uppercase tracking-wider flex items-center gap-2.5 shadow-[0_0_30px_rgba(249,115,22,0.4)] transition-all transform hover:scale-[1.02] cursor-pointer"
+              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
               <span>Launch Live Portal</span>
-              <ExternalLink size={16} />
+              <ExternalLink size={15} />
             </a>
 
             <button
@@ -232,49 +202,52 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 const el = document.getElementById('risk-simulator');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-8 py-4 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-stone-900/90 dark:hover:bg-stone-800 border border-slate-300 dark:border-stone-700 text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer shadow-sm"
+              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
-              <Sliders size={16} className="text-orange-500" />
+              <Sliders size={15} />
               <span>Interactive Risk Calculator</span>
             </button>
-          </motion.div>
+          </div>
+        }
+      />
 
-          {/* Quick Metrics Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 w-full max-w-4xl"
-          >
-            {[
-              { label: 'Synthetic Training Corpus', val: '100,000+', sub: 'Bootstrapped records' },
-              { label: 'Evaluation Turnaround', val: '< 15s', sub: 'Sub-second risk math' },
-              { label: 'Self-Retraining Trigger', val: '50 Records', sub: 'Continuous active learning' },
-              { label: 'Regulatory Alignment', val: 'ISO / DPDP', sub: 'SOC 2 & NIST CSF ready' },
-            ].map((metric, i) => (
-              <div
-                key={i}
-                className="p-4 rounded-2xl bg-white/70 dark:bg-stone-950/70 border border-slate-200/80 dark:border-stone-800/80 backdrop-blur-md flex flex-col items-center justify-center text-center shadow-sm"
-              >
-                <span className="text-2xl sm:text-3xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-blue-500">
+      {/* Quick Metrics Bar */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 mb-20 -mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: 'Synthetic Training Corpus', val: '100,000+', sub: 'Bootstrapped records', num: '01' },
+            { label: 'Evaluation Turnaround', val: '< 15s', sub: 'Sub-second risk math', num: '02' },
+            { label: 'Self-Retraining Trigger', val: '50 Records', sub: 'Continuous active learning', num: '03' },
+            { label: 'Regulatory Alignment', val: 'ISO / DPDP', sub: 'SOC 2 & NIST CSF ready', num: '04' },
+          ].map((metric, i) => (
+            <div
+              key={i}
+              className="surface-card p-5 flex flex-col justify-between text-left relative overflow-hidden"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-widest">{metric.num}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500/60" />
+              </div>
+              <div>
+                <span className="text-lg sm:text-xl font-bold font-mono text-neutral-900 dark:text-white block">
                   {metric.val}
                 </span>
-                <span className="text-xs font-semibold text-slate-800 dark:text-stone-200 mt-1">
+                <span className="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mt-1 block">
                   {metric.label}
                 </span>
-                <span className="text-[10px] text-slate-400 dark:text-stone-400 font-light">
+                <span className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5 block">
                   {metric.sub}
                 </span>
               </div>
-            ))}
-          </motion.div>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
 
       {/* Interactive Risk Engine Simulator Section */}
       <section id="risk-simulator" className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12">
-          <span className="text-xs uppercase tracking-[0.3em] text-orange-500 font-bold block mb-2">
+          <span className="text-xs uppercase tracking-[0.3em] text-purple-500 font-bold block mb-2">
             Deterministic Engine Sandbox
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
@@ -282,7 +255,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
           </h2>
           <p className="text-slate-600 dark:text-stone-300 text-sm sm:text-base max-w-2xl mx-auto mt-3 font-light">
             Adjust the 5 core deterministic risk vectors below to test real-time risk scoring, 
-            NLP categorization, and approver escalation logic from <code className="text-orange-400 font-mono text-xs">risk_engine.py</code>.
+            NLP categorization, and approver escalation logic from <code className="text-purple-400 font-mono text-xs">risk_engine.py</code>.
           </p>
         </div>
 
@@ -291,7 +264,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
           <div className="lg:col-span-7 space-y-5 p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 shadow-xl backdrop-blur-xl">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-stone-800 pb-4">
               <div className="flex items-center gap-2">
-                <Terminal size={18} className="text-orange-500" />
+                <Terminal size={18} className="text-purple-500" />
                 <span className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
                   Exception Request Details
                 </span>
@@ -310,7 +283,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-stone-950/80 border border-slate-300 dark:border-stone-700 text-sm text-slate-900 dark:text-stone-100 focus:border-orange-500 focus:outline-none transition-colors"
+                className="w-full p-3.5 rounded-xl bg-slate-50 dark:bg-stone-950/80 border border-slate-300 dark:border-stone-700 text-sm text-slate-900 dark:text-stone-100 focus:border-purple-500 focus:outline-none transition-colors"
                 placeholder="Describe the technical justification, assets involved, and mitigating controls..."
               />
             </div>
@@ -323,7 +296,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               <select
                 value={businessUnit}
                 onChange={(e) => setBusinessUnit(e.target.value)}
-                className="w-full p-3 rounded-xl bg-slate-50 dark:bg-stone-950/80 border border-slate-300 dark:border-stone-700 text-sm text-slate-900 dark:text-stone-100 focus:border-orange-500 focus:outline-none"
+                className="w-full p-3 rounded-xl bg-slate-50 dark:bg-stone-950/80 border border-slate-300 dark:border-stone-700 text-sm text-slate-900 dark:text-stone-100 focus:border-purple-500 focus:outline-none"
               >
                 <option value="Core Fintech Operations">Core Fintech Operations</option>
                 <option value="Cloud Infrastructure & DevOps">Cloud Infrastructure &amp; DevOps</option>
@@ -339,7 +312,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-stone-300 mb-2 flex items-center justify-between">
                   <span>Asset Criticality</span>
-                  <span className="text-[10px] font-mono text-orange-400">
+                  <span className="text-[10px] font-mono text-purple-400">
                     {assetCriticality === 'High' ? '+30 pts' : assetCriticality === 'Medium' ? '+20 pts' : '+10 pts'}
                   </span>
                 </label>
@@ -353,7 +326,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                       }}
                       className={`py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
                         assetCriticality === tier
-                          ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
+                          ? 'bg-purple-500 text-white border-purple-500 shadow-sm'
                           : 'bg-slate-100 dark:bg-stone-800 border-slate-200 dark:border-stone-700 text-slate-600 dark:text-stone-400 hover:border-slate-400'
                       }`}
                     >
@@ -367,7 +340,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-stone-300 mb-2 flex items-center justify-between">
                   <span>Business Impact</span>
-                  <span className="text-[10px] font-mono text-orange-400">
+                  <span className="text-[10px] font-mono text-purple-400">
                     {businessImpact === 'High' ? '+25 pts' : businessImpact === 'Medium' ? '+15 pts' : '+8 pts'}
                   </span>
                 </label>
@@ -381,7 +354,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                       }}
                       className={`py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
                         businessImpact === tier
-                          ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
+                          ? 'bg-purple-500 text-white border-purple-500 shadow-sm'
                           : 'bg-slate-100 dark:bg-stone-800 border-slate-200 dark:border-stone-700 text-slate-600 dark:text-stone-400 hover:border-slate-400'
                       }`}
                     >
@@ -395,7 +368,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-stone-300 mb-2 flex items-center justify-between">
                   <span>Compliance Impact</span>
-                  <span className="text-[10px] font-mono text-orange-400">
+                  <span className="text-[10px] font-mono text-purple-400">
                     {complianceImpact === 'High' ? '+20 pts' : complianceImpact === 'Medium' ? '+10 pts' : '+5 pts'}
                   </span>
                 </label>
@@ -423,7 +396,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-stone-300 mb-2 flex items-center justify-between">
                   <span>Threat Exposure</span>
-                  <span className="text-[10px] font-mono text-orange-400">
+                  <span className="text-[10px] font-mono text-purple-400">
                     {threatExposure === 'High' ? '+15 pts' : threatExposure === 'Medium' ? '+8 pts' : '+4 pts'}
                   </span>
                 </label>
@@ -452,7 +425,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
             <div className="pt-2">
               <div className="flex items-center justify-between mb-2">
                 <label className="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-stone-300">
-                  Requested Waiver Duration: <span className="text-orange-500 font-mono font-bold">{durationDays} Days</span>
+                  Requested Waiver Duration: <span className="text-purple-500 font-mono font-bold">{durationDays} Days</span>
                 </label>
                 <span className="text-[10px] font-mono text-slate-400 dark:text-stone-400">
                   {durationDays > 90 ? '+10 pts (>90d)' : durationDays >= 46 ? '+7 pts (46-90d)' : '+5 pts (<=45d)'}
@@ -465,7 +438,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 step="15"
                 value={durationDays}
                 onChange={(e) => setDurationDays(Number(e.target.value))}
-                className="w-full accent-orange-500 cursor-pointer"
+                className="w-full accent-purple-500 cursor-pointer"
               />
               <div className="flex justify-between text-[10px] font-mono text-slate-400 mt-1">
                 <span>15 Days</span>
@@ -479,7 +452,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
             <button
               onClick={handleSimulate}
               disabled={isSimulatingAnalysis}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all cursor-pointer"
+              className="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-black dark:bg-white dark:hover:bg-slate-200 text-white dark:text-black font-semibold text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-[0.99] shadow-sm"
             >
               {isSimulatingAnalysis ? (
                 <>
@@ -499,7 +472,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
           <div className="lg:col-span-5 space-y-4">
             {/* Score & Tier Card */}
             <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 text-white border border-stone-800 shadow-2xl relative overflow-hidden">
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-500/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
 
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-stone-400">
@@ -524,7 +497,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                     calculatedRisk.score >= 90
                       ? 'bg-red-500'
                       : calculatedRisk.score >= 70
-                      ? 'bg-orange-500'
+                      ? 'bg-purple-500'
                       : calculatedRisk.score >= 40
                       ? 'bg-amber-500'
                       : 'bg-emerald-500'
@@ -547,7 +520,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               {/* Approver Role & Recommendation */}
               <div className="space-y-2.5 text-xs">
                 <div className="flex items-start gap-2">
-                  <Award size={14} className="text-orange-400 shrink-0 mt-0.5" />
+                  <Award size={14} className="text-purple-400 shrink-0 mt-0.5" />
                   <div>
                     <span className="text-stone-400">Required Approver: </span>
                     <span className="font-semibold text-stone-100">{calculatedRisk.approverRole}</span>
@@ -571,7 +544,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 }}
                 className="w-full mt-6 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-750 text-stone-200 hover:text-white border border-stone-700 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
-                <FileText size={14} className="text-orange-400" />
+                <FileText size={14} className="text-purple-400" />
                 <span>Preview Audit Compliance PDF Report</span>
               </button>
             </div>
@@ -579,7 +552,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
             {/* Historical Intelligence Preview */}
             <div className="p-5 rounded-2xl bg-white dark:bg-stone-900/60 border border-slate-200 dark:border-stone-800 shadow-md">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-stone-200 mb-3">
-                <Clock size={14} className="text-orange-500" />
+                <Clock size={14} className="text-purple-500" />
                 <span>Historical Precedent Intelligence</span>
               </div>
               <div className="grid grid-cols-2 gap-3 text-xs">
@@ -589,7 +562,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 </div>
                 <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-stone-950/60 border border-slate-200 dark:border-stone-800/80">
                   <span className="text-slate-400 dark:text-stone-500 block text-[10px]">Historical Approval Rate</span>
-                  <span className="font-mono font-bold text-orange-500">{calculatedRisk.approvalRate}</span>
+                  <span className="font-mono font-bold text-purple-500">{calculatedRisk.approvalRate}</span>
                 </div>
               </div>
             </div>
@@ -631,8 +604,8 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 }}
                 className={`px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-orange-500 text-white shadow-[0_0_15px_rgba(249,115,22,0.3)]'
-                    : 'bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 text-slate-600 dark:text-stone-400 hover:text-slate-950 dark:hover:text-white'
+                    ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-sm font-bold'
+                    : 'bg-white/60 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-slate-600 dark:text-stone-400 hover:text-slate-950 dark:hover:text-white'
                 }`}
               >
                 <TabIcon size={14} />
@@ -647,7 +620,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
           {activeArchTab === 'risk' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-xs font-mono font-bold mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-500 text-xs font-mono font-bold mb-4">
                   <span>risk_engine.py</span>
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
@@ -660,23 +633,23 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 </p>
                 <ul className="space-y-2 text-xs text-slate-700 dark:text-stone-300">
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-orange-500" />
+                    <CheckCircle2 size={14} className="text-purple-500" />
                     <span><strong>Asset Criticality:</strong> High (30) | Medium (20) | Low (10)</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-orange-500" />
+                    <CheckCircle2 size={14} className="text-purple-500" />
                     <span><strong>Business Impact:</strong> High (25) | Medium (15) | Low (8)</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-orange-500" />
+                    <CheckCircle2 size={14} className="text-purple-500" />
                     <span><strong>Compliance Impact:</strong> High (20) | Medium (10) | Low (5)</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-orange-500" />
+                    <CheckCircle2 size={14} className="text-purple-500" />
                     <span><strong>Threat Exposure:</strong> High (15) | Medium (8) | Low (4)</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-orange-500" />
+                    <CheckCircle2 size={14} className="text-purple-500" />
                     <span><strong>Duration (Days):</strong> &gt;90d (10) | 46–90d (7) | &le;45d (5)</span>
                   </li>
                 </ul>
@@ -690,7 +663,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 <div className="pl-8 text-amber-300">'compliance': &#123;'High': 20, 'Medium': 10, 'Low': 5&#125;,</div>
                 <div className="pl-8 text-amber-300">'threat': &#123;'High': 15, 'Medium': 8, 'Low': 4&#125;</div>
                 <div className="pl-4 text-stone-300">&#125;</div>
-                <div className="pl-4 text-orange-400">total = sum([weights[k][v] for k, v in ...])</div>
+                <div className="pl-4 text-purple-400">total = sum([weights[k][v] for k, v in ...])</div>
                 <div className="pl-4 text-emerald-400">return min(100, total + duration_penalty(duration))</div>
               </div>
             </div>
@@ -712,9 +685,9 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 </p>
                 <div className="space-y-3 text-xs">
                   <div className="p-3 rounded-xl bg-slate-50 dark:bg-stone-950/70 border border-slate-200 dark:border-stone-800">
-                    <span className="font-bold text-orange-500">Trigger Threshold (50 Records):</span>
+                    <span className="font-bold text-purple-500">Trigger Threshold (50 Records):</span>
                     <p className="text-slate-600 dark:text-stone-400 mt-0.5">
-                      Once 50 new approved exceptions are marked with <code className="text-orange-400">ml_retrained = 0</code>, 
+                      Once 50 new approved exceptions are marked with <code className="text-purple-400">ml_retrained = 0</code>, 
                       the model retraining panel enables zero-downtime hot reloading.
                     </p>
                   </div>
@@ -772,9 +745,9 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 <div className="pl-4 text-amber-300">approval_rate = approved_count / total_matches</div>
                 <div className="pl-4 text-emerald-400">rec_duration = min(30, avg_approved_duration)</div>
                 <div className="pl-4 text-stone-300">return &#123;</div>
-                <div className="pl-8 text-orange-300">'match_count': len(matches),</div>
-                <div className="pl-8 text-orange-300">'approval_rate': f"&#123;approval_rate:.1%&#125;",</div>
-                <div className="pl-8 text-orange-300">'recommended_days': rec_duration</div>
+                <div className="pl-8 text-purple-300">'match_count': len(matches),</div>
+                <div className="pl-8 text-purple-300">'approval_rate': f"&#123;approval_rate:.1%&#125;",</div>
+                <div className="pl-8 text-purple-300">'recommended_days': rec_duration</div>
                 <div className="pl-4 text-stone-300">&#125;</div>
               </div>
             </div>
@@ -809,12 +782,12 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 </ul>
               </div>
               <div className="p-6 rounded-2xl bg-slate-900 text-stone-200 border border-stone-800 shadow-inner flex flex-col items-center justify-center text-center">
-                <FileText size={48} className="text-orange-500 mb-3" />
+                <FileText size={48} className="text-purple-500 mb-3" />
                 <span className="font-bold text-sm text-white">ISO 27001 / SOC 2 Compliance Report</span>
                 <span className="text-xs text-stone-400 mt-1 font-mono">Format: Vector ReportLab PDF flowable</span>
                 <button
                   onClick={() => setShowPdfModal(true)}
-                  className="mt-4 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs transition-colors cursor-pointer"
+                  className="mt-4 px-4 py-2 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-semibold text-xs transition-colors cursor-pointer"
                 >
                   View Sample Report Output
                 </button>
@@ -866,7 +839,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
       {/* Role-Based Access Control (RBAC & ABAC) Matrix */}
       <section className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto border-t border-slate-200/80 dark:border-stone-900 relative z-10">
         <div className="text-center mb-12">
-          <span className="text-xs uppercase tracking-[0.3em] text-orange-500 font-bold block mb-2">
+          <span className="text-xs uppercase tracking-[0.3em] text-purple-500 font-bold block mb-2">
             Governance Hierarchy
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
@@ -909,8 +882,8 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               role: '3. Security Officer / CISO',
               scope: 'Executive Cyber Governance',
               badge: 'High-Critical Tier',
-              color: 'border-orange-500/30 bg-orange-500/5',
-              badgeColor: 'bg-orange-500/20 text-orange-400',
+              color: 'border-purple-500/30 bg-purple-500/5',
+              badgeColor: 'bg-purple-500/20 text-purple-400',
               perms: [
                 'Approve High & Critical exceptions (>=70)',
                 'Authorize waivers exceeding 90 days',
@@ -951,7 +924,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 <ul className="space-y-2 text-xs text-slate-700 dark:text-stone-300">
                   {item.perms.map((p, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <Check size={13} className="text-orange-500 shrink-0 mt-0.5" />
+                      <Check size={13} className="text-purple-500 shrink-0 mt-0.5" />
                       <span>{p}</span>
                     </li>
                   ))}
@@ -964,9 +937,9 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
 
       {/* Compliance Standard Alignment Section */}
       <section className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto border-t border-slate-200/80 dark:border-stone-900 relative z-10">
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-blue-950/40 via-stone-900/90 to-orange-950/40 border border-blue-500/30 text-white shadow-2xl relative overflow-hidden">
+        <div className="p-8 sm:p-12 rounded-3xl bg-slate-900 dark:bg-[#0e1017] border border-slate-800 dark:border-white/10 text-white relative overflow-hidden">
           <div className="max-w-3xl">
-            <span className="text-xs uppercase tracking-[0.25em] text-orange-400 font-mono font-bold block mb-2">
+            <span className="text-xs uppercase tracking-[0.25em] text-stone-400 font-mono font-medium block mb-2">
               Auditor Verification Ready
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">
@@ -982,10 +955,10 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                 { title: 'ISO 27001:2022', clause: 'Control A.5.8 & A.8.19' },
                 { title: 'SOC 2 Type II', clause: 'CC6.1 & CC6.8 Controls' },
                 { title: 'NIST CSF 2.0', clause: 'GV.OC-03 & RS.AN-01' },
-                { title: 'India DPDP Act', clause: 'Sec 6 & Sec 8 Governance' },
+                { title: 'DPDP Act 2023', clause: 'Sec 6 & Sec 8 Governance' },
               ].map((std, i) => (
                 <div key={i} className="p-3.5 rounded-xl bg-black/40 border border-white/10 text-center">
-                  <div className="font-bold text-xs text-orange-400">{std.title}</div>
+                  <div className="font-bold text-xs text-purple-400">{std.title}</div>
                   <div className="text-[11px] text-stone-400 font-mono mt-0.5">{std.clause}</div>
                 </div>
               ))}
@@ -997,7 +970,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
       {/* CTA Footer Banner */}
       <section className="py-20 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto text-center relative z-10">
         <div className="p-10 sm:p-14 rounded-3xl bg-white dark:bg-stone-900/80 border border-slate-200 dark:border-stone-800 shadow-2xl">
-          <ShieldCheck size={48} className="text-orange-500 mx-auto mb-4" />
+          <ShieldCheck size={48} className="text-purple-500 mx-auto mb-4" />
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3">
             Deploy AI Exception Governance In Your Enterprise
           </h2>
@@ -1011,7 +984,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberAudio.playClick()}
-              className="px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all cursor-pointer"
+              className="px-8 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-black font-semibold text-xs uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer active:scale-[0.99] shadow-sm"
             >
               <span>Access Live Cloud App</span>
               <ExternalLink size={14} />
@@ -1028,7 +1001,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                   el?.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="px-8 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-stone-800 dark:hover:bg-stone-750 border border-slate-300 dark:border-stone-700 text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer"
+              className="px-8 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.08] dark:hover:bg-white/[0.14] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white font-semibold text-xs uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer active:scale-[0.99]"
             >
               <span>Schedule Architecture Review</span>
               <ArrowRight size={14} />
@@ -1056,7 +1029,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
             >
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-stone-800 pb-4 mb-6">
                 <div className="flex items-center gap-2">
-                  <FileText size={20} className="text-orange-500" />
+                  <FileText size={20} className="text-purple-500" />
                   <span className="font-bold text-base sm:text-lg">
                     CYBRAVION Security Exception Compliance Certificate
                   </span>
@@ -1078,7 +1051,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
                     <p className="text-[10px] text-slate-500 font-mono">Enterprise Risk &amp; Governance Division</p>
                   </div>
                   <div className="text-right font-mono text-[10px]">
-                    <div className="text-orange-500 font-bold">CERT-EX-2026-00492</div>
+                    <div className="text-purple-500 font-bold">CERT-EX-2026-00492</div>
                     <div className="text-slate-400">{new Date().toISOString().split('T')[0]}</div>
                   </div>
                 </div>
@@ -1140,7 +1113,7 @@ export const ExceptionManagerPage: React.FC<ExceptionManagerPageProps> = ({
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={() => setShowPdfModal(false)}
-                  className="px-6 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   Dismiss Preview
                 </button>
