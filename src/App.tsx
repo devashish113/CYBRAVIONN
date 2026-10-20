@@ -1720,7 +1720,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView 
                 >
                   <div>
                     <div className="flex items-center justify-between mb-5">
-                      <div className={`p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 shadow-sm group-hover:scale-110 transition-all duration-300 ${
+                      <div className={`p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 ${
                         isBlue 
                           ? 'text-blue-600 dark:text-blue-400 group-hover:border-blue-500/50 group-hover:bg-blue-500/10' 
                           : 'text-orange-500 dark:text-orange-400 group-hover:border-orange-500/50 group-hover:bg-orange-500/10'
