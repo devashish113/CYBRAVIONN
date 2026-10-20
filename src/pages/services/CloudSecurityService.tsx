@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cyberAudio } from '../../utils/cyberAudio';
+import { PageHeader } from '../../components/PageHeader';
 
 interface CloudSecurityServiceProps {
   setCurrentView?: (view: string) => void;
@@ -27,6 +28,7 @@ interface CloudSecurityServiceProps {
 
 export const CloudSecurityServicePage: React.FC<CloudSecurityServiceProps> = ({
   setCurrentView,
+  isDarkMode = true,
   onOpenConsultation
 }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -141,7 +143,7 @@ export const CloudSecurityServicePage: React.FC<CloudSecurityServiceProps> = ({
       }
     },
     areaServed: 'Worldwide',
-    description: 'Enterprise multi-cloud security assessment for AWS, Azure, GCP, and Kubernetes in India. IAM least privilege auditing, CSPM, and automated DevSecOps CI/CD pipeline gating.',
+    description: 'Enterprise multi-cloud security assessment for AWS, Azure, GCP, and Kubernetes. IAM least privilege auditing, CSPM, and automated DevSecOps CI/CD pipeline gating.',
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Cloud Security Practice Offerings',
@@ -155,76 +157,79 @@ export const CloudSecurityServicePage: React.FC<CloudSecurityServiceProps> = ({
   };
 
   return (
-    <div className="pt-24 min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
       <Helmet>
         <title>Cloud Security Assessment &amp; DevSecOps Engineering | CYBRAVION Solutions</title>
-        <meta name="description" content="Enterprise cloud security audits for AWS, Azure, GCP, and Kubernetes in India. IAM privilege hardening, CSPM, CIS benchmarks, and automated DevSecOps CI/CD pipeline security." />
+        <meta name="description" content="Enterprise cloud security audits for AWS, Azure, GCP, and Kubernetes. IAM privilege hardening, CSPM, CIS benchmarks, and automated DevSecOps CI/CD pipeline security." />
         <link rel="canonical" href="https://cybravions.com/cloud-security" />
         <meta property="og:title" content="Cloud Security Assessment &amp; DevSecOps Engineering | CYBRAVION" />
-        <meta property="og:description" content="Harden your AWS, Azure, and Kubernetes workloads. Multi-cloud security assessments, IAM least privilege audits, and automated DevSecOps integration from New Delhi." />
+        <meta property="og:description" content="Harden your AWS, Azure, and Kubernetes workloads. Multi-cloud security assessments, IAM least privilege audits, and automated DevSecOps integration from CYBRAVION." />
         <meta property="og:url" content="https://cybravions.com/cloud-security" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      {/* Background Gradients */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-1/4 -right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 -left-20 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px]" />
-      </div>
+      {/* Subtle Architectural Vignette */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none opacity-40 dark:opacity-20 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]"
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 70%)' }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-12">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-8 text-sm text-slate-500 dark:text-stone-400">
-          <ol className="flex items-center space-x-2">
-            <li>
-              <button 
-                type="button" 
-                onClick={() => setCurrentView?.('home')} 
-                className="hover:text-cyan-500 transition-colors"
-              >
-                Home
-              </button>
-            </li>
-            <li>/</li>
-            <li>Services</li>
-            <li>/</li>
-            <li className="text-cyan-600 dark:text-cyan-400 font-medium">Cloud Security &amp; DevSecOps</li>
-          </ol>
-        </nav>
-
-        {/* Hero */}
-        <header className="mb-20 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-6">
-            <Cloud className="w-4 h-4" />
-            <span>Multi-Cloud Architecture &amp; DevSecOps Hardening</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
-            Enterprise <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-orange-500 bg-clip-text text-transparent">Cloud Security Assessment</span> &amp; DevSecOps
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 dark:text-stone-300 max-w-3xl leading-relaxed mb-8">
-            Stop cloud data breaches, privilege escalations, and configuration drift across AWS, Microsoft Azure, Google Cloud Platform, and Kubernetes. CYBRAVION audits your infrastructure against CIS Benchmarks and embeds automated security gates directly into your developer workflows.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-4 justify-center lg:justify-start">
+      <PageHeader
+        kicker="Multi-Cloud Architecture & DevSecOps Hardening"
+        title="Enterprise Cloud Security Assessment &"
+        italicTitle="DevSecOps Engineering."
+        description="Stop cloud data breaches, privilege escalations, and configuration drift across AWS, Microsoft Azure, Google Cloud Platform, and Kubernetes. CYBRAVION audits your infrastructure against CIS Benchmarks and embeds automated security gates directly into your developer workflows."
+        isDarkMode={isDarkMode}
+        breadcrumbs={[
+          { label: 'Home', onClick: () => setCurrentView?.('home') },
+          { label: 'Services', onClick: () => setCurrentView?.('home') },
+          { label: 'Cloud Security & DevSecOps', active: true }
+        ]}
+        actions={
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
             <button
               type="button"
               onClick={() => {
                 cyberAudio.playClick();
                 onOpenConsultation?.();
               }}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold shadow-lg shadow-cyan-500/25 flex items-center gap-2 transition-all transform hover:-translate-y-0.5"
+              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
               <span>Schedule Free Cloud Security Review</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </button>
             <a
               href="#platforms"
-              className="px-6 py-4 rounded-xl bg-slate-100 dark:bg-stone-900/80 border border-slate-300 dark:border-stone-800 text-slate-800 dark:text-stone-200 font-semibold hover:bg-slate-200 dark:hover:bg-stone-800 transition-colors"
+              className="btn-tactile-outline inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all active:scale-[0.98] cursor-pointer"
             >
-              Supported Cloud Platforms
+              <span>Supported Cloud Platforms</span>
             </a>
           </div>
-        </header>
+        }
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-16">
+        {/* Value Highlights */}
+        <section className="mb-20 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          {[
+            { val: 'CIS Aligned', label: 'Multi-Cloud Benchmarks', sub: 'AWS, Azure & GCP Hardened', num: '01' },
+            { val: 'Zero Drift', label: 'Automated CSPM', sub: 'Real-Time Misconfig Alerts', num: '02' },
+            { val: 'Least-Priv', label: 'CIEM & IAM Auditing', sub: 'Eliminate Toxic Access', num: '03' },
+            { val: 'Shift-Left', label: 'DevSecOps Automation', sub: 'CI/CD Pipeline Security Gates', num: '04' },
+          ].map((item, idx) => (
+            <div key={idx} className="surface-card p-6 flex flex-col justify-between text-left relative overflow-hidden">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-widest">{item.num}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500/60" />
+              </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-neutral-900 dark:text-white mb-1">{item.val}</div>
+                <div className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">{item.label}</div>
+                <div className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5">{item.sub}</div>
+              </div>
+            </div>
+          ))}
+        </section>
 
         {/* 4 Pillars of Cloud Security */}
         <section className="mb-24">
@@ -351,17 +356,25 @@ export const CloudSecurityServicePage: React.FC<CloudSecurityServiceProps> = ({
                 >
                   <button
                     type="button"
+                    id={`cloud-faq-trigger-${idx}`}
+                    aria-expanded={isOpen}
+                    aria-controls={`cloud-faq-answer-${idx}`}
                     onClick={() => {
                       cyberAudio.playHover();
                       setOpenFaq(isOpen ? null : idx);
                     }}
-                    className="w-full p-6 text-left flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white hover:text-cyan-500 transition-colors"
+                    className="w-full p-6 text-left flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white hover:text-cyan-500 transition-colors cursor-pointer"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 shrink-0 transition-transform ${isOpen ? 'rotate-180 text-cyan-500' : 'text-slate-400'}`} />
+                    <ChevronDown aria-hidden="true" className={`w-5 h-5 shrink-0 transition-transform ${isOpen ? 'rotate-180 text-cyan-500' : 'text-slate-400'}`} />
                   </button>
                   {isOpen && (
-                    <div className="px-6 pb-6 text-slate-600 dark:text-stone-300 text-sm leading-relaxed border-t border-slate-100 dark:border-stone-800/60 pt-4">
+                    <div 
+                      id={`cloud-faq-answer-${idx}`}
+                      role="region"
+                      aria-labelledby={`cloud-faq-trigger-${idx}`}
+                      className="px-6 pb-6 text-slate-700 dark:text-stone-300 text-sm leading-relaxed border-t border-slate-100 dark:border-stone-800/60 pt-4"
+                    >
                       {faq.a}
                     </div>
                   )}
@@ -372,23 +385,30 @@ export const CloudSecurityServicePage: React.FC<CloudSecurityServiceProps> = ({
         </section>
 
         {/* CTA Banner */}
-        <section className="text-center py-16 px-8 rounded-3xl bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-orange-500/10 border border-cyan-500/20">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">
-            Eliminate Dangerous Cloud Misconfigurations Today
-          </h2>
-          <p className="text-slate-600 dark:text-stone-300 max-w-2xl mx-auto mb-8 text-base">
-            Request an architecture review with our Senior Cloud Security Architects in New Delhi to audit your cloud posture against CIS benchmarks and prevent unauthorized data exfiltration.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              cyberAudio.playClick();
-              onOpenConsultation?.();
-            }}
-            className="px-8 py-4 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-bold shadow-lg shadow-cyan-500/30 transition-transform transform hover:-translate-y-0.5"
-          >
-            Schedule Cloud Security Architecture Review
-          </button>
+        <section className="surface-card text-center py-16 px-8 rounded-3xl relative overflow-hidden">
+          <div className="relative z-10 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-mono uppercase tracking-widest mb-4">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Multi-Cloud Security Authority</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-editorial font-normal text-neutral-900 dark:text-white mb-4 tracking-tight">
+              Eliminate Dangerous Cloud Misconfigurations <span className="italic font-normal">Today</span>
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto mb-8 text-sm sm:text-base leading-relaxed">
+              Request an architecture review with our Senior Cloud Security Architects in New Delhi to audit your cloud posture against CIS benchmarks and prevent unauthorized data exfiltration.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                cyberAudio.playClick();
+                onOpenConsultation?.();
+              }}
+              className="btn-tactile-primary inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold text-white tracking-wide transition-all active:scale-[0.98] cursor-pointer"
+            >
+              <span>Schedule Cloud Security Architecture Review</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </section>
       </div>
     </div>

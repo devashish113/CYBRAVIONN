@@ -1,58 +1,102 @@
+import React from 'react';
 import { motion } from 'motion/react';
 import { Shield, Lock, FileCheck, CheckCircle2, Server, Key } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+import { PageHeader } from '../components/PageHeader';
+import { WaterGlassCard } from '../components/WaterGlassCard';
 
-export const CompliancePage = () => {
+interface CompliancePageProps {
+  setCurrentView?: (view: string) => void;
+  isDarkMode?: boolean;
+}
+
+export const CompliancePage: React.FC<CompliancePageProps> = ({
+  setCurrentView,
+  isDarkMode = true
+}) => {
   return (
-    <div className="pt-24 min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-0 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 -right-24 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px]" />
-      </div>
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-stone-100 relative">
+      <Helmet>
+        <title>Trust Center &amp; Compliance Standards | CYBRAVION</title>
+        <meta name="description" content="Discover how CYBRAVION secures operations, protects client confidentiality, and aligns with ISO 27001, DPDP Act, and global cybersecurity frameworks." />
+      </Helmet>
 
-      <div className="relative z-10">
-        <section className="py-20 md:py-32 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto text-center relative">
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: "spring", stiffness: 100, damping: 20 }}>
-            <motion.span initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-xs uppercase tracking-[0.4em] text-blue-600 dark:text-blue-400 font-bold mb-6 block">
-              Trust Center
-            </motion.span>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight mb-8 text-slate-900 dark:text-white">
-              Security & <span className="bg-gradient-to-r from-blue-600 to-orange-500 dark:from-blue-400 dark:to-orange-400 bg-clip-text text-transparent italic font-light">Compliance.</span>
-            </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-slate-700 dark:text-stone-300 text-xl md:text-2xl max-w-3xl mx-auto mb-12 font-light leading-relaxed">
-              We practice what we preach. Discover how CYBRAVION secures its operations, protects client data, and aligns with global standards.
-            </motion.p>
-          </motion.div>
-        </section>
+      {/* Sovereign Editorial Header */}
+      <PageHeader
+        kicker="Trust Center & Assurance Protocols"
+        title="Security &"
+        italicTitle="Compliance Standards."
+        description="We practice what we preach. Discover how CYBRAVION secures its operations, protects client confidentiality, and adheres to statutory and international security frameworks."
+        isDarkMode={isDarkMode}
+        breadcrumbs={[
+          { label: 'Home', onClick: () => setCurrentView?.('home') },
+          { label: 'Security & Compliance', active: true }
+        ]}
+      />
 
-        <section className="py-24 border-t border-slate-200/80 dark:border-white/5 bg-slate-100/60 dark:bg-stone-950/40 relative">
-          <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 dark:text-white">Our Security Practices</h2>
-              <p className="text-slate-600 dark:text-stone-400 mt-4 max-w-2xl mx-auto">Enterprise-grade security is baked into every layer of our infrastructure and daily operations.</p>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-24">
+        {/* Section 1: Security Practices */}
+        <section className="mb-24">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 mb-3">
+              <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
+              <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
+                Foundational Controls
+              </span>
+              <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { title: "Secure by Design", desc: "All internal systems are architected following Zero Trust principles, ensuring verified access at every node.", icon: <Shield className="w-6 h-6" /> },
-                { title: "Continuous Monitoring", desc: "We employ 24/7 endpoint detection and response (EDR) alongside automated vulnerability scanning.", icon: <Server className="w-6 h-6" /> },
-                { title: "Access Control", desc: "Strict RBAC (Role-Based Access Control) with mandatory MFA and hardware security keys for all staff.", icon: <Key className="w-6 h-6" /> }
-              ].map((item, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-8 bg-white/90 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-3xl hover:shadow-lg dark:hover:bg-white/[0.04] transition-all">
-                  <div className="p-3 bg-blue-500/10 text-blue-600 dark:text-blue-400 w-fit rounded-2xl mb-6">{item.icon}</div>
-                  <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">{item.title}</h3>
-                  <p className="text-slate-600 dark:text-stone-400 leading-relaxed font-light">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
+            <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl text-neutral-900 dark:text-white tracking-tight">
+              Our Security <span className="italic font-light text-neutral-500 dark:text-neutral-400">Practices.</span>
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 mt-4 max-w-2xl mx-auto text-sm sm:text-base">
+              Enterprise-grade security is baked into every layer of our infrastructure and daily operations.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { title: "Secure by Design", desc: "All internal systems are architected following Zero Trust principles, ensuring verified access at every node.", icon: Shield, num: "01" },
+              { title: "Continuous Monitoring", desc: "We employ 24/7 endpoint detection and response (EDR) alongside automated vulnerability scanning.", icon: Server, num: "02" },
+              { title: "Access Control", desc: "Strict RBAC (Role-Based Access Control) with mandatory MFA and hardware security keys for all staff.", icon: Key, num: "03" }
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <WaterGlassCard 
+                  key={i}
+                  className="p-8 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="p-3 bg-slate-100 dark:bg-white/[0.06] border border-slate-200 dark:border-white/10 text-slate-800 dark:text-white w-fit rounded-xl">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className="font-mono text-xs text-neutral-400">{item.num}</span>
+                    </div>
+                    <h3 className="font-editorial font-normal text-2xl text-neutral-900 dark:text-white mb-3">{item.title}</h3>
+                    <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed font-light text-sm">{item.desc}</p>
+                  </div>
+                </WaterGlassCard>
+              );
+            })}
           </div>
         </section>
 
-        <section className="py-24 border-t border-slate-200/80 dark:border-white/5 bg-white dark:bg-stone-900/20 relative">
-          <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="text-xs uppercase tracking-[0.4em] text-orange-600 dark:text-orange-400 font-bold mb-4 block">Client Confidentiality</span>
-              <h2 className="text-3xl md:text-4xl font-semibold mb-6 text-slate-900 dark:text-white">How we handle your data.</h2>
-              <p className="text-slate-700 dark:text-stone-300 mb-8 leading-relaxed font-light">
-                During VAPT or GRC engagements, we often handle highly sensitive network maps, source code, and compliance data. We treat your data with the highest level of confidentiality.
+        {/* Section 2: Client Confidentiality */}
+        <section className="mb-24 surface-card p-10 sm:p-14 rounded-3xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 mb-3">
+                <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
+                <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
+                  Client Confidentiality
+                </span>
+                <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
+              </div>
+              <h2 className="font-editorial font-normal text-3xl sm:text-4xl text-neutral-900 dark:text-white mb-6 tracking-tight">
+                How We Safeguard Your <span className="italic font-light text-neutral-500 dark:text-neutral-400">Engagement Data.</span>
+              </h2>
+              <p className="text-neutral-600 dark:text-neutral-300 mb-8 leading-relaxed font-light text-sm sm:text-base">
+                During VAPT or GRC engagements, we often handle highly sensitive network maps, source code, and compliance data. We treat your data with the highest level of cryptographic confidentiality.
               </p>
               <ul className="space-y-4">
                 {[
@@ -61,49 +105,71 @@ export const CompliancePage = () => {
                   "All assessments are conducted via secure, isolated VPN tunnels.",
                   "Non-Disclosure Agreements (NDAs) are mandatory prior to any scoping."
                 ].map((text, i) => (
-                  <li key={i} className="flex items-start gap-3 text-slate-700 dark:text-stone-300">
-                    <CheckCircle2 className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
+                  <li key={i} className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300">
+                    <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                     <span>{text}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="relative">
-              <div className="aspect-square rounded-full bg-orange-500/5 border border-orange-500/20 flex items-center justify-center relative z-10">
-                <Lock className="w-32 h-32 text-orange-500/50" strokeWidth={1} />
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="w-52 h-52 sm:w-64 sm:h-64 rounded-full border border-neutral-200 dark:border-white/[0.08] bg-neutral-100/50 dark:bg-white/[0.02] flex items-center justify-center relative">
+                <div className="absolute inset-4 rounded-full border border-amber-500/20" />
+                <Lock className="w-20 h-20 text-neutral-400 dark:text-neutral-500" strokeWidth={1} />
               </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-orange-500/10 rounded-full blur-[100px] pointer-events-none z-0" />
             </div>
           </div>
         </section>
 
-        <section className="py-24 border-t border-slate-200/80 dark:border-white/5 bg-slate-100/60 dark:bg-stone-950/40 relative">
-          <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
-             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 dark:text-white">Our Compliance Approach</h2>
-              <p className="text-slate-600 dark:text-stone-400 mt-4 max-w-2xl mx-auto">We align our operations with the strict frameworks we implement for our clients.</p>
+        {/* Section 3: Compliance Frameworks */}
+        <section>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 mb-3">
+              <span className="h-px w-6 bg-gradient-to-r from-transparent to-amber-500" />
+              <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-600 dark:text-amber-400">
+                Statutory Alignment
+              </span>
+              <span className="h-px w-6 bg-gradient-to-l from-transparent to-amber-500" />
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-white/90 dark:bg-white/[0.02] border border-slate-200 dark:border-blue-500/20 rounded-3xl p-8 lg:p-12 shadow-sm">
-                <div className="flex items-center gap-4 mb-6">
-                  <FileCheck className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">ISO 27001 Alignment</h3>
+            <h2 className="font-editorial font-normal text-3xl sm:text-4xl md:text-5xl text-neutral-900 dark:text-white tracking-tight">
+              Our Compliance <span className="italic font-light text-neutral-500 dark:text-neutral-400">Approach.</span>
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 mt-4 max-w-2xl mx-auto text-sm sm:text-base">
+              We align our operations with the strict frameworks we implement for our enterprise clients.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="surface-card surface-card-hover rounded-2xl p-8 lg:p-10 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <FileCheck className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                    <span className="font-mono text-xs tracking-wider uppercase font-semibold text-amber-600 dark:text-amber-400">FRAMEWORK 01</span>
+                  </div>
+                  <span className="font-mono text-xs text-neutral-400">ISMS</span>
                 </div>
-                <p className="text-slate-600 dark:text-stone-400 leading-relaxed font-light">
-                  Our internal Information Security Management System (ISMS) is built to mirror the rigorous requirements of ISO 27001, ensuring that risk assessments, access reviews, and incident response plans are documented, tested, and continuously improved.
+                <h3 className="font-editorial font-normal text-2xl sm:text-3xl text-neutral-900 dark:text-white mb-3">ISO 27001 Alignment</h3>
+                <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed font-light text-sm">
+                  Our internal Information Security Management System (ISMS) mirrors the rigorous requirements of ISO 27001, ensuring that risk assessments, access reviews, and incident response plans are documented, tested, and continuously improved.
                 </p>
-              </motion.div>
+              </div>
+            </div>
 
-              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-white/90 dark:bg-white/[0.02] border border-slate-200 dark:border-orange-500/20 rounded-3xl p-8 lg:p-12 shadow-sm">
-                <div className="flex items-center gap-4 mb-6">
-                  <FileCheck className="w-8 h-8 text-orange-600 dark:text-orange-400" />
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Privacy & DPDP</h3>
+            <div className="surface-card surface-card-hover rounded-2xl p-8 lg:p-10 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <FileCheck className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                    <span className="font-mono text-xs tracking-wider uppercase font-semibold text-amber-600 dark:text-amber-400">FRAMEWORK 02</span>
+                  </div>
+                  <span className="font-mono text-xs text-neutral-400">PRIVACY</span>
                 </div>
-                <p className="text-slate-600 dark:text-stone-400 leading-relaxed font-light">
-                  We are fully committed to data privacy. We comply with modern privacy acts including GDPR and India's DPDP Act. We only collect data necessary for engagements and ensure clients have full control over their digital footprint.
+                <h3 className="font-editorial font-normal text-2xl sm:text-3xl text-neutral-900 dark:text-white mb-3">Privacy &amp; DPDP Compliance</h3>
+                <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed font-light text-sm">
+                  We are fully committed to data sovereignty and privacy. We comply with modern privacy frameworks including GDPR and the statutory DPDP Act 2023, collecting solely data necessary for engagements and guaranteeing client control.
                 </p>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>

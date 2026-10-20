@@ -57,7 +57,9 @@ import {
   BellRing,
   Scale,
   Cloud,
-  FileCheck
+  FileCheck,
+  Hexagon,
+  LayoutGrid
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Lenis from 'lenis';
@@ -80,6 +82,7 @@ import { VisitorCounter } from './components/VisitorCounter';
 import { DeferredMount } from './components/DeferredMount';
 import { ThemeToggleNeumorphic } from './components/ThemeToggleNeumorphic';
 import { HoneycombNavCard } from './components/HoneycombNavCard';
+import { PolygonHexCard } from './components/PolygonHexCard';
 
 // Dynamic lazy-loaded 3D scenes & interactive modals (drops initial bundle size drastically)
 const CyberUniverse3D = lazyWithRetry(() => import('./components/CyberUniverse3D').then(m => ({ default: m.CyberUniverse3D })));
@@ -1552,272 +1555,262 @@ const Navbar: React.FC<NavbarProps> = ({
 interface ServicesProps {
   onOpenConsultation?: () => void;
   setCurrentView?: (view: any) => void;
+  isDarkMode?: boolean;
 }
 
-const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView }) => {
-  const [activeBrief, setActiveBrief] = useState<number | null>(null);
+const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView, isDarkMode = true }) => {
+  const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
+  const [layoutMode, setLayoutMode] = useState<'honeycomb' | 'grid'>('honeycomb');
 
-  useEffect(() => {
-    if (activeBrief !== null) {
-      const prevBodyOverflow = document.body.style.overflow;
-      const prevHtmlOverflow = document.documentElement.style.overflow;
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-
-      // Halt Lenis inertial smooth scrolling so wheel events don't scroll the background page!
-      const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
-      if (lenis && typeof lenis.stop === 'function') {
-        lenis.stop();
-      }
-
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          setActiveBrief(null);
-        }
-      };
-      window.addEventListener('keydown', handleKeyDown);
-      return () => {
-        document.body.style.overflow = prevBodyOverflow;
-        document.documentElement.style.overflow = prevHtmlOverflow;
-        window.removeEventListener('keydown', handleKeyDown);
-        if (lenis && typeof lenis.start === 'function') {
-          lenis.start();
-        }
-      };
+  const handleServiceClick = (route: string) => {
+    cyberAudio.playClick();
+    if (setCurrentView) {
+      setCurrentView(route);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [activeBrief]);
+  };
 
   const expertises = [
     {
-      title: "GRC",
-      route: "iso-27001",
-      tag: "GOVERN",
-      subtitle: "Governance, Risk & Compliance Architecture",
-      desc: "ISO 27001 and DPDP Act compliance, audit-ready governance frameworks, SOC 2 Type II, and continuous risk management.",
+      title: "Cybersecurity Consultancy",
+      route: "cybersecurity-consultancy",
+      tag: "CONSULTANCY",
+      subtitle: "GRC, TPRM, SCRM, VAPT, WAPT & Threat Modelling",
+      desc: "Governance, Risk and Compliance (GRC), Third-Party Risk Management (TPRM), Supply Chain Risk Management (SCRM), Vulnerability Assessment and Penetration Testing (VAPT), Web Application Penetration Testing (WAPT), secure network architecture reviews, and threat modelling.",
       icon: ShieldCheck,
       glow: "blue" as const,
-      standards: ["ISO 27001", "DPDP Act", "SOC 2 Type II", "NIST CSF 2.0"],
+      image: "/images/services/grc.jpg",
+      standards: ["ISO 27001 ISMS", "DPDP Act 2023", "TPRM & SCRM", "OWASP WAPT", "STRIDE Threat Modeling"],
       whatWeDo: [
-        "ISO 27001 ISMS architecture, security policies, and standard operating procedures",
-        "DPDP Act compliance readiness, data principal rights, and privacy impact assessments",
-        "Enterprise risk register development and third-party vendor tiering assessments",
-        "Comprehensive regulatory audit readiness, mock drills, and board reporting"
+        "Governance, Risk & Compliance (GRC) framework architecture, ISMS development, and regulatory audits",
+        "Third-Party Risk Management (TPRM) and Supply Chain Risk Management (SCRM) vendor tiering",
+        "Full-scope Vulnerability Assessment and Penetration Testing (VAPT & WAPT) across Web, APIs & networks",
+        "Secure network architecture reviews, perimeter defense validation, and adversarial threat modelling"
       ]
     },
     {
-      title: "AI Security",
-      route: "ai-security",
-      tag: "PROTECT",
-      subtitle: "Model Security & Sovereign Safety",
-      desc: "Sovereign model protection, prompt injection defense, and air-gapped neural safety.",
+      title: "IT & Cyber Solutions",
+      route: "it-cyber-solutions",
+      tag: "SOLUTIONS",
+      subtitle: "AI/ML SOC Alert Triage & GRC Automation",
+      desc: "Design and development of IT and cybersecurity solutions like AI/ML-driven tools for SOC alert triage, GRC automation, and customized security software.",
       icon: Brain,
-      glow: "orange" as const,
-      standards: ["NIST AI RMF", "EU AI Act", "OWASP for LLM", "Prompt Armor"],
+      glow: "purple" as const,
+      image: "/images/services/ai-security.jpg",
+      standards: ["AI/ML SOC Triage", "GRC Automation", "SOAR Orchestration", "Microservice Security"],
       whatWeDo: [
-        "LLM red teaming and adversarial prompt injection testing",
-        "Training data privacy and RAG vector store isolation audits",
-        "Model alignment verification and hallucination boundary controls",
-        "Enterprise AI governance framework and executive oversight"
+        "Design and deployment of AI/ML-powered SOC alert triage and false-positive suppression engines",
+        "End-to-end GRC workflow automation eliminating manual spreadsheets and policy drift",
+        "Custom secure enterprise application engineering and microservices isolation",
+        "Automated incident correlation, playbooks orchestration, and real-time posture reporting"
       ]
     },
     {
-      title: "Offensive Security",
-      route: "vapt",
-      tag: "TEST",
-      subtitle: "VAPT & Zero-Day Threat Emulation",
-      desc: "Rigorous VAPT, zero-day threat discovery, and multi-vector adversary simulation.",
-      icon: Lock,
+      title: "Cloud Deployment",
+      route: "cloud-hosting",
+      tag: "DEPLOYMENT",
+      subtitle: "Enterprise Applications & Cloud Architecture",
+      desc: "Deployment and orchestration solutions for business applications and websites through suitable infrastructure partnerships, zero-trust cloud isolation, and high-availability architecture.",
+      icon: Cloud,
       glow: "blue" as const,
-      standards: ["OWASP Top 10", "Network Penetration", "API & LLM Security", "Adversary Simulation"],
+      image: "/images/services/cloud-sec.jpg",
+      standards: ["Multi-Cloud Orchestration", "CI/CD & DevOps", "Zero-Trust Mesh", "Automated DR & Scaling"],
       whatWeDo: [
-        "Web, mobile app, and GraphQL/REST API penetration testing",
-        "Internal/external network breach simulation and privilege escalation",
-        "Cloud configuration audit and microservice boundary validation",
-        "Board-ready remediation governance and technical remediation guidance"
+        "Enterprise cloud deployment architectures for mission-critical web applications and corporate websites",
+        "Strategic infrastructure partnerships delivering high-availability SLA and geo-redundancy",
+        "DDoS protection, automated Web Application Firewall (WAF) gating, and SSL/TLS management",
+        "Cloud security posture monitoring, automated backups, and disaster recovery orchestration"
       ]
     },
     {
-      title: "Cloud & DevSecOps",
-      route: "cloud-security",
-      tag: "PROTECT",
-      subtitle: "AWS, Azure & GCP Hardening",
-      desc: "Hardened multi-cloud architecture (AWS/Azure/GCP), CI/CD gating, and Kubernetes isolation.",
-      icon: Globe,
-      glow: "orange" as const,
-      standards: ["CIS Benchmarks", "Terraform / IaC", "Kubernetes Hardening", "IAM Least Privilege"],
+      title: "Online IT & Cyber Training",
+      route: "training",
+      tag: "TRAINING",
+      subtitle: "Workforce Awareness & Technical Capabilities",
+      desc: "Helping individuals and organisations strengthen their IT knowledge, cybersecurity awareness, and technical capabilities through interactive simulated labs.",
+      icon: GraduationCap,
+      glow: "purple" as const,
+      image: "/images/services/training.jpg",
+      standards: ["Interactive Cyber Labs", "Phishing Simulation", "Technical Bootcamps", "Executive Crisis Training"],
       whatWeDo: [
-        "Cloud Security Posture Management (CSPM) and drift detection",
-        "Infrastructure as Code (IaC) automated gating in CI/CD pipelines",
-        "Kubernetes container security and secrets isolation",
-        "IAM privilege reduction and zero-trust identity enforcement"
+        "Comprehensive workforce cybersecurity awareness training and live phishing resilience drills",
+        "Hands-on offensive and defensive technical bootcamps for engineering and IT teams",
+        "Specialized curricula covering cloud security, secure coding practices, and DevSecOps",
+        "Executive leadership and board-level cyber crisis simulation exercises"
       ]
     },
     {
-      title: "Threat Intelligence",
-      route: "threat-collector",
-      tag: "TEST",
-      subtitle: "Dark Web & Digital Asset Defense",
-      desc: "24/7 dark web reconnaissance, VIP credential surveillance, and proactive C2 threat hunting.",
-      icon: Radar,
+      title: "Digital Marketing",
+      route: "digital-marketing",
+      tag: "MARKETING",
+      subtitle: "Digital Presence, Visibility & Promotion",
+      desc: "Helping businesses enhance their digital presence, improve online visibility, and promote their products and services to drive sustainable market growth.",
+      icon: Sparkles,
       glow: "blue" as const,
-      standards: ["MITRE ATT&CK", "Dark Web Recon", "VIP Protection", "C2 Infrastructure Hunting"],
+      image: "/images/services/digital-marketing.jpg",
+      standards: ["Technical SEO", "B2B Brand Strategy", "Conversion Optimization", "Omnichannel Growth"],
       whatWeDo: [
-        "Continuous dark web credential leak and paste-site monitoring",
-        "Executive digital footprint protection and VIP threat defense",
-        "Malicious infrastructure identification and takedown coordination",
-        "Tailored threat intelligence feeds mapping your attack surface"
-      ]
-    },
-    {
-      title: "SOC Triage Services",
-      route: "soc-ai",
-      tag: "GOVERN",
-      subtitle: "24/7 Threat Triage & Incident Resilience",
-      desc: "24/7 security alert triage, threat correlation, incident containment, and automated SOAR playbooks.",
-      icon: Layers,
-      glow: "orange" as const,
-      standards: ["24/7 SOC Triage", "SIEM / SOAR Playbooks", "Incident Response", "Zero Trust Architecture"],
-      whatWeDo: [
-        "24/7 security alert triage, threat correlation, and false-positive suppression",
-        "Rapid incident containment, forensics, and executive crisis response playbooks",
-        "Zero-trust network access (ZTNA) and micro-segmentation enforcement",
-        "SIEM/SOAR automated playbooks and logging fidelity engineering"
+        "Comprehensive digital presence architecture, brand positioning, and corporate narrative engineering",
+        "Technical search engine optimization (SEO) and web performance enhancement",
+        "Strategic B2B and B2G product promotion and audience acquisition campaigns",
+        "Data-driven marketing analytics, conversion rate optimization (CRO), and measurable ROI tracking"
       ]
     }
   ];
 
-  return (
-    <section id="services" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-gradient-to-b from-transparent via-slate-100/40 dark:via-[#020510]/60 to-transparent">
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-gradient-to-br from-blue-600/10 to-transparent rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-tl from-orange-500/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+  const filterCategories = [
+    { id: 'ALL', label: 'All Services (5)' },
+    { id: 'CONSULTANCY', label: 'Consultancy' },
+    { id: 'SOLUTIONS', label: 'IT & Solutions' },
+    { id: 'DEPLOYMENT', label: 'Cloud Deployment' },
+    { id: 'TRAINING', label: 'Online Training' },
+    { id: 'MARKETING', label: 'Digital Marketing' }
+  ];
 
+  const displayedCards = selectedFilter === 'ALL'
+    ? expertises.map((s, idx) => ({ ...s, originalIdx: idx }))
+    : expertises
+        .map((s, idx) => ({ ...s, originalIdx: idx }))
+        .filter((s) => s.tag === selectedFilter);
+
+  return (
+    <section id="services" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent">
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-14">
-          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-2 block font-bold font-mono">
-            SECURITY CAPABILITIES
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Protect. Test. Govern.
+        <div className="text-center mb-12 sm:mb-16 max-w-4xl mx-auto">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-neutral-500 dark:text-neutral-400">
+              Our Key Service Areas
+            </span>
+          </div>
+          <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-neutral-900 dark:text-white tracking-tight">
+            Research, Innovation &amp; Practical Solutions.
           </h2>
-          <p className="text-slate-600 dark:text-stone-400 text-sm sm:text-base max-w-xl mt-3 font-normal mx-auto">
-            Mathematically verified defense architecture engineered for high-consequence enterprise workloads.
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base mt-4 font-normal leading-relaxed max-w-3xl mx-auto">
+            Are you looking for a growth-focused research-oriented cybersecurity and technology partner for your B2B or B2G requirements?
+            At <strong className="text-neutral-900 dark:text-white">CYBRAVION Solutions Pvt Ltd</strong>, we bring together cybersecurity, IT solutions, online training, and digital marketing to help organizations strengthen &amp; secure digital foundations, build capabilities, and expand their online presence.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {expertises.map((service, idx) => {
-            const Icon = service.icon;
-            const isBlue = service.glow === 'blue';
-            return (
-              <TiltCard3D key={idx} glowColor={service.glow}>
-                <div 
-                  onClick={() => {
-                    cyberAudio.playClick();
-                    setActiveBrief(idx);
-                  }}
-                  className="flex flex-col h-full justify-between group cursor-pointer p-2"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <div className={`p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 ${
-                        isBlue 
-                          ? 'text-blue-600 dark:text-blue-400 group-hover:border-blue-500/50 group-hover:bg-blue-500/10' 
-                          : 'text-orange-500 dark:text-orange-400 group-hover:border-orange-500/50 group-hover:bg-orange-500/10'
-                      }`}>
-                        <Icon size={22} />
-                      </div>
-                      <span className={`text-[10px] uppercase font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full border ${
-                        isBlue
-                          ? 'text-blue-500 border-blue-500/30 bg-blue-500/10'
-                          : 'text-orange-500 border-orange-500/30 bg-orange-500/10'
-                      }`}>
-                        {service.tag}
-                      </span>
-                    </div>
+        {/* Interactive Controls: Category Filter & Layout Switcher */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 max-w-5xl mx-auto">
+          {/* Category Filter Pills */}
+          <div className="flex items-center gap-1.5 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
+            {filterCategories.map((filter) => (
+              <button
+                key={filter.id}
+                onClick={() => {
+                  cyberAudio.playClick();
+                  setSelectedFilter(filter.id);
+                }}
+                className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
+                  selectedFilter === filter.id
+                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                }`}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
 
-                    <h3 className={`text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors ${
-                      isBlue ? 'group-hover:text-blue-600 dark:group-hover:text-blue-400' : 'group-hover:text-orange-500 dark:group-hover:text-orange-400'
-                    }`}>
-                      {service.title}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-stone-300 font-normal leading-relaxed mb-4">
-                      {service.desc}
-                    </p>
-                  </div>
-
-                  <div className={`pt-3 border-t border-slate-100 dark:border-stone-800/80 flex items-center justify-between text-xs font-semibold ${
-                    isBlue ? 'text-blue-600 dark:text-blue-400' : 'text-orange-500 dark:text-orange-400'
-                  }`}>
-                    <span>View Architecture Dossier</span>
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </TiltCard3D>
-            );
-          })}
-        </div>
-
-        {/* View all capabilities footer CTA */}
-        <div className="mt-12 text-center">
-          <button
-            onClick={() => {
-              cyberAudio.playClick();
-              if (onOpenConsultation) {
-                onOpenConsultation();
-              } else {
-                setActiveBrief(0);
-              }
-            }}
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-slate-700 dark:text-stone-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors cursor-pointer group"
-          >
-            <span>Request Full Scope &amp; Architecture Briefing</span>
-            <ArrowRight size={15} className="group-hover:translate-x-1.5 transition-transform" />
-          </button>
-        </div>
-      </div>
-
-      {typeof document !== 'undefined' && createPortal(
-        <AnimatePresence>
-          {activeBrief !== null && (
-            <div 
-              id="capability-modal-backdrop"
-              data-lenis-prevent="true"
-              onClick={() => setActiveBrief(null)}
-              className="fixed inset-0 z-[999999] overflow-y-auto bg-slate-950/90 backdrop-blur-2xl overscroll-contain"
-              style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+          {/* Layout Mode Pill Switcher */}
+          <div className="flex items-center gap-1 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] shrink-0">
+            <button
+              onClick={() => {
+                cyberAudio.playClick();
+                setLayoutMode('honeycomb');
+              }}
+              title="Honeycomb Cluster Layout"
+              aria-label="Honeycomb Cluster Layout"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                layoutMode === 'honeycomb'
+                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+              }`}
             >
-              <div className="min-h-full flex items-center justify-center p-3 sm:p-5 md:p-8">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.96, y: 16 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.96, y: 16 }}
-                  transition={{ duration: 0.18, ease: "easeOut" }}
-                  onClick={(e) => e.stopPropagation()}
-                  className="relative w-full max-w-4xl bg-white dark:bg-[#0b101e] border border-slate-200 dark:border-blue-500/30 rounded-3xl shadow-2xl dark:shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_30px_rgba(59,130,246,0.2)] text-slate-900 dark:text-stone-100 my-auto"
-                >
-                  <button
-                    onClick={() => setActiveBrief(null)}
-                    className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 text-slate-500 dark:text-stone-400 hover:text-slate-900 dark:hover:text-white rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-stone-900 dark:hover:bg-stone-800 border border-slate-200 dark:border-stone-800 cursor-pointer z-30 transition-all shadow-sm"
-                    aria-label="Close capability dossier"
-                  >
-                    <X size={18} />
-                  </button>
-                  <ServiceModalRenderer
-                    activeBrief={activeBrief}
-                    data={expertises[activeBrief]}
-                    close={() => setActiveBrief(null)}
-                    onOpenConsultation={onOpenConsultation}
-                    onNavigate={setCurrentView}
-                  />
-                </motion.div>
-              </div>
+              <Hexagon size={13} aria-hidden={true} />
+              <span className="hidden sm:inline">Honeycomb</span>
+            </button>
+            <button
+              onClick={() => {
+                cyberAudio.playClick();
+                setLayoutMode('grid');
+              }}
+              title="Matrix Grid Layout"
+              aria-label="Matrix Grid Layout"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                layoutMode === 'grid'
+                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+              }`}
+            >
+              <LayoutGrid size={13} aria-hidden={true} />
+              <span className="hidden sm:inline">Matrix</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Polygon Cards Presentation */}
+        {layoutMode === 'honeycomb' && selectedFilter === 'ALL' ? (
+          /* Honeycomb Cluster Matching Image 1 (Row 1: 3 hexagons, Row 2: 2 hexagons nestled) */
+          <div className="flex flex-col items-center w-full">
+            {/* Top Row: 3 Hexagons */}
+            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 z-10 w-full max-w-6xl">
+              {displayedCards.slice(0, 3).map((service) => (
+                <PolygonHexCard
+                  key={service.title}
+                  title={service.title}
+                  tag={service.tag}
+                  subtitle={service.subtitle}
+                  desc={service.desc}
+                  icon={service.icon}
+                  image={service.image}
+                  actionLabel=">"
+                  onAction={() => handleServiceClick(service.route)}
+                  isDarkMode={isDarkMode}
+                />
+              ))}
             </div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
+
+            {/* Bottom Row: 2 Hexagons nestled into the valleys of Row 1 */}
+            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-6 lg:-mt-16 z-20 w-full max-w-4xl">
+              {displayedCards.slice(3, 5).map((service) => (
+                <PolygonHexCard
+                  key={service.title}
+                  title={service.title}
+                  tag={service.tag}
+                  subtitle={service.subtitle}
+                  desc={service.desc}
+                  icon={service.icon}
+                  image={service.image}
+                  actionLabel=">"
+                  onAction={() => handleServiceClick(service.route)}
+                  isDarkMode={isDarkMode}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* Responsive Matrix Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center max-w-6xl mx-auto">
+            {displayedCards.map((service) => (
+              <PolygonHexCard
+                key={service.title}
+                title={service.title}
+                tag={service.tag}
+                subtitle={service.subtitle}
+                desc={service.desc}
+                icon={service.icon}
+                image={service.image}
+                actionLabel=">"
+                onAction={() => handleServiceClick(service.route)}
+                isDarkMode={isDarkMode}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 };
@@ -2750,7 +2743,7 @@ export default function App() {
                 />
 
                 {/* 02. Security Core (6 Real Capabilities) */}
-                <Services onOpenConsultation={() => setIsAuditModalOpen(true)} setCurrentView={setCurrentView} />
+                <Services onOpenConsultation={() => setIsAuditModalOpen(true)} setCurrentView={setCurrentView} isDarkMode={isDarkMode} />
 
                 {/* 03. Interactive Threat Radar Demo */}
                 <DeferredMount id="radar" className="min-h-[500px]">
