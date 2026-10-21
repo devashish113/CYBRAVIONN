@@ -28,6 +28,7 @@ import {
 import { OfficeLocationMap } from '../components/OfficeLocationMap';
 import { PageHeader } from '../components/PageHeader';
 import { WaterGlassCard } from '../components/WaterGlassCard';
+import { XTwitterIcon } from '../components/XTwitterIcon';
 
 interface AboutUsProps {
   setCurrentView?: (view: string) => void;
@@ -607,6 +608,16 @@ export const AboutUsPage: React.FC<AboutUsProps> = ({
               >
                 <Mail size={15} />
                 <span>Contact Security Desk</span>
+              </a>
+              <a
+                href="https://www.x.com/cybravions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/15 font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer active:scale-[0.99]"
+                title="Follow CYBRAVIONS on X (@cybravions)"
+              >
+                <XTwitterIcon size={15} />
+                <span>X (@cybravions)</span>
               </a>
               <a
                 href="https://www.linkedin.com/company/cybravion-solutions-pvt-ltd/about/"
