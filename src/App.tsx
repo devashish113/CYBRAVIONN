@@ -341,8 +341,8 @@ const Navbar: React.FC<NavbarProps> = ({
         </a>
       </div>
 
-      {/* Section 2: Top-Right Controls (Independent, Fixed to Hero Section) */}
-      <div className="absolute top-3 sm:top-4 md:top-5 right-4 sm:right-6 lg:right-8 xl:right-10 z-40 flex items-center gap-2 sm:gap-2.5 pointer-events-auto">
+      {/* Section 2: Top-Right Controls (Desktop Only - hidden on mobile/tablet to prevent collision with mobile menu capsule) */}
+      <div className="hidden lg:flex absolute top-3 sm:top-4 md:top-5 right-4 sm:right-6 lg:right-8 xl:right-10 z-40 items-center gap-2 sm:gap-2.5 pointer-events-auto">
         {/* Circular Tactile Neumorphic Search Button */}
         <motion.button
           onClick={() => {
