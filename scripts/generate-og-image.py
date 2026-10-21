@@ -9,7 +9,7 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
-def create_og_card(output_png, output_webp=None, logo_path="public/logo-hires-original.png", height_logo=530):
+def create_og_card(output_png, output_webp=None, logo_path="public/logo-horizontal.png", height_logo=280):
     W, H = 1200, 630
     
     # 1. Base dark obsidian background (#07080b)

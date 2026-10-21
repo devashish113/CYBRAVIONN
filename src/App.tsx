@@ -326,16 +326,19 @@ const Navbar: React.FC<NavbarProps> = ({
           className="flex items-center group shrink-0"
           aria-label="CYBRAVIONS Home"
         >
-          <picture>
-            <source srcSet="/logo.webp" type="image/webp" />
+          {/* Responsive Brand Identity: Compact Shield Crest on Smartphone, Full Horizontal Brand Lockup on Tablet & Desktop */}
+          <picture className="flex items-center">
+            <source media="(min-width: 640px)" srcSet="/logo-horizontal.webp" type="image/webp" />
+            <source media="(min-width: 640px)" srcSet="/logo-horizontal.png" type="image/png" />
+            <source srcSet="/logo-shield.webp" type="image/webp" />
             <img 
-              src="/logo.png" 
-              alt="CYBRAVIONS" 
-              width="340"
-              height="312"
+              src="/logo-shield.png" 
+              alt="CYBRAVIONS - Redefining Cyber Consciousness" 
+              width="1024"
+              height="341"
               loading="eager"
               decoding="async"
-              className="h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px] xl:h-[90px] w-auto object-contain object-left transition-transform duration-200 hover:scale-105 drop-shadow-md" 
+              className="h-[42px] sm:h-[48px] md:h-[54px] lg:h-[62px] xl:h-[70px] w-auto object-contain object-left transition-transform duration-200 hover:scale-105 drop-shadow-md" 
             />
           </picture>
         </a>
@@ -983,16 +986,16 @@ const Navbar: React.FC<NavbarProps> = ({
                   className="flex items-center group shrink-0"
                   aria-label="CYBRAVIONS Home"
                 >
-                  <picture>
-                    <source srcSet="/logo.webp" type="image/webp" />
+                  <picture className="flex items-center">
+                    <source srcSet="/logo-horizontal.webp" type="image/webp" />
                     <img 
-                      src="/logo.png" 
-                      alt="CYBRAVIONS" 
-                      width="160"
-                      height="148"
+                      src="/logo-horizontal.png" 
+                      alt="CYBRAVIONS - Redefining Cyber Consciousness" 
+                      width="300"
+                      height="100"
                       loading="eager"
                       decoding="async"
-                      className="h-10 sm:h-11 w-auto object-contain drop-shadow-sm" 
+                      className="h-8 sm:h-9 w-auto object-contain drop-shadow-sm" 
                     />
                   </picture>
                 </a>
@@ -2327,16 +2330,16 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-4">
           {/* Col 1: Brand & Identity */}
           <div className="space-y-4">
-            <picture>
-              <source srcSet="/logo.webp" type="image/webp" />
+            <picture className="flex items-center">
+              <source srcSet="/logo-horizontal.webp" type="image/webp" />
               <img 
-                src="/logo.png" 
-                alt="CYBRAVIONS" 
-                width="200"
-                height="185"
+                src="/logo-horizontal.png" 
+                alt="CYBRAVIONS - Redefining Cyber Consciousness" 
+                width="300"
+                height="100"
                 loading="lazy"
                 decoding="async"
-                className="h-16 sm:h-20 w-auto object-contain drop-shadow-sm" 
+                className="h-11 sm:h-12 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
               />
             </picture>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
