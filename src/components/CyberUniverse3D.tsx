@@ -1268,16 +1268,43 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     const updateCameraTarget = (t: number) => {
+      const clampedT = THREE.MathUtils.clamp(t, 0, 1);
+
+      if (clampedT >= 1.0) {
+        const last = cameraWaypoints[cameraWaypoints.length - 1];
+        scratchTarget.pos.copy(last.pos);
+        scratchTarget.look.copy(last.look);
+        scratchTarget.globePos.copy(last.globePos);
+        scratchTarget.globeScale = last.globeScale;
+        scratchTarget.globe2Pos.copy(last.globe2Pos);
+        scratchTarget.globe2Scale = last.globe2Scale;
+        return;
+      }
+
+      if (clampedT <= 0.0) {
+        const first = cameraWaypoints[0];
+        scratchTarget.pos.copy(first.pos);
+        scratchTarget.look.copy(first.look);
+        scratchTarget.globePos.copy(first.globePos);
+        scratchTarget.globeScale = first.globeScale;
+        scratchTarget.globe2Pos.copy(first.globe2Pos);
+        scratchTarget.globe2Scale = first.globe2Scale;
+        return;
+      }
+
       let idx = 0;
       for (let i = 0; i < cameraWaypoints.length - 1; i++) {
-        if (t >= cameraWaypoints[i].scroll && t <= cameraWaypoints[i + 1].scroll) {
+        if (clampedT >= cameraWaypoints[i].scroll && clampedT <= cameraWaypoints[i + 1].scroll) {
           idx = i;
           break;
         }
       }
       const p1 = cameraWaypoints[idx];
       const p2 = cameraWaypoints[Math.min(idx + 1, cameraWaypoints.length - 1)];
-      const segmentT = p2.scroll === p1.scroll ? 0 : (t - p1.scroll) / (p2.scroll - p1.scroll);
+      const segmentSpan = p2.scroll - p1.scroll;
+      const segmentT = segmentSpan > 0.00001
+        ? THREE.MathUtils.clamp((clampedT - p1.scroll) / segmentSpan, 0, 1)
+        : 0;
       const easeT = segmentT * segmentT * (3 - 2 * segmentT);
 
       scratchTarget.pos.lerpVectors(p1.pos, p2.pos, easeT);
@@ -1298,30 +1325,16 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     const checkAndUpdateVisibility = () => {
-      const isDeepInPage = targetScrollProgress > 0.65;
-      const nextVisible = !isDeepInPage && !deepSectionsIntersecting;
-
-      if (is3DZoneVisible !== nextVisible) {
-        is3DZoneVisible = nextVisible;
-        if (is3DZoneVisible) {
-          wakeUpLoop();
-        }
+      // Keep loop alive everywhere for continuous ambient animation
+      if (!is3DZoneVisible) {
+        is3DZoneVisible = true;
       }
+      wakeUpLoop();
     };
 
     if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
       intersectionObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const targetId = entry.target.id || entry.target.tagName.toLowerCase();
-            if (targetId === 'faq' || targetId === 'contact' || targetId === 'footer') {
-              if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
-                deepSectionsIntersecting = true;
-              } else if (!entry.isIntersecting) {
-                deepSectionsIntersecting = false;
-              }
-            }
-          });
+        () => {
           checkAndUpdateVisibility();
         },
         { threshold: [0, 0.25, 0.5, 0.75] }
@@ -1340,14 +1353,15 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const handleScroll = (customProgress?: number) => {
       if (typeof customProgress === 'number') {
-        targetScrollProgress = customProgress;
+        targetScrollProgress = THREE.MathUtils.clamp(customProgress, 0, 1);
       } else {
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         if (docHeight > 0) {
-          targetScrollProgress = Math.min(Math.max(window.scrollY / docHeight, 0), 1);
+          targetScrollProgress = THREE.MathUtils.clamp(window.scrollY / docHeight, 0, 1);
+        } else {
+          targetScrollProgress = 0;
         }
       }
-      checkAndUpdateVisibility();
       wakeUpLoop();
     };
 
@@ -1369,9 +1383,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const handleMouseMove = (e: MouseEvent) => {
       targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
       targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-      if (is3DZoneVisible) {
-        wakeUpLoop();
-      }
+      wakeUpLoop();
     };
 
     const handleTouchMove = () => {
@@ -1388,6 +1400,20 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       setQualityLevel(updatedProfile.initialQualityLevel);
       wakeUpLoop();
     };
+
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      isLoopRunning = false;
+      cancelAnimationFrame(animationFrameId);
+    };
+
+    const handleContextRestored = () => {
+      wakeUpLoop();
+    };
+
+    const canvasDom = renderer.domElement;
+    canvasDom.addEventListener('webglcontextlost', handleContextLost, false);
+    canvasDom.addEventListener('webglcontextrestored', handleContextRestored, false);
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
@@ -1410,34 +1436,21 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const now = performance.now();
       const isIdle = (now - lastInteractionTime) > 2500;
 
-      // 2. Off-screen / Occluded Section Governor (e.g. user is reading FAQ, Contact, Footer)
-      if (!is3DZoneVisible) {
-        if (isIdle) {
-          // Complete render pause when stationary in non-3D sections — 0 GPU draw calls & 0 battery drain
-          isLoopRunning = false;
-          return;
-        } else {
-          // Throttled 15 FPS standby during active scrolling through offscreen sections
-          const offscreenInterval = 1000 / 15;
-          if (now - lastRenderTimestamp < offscreenInterval - 1) {
-            animationFrameId = requestAnimationFrame(animate);
-            isLoopRunning = true;
-            return;
-          }
-        }
-      } else {
-        // 3. Active 3D Section Governor (Hero, Services, Radar, Lifecycle)
-        const isLowTier = profile.tier === 'low-end-mobile' || profile.tier === 'mobile';
-        const targetFPS = isIdle
-          ? (isLowTier ? 12 : 25)
-          : (isLowTier ? 30 : profile.tier === 'tablet' ? 50 : 60);
+      // Smart frame-rate throttling:
+      // Active interaction: 60 FPS (desktop) / 30-50 FPS (mobile/tablet)
+      // Stationary / Idle: 24 FPS ambient drift (desktop) / 15 FPS (mobile)
+      // Ensures the cybernetic background never freezes into a dead frame,
+      // while cutting GPU cycles and battery consumption by 60%+ when stationary.
+      const isLowTier = profile.tier === 'low-end-mobile' || profile.tier === 'mobile';
+      const targetFPS = isIdle
+        ? (isLowTier ? 15 : 24)
+        : (isLowTier ? 30 : profile.tier === 'tablet' ? 50 : 60);
 
-        const frameInterval = 1000 / targetFPS;
-        if (now - lastRenderTimestamp < frameInterval - 1) {
-          animationFrameId = requestAnimationFrame(animate);
-          isLoopRunning = true;
-          return;
-        }
+      const frameInterval = 1000 / targetFPS;
+      if (now - lastRenderTimestamp < frameInterval - 1) {
+        animationFrameId = requestAnimationFrame(animate);
+        isLoopRunning = true;
+        return;
       }
 
       lastRenderTimestamp = now;
@@ -1655,6 +1668,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         lenisInstance.off('scroll', handleLenisScroll);
       }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      canvasDom.removeEventListener('webglcontextlost', handleContextLost);
+      canvasDom.removeEventListener('webglcontextrestored', handleContextRestored);
       window.removeEventListener('scroll', handleWindowScroll);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
@@ -1666,7 +1681,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         container.removeChild(renderer.domElement);
       }
     };
-  }, [currentView, isDarkMode]);
+  }, [isDarkMode]);
 
   return (
     <div

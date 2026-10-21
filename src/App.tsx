@@ -2606,6 +2606,11 @@ export default function App() {
       window.history.pushState({}, '', path);
     }
     setCurrentViewState(view as AppView);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { immediate: boolean }) => void } }).__lenis;
+    if (lenis && typeof lenis.scrollTo === 'function') {
+      lenis.scrollTo(0, { immediate: true });
+    }
   };
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
@@ -2675,10 +2680,26 @@ export default function App() {
     };
   }, []);
 
-  // Keep WebGL initialization outside the initial render and Lighthouse TTI window.
+  // Mount 3D background smoothly right after initial paint without 4.5s delay
   useEffect(() => {
-    const timer = window.setTimeout(() => setIsCyberUniverseReady(true), 4500);
-    return () => window.clearTimeout(timer);
+    if (typeof window === 'undefined') return;
+
+    const win = window as unknown as {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+
+    if (typeof win.requestIdleCallback === 'function') {
+      const handle = win.requestIdleCallback(() => setIsCyberUniverseReady(true), { timeout: 300 });
+      return () => {
+        if (typeof win.cancelIdleCallback === 'function') {
+          win.cancelIdleCallback(handle);
+        }
+      };
+    } else {
+      const timer = setTimeout(() => setIsCyberUniverseReady(true), 150);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   // Lenis Luxury Inertial Smooth Scrolling Engine
