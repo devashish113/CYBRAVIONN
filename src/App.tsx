@@ -83,6 +83,7 @@ import { cyberAudio } from './utils/cyberAudio';
 import { VisitorCounter } from './components/VisitorCounter';
 import { ThemeToggleNeumorphic } from './components/ThemeToggleNeumorphic';
 import { XTwitterIcon } from './components/XTwitterIcon';
+import { DeferredMount } from './components/DeferredMount';
 
 // Dynamic lazy-loaded 3D scenes & interactive modals (drops initial bundle size drastically)
 const CyberUniverse3D = lazyWithRetry(() => import('./components/CyberUniverse3D').then(m => ({ default: m.CyberUniverse3D })));
@@ -1595,7 +1596,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       desc: "Governance, Risk and Compliance (GRC), Third-Party Risk Management (TPRM), Supply Chain Risk Management (SCRM), Vulnerability Assessment and Penetration Testing (VAPT), Web Application Penetration Testing (WAPT), secure network architecture reviews, and threat modelling.",
       icon: ShieldCheck,
       glow: "blue" as const,
-      image: "/images/services/grc.jpg",
+      image: "/images/services/grc.webp",
       standards: ["ISO 27001 ISMS", "DPDP Act 2023", "TPRM & SCRM", "OWASP WAPT", "STRIDE Threat Modeling"],
       whatWeDo: [
         "Governance, Risk & Compliance (GRC) framework architecture, ISMS development, and regulatory audits",
@@ -1612,7 +1613,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       desc: "Design and development of IT and cybersecurity solutions like AI/ML-driven tools for SOC alert triage, GRC automation, and customized security software.",
       icon: Brain,
       glow: "purple" as const,
-      image: "/images/services/ai-security.jpg",
+      image: "/images/services/ai-security.webp",
       standards: ["AI/ML SOC Triage", "GRC Automation", "SOAR Orchestration", "Microservice Security"],
       whatWeDo: [
         "Design and deployment of AI/ML-powered SOC alert triage and false-positive suppression engines",
@@ -1629,7 +1630,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       desc: "Deployment and orchestration solutions for business applications and websites through suitable infrastructure partnerships, zero-trust cloud isolation, and high-availability architecture.",
       icon: Cloud,
       glow: "blue" as const,
-      image: "/images/services/cloud-sec.jpg",
+      image: "/images/services/cloud-sec.webp",
       standards: ["Multi-Cloud Orchestration", "CI/CD & DevOps", "Zero-Trust Mesh", "Automated DR & Scaling"],
       whatWeDo: [
         "Enterprise cloud deployment architectures for mission-critical web applications and corporate websites",
@@ -1646,7 +1647,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       desc: "Helping individuals and organisations strengthen their IT knowledge, cybersecurity awareness, and technical capabilities through interactive simulated labs.",
       icon: GraduationCap,
       glow: "purple" as const,
-      image: "/images/services/training.jpg",
+      image: "/images/services/training.webp",
       standards: ["Interactive Cyber Labs", "Phishing Simulation", "Technical Bootcamps", "Executive Crisis Training"],
       whatWeDo: [
         "Comprehensive workforce cybersecurity awareness training and live phishing resilience drills",
@@ -1663,7 +1664,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       desc: "Helping businesses enhance their digital presence, improve online visibility, and promote their products and services to drive sustainable market growth.",
       icon: Sparkles,
       glow: "blue" as const,
-      image: "/images/services/digital-marketing.jpg",
+      image: "/images/services/digital-marketing.webp",
       standards: ["Technical SEO", "B2B Brand Strategy", "Conversion Optimization", "Omnichannel Growth"],
       whatWeDo: [
         "Comprehensive digital presence architecture, brand positioning, and corporate narrative engineering",
@@ -2500,6 +2501,7 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
             >
               <ShieldCheck size={13} aria-hidden="true" />
               <span>Verify on MCA.gov.in</span>
+            </a>
             <a
               href="https://www.x.com/cybravions"
               target="_blank"

@@ -30,7 +30,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       subtitle: 'Automated STRIDE & PASTA Engine',
       desc: 'Automated threat modeling and attack surface mapping with live attack tree generation, CVSS 3.1 quantitative scoring, and air-gapped threat narratives.',
       icon: ShieldAlert,
-      image: '/images/services/offensive-sec.jpg',
+      image: '/images/services/offensive-sec.webp',
       targetView: 'threatforge'
     },
     {
@@ -41,7 +41,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       subtitle: 'Explainable AI Incident Investigation',
       desc: 'Sub-second autonomous SIEM alert investigation. Features SHAP explainable ML verdicts, ReAct investigation agents, and automated SOAR playbooks.',
       icon: BellRing,
-      image: '/images/services/soc-triage.jpg',
+      image: '/images/services/soc-triage.webp',
       targetView: 'soc-ai'
     },
     {
@@ -52,7 +52,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       subtitle: 'Automated Risk Waiver Platform',
       desc: 'Centralized compliance exception tracking platform with machine learning risk scoring, automated review workflows, and continuous policy drift governance.',
       icon: ShieldCheck,
-      image: '/images/services/grc.jpg',
+      image: '/images/services/grc.webp',
       targetView: 'exception-manager'
     },
     {
@@ -63,7 +63,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       subtitle: 'Adversary Emulation & Hands-on Labs',
       desc: 'Browser-based hands-on cyber defense sandboxes, active adversary emulation scenarios, and interactive incident response training for technical teams.',
       icon: Gamepad2,
-      image: '/images/services/training.jpg',
+      image: '/images/services/training.webp',
       targetView: 'cyberverse'
     },
     {
@@ -74,7 +74,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       subtitle: 'Unified MISP & OTX Intelligence Hub',
       desc: 'Ingests, deduplicates, and scores IOCs from MISP, AlienVault OTX, and URLhaus with automated STIX 2.1 air-gap export bundles for isolated enclaves.',
       icon: Radio,
-      image: '/images/services/threat-intel.jpg',
+      image: '/images/services/threat-intel.webp',
       targetView: 'threat-collector'
     },
     {
@@ -85,7 +85,7 @@ export const ProductsShowcase: React.FC<ProductsShowcaseProps> = ({
       subtitle: 'Private Enterprise Neural Appliance',
       desc: 'Deploy high-performance agentic AI directly inside private infrastructure with mathematical data isolation and zero cloud telemetry.',
       icon: Brain,
-      image: '/images/services/ai-security.jpg',
+      image: '/images/services/ai-security.webp',
       targetView: 'ai'
     }
   ];

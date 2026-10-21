@@ -173,18 +173,21 @@ export const Hero: React.FC<HeroProps> = ({
           {/* RIGHT COLUMN: Clean Static 3D Data Center Network Graphic (Fixed, 70% Grayscale, No Glow, No Extra Colors) */}
           <div className="lg:col-span-5 xl:col-span-5 relative flex items-center justify-center">
             <div className="relative w-full max-w-[480px] flex items-center justify-center p-2">
-              <img
-                src="/images/futuristic-cloud-network.png"
-                alt="CYBRAVION Sovereign Cloud Architecture and Data Center Network"
-                style={{
-                  filter: 'grayscale(0.70)'
-                }}
-                className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.06)] dark:drop-shadow-none"
-                loading="eager"
-                fetchPriority="high"
-                width={700}
-                height={600}
-              />
+              <picture>
+                <source srcSet="/images/futuristic-cloud-network.webp" type="image/webp" />
+                <img
+                  src="/images/futuristic-cloud-network.webp"
+                  alt="CYBRAVION Sovereign Cloud Architecture and Data Center Network"
+                  style={{
+                    filter: 'grayscale(0.70)'
+                  }}
+                  className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.06)] dark:drop-shadow-none"
+                  loading="eager"
+                  fetchPriority="high"
+                  width={700}
+                  height={600}
+                />
+              </picture>
             </div>
           </div>
 

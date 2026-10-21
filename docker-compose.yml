@@ -12,19 +12,23 @@ services:
     environment:
       - NODE_ENV=production
     depends_on:
-      - visitor-api
+      visitor-api:
+        condition: service_healthy
     networks:
       - cybravion-net
 
   visitor-api:
-    image: node:22-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile.visitor
+    image: cybravion-visitor-api:latest
     container_name: cybravion-visitor-api
     restart: unless-stopped
-    working_dir: /app
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
     volumes:
       - ./data:/app/data
-      - ./visitor-service.mjs:/app/visitor-service.mjs:ro
-    command: ["node", "visitor-service.mjs"]
     networks:
       - cybravion-net
 
