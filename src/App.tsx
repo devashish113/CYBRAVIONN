@@ -83,6 +83,7 @@ import { DeferredMount } from './components/DeferredMount';
 import { ThemeToggleNeumorphic } from './components/ThemeToggleNeumorphic';
 import { HoneycombNavCard } from './components/HoneycombNavCard';
 import { PolygonHexCard } from './components/PolygonHexCard';
+import { XTwitterIcon } from './components/XTwitterIcon';
 
 // Dynamic lazy-loaded 3D scenes & interactive modals (drops initial bundle size drastically)
 const CyberUniverse3D = lazyWithRetry(() => import('./components/CyberUniverse3D').then(m => ({ default: m.CyberUniverse3D })));
@@ -1528,15 +1529,28 @@ const Navbar: React.FC<NavbarProps> = ({
                 </a>
                 <div className="flex items-center justify-between gap-2 text-[10px] text-neutral-500 dark:text-neutral-400 font-mono">
                   <span>CYBRAVIONS SOLUTIONS PVT LTD</span>
-                  <a
-                    href="https://www.linkedin.com/company/cybravion-solutions-pvt-ltd/about/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-blue-500 dark:text-blue-400 hover:underline"
-                  >
-                    <Linkedin size={12} />
-                    <span>LinkedIn</span>
-                  </a>
+                  <div className="flex items-center gap-2.5">
+                    <a
+                      href="https://www.x.com/cybravions"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-slate-800 dark:text-neutral-200 hover:text-black dark:hover:text-white transition-colors"
+                      title="Follow CYBRAVIONS on X (@cybravions)"
+                    >
+                      <XTwitterIcon size={11} />
+                      <span>X</span>
+                    </a>
+                    <span className="text-neutral-400 dark:text-neutral-600">•</span>
+                    <a
+                      href="https://www.linkedin.com/company/cybravion-solutions-pvt-ltd/about/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-blue-500 dark:text-blue-400 hover:underline"
+                    >
+                      <Linkedin size={12} />
+                      <span>LinkedIn</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -2015,6 +2029,37 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="flex items-center gap-3.5 text-slate-700 dark:text-stone-300">
+                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-slate-900 dark:text-white shrink-0">
+                  <XTwitterIcon size={18} />
+                </div>
+                <div>
+                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Official Channels &amp; Intel Feeds</div>
+                  <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-medium">
+                    <a 
+                      href="https://www.x.com/cybravions" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-slate-900 dark:text-stone-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors inline-flex items-center gap-1.5"
+                    >
+                      <span>X (@cybravions)</span>
+                      <ExternalLink size={12} className="opacity-70" />
+                    </a>
+                    <span className="text-slate-400">&bull;</span>
+                    <a 
+                      href="https://www.linkedin.com/company/cybravions" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1.5"
+                    >
+                      <Linkedin size={13} className="text-blue-500" />
+                      <span>LinkedIn</span>
+                      <ExternalLink size={12} className="opacity-70" />
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -2447,6 +2492,18 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
               <span>Verify on MCA.gov.in</span>
             </a>
             <a
+              href="https://www.x.com/cybravions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`px-3.5 py-2 rounded-xl border font-mono text-[11px] font-semibold flex items-center gap-1.5 transition-colors ${
+                isDarkMode ? 'bg-stone-900 hover:bg-stone-800 text-stone-200 border-stone-700' : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
+              }`}
+              title="Follow CYBRAVIONS on X (@cybravions)"
+            >
+              <XTwitterIcon size={12} className={isDarkMode ? 'text-white' : 'text-slate-900'} />
+              <span>X (@cybravions)</span>
+            </a>
+            <a
               href="https://www.linkedin.com/company/cybravions"
               target="_blank"
               rel="noopener noreferrer"
@@ -2701,6 +2758,8 @@ export default function App() {
         <meta property="og:description" content={seo.description} />
         <meta property="og:image" content="https://cybravions.com/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@cybravions" />
+        <meta name="twitter:creator" content="@cybravions" />
         <meta name="twitter:title" content={seo.title} />
         <meta name="twitter:description" content={seo.description} />
         <meta name="twitter:image" content="https://cybravions.com/og-image.png" />
