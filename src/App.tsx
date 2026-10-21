@@ -58,12 +58,12 @@ import {
   Scale,
   Cloud,
   FileCheck,
+  HelpCircle,
   Hexagon,
   LayoutGrid
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Lenis from 'lenis';
-import { ServiceModalRenderer } from './components/ServiceModals';
 
 import { lazyWithRetry } from './utils/lazyWithRetry';
 import { pathForView, resolveAppView, type AppView } from './utils/routing';
@@ -77,13 +77,13 @@ import { Hero } from './components/Hero';
 import { ProductsShowcase } from './components/ProductsShowcase';
 import { SecurityModel } from './components/SecurityModel';
 import { TiltCard3D } from './components/TiltCard3D';
+import { PolygonHexCard } from './components/PolygonHexCard';
+import { HoneycombNavCard } from './components/HoneycombNavCard';
 import { cyberAudio } from './utils/cyberAudio';
 import { VisitorCounter } from './components/VisitorCounter';
-import { DeferredMount } from './components/DeferredMount';
 import { ThemeToggleNeumorphic } from './components/ThemeToggleNeumorphic';
-import { HoneycombNavCard } from './components/HoneycombNavCard';
-import { PolygonHexCard } from './components/PolygonHexCard';
 import { XTwitterIcon } from './components/XTwitterIcon';
+import { DeferredMount } from './components/DeferredMount';
 
 // Dynamic lazy-loaded 3D scenes & interactive modals (drops initial bundle size drastically)
 const CyberUniverse3D = lazyWithRetry(() => import('./components/CyberUniverse3D').then(m => ({ default: m.CyberUniverse3D })));
@@ -1596,7 +1596,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       desc: "Governance, Risk and Compliance (GRC), Third-Party Risk Management (TPRM), Supply Chain Risk Management (SCRM), Vulnerability Assessment and Penetration Testing (VAPT), Web Application Penetration Testing (WAPT), secure network architecture reviews, and threat modelling.",
       icon: ShieldCheck,
       glow: "blue" as const,
-      image: "/images/services/grc.jpg",
+      image: "/images/services/grc.webp",
       standards: ["ISO 27001 ISMS", "DPDP Act 2023", "TPRM & SCRM", "OWASP WAPT", "STRIDE Threat Modeling"],
       whatWeDo: [
         "Governance, Risk & Compliance (GRC) framework architecture, ISMS development, and regulatory audits",
@@ -1613,7 +1613,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       desc: "Design and development of IT and cybersecurity solutions like AI/ML-driven tools for SOC alert triage, GRC automation, and customized security software.",
       icon: Brain,
       glow: "purple" as const,
-      image: "/images/services/ai-security.jpg",
+      image: "/images/services/ai-security.webp",
       standards: ["AI/ML SOC Triage", "GRC Automation", "SOAR Orchestration", "Microservice Security"],
       whatWeDo: [
         "Design and deployment of AI/ML-powered SOC alert triage and false-positive suppression engines",
@@ -1629,8 +1629,8 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       subtitle: "Enterprise Applications & Cloud Architecture",
       desc: "Deployment and orchestration solutions for business applications and websites through suitable infrastructure partnerships, zero-trust cloud isolation, and high-availability architecture.",
       icon: Cloud,
-      glow: "cyan" as const,
-      image: "/images/services/cloud-sec.jpg",
+      glow: "blue" as const,
+      image: "/images/services/cloud-sec.webp",
       standards: ["Multi-Cloud Orchestration", "CI/CD & DevOps", "Zero-Trust Mesh", "Automated DR & Scaling"],
       whatWeDo: [
         "Enterprise cloud deployment architectures for mission-critical web applications and corporate websites",
@@ -1646,8 +1646,8 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       subtitle: "Workforce Awareness & Technical Capabilities",
       desc: "Helping individuals and organisations strengthen their IT knowledge, cybersecurity awareness, and technical capabilities through interactive simulated labs.",
       icon: GraduationCap,
-      glow: "orange" as const,
-      image: "/images/services/training.jpg",
+      glow: "purple" as const,
+      image: "/images/services/training.webp",
       standards: ["Interactive Cyber Labs", "Phishing Simulation", "Technical Bootcamps", "Executive Crisis Training"],
       whatWeDo: [
         "Comprehensive workforce cybersecurity awareness training and live phishing resilience drills",
@@ -1664,7 +1664,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
       desc: "Helping businesses enhance their digital presence, improve online visibility, and promote their products and services to drive sustainable market growth.",
       icon: Sparkles,
       glow: "blue" as const,
-      image: "/images/services/digital-marketing.jpg",
+      image: "/images/services/digital-marketing.webp",
       standards: ["Technical SEO", "B2B Brand Strategy", "Conversion Optimization", "Omnichannel Growth"],
       whatWeDo: [
         "Comprehensive digital presence architecture, brand positioning, and corporate narrative engineering",
@@ -1694,30 +1694,25 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
     <section id="services" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12 sm:mb-16 max-w-4xl mx-auto">
-          {/* Cyber Badge Kicker */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 dark:bg-blue-500/15 border border-blue-500/30 dark:border-blue-400/30 mb-4 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-            <span className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.22em] font-bold text-blue-600 dark:text-blue-400">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-neutral-500 dark:text-neutral-400">
               Our Key Service Areas
             </span>
           </div>
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Research, Innovation &amp;{' '}
-            <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 dark:from-sky-400 dark:via-blue-400 dark:to-orange-400 bg-clip-text text-transparent">
-              Practical Solutions
-            </span>.
+          <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-neutral-900 dark:text-white tracking-tight">
+            Research, Innovation &amp; Practical Solutions.
           </h2>
-          <p className="text-slate-600 dark:text-stone-300 text-sm sm:text-base mt-4 font-normal leading-relaxed max-w-3xl mx-auto">
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base mt-4 font-normal leading-relaxed max-w-3xl mx-auto">
             Are you looking for a growth-focused research-oriented cybersecurity and technology partner for your B2B or B2G requirements?
-            At <strong className="text-slate-900 dark:text-white font-semibold">CYBRAVION Solutions Pvt Ltd</strong>, we bring together cybersecurity, IT solutions, online training, and digital marketing to help organizations strengthen &amp; secure digital foundations, build capabilities, and expand their online presence.
+            At <strong className="text-neutral-900 dark:text-white">CYBRAVION Solutions Pvt Ltd</strong>, we bring together cybersecurity, IT solutions, online training, and digital marketing to help organizations strengthen &amp; secure digital foundations, build capabilities, and expand their online presence.
           </p>
         </div>
 
         {/* Interactive Controls: Category Filter & Layout Switcher */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 max-w-5xl mx-auto">
           {/* Category Filter Pills */}
-          <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
+          <div className="flex items-center gap-1.5 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
             {filterCategories.map((filter) => (
               <button
                 key={filter.id}
@@ -1725,10 +1720,10 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
                   cyberAudio.playClick();
                   setSelectedFilter(filter.id);
                 }}
-                className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
                   selectedFilter === filter.id
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-200/50 dark:hover:bg-white/[0.06]'
+                    ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
                 }`}
               >
                 {filter.label}
@@ -1737,7 +1732,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
           </div>
 
           {/* Layout Mode Pill Switcher */}
-          <div className="flex items-center gap-1 p-1 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] shrink-0">
+          <div className="flex items-center gap-1 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] shrink-0">
             <button
               onClick={() => {
                 cyberAudio.playClick();
@@ -1745,10 +1740,10 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
               }}
               title="Honeycomb Cluster Layout"
               aria-label="Honeycomb Cluster Layout"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 layoutMode === 'honeycomb'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'
+                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
               }`}
             >
               <Hexagon size={13} aria-hidden={true} />
@@ -1761,10 +1756,10 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
               }}
               title="Matrix Grid Layout"
               aria-label="Matrix Grid Layout"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 layoutMode === 'grid'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'
+                  ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
               }`}
             >
               <LayoutGrid size={13} aria-hidden={true} />
@@ -1791,7 +1786,6 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
                   actionLabel=">"
                   onAction={() => handleServiceClick(service.route)}
                   isDarkMode={isDarkMode}
-                  glowColor={service.glow}
                 />
               ))}
             </div>
@@ -1810,7 +1804,6 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
                   actionLabel=">"
                   onAction={() => handleServiceClick(service.route)}
                   isDarkMode={isDarkMode}
-                  glowColor={service.glow}
                 />
               ))}
             </div>
@@ -1830,7 +1823,6 @@ const Services: React.FC<ServicesProps> = ({ onOpenConsultation, setCurrentView,
                 actionLabel=">"
                 onAction={() => handleServiceClick(service.route)}
                 isDarkMode={isDarkMode}
-                glowColor={service.glow}
               />
             ))}
           </div>
@@ -1847,59 +1839,52 @@ const WhyChooseUs = () => {
     { 
       title: "100% First-Time Audit Certification", 
       desc: "Proven track record delivering zero-non-conformity compliance across ISO 27001, SOC 2 Type II, NIST CSF, and HIPAA without operational friction.", 
-      icon: ShieldCheck,
-      glow: "blue" as const
+      icon: ShieldCheck
     },
     { 
       title: "Offensive-Defensive Synergy", 
       desc: "Our elite red-team penetration testing directly informs your defensive architecture and ISMS policies for mathematically hardened protection.", 
-      icon: Target,
-      glow: "orange" as const
+      icon: Target
     },
     { 
       title: "Board-Grade Risk Translation", 
       desc: "We bridge technical CVE telemetry into strategic business and financial risk models tailored for CEOs, audit committees, and boards of directors.", 
-      icon: BarChart3,
-      glow: "blue" as const
+      icon: BarChart3
     },
     { 
-      title: "Continuous Sovereign Governance", 
+      title: "Continuous Security Governance", 
       desc: "Security is not a point-in-time PDF report. We provide ongoing advisory, live risk posture tracking, and rapid zero-day incident response SLAs.", 
-      icon: Zap,
-      glow: "orange" as const
+      icon: Zap
     }
   ];
 
   return (
-    <section id="about" className="py-24 md:py-32 px-6 md:px-12 lg:px-20 relative z-10 bg-slate-50/70 dark:bg-stone-950/60 border-t border-slate-200/80 dark:border-stone-900">
+    <section id="about" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent border-t border-neutral-200 dark:border-white/[0.08]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-3 block font-bold">
-            The Cybravion Advantage
+          <span className="text-xs uppercase tracking-widest text-neutral-500 font-semibold mb-2 block">
+            THE CYBRAVION ADVANTAGE
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Why High-Consequence Organizations Choose Cybravion
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
+            Why High-Consequence Organizations Choose CYBRAVION
           </h2>
-          <p className="text-slate-600 dark:text-stone-400 text-base md:text-lg max-w-2xl mt-4 font-light mx-auto">
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base max-w-2xl mt-4 font-normal mx-auto leading-relaxed">
             Combining offensive intelligence with unyielding regulatory governance to safeguard mission-critical assets.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {pillars.map((p, idx) => {
             const Icon = p.icon;
-            const isBlue = p.glow === 'blue';
             return (
-              <TiltCard3D key={idx} glowColor={p.glow}>
-                <div className="flex items-start gap-5">
-                  <div className={`p-3.5 rounded-2xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 shrink-0 ${
-                    isBlue ? 'text-blue-600 dark:text-blue-400' : 'text-orange-500 dark:text-orange-400'
-                  }`}>
-                    <Icon size={24} />
+              <TiltCard3D key={idx}>
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-xl bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] text-neutral-900 dark:text-white flex items-center justify-center shrink-0">
+                    <Icon size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">{p.title}</h3>
-                    <p className="text-sm text-slate-600 dark:text-stone-300 font-light leading-relaxed">{p.desc}</p>
+                    <h3 className="text-base font-bold text-neutral-900 dark:text-white mb-1.5">{p.title}</h3>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed">{p.desc}</p>
                   </div>
                 </div>
               </TiltCard3D>
@@ -1908,27 +1893,27 @@ const WhyChooseUs = () => {
         </div>
 
         {/* Corporate Entity Verification Banner */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-900/90 border border-slate-200 dark:border-stone-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#0e1017] border border-neutral-200 dark:border-white/[0.08] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                GOVERNMENT OF INDIA MCA REGISTERED
+              <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                MCA REGISTERED CORPORATE ENTITY
               </span>
-              <span className="text-xs font-mono text-blue-600 dark:text-blue-400 font-bold">
+              <span className="text-xs font-mono text-neutral-700 dark:text-neutral-300 font-medium">
                 CIN: U62099DL2026PTC470901
               </span>
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            <h3 className="text-base font-bold text-neutral-900 dark:text-white">
               CYBRAVION SOLUTIONS PRIVATE LIMITED
             </h3>
-            <p className="text-xs text-slate-500 dark:text-stone-400 max-w-2xl font-light">
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-2xl font-normal leading-relaxed">
               Registered Office: H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi 110030
             </p>
           </div>
 
           <a
             href="#office-location"
-            className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shrink-0 shadow-sm cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 text-xs font-semibold flex items-center gap-2 transition-all duration-150 shrink-0 shadow-sm cursor-pointer active:scale-[0.99]"
           >
             <span>View Headquarters Map</span>
             <ArrowRight size={13} />
@@ -1973,61 +1958,61 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-600 dark:text-orange-400 text-xs uppercase tracking-widest font-semibold mb-4">
-              <span className="w-2 h-2 rounded-full bg-orange-500 dark:bg-orange-400" />
-              Direct Confidential Engagement
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-100 dark:bg-white/[0.03] border border-neutral-300 dark:border-white/10 text-neutral-700 dark:text-neutral-300 text-xs uppercase tracking-widest font-semibold mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span>Direct Confidential Engagement</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-900 dark:text-white tracking-tight mb-6">
               Ready to Assess Your Security Posture?
             </h2>
-            <p className="text-slate-600 dark:text-stone-300 font-normal text-base leading-relaxed mb-8">
-              Speak directly with our senior cybersecurity advisors and offensive architects to scope your VAPT assessment, design an ISO 27001 / SOC 2 compliance roadmap, or evaluate sovereign AI governance under mutual NDA.
+            <p className="text-neutral-600 dark:text-neutral-400 font-normal text-base leading-relaxed mb-8">
+              Speak directly with our senior cybersecurity advisors and offensive architects to scope your VAPT assessment, design an ISO 27001 / SOC 2 compliance roadmap, or evaluate enterprise AI governance under mutual NDA.
             </p>
 
             <div className="space-y-4 mb-8">
-              <div className="flex items-center gap-3.5 text-slate-700 dark:text-stone-300">
-                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-blue-600 dark:text-blue-400 shrink-0">
+              <div className="flex items-center gap-3.5 text-neutral-700 dark:text-neutral-300">
+                <div className="w-10 h-10 rounded-xl bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] text-neutral-900 dark:text-white flex items-center justify-center shrink-0">
                   <Mail size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Official Communications</div>
+                  <div className="text-[10px] uppercase text-neutral-500 dark:text-neutral-500 tracking-wider font-semibold">Official Communications</div>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
-                    <a href="mailto:support@cybravions.com" className="text-sm text-slate-900 dark:text-stone-200 hover:text-blue-600 dark:hover:text-white transition-colors font-medium">
+                    <a href="mailto:support@cybravions.com" className="text-sm text-neutral-900 dark:text-neutral-200 hover:text-neutral-600 dark:hover:text-white transition-colors font-medium">
                       support@cybravions.com
                     </a>
-                    <span className="hidden sm:inline text-slate-400">&bull;</span>
-                    <a href="mailto:cybravions@gmail.com" className="text-sm text-slate-600 dark:text-stone-400 hover:text-blue-600 dark:hover:text-white transition-colors">
+                    <span className="hidden sm:inline text-neutral-400">&bull;</span>
+                    <a href="mailto:cybravions@gmail.com" className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors">
                       cybravions@gmail.com
                     </a>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3.5 text-slate-700 dark:text-stone-300">
-                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-emerald-600 dark:text-emerald-400 shrink-0">
+              <div className="flex items-center gap-3.5 text-neutral-700 dark:text-neutral-300">
+                <div className="w-10 h-10 rounded-xl bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] text-neutral-900 dark:text-white flex items-center justify-center shrink-0">
                   <Phone size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Direct Phone / Hotline</div>
+                  <div className="text-[10px] uppercase text-neutral-500 dark:text-neutral-500 tracking-wider font-semibold">Direct Phone / Hotline</div>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
-                    <a href="tel:+917258880881" className="text-sm text-slate-900 dark:text-stone-200 hover:text-emerald-600 dark:hover:text-white transition-colors font-bold font-mono">
+                    <a href="tel:+917258880881" className="text-sm text-neutral-900 dark:text-neutral-200 hover:text-neutral-600 dark:hover:text-white transition-colors font-semibold font-mono">
                       +91-7258880881
                     </a>
-                    <span className="hidden sm:inline text-slate-400">&bull;</span>
-                    <a href="tel:+919358683634" className="text-sm text-slate-600 dark:text-stone-400 hover:text-emerald-600 dark:hover:text-white transition-colors font-mono">
+                    <span className="hidden sm:inline text-neutral-400">&bull;</span>
+                    <a href="tel:+919358683634" className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors font-mono">
                       +91-9358683634
                     </a>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3.5 text-slate-700 dark:text-stone-300">
-                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-orange-600 dark:text-orange-400 shrink-0">
+              <div className="flex items-center gap-3.5 text-neutral-700 dark:text-neutral-300">
+                <div className="w-10 h-10 rounded-xl bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] text-neutral-900 dark:text-white flex items-center justify-center shrink-0">
                   <MapPin size={18} />
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase text-slate-500 dark:text-stone-500 tracking-wider font-semibold">Registered Headquarters</div>
-                  <div className="text-xs sm:text-sm text-slate-900 dark:text-stone-200 font-medium">
+                  <div className="text-[10px] uppercase text-neutral-500 dark:text-neutral-500 tracking-wider font-semibold">Registered Headquarters</div>
+                  <div className="text-xs sm:text-sm text-neutral-900 dark:text-neutral-200 font-medium">
                     H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi 110030
                   </div>
                 </div>
@@ -2067,15 +2052,15 @@ const Contact = () => {
           </div>
 
           <div className="lg:col-span-6">
-            <TiltCard3D glowColor="orange">
+            <TiltCard3D>
               {formSubmitted ? (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto mb-4 border border-blue-500/40">
-                    <CheckCircle2 size={32} />
+                <div role="status" aria-live="polite" className="text-center py-12">
+                  <div className="w-14 h-14 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-4 border border-emerald-500/20">
+                    <CheckCircle2 size={28} aria-hidden="true" />
                   </div>
-                  <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-2">Transmission Received</h3>
-                  <p className="text-sm text-slate-600 dark:text-stone-400 font-light max-w-md mx-auto">
-                    Our lead security consultant will review your specifications and contact you within 1 business day under NDA.
+                  <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Transmission Received</h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 font-normal max-w-md mx-auto">
+                    Our lead security consultant will review your specifications and contact you within 1 business day under mutual NDA.
                   </p>
                 </div>
               ) : (
@@ -2087,52 +2072,61 @@ const Contact = () => {
                 >
                   <input type="hidden" name="access_key" value="8f121d5a-8bc2-4c28-bbbe-5c628e46dc96" />
                   <input type="hidden" name="subject" value="New Advisory Request via Cybravion" />
-                  <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+                  <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 mb-1.5 font-semibold">Your Name</label>
+                      <label htmlFor="contact-name" className="block text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-semibold">Your Name *</label>
                       <input
+                        id="contact-name"
                         type="text"
                         name="name"
                         required
+                        aria-required="true"
+                        autoComplete="name"
                         maxLength={100}
                         placeholder="Dr. Alex Vance"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-blue-500 text-sm shadow-sm"
+                        className="w-full px-4 py-3 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-300 dark:border-white/10 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-500 dark:focus:border-white/30 text-sm shadow-sm transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 mb-1.5 font-semibold">Corporate Email</label>
+                      <label htmlFor="contact-email" className="block text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-semibold">Corporate Email *</label>
                       <input
+                        id="contact-email"
                         type="email"
                         name="email"
                         required
+                        aria-required="true"
+                        autoComplete="email"
                         maxLength={120}
                         placeholder="alex@enterprise.com"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-blue-500 text-sm shadow-sm"
+                        className="w-full px-4 py-3 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-300 dark:border-white/10 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-500 dark:focus:border-white/30 text-sm shadow-sm transition-colors"
                       />
                     </div>
                   </div>
 
                   <div className="relative" ref={serviceDropdownRef}>
-                    <label className="block text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 mb-1.5 font-semibold">
+                    <label id="contact-service-label" htmlFor="contact-service-button" className="block text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-semibold">
                       Primary Area of Interest
                     </label>
                     <input type="hidden" name="service" value={selectedService} />
 
-                    {/* Custom Select Trigger Button (Fixes browser native select white popup glitch) */}
+                    {/* Custom Select Trigger Button */}
                     <button
+                      id="contact-service-button"
                       type="button"
                       onClick={() => setIsServiceDropdownOpen(!isServiceDropdownOpen)}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 shadow-sm flex items-center justify-between text-left cursor-pointer transition-colors"
+                      className="w-full px-4 py-3 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-300 dark:border-white/10 text-neutral-900 dark:text-white text-sm focus:outline-none focus:border-neutral-500 dark:focus:border-white/30 shadow-sm flex items-center justify-between text-left cursor-pointer transition-colors"
                       aria-haspopup="listbox"
                       aria-expanded={isServiceDropdownOpen}
+                      aria-labelledby="contact-service-label contact-service-button"
                     >
                       <span className="truncate">{selectedService}</span>
                       <ChevronDown
                         size={16}
-                        className={`text-slate-400 dark:text-stone-500 transition-transform duration-200 shrink-0 ml-2 ${
-                          isServiceDropdownOpen ? 'rotate-180 text-blue-500' : ''
+                        aria-hidden="true"
+                        className={`text-neutral-400 dark:text-neutral-500 transition-transform duration-200 shrink-0 ml-2 ${
+                          isServiceDropdownOpen ? 'rotate-180' : ''
                         }`}
                       />
                     </button>
@@ -2141,12 +2135,14 @@ const Contact = () => {
                     <AnimatePresence>
                       {isServiceDropdownOpen && (
                         <motion.div
+                          id="contact-service-listbox"
                           initial={{ opacity: 0, y: -4, scale: 0.98 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: -4, scale: 0.98 }}
                           transition={{ duration: 0.15 }}
-                          className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl p-1.5 bg-white dark:bg-stone-900 border border-slate-200 dark:border-stone-800 shadow-2xl dark:shadow-[0_15px_40px_rgba(0,0,0,0.85)] max-h-64 overflow-y-auto"
+                          className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl p-1.5 bg-white dark:bg-[#0e1017] border border-neutral-200 dark:border-white/10 shadow-2xl max-h-64 overflow-y-auto"
                           role="listbox"
+                          aria-labelledby="contact-service-label"
                         >
                           {serviceOptions.map((opt) => (
                             <button
@@ -2158,15 +2154,15 @@ const Contact = () => {
                               }}
                               className={`w-full text-left px-3.5 py-2.5 text-xs sm:text-sm rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
                                 selectedService === opt
-                                  ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold'
-                                  : 'text-slate-700 dark:text-stone-300 hover:bg-slate-100 dark:hover:bg-stone-800/80'
+                                  ? 'bg-neutral-100 dark:bg-white/[0.06] text-neutral-950 dark:text-white font-semibold'
+                                  : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
                               }`}
                               role="option"
                               aria-selected={selectedService === opt}
                             >
                               <span>{opt}</span>
                               {selectedService === opt && (
-                                <Check size={14} className="text-blue-500 shrink-0" />
+                                <Check size={14} aria-hidden="true" className="text-neutral-900 dark:text-white shrink-0" />
                               )}
                             </button>
                           ))}
@@ -2182,39 +2178,43 @@ const Contact = () => {
                         className="mt-2.5"
                       >
                         <input
+                          id="contact-custom-service"
                           type="text"
                           name="custom_service_detail"
                           maxLength={120}
+                          aria-label="Please specify your advisory or technology requirement"
                           placeholder="Please specify your advisory or technology requirement..."
-                          className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-stone-900 border border-blue-500/50 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-blue-500 text-xs shadow-sm"
+                          className="w-full px-4 py-2.5 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-300 dark:border-white/10 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-500 dark:focus:border-white/30 text-xs shadow-sm"
                         />
                       </motion.div>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-slate-600 dark:text-stone-400 mb-1.5 font-semibold">Scope &amp; Requirements</label>
+                    <label htmlFor="contact-message" className="block text-xs uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5 font-semibold">Scope &amp; Requirements *</label>
                     <textarea
+                      id="contact-message"
                       name="message"
                       rows={4}
                       required
+                      aria-required="true"
                       maxLength={4000}
                       placeholder="Describe your organization's target compliance frameworks, infrastructure scale, or security objectives..."
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-300 dark:border-stone-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-blue-500 text-sm shadow-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-300 dark:border-white/10 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-500 dark:focus:border-white/30 text-sm shadow-sm transition-colors"
                     />
                   </div>
 
-                  <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-stone-400 font-mono">
-                    <ShieldCheck size={14} className="text-blue-500 shrink-0" />
+                  <div className="flex items-center gap-2 text-[11px] text-neutral-600 dark:text-neutral-400 font-mono">
+                    <ShieldCheck size={14} aria-hidden="true" className="text-emerald-500 shrink-0" />
                     <span>Protected under strict mutual non-disclosure (NDA). Encrypted in transit.</span>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-400 hover:to-amber-500 text-white font-bold uppercase tracking-widest text-xs shadow-[0_0_25px_rgba(249,115,22,0.35)] hover:brightness-110 transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
+                    className="w-full py-3.5 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 font-semibold text-sm shadow-sm transition-all duration-150 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer mt-2"
                   >
                     <span>Request Confidential Briefing</span>
-                    <ArrowRight size={16} />
+                    <ArrowRight size={16} aria-hidden="true" />
                   </button>
                 </form>
               )}
@@ -2252,43 +2252,51 @@ const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="py-24 md:py-32 px-6 md:px-12 lg:px-20 relative z-10 bg-slate-50/70 dark:bg-stone-950/60 border-t border-slate-200/80 dark:border-stone-900">
+    <section id="faq" className="py-20 md:py-28 px-6 md:px-12 lg:px-20 relative z-10 bg-transparent border-t border-neutral-200 dark:border-white/[0.08]" aria-labelledby="faq-section-heading">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-14">
-          <span className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 mb-3 block font-bold">
-            Knowledge Base
+          <span className="text-xs uppercase tracking-widest text-amber-700 dark:text-amber-400 font-semibold mb-2 block">
+            KNOWLEDGE BASE
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
+          <h2 id="faq-section-heading" className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
             Frequently Asked Questions
           </h2>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3.5" role="region" aria-label="Frequently Asked Questions list">
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="rounded-2xl bg-white dark:bg-stone-900/60 border border-slate-200/90 dark:border-stone-800 overflow-hidden transition-colors hover:border-slate-300 dark:hover:border-stone-700 shadow-sm"
+              className="rounded-2xl bg-white dark:bg-[#0e1017] border border-neutral-200 dark:border-white/[0.08] overflow-hidden transition-colors hover:border-neutral-300 dark:hover:border-white/20 shadow-sm"
             >
               <button
+                id={`faq-trigger-${idx}`}
+                type="button"
+                aria-expanded={openIdx === idx}
+                aria-controls={`faq-answer-${idx}`}
                 onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
                 className="w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer"
               >
-                <span className="font-semibold text-base sm:text-lg text-slate-900 dark:text-white">
+                <span className="font-semibold text-base sm:text-lg text-neutral-900 dark:text-white">
                   {faq.q}
                 </span>
                 <ChevronDown
                   size={18}
-                  className={`text-blue-600 dark:text-blue-400 shrink-0 transition-transform duration-300 ${openIdx === idx ? 'rotate-180' : ''}`}
+                  aria-hidden="true"
+                  className={`text-neutral-500 dark:text-neutral-400 shrink-0 transition-transform duration-200 ${openIdx === idx ? 'rotate-180 text-neutral-900 dark:text-white' : ''}`}
                 />
               </button>
               <AnimatePresence>
                 {openIdx === idx && (
                   <motion.div
+                    id={`faq-answer-${idx}`}
+                    role="region"
+                    aria-labelledby={`faq-trigger-${idx}`}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden px-6 pb-6 text-sm text-slate-600 dark:text-stone-300 font-light leading-relaxed"
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden px-6 pb-6 text-sm text-neutral-700 dark:text-neutral-300 font-normal leading-relaxed"
                   >
                     {faq.a}
                   </motion.div>
@@ -2312,10 +2320,10 @@ interface FooterProps {
 
 const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
   return (
-    <footer className={`py-16 px-6 md:px-12 lg:px-20 border-t relative z-10 transition-colors ${
+    <footer role="contentinfo" className={`py-16 px-6 md:px-12 lg:px-20 border-t relative z-10 transition-colors ${
       isDarkMode 
-        ? 'bg-stone-950 border-stone-900 text-stone-300' 
-        : 'bg-white border-slate-200 text-slate-700 shadow-inner'
+        ? 'bg-[#050608] border-white/[0.08] text-neutral-400' 
+        : 'bg-neutral-50 border-neutral-200 text-neutral-700'
     }`}>
       <div className="max-w-7xl mx-auto flex flex-col gap-10">
         
@@ -2335,47 +2343,47 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
                 className="h-11 sm:h-12 w-auto object-contain drop-shadow-[0_0_20px_rgba(37,99,235,0.35)]" 
               />
             </picture>
-            <p className="text-xs text-slate-500 dark:text-stone-400 leading-relaxed font-light">
-              CYBRAVION SOLUTIONS PRIVATE LIMITED is a Government of India registered cybersecurity engineering and GRC advisory firm headquartered in New Delhi, India.
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+              CYBRAVION SOLUTIONS PRIVATE LIMITED is an incorporated cybersecurity engineering and enterprise AI security firm headquartered in New Delhi.
             </p>
-            <div className="text-[11px] font-mono text-slate-400 dark:text-stone-500">
+            <div className="text-[11px] font-mono text-neutral-600 dark:text-neutral-400">
               CIN: U62099DL2026PTC470901<br />RoC-Delhi · Companies Act, 2013
             </div>
           </div>
 
           {/* Col 2: Core Services */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-widest text-orange-600 dark:text-orange-400 mb-4">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900 dark:text-white mb-4">
               Security Services
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2.5 text-xs">
               <li>
-                <button onClick={() => { setCurrentView('vapt'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('vapt'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   VAPT &amp; Offensive Security
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('iso-27001'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('iso-27001'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   ISO 27001:2022 Certification
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('soc-2'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('soc-2'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   SOC 2 Type I &amp; Type II Readiness
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('cloud-security'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('cloud-security'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   Cloud Security &amp; DevSecOps
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('ai-security'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('ai-security'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   AI Security &amp; LLM Red Teaming
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('dpdp-compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-orange-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('dpdp-compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   DPDP Act 2023 Compliance
                 </button>
               </li>
@@ -2384,37 +2392,37 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
 
           {/* Col 3: Enterprise Platforms */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-4">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900 dark:text-white mb-4">
               Defense Platforms
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2.5 text-xs">
               <li>
-                <button onClick={() => { setCurrentView('threatforge'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('threatforge'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   ThreatForge (STRIDE / PASTA)
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('soc-ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('soc-ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   SOC AI Triage (Autonomous SOAR)
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('exception-manager'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('exception-manager'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   AI Exception Manager (GRC)
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('threat-collector'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('threat-collector'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   Threat Intel Collector (MISP/STIX)
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
-                  Cybravions AI (Sovereign Box)
+                <button onClick={() => { setCurrentView('ai'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
+                  Cybravions AI (Secure Core)
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('cyberverse'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-blue-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('cyberverse'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   CyberRange (CTF Simulation)
                 </button>
               </li>
@@ -2423,37 +2431,37 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
 
           {/* Col 4: Resources & Knowledge */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 mb-4">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900 dark:text-white mb-4">
               Knowledge &amp; Trust
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2.5 text-xs">
               <li>
-                <button onClick={() => { setCurrentView('resources'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors cursor-pointer text-left font-semibold text-orange-500">
+                <button onClick={() => { setCurrentView('resources'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left font-medium">
                   Regulatory Guides &amp; Blueprints
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   About CYBRAVION
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('compliance'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   Security &amp; Trust Center
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentView('training'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors cursor-pointer text-left">
+                <button onClick={() => { setCurrentView('training'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-left">
                   Training &amp; Capability Programs
                 </button>
               </li>
               <li>
-                <a href="#radar" onClick={() => setCurrentView('home')} className="hover:text-amber-500 transition-colors">
-                  3D Threat Radar
+                <a href="#radar" onClick={() => setCurrentView('home')} className="hover:text-neutral-950 dark:hover:text-white transition-colors">
+                  Threat Radar Surface
                 </a>
               </li>
               <li>
-                <a href="#contact" onClick={() => setCurrentView('home')} className="hover:text-amber-500 transition-colors font-semibold text-orange-500">
+                <a href="#contact" onClick={() => setCurrentView('home')} className="hover:text-neutral-950 dark:hover:text-white transition-colors font-medium">
                   Request Advisory Briefing →
                 </a>
               </li>
@@ -2463,23 +2471,23 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
 
         {/* Corporate Transparency & Statutory Verification Block */}
         <div className={`p-6 rounded-2xl border text-xs leading-relaxed flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 ${
-          isDarkMode ? 'bg-[#090e1a] border-stone-800 text-stone-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+          isDarkMode ? 'bg-[#0e1017] border-white/[0.08] text-neutral-300' : 'bg-white border-neutral-200 text-neutral-700 shadow-sm'
         }`}>
           <div className="space-y-1.5 max-w-2xl">
-            <div className="flex items-center gap-2 font-mono font-bold text-slate-900 dark:text-white">
-              <Building2 size={16} className="text-orange-500 shrink-0" />
+            <div className="flex items-center gap-2 font-mono font-bold text-neutral-900 dark:text-white">
+              <Building2 size={16} aria-hidden="true" className="text-neutral-500 dark:text-neutral-400 shrink-0" />
               <span>CYBRAVION SOLUTIONS PRIVATE LIMITED</span>
-              <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px]">
+              <span className="px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-white/[0.06] text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-white/[0.08] text-[10px]">
                 CIN: U62099DL2026PTC470901
               </span>
             </div>
             <p className="text-[11px] font-sans">
-              <strong>Registered Office:</strong> H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi, India, 110030
+              <strong>Registered Office:</strong> H. IN.KH.NO.293 S/F Western Marg, Saidulajab, Near Kher Singh Estate, New Delhi, Delhi 110030
             </p>
-            <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-slate-500 dark:text-stone-400">
-              <span>Email: <a href="mailto:support@cybravions.com" className="text-blue-500 hover:underline">support@cybravions.com</a></span>
+            <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-neutral-600 dark:text-neutral-400">
+              <span>Email: <a href="mailto:support@cybravions.com" className="text-neutral-800 dark:text-neutral-200 hover:underline">support@cybravions.com</a></span>
               <span>•</span>
-              <span>Hotline: <a href="tel:+917258880881" className="text-blue-500 hover:underline">+91-7258880881</a></span>
+              <span>Hotline: <a href="tel:+917258880881" className="text-neutral-800 dark:text-neutral-200 hover:underline">+91-7258880881</a></span>
             </div>
           </div>
 
@@ -2489,9 +2497,9 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
               href="https://www.mca.gov.in/mcafoportal/companyLLPMasterData.do"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-mono text-[11px] font-bold flex items-center gap-1.5 transition-colors shadow-sm"
+              className="px-3.5 py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 text-white font-mono text-[11px] font-bold flex items-center gap-1.5 transition-colors shadow-sm"
             >
-              <ShieldCheck size={13} />
+              <ShieldCheck size={13} aria-hidden="true" />
               <span>Verify on MCA.gov.in</span>
             </a>
             <a
@@ -2499,22 +2507,22 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
               target="_blank"
               rel="noopener noreferrer"
               className={`px-3.5 py-2 rounded-xl border font-mono text-[11px] font-semibold flex items-center gap-1.5 transition-colors ${
-                isDarkMode ? 'bg-stone-900 hover:bg-stone-800 text-stone-200 border-stone-700' : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
+                isDarkMode ? 'bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border-neutral-700' : 'bg-white hover:bg-neutral-100 text-neutral-800 border-neutral-300'
               }`}
               title="Follow CYBRAVIONS on X (@cybravions)"
             >
-              <XTwitterIcon size={12} className={isDarkMode ? 'text-white' : 'text-slate-900'} />
+              <XTwitterIcon size={12} className={isDarkMode ? 'text-white' : 'text-neutral-900'} />
               <span>X (@cybravions)</span>
             </a>
             <a
-              href="https://www.linkedin.com/company/cybravions"
+              href="https://www.linkedin.com/company/cybravion-solutions-pvt-ltd/about/"
               target="_blank"
               rel="noopener noreferrer"
               className={`px-3.5 py-2 rounded-xl border font-mono text-[11px] font-semibold flex items-center gap-1.5 transition-colors ${
-                isDarkMode ? 'bg-stone-900 hover:bg-stone-800 text-stone-200 border-stone-700' : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
+                isDarkMode ? 'bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border-neutral-700' : 'bg-white hover:bg-neutral-100 text-neutral-800 border-neutral-300'
               }`}
             >
-              <Linkedin size={13} className="text-blue-500" />
+              <Linkedin size={13} aria-hidden="true" className="text-neutral-700 dark:text-neutral-300" />
               <span>LinkedIn</span>
             </a>
           </div>
@@ -2522,48 +2530,48 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
 
         {/* Legal, Privacy & Corporate Verification Trust Bar */}
         <div className={`pt-6 border-t flex flex-col md:flex-row items-center justify-between gap-4 text-xs ${
-          isDarkMode ? 'border-stone-900 text-stone-400' : 'border-slate-100 text-slate-500'
+          isDarkMode ? 'border-neutral-800 text-neutral-400' : 'border-neutral-200 text-neutral-600'
         }`}>
           {/* Policy & Trust Links */}
           <div className="flex flex-wrap items-center justify-center gap-5 text-xs font-mono font-medium">
             <button
               onClick={() => onOpenLegal('privacy')}
-              className="hover:text-orange-500 transition-colors cursor-pointer"
+              className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-neutral-700 dark:text-neutral-300"
             >
               Privacy Policy (DPDP &amp; GDPR)
             </button>
             <span>•</span>
             <button
               onClick={() => onOpenLegal('terms')}
-              className="hover:text-orange-500 transition-colors cursor-pointer"
+              className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-neutral-700 dark:text-neutral-300"
             >
               Terms of Service
             </button>
             <span>•</span>
             <button
               onClick={() => onOpenLegal('refund')}
-              className="hover:text-orange-500 transition-colors cursor-pointer"
+              className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-neutral-700 dark:text-neutral-300"
             >
               Refund &amp; Cancellation
             </button>
             <span>•</span>
             <button
               onClick={() => onOpenLegal('antifraud')}
-              className="hover:text-red-500 transition-colors cursor-pointer font-bold text-red-500/90"
+              className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer font-semibold text-neutral-800 dark:text-neutral-200"
             >
               Anti-Fraud Alert
             </button>
             <span>•</span>
             <button
               onClick={() => onOpenLegal('vdp')}
-              className="hover:text-orange-500 transition-colors cursor-pointer"
+              className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-neutral-700 dark:text-neutral-300"
             >
               Vulnerability Disclosure (VDP)
             </button>
             <span>•</span>
             <button
               onClick={() => onOpenLegal('cookies')}
-              className="hover:text-orange-500 transition-colors cursor-pointer"
+              className="hover:text-neutral-950 dark:hover:text-white transition-colors cursor-pointer text-neutral-700 dark:text-neutral-300"
             >
               Security &amp; Cookie Policy
             </button>
@@ -2572,7 +2580,7 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
               href="/.well-known/security.txt"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-orange-500 transition-colors font-semibold text-blue-500 dark:text-blue-400"
+              className="hover:text-neutral-950 dark:hover:text-white transition-colors font-medium text-neutral-800 dark:text-neutral-200 underline underline-offset-4"
             >
               security.txt (RFC 9116)
             </a>
@@ -2583,7 +2591,7 @@ const Footer = ({ setCurrentView, isDarkMode, onOpenLegal }: FooterProps) => {
               CYBRAVION SOLUTIONS PRIVATE LIMITED · CIN: U62099DL2026PTC470901
             </div>
             <div>
-              © {new Date().getFullYear()} CYBRAVION Solutions. Regd. in New Delhi, India. All rights reserved.
+              © {new Date().getFullYear()} CYBRAVION Solutions. Regd. in New Delhi. All rights reserved.
             </div>
           </div>
         </div>
@@ -2675,9 +2683,18 @@ export default function App() {
     };
   }, []);
 
-  // Keep WebGL initialization outside the initial render and Lighthouse TTI window.
+  // Ensure instant scroll-to-top on route changes
   useEffect(() => {
-    const timer = window.setTimeout(() => setIsCyberUniverseReady(true), 4500);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    const lenis = (window as unknown as { __lenis?: Lenis }).__lenis;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+  }, [currentView]);
+
+  // Mount WebGL 3D Universe smoothly after initial DOM paint
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsCyberUniverseReady(true), 300);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -2737,19 +2754,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-x-hidden font-sans transition-colors duration-500 ${isDarkMode ? 'dark' : 'light'} ${
-      currentView === 'exception-manager'
-        ? isDarkMode ? 'bg-[#030612] text-stone-100 theme-exception' : 'bg-[#f8fafc] text-slate-900 theme-exception'
-        : currentView === 'cyberverse'
-        ? isDarkMode ? 'bg-[#030612] text-stone-100 theme-cyberverse' : 'bg-[#f8fafc] text-slate-900 theme-cyberverse'
-        : currentView === 'ai' 
-        ? isDarkMode ? 'bg-[#030712] text-slate-100 theme-ai' : 'bg-[#f8fafc] text-slate-900 theme-ai' 
-        : currentView === 'compliance'
-        ? isDarkMode ? 'bg-[#060913] text-stone-100 theme-compliance' : 'bg-[#f8fafc] text-slate-900 theme-compliance'
-        : currentView === 'training'
-        ? isDarkMode ? 'bg-[#070a14] text-stone-100 theme-training' : 'bg-[#f8fafc] text-slate-900 theme-training'
-        : isDarkMode ? 'bg-[#010206] text-stone-100 theme-home' : 'bg-[#f8fafc] text-slate-900 theme-home'
-    }`}>
+    <div className={`min-h-screen relative overflow-x-hidden font-sans transition-colors duration-300 ${isDarkMode ? 'dark bg-black text-stone-100' : 'light bg-white text-slate-900'}`}>
       <Helmet>
         <title>{seo.title}</title>
         <meta name="description" content={seo.description} />
@@ -2759,13 +2764,13 @@ export default function App() {
         <meta property="og:url" content={`https://cybravions.com${pathForView(currentView) ?? '/404'}`} />
         <meta property="og:title" content={seo.title} />
         <meta property="og:description" content={seo.description} />
-        <meta property="og:image" content="https://cybravions.com/og-image.png" />
+        <meta property="og:image" content="https://cybravions.com/og-image.png?v=20261021" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@cybravions" />
         <meta name="twitter:creator" content="@cybravions" />
         <meta name="twitter:title" content={seo.title} />
         <meta name="twitter:description" content={seo.description} />
-        <meta name="twitter:image" content="https://cybravions.com/og-image.png" />
+        <meta name="twitter:image" content="https://cybravions.com/og-image.png?v=20261021" />
       </Helmet>
 
       {/* Persistent Full-Viewport 3D Cybersecurity Universe */}
@@ -2777,6 +2782,14 @@ export default function App() {
 
 
 
+      {/* Skip to Main Content Link (WCAG 2.4.1 Bypass Blocks) */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only"
+      >
+        Skip to main content
+      </a>
+
       <div className="relative z-10">
         <Navbar 
           currentView={currentView} 
@@ -2787,12 +2800,12 @@ export default function App() {
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         />
 
-        <main id="main-content">
+        <main id="main-content" role="main" tabIndex={-1} className="focus:outline-none">
           <React.Suspense fallback={
-            <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
-              <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin shadow-[0_0_20px_rgba(37,99,235,0.4)]" />
-              <span className="text-xs font-mono uppercase tracking-widest text-slate-400 dark:text-stone-500">
-                Loading Sovereign Matrix...
+            <div className="min-h-[70vh] flex flex-col items-center justify-center gap-3">
+              <div className="w-6 h-6 border-2 border-neutral-300 dark:border-white/20 border-t-neutral-900 dark:border-t-white rounded-full animate-spin" />
+              <span className="text-xs text-neutral-500 font-medium">
+                Loading CYBRAVION...
               </span>
             </div>
           }>
@@ -2812,14 +2825,14 @@ export default function App() {
                   setCurrentView={setCurrentView} 
                 />
 
-                {/* 02. Security Core (6 Real Capabilities) */}
+                {/* 02. Key Service Areas (5 Interlocking Polygon Cards) */}
                 <Services onOpenConsultation={() => setIsAuditModalOpen(true)} setCurrentView={setCurrentView} isDarkMode={isDarkMode} />
 
                 {/* 03. Interactive Threat Radar Demo */}
                 <DeferredMount id="radar" className="min-h-[500px]">
                   <React.Suspense fallback={
                     <div className="w-full py-24 flex items-center justify-center text-slate-500 font-mono text-sm">
-                      <div className="w-4 h-4 rounded-full border-2 border-orange-500 border-t-transparent animate-spin mr-3" />
+                      <div className="w-4 h-4 rounded-full border-2 border-purple-500 border-t-transparent animate-spin mr-3" />
                       Initializing Threat Radar Environment...
                     </div>
                   }>

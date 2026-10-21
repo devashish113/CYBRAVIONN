@@ -10,13 +10,47 @@ interface CyberUniverse3DProps {
   isDarkMode?: boolean;
 }
 
-/* ─────── Fading Horizon Grid — ShaderMaterial ─────── */
+/* ─────── 50% Color / 50% Grayscale Shield Texture Material (70% Dimmed) ─────── */
+function createHalfGrayscaleShieldMaterial(texture: THREE.Texture, opacity: number, isDark: boolean): THREE.ShaderMaterial {
+  return new THREE.ShaderMaterial({
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform sampler2D uMap;
+      uniform float uOpacity;
+      varying vec2 vUv;
+      void main() {
+        vec4 tex = texture2D(uMap, vUv);
+        // NTSC perceived luminance grayscale
+        float gray = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+        // Exactly 50% color and 50% grayscaled blend
+        vec3 halfColorHalfGray = mix(tex.rgb, vec3(gray), 0.5);
+        gl_FragColor = vec4(halfColorHalfGray, tex.a * uOpacity);
+      }
+    `,
+    uniforms: {
+      uMap: { value: texture },
+      uOpacity: { value: opacity },
+    },
+    transparent: true,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+    blending: isDark ? THREE.AdditiveBlending : THREE.NormalBlending,
+  });
+}
+
+/* ─────── Fading Horizon Grid — Monochrome ShaderMaterial ─────── */
 function createFadingGrid(isDarkMode: boolean): THREE.Mesh {
   const gridSize = 80;
   const gridDivisions = 60;
   const lineColor = isDarkMode
-    ? new THREE.Color(0x2563eb)
-    : new THREE.Color(0x1d4ed8);
+    ? new THREE.Color(0x3f3f46)
+    : new THREE.Color(0x94a3b8);
 
   const vertexShader = `
     varying vec3 vWorldPos;
@@ -44,10 +78,10 @@ function createFadingGrid(isDarkMode: boolean): THREE.Mesh {
       float dist = length(vWorldPos.xz);
       float fade = 1.0 - smoothstep(8.0, 38.0, dist);
 
-      // Center glow
-      float centerGlow = exp(-dist * 0.06) * 0.3;
+      // Subtle center glow
+      float centerGlow = exp(-dist * 0.08) * 0.2;
 
-      float alpha = lineAlpha * fade * uOpacity + centerGlow * fade * uOpacity * 0.5;
+      float alpha = lineAlpha * fade * uOpacity + centerGlow * fade * uOpacity * 0.3;
       gl_FragColor = vec4(uColor, alpha);
     }
   `;
@@ -57,7 +91,7 @@ function createFadingGrid(isDarkMode: boolean): THREE.Mesh {
     fragmentShader,
     uniforms: {
       uColor: { value: lineColor },
-      uOpacity: { value: isDarkMode ? 0.15 : 0.20 },
+      uOpacity: { value: isDarkMode ? 0.08 : 0.06 },
       uGridSize: { value: gridSize },
       uDivisions: { value: gridDivisions },
     },
@@ -74,7 +108,7 @@ function createFadingGrid(isDarkMode: boolean): THREE.Mesh {
   return gridMesh;
 }
 
-/* ─────── Atmospheric Haze Plane ─────── */
+/* ─────── Atmospheric Haze Plane — Monochrome ─────── */
 function createAtmosphereHaze(isDarkMode: boolean): THREE.Mesh {
   const hazeVS = `
     varying vec2 vUv;
@@ -93,15 +127,13 @@ function createAtmosphereHaze(isDarkMode: boolean): THREE.Mesh {
       vec2 center = vec2(0.5, 0.45);
       float dist = length(vUv - center);
 
-      // Scroll-driven hue shift between cyber blue and warm amber/orange
-      float hueShift = sin(uScrollProgress * 3.14159) * 0.15;
-
+      // Subtle dark atmospheric haze
       vec3 colorA = uDarkMode > 0.5
-        ? vec3(0.01, 0.05, 0.20 + hueShift * 0.1) // Deep cyber sapphire
-        : vec3(0.02, 0.06, 0.18);
+        ? vec3(0.025, 0.025, 0.035)
+        : vec3(0.14, 0.14, 0.16);
       vec3 colorB = uDarkMode > 0.5
-        ? vec3(0.002, 0.015, 0.06) // Deep obsidian space
-        : vec3(0.01, 0.03, 0.10);
+        ? vec3(0.003, 0.003, 0.005)
+        : vec3(0.08, 0.08, 0.09);
 
       float radial = 1.0 - smoothstep(0.0, 0.75, dist);
       vec3 color = mix(colorB, colorA, radial);
@@ -109,7 +141,7 @@ function createAtmosphereHaze(isDarkMode: boolean): THREE.Mesh {
       // Subtle pulsing
       float pulse = sin(uTime * 0.5) * 0.008 + 1.0;
 
-      float alpha = radial * radial * (uDarkMode > 0.5 ? 0.04 : 0.015) * pulse;
+      float alpha = radial * radial * (uDarkMode > 0.5 ? 0.015 : 0.006) * pulse;
       gl_FragColor = vec4(color, alpha);
     }
   `;
@@ -271,8 +303,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // =====================================================================
     const scene = new THREE.Scene();
     scene.fog = isDarkMode
-      ? new THREE.FogExp2(0x02050e, 0.012)
-      : new THREE.FogExp2(0xf1f5f9, 0.010);
+      ? new THREE.FogExp2(0x020306, 0.012)
+      : new THREE.FogExp2(0xf4f5f8, 0.010);
 
     const camera = new THREE.PerspectiveCamera(
       42,
@@ -294,10 +326,11 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     renderer.setPixelRatio(currentActiveDpr);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = isDarkMode ? 0.95 : 1.05;
+    // Deep dark background exposure - quiet and non-distracting
+    renderer.toneMappingExposure = isDarkMode ? 0.48 : 0.55;
     container.appendChild(renderer.domElement);
 
-    // Adaptive Bloom post-processing pipeline
+    // Adaptive Bloom post-processing pipeline (subtle monochromatic glow)
     const composer = new EffectComposer(renderer);
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
@@ -307,7 +340,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         window.innerWidth * (isHighEnd ? 1 : 0.5),
         window.innerHeight * (isHighEnd ? 1 : 0.5)
       ),
-      isDarkMode ? (isHighEnd ? 0.20 : 0.14) : (isHighEnd ? 0.12 : 0.08),
+      isDarkMode ? (isHighEnd ? 0.025 : 0.02) : (isHighEnd ? 0.03 : 0.02),
       0.5,
       0.72
     );
@@ -329,12 +362,12 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         case 4: // Ultra Quality (High-end Desktop) -> Up to 2.0 DPR, Full Bloom
           targetDpr = Math.min(nativeDPR, 2.0);
           targetBloom = true;
-          bloomPass.strength = isDarkMode ? 0.20 : 0.12;
+          bloomPass.strength = isDarkMode ? 0.025 : 0.03;
           break;
         case 3: // Normal Quality (Desktop / Tablet) -> 1.25–1.5 DPR, Balanced Bloom
           targetDpr = Math.min(nativeDPR, isLowEnd ? 1.25 : 1.5);
           targetBloom = true;
-          bloomPass.strength = isDarkMode ? 0.14 : 0.08;
+          bloomPass.strength = isDarkMode ? 0.020 : 0.02;
           break;
         case 2: // Reduced Quality (Normal Mobile / Low-spec) -> 1.0–1.15 DPR, Bloom Bypassed
           targetDpr = Math.min(nativeDPR, 1.15);
@@ -357,40 +390,41 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     };
 
     // =====================================================================
-    // 2. LIGHTING SYSTEM (Refined Sapphire Blue + Subtle Cyber Accents)
+    // 2. LIGHTING SYSTEM (Pure Monochrome — Deep Subtle Illumination)
     // =====================================================================
     const ambientLight = new THREE.AmbientLight(
-      isDarkMode ? 0x0c1e36 : 0xd6e0eb,
-      isDarkMode ? 0.70 : 1.2
+      isDarkMode ? 0x64748b : 0xb5bac4,
+      isDarkMode ? 0.35 : 0.45
     );
     scene.add(ambientLight);
 
     const dirLight1 = new THREE.DirectionalLight(
-      isDarkMode ? 0x3b82f6 : 0x1d4ed8,
-      isDarkMode ? 1.2 : 1.5
+      0x94a3b8,
+      isDarkMode ? 0.45 : 0.40
     );
     dirLight1.position.set(8, 10, 7);
     scene.add(dirLight1);
 
     const dirLight2 = new THREE.DirectionalLight(
-      isDarkMode ? 0x1d4ed8 : 0x4338ca,
-      isDarkMode ? 0.8 : 1.1
+      0x64748b,
+      isDarkMode ? 0.28 : 0.25
     );
     dirLight2.position.set(-8, -6, 5);
     scene.add(dirLight2);
 
     const rimLight = new THREE.PointLight(
-      isDarkMode ? 0x1e40af : 0x2563eb,
-      isDarkMode ? 0.6 : 0.8,
+      0x475569,
+      isDarkMode ? 0.22 : 0.20,
       45
     );
     rimLight.position.set(0, -6, -8);
     scene.add(rimLight);
 
-    // Color Palette: Deep Black, Royal/Sapphire Blue & Cyber Orange
-    const cyan = isDarkMode ? new THREE.Color(0x60a5fa) : new THREE.Color(0x2563eb);
-    const blue = isDarkMode ? new THREE.Color(0x2563eb) : new THREE.Color(0x1d4ed8);
-    const orange = isDarkMode ? new THREE.Color(0xf97316) : new THREE.Color(0xea580c);
+    // Color Palette: Pure B&W Monochrome (Muted Silver, Slate, Charcoal)
+    const white = new THREE.Color(0xd1d5db);
+    const silver = isDarkMode ? new THREE.Color(0x94a3b8) : new THREE.Color(0x9ca3af);
+    const gray = isDarkMode ? new THREE.Color(0x64748b) : new THREE.Color(0x64748b);
+    const charcoal = isDarkMode ? new THREE.Color(0x334155) : new THREE.Color(0x475569);
 
     const universeGroup = new THREE.Group();
     scene.add(universeGroup);
@@ -426,10 +460,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       particleFreqs[i * 3 + 1] = 0.4 + Math.random() * 0.7;
       particleFreqs[i * 3 + 2] = 0.3 + Math.random() * 0.6;
 
-      particleSizes[i] = 0.03 + Math.random() * 0.05;
+      particleSizes[i] = 0.020 + Math.random() * 0.030;
 
-      const isThreat = Math.random() > 0.92;
-      const c = isThreat ? orange : Math.random() > 0.45 ? cyan : blue;
+      const isThreat = Math.random() > 0.82;
+      const c = isThreat ? silver : Math.random() > 0.40 ? gray : charcoal;
       particleColors[i * 3] = c.r;
       particleColors[i * 3 + 1] = c.g;
       particleColors[i * 3 + 2] = c.b;
@@ -465,14 +499,16 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     `;
 
     const particleFS = `
+      uniform float uDarkMode;
       varying vec3 vColor;
       varying float vDist;
       void main() {
         float d = length(gl_PointCoord - vec2(0.5));
         if (d > 0.5) discard;
-        float soft = 1.0 - smoothstep(0.2, 0.5, d);
-        float distFade = 1.0 - smoothstep(5.0, 35.0, vDist);
-        gl_FragColor = vec4(vColor, soft * distFade * 0.75);
+        float soft = 1.0 - smoothstep(0.18, 0.5, d);
+        float distFade = 1.0 - smoothstep(5.0, 38.0, vDist);
+        float alpha = soft * distFade * (uDarkMode > 0.5 ? 0.35 : 0.25);
+        gl_FragColor = vec4(vColor, alpha);
       }
     `;
 
@@ -481,6 +517,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       fragmentShader: particleFS,
       uniforms: {
         uTime: { value: 0 },
+        uDarkMode: { value: isDarkMode ? 1.0 : 0.0 },
       },
       vertexColors: true,
       transparent: true,
@@ -515,10 +552,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 1. Outer Geodesic Wireframe Shield
     const icoGeo = new THREE.IcosahedronGeometry(globeRadius, isLowEnd ? 2 : 3);
     const wireMat = new THREE.MeshBasicMaterial({
-      color: isDarkMode ? 0x3b82f6 : 0x1d4ed8,
+      color: isDarkMode ? 0x64748b : 0x94a3b8,
       wireframe: true,
       transparent: true,
-      opacity: isDarkMode ? 0.13 : 0.08,
+      opacity: isDarkMode ? 0.11 : 0.05,
     });
     const wireSphere = new THREE.Mesh(icoGeo, wireMat);
     globeGroup.add(wireSphere);
@@ -526,10 +563,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 2. Inner Hex Shield
     const innerGeo = new THREE.IcosahedronGeometry(globeRadius * 0.88, 2);
     const innerMat = new THREE.MeshBasicMaterial({
-      color: isDarkMode ? 0x2563eb : 0x4f46e5,
+      color: isDarkMode ? 0x475569 : 0x64748b,
       wireframe: true,
       transparent: true,
-      opacity: isDarkMode ? 0.10 : 0.06,
+      opacity: isDarkMode ? 0.08 : 0.04,
     });
     const innerSphere = new THREE.Mesh(innerGeo, innerMat);
     globeGroup.add(innerSphere);
@@ -537,17 +574,17 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 3. Adaptive Solid Core
     const solidCoreGeo = new THREE.SphereGeometry(globeRadius * 0.82, isLowEnd ? 18 : 26, isLowEnd ? 18 : 26);
     const solidCoreMat = new THREE.MeshStandardMaterial({
-      color: isDarkMode ? 0x02040a : 0x0284c7,
-      roughness: isDarkMode ? 0.2 : 0.9,
+      color: isDarkMode ? 0x05060a : 0x181a20,
+      roughness: isDarkMode ? 0.3 : 0.9,
       metalness: isDarkMode ? 0.95 : 0.1,
       transparent: true,
-      opacity: isDarkMode ? 0.14 : 0.03,
+      opacity: isDarkMode ? 0.10 : 0.03,
       depthWrite: false,
     });
     const solidCore = new THREE.Mesh(solidCoreGeo, solidCoreMat);
     globeGroup.add(solidCore);
 
-    // 3.5 Center Inner Cyber Shield (~35% globe diameter)
+    // 3.5 Center Inner Cyber Shield (50% Color / 50% Grayscaled, Soft Watermark)
     const textureLoader = new THREE.TextureLoader();
     const shieldTex = textureLoader.load('/shield-cyber.webp');
     shieldTex.colorSpace = THREE.SRGBColorSpace;
@@ -555,14 +592,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const shieldWidth = globeRadius * 0.72;
     const shieldHeight = globeRadius * 0.78;
     const shieldGeo = new THREE.PlaneGeometry(shieldWidth, shieldHeight);
-    const shieldMat = new THREE.MeshBasicMaterial({
-      map: shieldTex,
-      transparent: true,
-      opacity: isDarkMode ? 0.38 : 0.30,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-      blending: isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending,
-    });
+    const shieldMat = createHalfGrayscaleShieldMaterial(shieldTex, isDarkMode ? 0.22 : 0.16, isDarkMode);
     const shieldMesh = new THREE.Mesh(shieldGeo, shieldMat);
     shieldMesh.onBeforeRender = (_renderer, _scene, cam) => {
       shieldMesh.quaternion.copy(cam.quaternion);
@@ -571,8 +601,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     // Center Core Light
     const coreGlowLight = new THREE.PointLight(
-      isDarkMode ? 0x3b82f6 : 0x1d4ed8,
-      isDarkMode ? 0.65 : 0.45,
+      isDarkMode ? 0x94a3b8 : 0xcccccc,
+      isDarkMode ? 0.32 : 0.25,
       globeRadius * 2.2
     );
     globeGroup.add(coreGlowLight);
@@ -599,7 +629,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         globeNodeVectors.push(new THREE.Vector3(x, y, z));
       }
 
-      const c = i % 15 === 0 ? orange : i % 2 === 0 ? cyan : blue;
+      const c = i % 15 === 0 ? white : i % 2 === 0 ? silver : gray;
       nodeColors[i * 3] = c.r;
       nodeColors[i * 3 + 1] = c.g;
       nodeColors[i * 3 + 2] = c.b;
@@ -609,10 +639,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
     nodeGeo.setAttribute('color', new THREE.BufferAttribute(nodeColors, 3));
     const nodeMat = new THREE.PointsMaterial({
-      size: 0.048,
+      size: 0.032,
       vertexColors: true,
       transparent: true,
-      opacity: 0.45,
+      opacity: isDarkMode ? 0.25 : 0.15,
       blending: THREE.AdditiveBlending,
     });
     const globeNodes = new THREE.Points(nodeGeo, nodeMat);
@@ -625,14 +655,14 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     const satellites: THREE.Mesh[] = [];
     const satGeo = new THREE.OctahedronGeometry(0.08, 0);
     const blueSatMat = new THREE.MeshStandardMaterial({
-      color: 0x3b82f6,
-      emissive: 0x3b82f6,
-      emissiveIntensity: 0.9,
+      color: 0x64748b,
+      emissive: 0x64748b,
+      emissiveIntensity: 0.15,
     });
     const orangeSatMat = new THREE.MeshStandardMaterial({
-      color: 0xd97706,
-      emissive: 0xd97706,
-      emissiveIntensity: 0.5,
+      color: 0x52525b,
+      emissive: 0x52525b,
+      emissiveIntensity: 0.10,
     });
 
     for (let i = 0; i < satelliteCount; i++) {
@@ -661,9 +691,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const points = curve.getPoints(isLowEnd ? 18 : isHighEnd ? 40 : 28);
       const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
       const arcMat = new THREE.LineBasicMaterial({
-        color: i % 3 === 0 ? 0xf97316 : 0x2563eb,
+        color: 0x475569,
         transparent: true,
-        opacity: 0.08,
+        opacity: isDarkMode ? 0.05 : 0.03,
         blending: THREE.AdditiveBlending,
       });
       const arcLine = new THREE.Line(arcGeo, arcMat);
@@ -673,13 +703,12 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const packetCountForArc = isLowEnd ? 1 : 2;
       const packetGeo = new THREE.SphereGeometry(0.035, 6, 6);
       for (let j = 0; j < packetCountForArc; j++) {
-        const isOrange = i % 3 === 0;
         const packetMat = new THREE.MeshStandardMaterial({
-          color: isOrange ? 0xf97316 : 0x3b82f6,
-          emissive: isOrange ? 0xf97316 : 0x3b82f6,
-          emissiveIntensity: 1.4,
+          color: 0x94a3b8,
+          emissive: 0x94a3b8,
+          emissiveIntensity: 0.3,
           transparent: true,
-          opacity: 0.65,
+          opacity: isDarkMode ? 0.40 : 0.25,
         });
         const packetMesh = new THREE.Mesh(packetGeo, packetMat);
         globeGroup.add(packetMesh);
@@ -704,10 +733,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 1. Outer Geodesic Wireframe Shield for Globe 2
     const icoGeo2 = new THREE.IcosahedronGeometry(globe2Radius, isLowEnd ? 2 : 3);
     const wireMat2 = new THREE.MeshBasicMaterial({
-      color: isDarkMode ? 0x60a5fa : 0x2563eb,
+      color: isDarkMode ? 0x64748b : 0x94a3b8,
       wireframe: true,
       transparent: true,
-      opacity: isDarkMode ? 0.11 : 0.07,
+      opacity: isDarkMode ? 0.09 : 0.04,
     });
     const wireSphere2 = new THREE.Mesh(icoGeo2, wireMat2);
     globe2Group.add(wireSphere2);
@@ -715,10 +744,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 2. Inner Hex Shield for Globe 2
     const innerGeo2 = new THREE.IcosahedronGeometry(globe2Radius * 0.88, 2);
     const innerMat2 = new THREE.MeshBasicMaterial({
-      color: isDarkMode ? 0x3b82f6 : 0x4f46e5,
+      color: isDarkMode ? 0x475569 : 0x64748b,
       wireframe: true,
       transparent: true,
-      opacity: isDarkMode ? 0.09 : 0.05,
+      opacity: isDarkMode ? 0.06 : 0.03,
     });
     const innerSphere2 = new THREE.Mesh(innerGeo2, innerMat2);
     globe2Group.add(innerSphere2);
@@ -726,28 +755,21 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     // 3. Adaptive Solid Core for Globe 2
     const solidCoreGeo2 = new THREE.SphereGeometry(globe2Radius * 0.82, isLowEnd ? 18 : 26, isLowEnd ? 18 : 26);
     const solidCoreMat2 = new THREE.MeshStandardMaterial({
-      color: isDarkMode ? 0x02040a : 0x0284c7,
-      roughness: isDarkMode ? 0.2 : 0.9,
+      color: isDarkMode ? 0x05060a : 0x181a20,
+      roughness: isDarkMode ? 0.3 : 0.9,
       metalness: isDarkMode ? 0.95 : 0.1,
       transparent: true,
-      opacity: isDarkMode ? 0.12 : 0.03,
+      opacity: isDarkMode ? 0.08 : 0.02,
       depthWrite: false,
     });
     const solidCore2 = new THREE.Mesh(solidCoreGeo2, solidCoreMat2);
     globe2Group.add(solidCore2);
 
-    // 3.5 Center Inner Cyber Shield for Globe 2
+    // 3.5 Center Inner Cyber Shield for Globe 2 (50% Color / 50% Grayscaled, Soft Watermark)
     const shieldWidth2 = globe2Radius * 0.72;
     const shieldHeight2 = globe2Radius * 0.78;
     const shieldGeo2 = new THREE.PlaneGeometry(shieldWidth2, shieldHeight2);
-    const shieldMat2 = new THREE.MeshBasicMaterial({
-      map: shieldTex,
-      transparent: true,
-      opacity: isDarkMode ? 0.32 : 0.25,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-      blending: isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending,
-    });
+    const shieldMat2 = createHalfGrayscaleShieldMaterial(shieldTex, isDarkMode ? 0.18 : 0.12, isDarkMode);
     const shieldMesh2 = new THREE.Mesh(shieldGeo2, shieldMat2);
     shieldMesh2.onBeforeRender = (_renderer, _scene, cam) => {
       shieldMesh2.quaternion.copy(cam.quaternion);
@@ -756,8 +778,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     // Center Core Light for Globe 2
     const coreGlowLight2 = new THREE.PointLight(
-      isDarkMode ? 0x3b82f6 : 0x1d4ed8,
-      isDarkMode ? 0.50 : 0.35,
+      isDarkMode ? 0x94a3b8 : 0xcccccc,
+      isDarkMode ? 0.28 : 0.20,
       globe2Radius * 2.2
     );
     globe2Group.add(coreGlowLight2);
@@ -779,7 +801,7 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       nodePositions2[i * 3 + 1] = y;
       nodePositions2[i * 3 + 2] = z;
 
-      const c = i % 18 === 0 ? orange : i % 2 === 0 ? cyan : blue;
+      const c = i % 18 === 0 ? white : i % 2 === 0 ? silver : gray;
       nodeColors2[i * 3] = c.r;
       nodeColors2[i * 3 + 1] = c.g;
       nodeColors2[i * 3 + 2] = c.b;
@@ -789,10 +811,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
     nodeGeo2.setAttribute('position', new THREE.BufferAttribute(nodePositions2, 3));
     nodeGeo2.setAttribute('color', new THREE.BufferAttribute(nodeColors2, 3));
     const nodeMat2 = new THREE.PointsMaterial({
-      size: 0.045,
+      size: 0.030,
       vertexColors: true,
       transparent: true,
-      opacity: 0.40,
+      opacity: isDarkMode ? 0.20 : 0.12,
       blending: THREE.AdditiveBlending,
     });
     const globeNodes2 = new THREE.Points(nodeGeo2, nodeMat2);
@@ -858,8 +880,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         uV0: { value: new THREE.Vector3(4.2, 0.20, 0) },
         uV1: { value: new THREE.Vector3(0.0, 3.4, -1.0) },
         uV2: { value: new THREE.Vector3(-4.5, 0.40, -3.2) },
-        uColor: { value: new THREE.Color(0x60a5fa) },
-        uOpacity: { value: isDarkMode ? 0.16 : 0.08 },
+        uColor: { value: new THREE.Color(0x475569) },
+        uOpacity: { value: isDarkMode ? 0.06 : 0.03 },
         uTime: { value: 0 },
       },
       transparent: true,
@@ -872,11 +894,11 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
     const dualCorePacketGeo = new THREE.SphereGeometry(0.045, 6, 6);
     const dualCorePacketMat = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      emissive: 0x38bdf8,
-      emissiveIntensity: 1.5,
+      color: 0x94a3b8,
+      emissive: 0x94a3b8,
+      emissiveIntensity: 0.4,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.45,
     });
     const dualCorePacket = new THREE.Mesh(dualCorePacketGeo, dualCorePacketMat);
     universeGroup.add(dualCorePacket);
@@ -972,41 +994,38 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       universeGroup.add(sGroup);
 
       const sWireMat = new THREE.MeshBasicMaterial({
-        color: isDarkMode ? 0x3b82f6 : 0x1d4ed8,
+        color: isDarkMode ? 0x475569 : 0x94a3b8,
         wireframe: true,
         transparent: true,
-        opacity: cfg.opacity * 0.75,
+        opacity: isDarkMode ? cfg.opacity * 0.9 : cfg.opacity * 0.4,
       });
       const sWire = new THREE.Mesh(icoGeo, sWireMat);
       sGroup.add(sWire);
 
       const sInnerMat = new THREE.MeshBasicMaterial({
-        color: isDarkMode ? 0x2563eb : 0x4f46e5,
+        color: isDarkMode ? 0x334155 : 0x64748b,
         wireframe: true,
         transparent: true,
-        opacity: cfg.opacity * 0.50,
+        opacity: isDarkMode ? cfg.opacity * 0.6 : cfg.opacity * 0.3,
       });
       const sInner = new THREE.Mesh(innerGeo, sInnerMat);
       sGroup.add(sInner);
 
       const sNodeMat = new THREE.PointsMaterial({
-        size: 0.038,
+        size: 0.030,
         vertexColors: true,
         transparent: true,
-        opacity: cfg.opacity * 1.4,
+        opacity: isDarkMode ? cfg.opacity * 1.0 : cfg.opacity * 0.5,
         blending: THREE.AdditiveBlending,
       });
       const sNodes = new THREE.Points(nodeGeo, sNodeMat);
       sGroup.add(sNodes);
 
-      const sShieldMat = new THREE.MeshBasicMaterial({
-        map: shieldTex,
-        transparent: true,
-        opacity: isDarkMode ? Math.min(0.26, cfg.opacity * 1.8) : cfg.opacity * 1.2,
-        side: THREE.DoubleSide,
-        depthWrite: false,
-        blending: isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending,
-      });
+      const sShieldMat = createHalfGrayscaleShieldMaterial(
+        shieldTex, 
+        isDarkMode ? Math.min(0.18, cfg.opacity * 1.5) : cfg.opacity * 0.6, 
+        isDarkMode
+      );
       const sShield = new THREE.Mesh(shieldGeo, sShieldMat);
       sShield.onBeforeRender = (_renderer, _scene, cam) => {
         sShield.quaternion.copy(cam.quaternion);
@@ -1014,8 +1033,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       sGroup.add(sShield);
 
       const sCoreLight = new THREE.PointLight(
-        isDarkMode ? 0x3b82f6 : 0x1d4ed8,
-        cfg.opacity * 2.0,
+        isDarkMode ? 0x94a3b8 : 0xcccccc,
+        cfg.opacity * 0.8,
         globeRadius * 2.0
       );
       sGroup.add(sCoreLight);
@@ -1060,9 +1079,9 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       const pts = curve.getPoints(isLowEnd ? 16 : isHighEnd ? 32 : 24);
       const bGeo = new THREE.BufferGeometry().setFromPoints(pts);
       const bMat = new THREE.LineBasicMaterial({
-        color: 0x3b82f6,
+        color: 0x475569,
         transparent: true,
-        opacity: isDarkMode ? 0.06 : 0.03,
+        opacity: isDarkMode ? 0.03 : 0.015,
         blending: THREE.AdditiveBlending,
       });
       const arcLine = new THREE.Line(bGeo, bMat);
@@ -1070,11 +1089,11 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
 
       const pGeo = new THREE.SphereGeometry(0.04, 6, 6);
       const pMat = new THREE.MeshStandardMaterial({
-        color: 0x60a5fa,
-        emissive: 0x60a5fa,
-        emissiveIntensity: 1.2,
+        color: 0x94a3b8,
+        emissive: 0x94a3b8,
+        emissiveIntensity: 0.3,
         transparent: true,
-        opacity: 0.6,
+        opacity: isDarkMode ? 0.35 : 0.18,
       });
       const packetMesh = new THREE.Mesh(pGeo, pMat);
       universeGroup.add(packetMesh);
@@ -1108,17 +1127,17 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         float dist = length(vUv - center) * 2.0;
         float glow = exp(-dist * dist * 3.2);
 
-        vec3 blueCore = uDarkMode > 0.5 ? vec3(0.05, 0.45, 0.95) : vec3(0.01, 0.42, 0.88);
-        vec3 blueMid  = uDarkMode > 0.5 ? vec3(0.04, 0.18, 0.70) : vec3(0.03, 0.14, 0.60);
-        vec3 blueEdge = uDarkMode > 0.5 ? vec3(0.01, 0.06, 0.30) : vec3(0.01, 0.05, 0.20);
+        vec3 whiteCore = vec3(0.45, 0.45, 0.50);
+        vec3 grayMid   = vec3(0.18, 0.18, 0.22);
+        vec3 darkEdge  = vec3(0.03, 0.03, 0.04);
 
-        vec3 color = mix(blueCore, blueMid, smoothstep(0.0, 0.50, dist));
-        color = mix(color, blueEdge, smoothstep(0.45, 0.90, dist));
+        vec3 color = mix(whiteCore, grayMid, smoothstep(0.0, 0.50, dist));
+        color = mix(color, darkEdge, smoothstep(0.45, 0.90, dist));
 
         float pulse = sin(uTime * 0.6) * 0.06 + 1.0;
-        float alpha = glow * (uDarkMode > 0.5 ? 0.010 : 0.006) * pulse;
+        float alpha = glow * (uDarkMode > 0.5 ? 0.004 : 0.002) * pulse;
 
-        if (alpha < 0.002) discard;
+        if (alpha < 0.001) discard;
         gl_FragColor = vec4(color, alpha);
       }
     `;
@@ -1151,10 +1170,10 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
         scroll: 0.0,
         pos: new THREE.Vector3(0, 0.2, 9.2),
         look: new THREE.Vector3(0.0, 0, 0),
-        globePos: new THREE.Vector3(4.2, 0.20, 0.0),
-        globeScale: 1.0,
-        globe2Pos: new THREE.Vector3(-4.5, 0.40, -3.2),
-        globe2Scale: 0.92,
+        globePos: new THREE.Vector3(5.2, 0.20, 0.0),
+        globeScale: 0.95,
+        globe2Pos: new THREE.Vector3(-5.5, 0.35, -3.2),
+        globe2Scale: 0.88,
       },
       {
         scroll: 0.25,
@@ -1674,8 +1693,8 @@ export const CyberUniverse3D: React.FC<CyberUniverse3DProps> = ({ currentView = 
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden transition-colors duration-700"
       style={{
         background: isDarkMode
-          ? 'radial-gradient(circle at 100% 100%, rgba(255, 107, 0, 0.20) 0%, rgba(249, 115, 22, 0.12) 5%, rgba(234, 88, 12, 0.06) 12%, rgba(234, 88, 12, 0.02) 20%, transparent 30%), radial-gradient(ellipse at 15% 45%, rgba(37, 99, 235, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 30%, #02040b 0%, #010206 60%, #000000 100%)'
-          : 'radial-gradient(circle at 100% 100%, rgba(255, 107, 0, 0.14) 0%, rgba(249, 115, 22, 0.08) 5%, rgba(234, 88, 12, 0.04) 12%, rgba(234, 88, 12, 0.01) 20%, transparent 28%), radial-gradient(ellipse at 15% 25%, rgba(2, 132, 199, 0.04) 0%, transparent 50%), linear-gradient(180deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
+          ? 'radial-gradient(ellipse at 50% 30%, #0d0f16 0%, #06070a 60%, #020305 100%)'
+          : 'linear-gradient(180deg, #fafbfc 0%, #f2f4f8 50%, #e9ecf2 100%)',
       }}
       aria-hidden="true"
     />

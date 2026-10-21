@@ -159,3 +159,24 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`[Visitor API] Server running on port ${PORT}. Total visitors: ${state.totalVisitors}`);
 });
+
+function gracefulShutdown(signal) {
+  console.log(`[Visitor API] Received ${signal}, shutting down gracefully...`);
+  try {
+    saveState();
+  } catch (err) {
+    console.error('[Visitor API] Error saving state during shutdown:', err);
+  }
+  server.close(() => {
+    console.log('[Visitor API] HTTP server closed.');
+    process.exit(0);
+  });
+  setTimeout(() => {
+    console.error('[Visitor API] Forced exit after timeout.');
+    process.exit(1);
+  }, 5000).unref();
+}
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+

@@ -7,79 +7,39 @@ interface Ripple {
   y: number;
 }
 
-export type WaterAccentGlow = 'blue' | 'orange' | 'purple' | 'cyan' | 'silver';
-
 export interface WaterGlassCardProps {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
-  accentGlow?: WaterAccentGlow | string;
+  /** Retained for prop compatibility, but rendered strictly in monochrome B&W / silver */
+  accentGlow?: string;
 }
 
 export const WaterGlassCard: React.FC<WaterGlassCardProps> = ({
   children,
   className = '',
   onClick,
-  accentGlow = 'blue',
 }) => {
   const cardRef = useRef<HTMLDivElement | null>(null);
-  const [coords, setCoords] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [coords, setCoords] = useState<{ x: number; y: number; rotateX: number; rotateY: number }>({
+    x: 0,
+    y: 0,
+    rotateX: 0,
+    rotateY: 0
+  });
   const [isHovered, setIsHovered] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const lastRippleTime = useRef<number>(0);
 
-  const glowStyles = {
-    blue: {
-      spotDark: 'rgba(59, 130, 246, 0.20)',
-      spotLight: 'rgba(37, 99, 235, 0.08)',
-      hoverBorderDark: 'dark:hover:border-blue-500/40 dark:hover:shadow-[0_20px_45px_rgba(37,99,235,0.22)]',
-      hoverBorderLight: 'hover:border-blue-400 hover:shadow-[0_16px_36px_rgba(37,99,235,0.12)]',
-      meniscusDark: 'linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.5) 50%, transparent 100%)',
-      meniscusLight: 'linear-gradient(90deg, transparent 0%, rgba(37, 99, 235, 0.3) 50%, transparent 100%)',
-    },
-    orange: {
-      spotDark: 'rgba(249, 115, 22, 0.20)',
-      spotLight: 'rgba(234, 88, 12, 0.08)',
-      hoverBorderDark: 'dark:hover:border-orange-500/40 dark:hover:shadow-[0_20px_45px_rgba(249,115,22,0.22)]',
-      hoverBorderLight: 'hover:border-orange-400 hover:shadow-[0_16px_36px_rgba(249,115,22,0.12)]',
-      meniscusDark: 'linear-gradient(90deg, transparent 0%, rgba(249, 115, 22, 0.5) 50%, transparent 100%)',
-      meniscusLight: 'linear-gradient(90deg, transparent 0%, rgba(234, 88, 12, 0.3) 50%, transparent 100%)',
-    },
-    purple: {
-      spotDark: 'rgba(139, 92, 246, 0.20)',
-      spotLight: 'rgba(124, 58, 237, 0.08)',
-      hoverBorderDark: 'dark:hover:border-purple-500/40 dark:hover:shadow-[0_20px_45px_rgba(139,92,246,0.22)]',
-      hoverBorderLight: 'hover:border-purple-400 hover:shadow-[0_16px_36px_rgba(139,92,246,0.12)]',
-      meniscusDark: 'linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.5) 50%, transparent 100%)',
-      meniscusLight: 'linear-gradient(90deg, transparent 0%, rgba(124, 58, 237, 0.3) 50%, transparent 100%)',
-    },
-    cyan: {
-      spotDark: 'rgba(6, 182, 212, 0.20)',
-      spotLight: 'rgba(8, 145, 178, 0.08)',
-      hoverBorderDark: 'dark:hover:border-cyan-500/40 dark:hover:shadow-[0_20px_45px_rgba(6,182,212,0.22)]',
-      hoverBorderLight: 'hover:border-cyan-400 hover:shadow-[0_16px_36px_rgba(6,182,212,0.12)]',
-      meniscusDark: 'linear-gradient(90deg, transparent 0%, rgba(6, 182, 212, 0.5) 50%, transparent 100%)',
-      meniscusLight: 'linear-gradient(90deg, transparent 0%, rgba(8, 145, 178, 0.3) 50%, transparent 100%)',
-    },
-    silver: {
-      spotDark: 'rgba(255, 255, 255, 0.08)',
-      spotLight: 'rgba(0, 0, 0, 0.03)',
-      hoverBorderDark: 'dark:hover:border-white/25 dark:hover:shadow-[0_24px_48px_rgba(0,0,0,0.8)]',
-      hoverBorderLight: 'hover:border-slate-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]',
-      meniscusDark: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%)',
-      meniscusLight: 'linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.08) 50%, transparent 100%)',
-    }
-  };
-
-  const currentGlow = (glowStyles as Record<string, typeof glowStyles.blue>)[accentGlow] || glowStyles.blue;
-
   // Smooth, low-intensity water wave ripple on hover/move
   const spawnRipple = useCallback((x: number, y: number) => {
     const now = Date.now();
+    // Controlled throttling for smooth 60fps wave propagation
     if (now - lastRippleTime.current < 160) return;
     lastRippleTime.current = now;
 
     const newRipple: Ripple = { id: now, x, y };
+    // Keep up to 3 subtle active ripple waves
     setRipples((prev) => [...prev.slice(-2), newRipple]);
 
     setTimeout(() => {
@@ -93,7 +53,13 @@ export const WaterGlassCard: React.FC<WaterGlassCardProps> = ({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    setCoords({ x, y });
+    // Gentle fluid surface tension buoyant tilt (capped at 2.5deg for subtle luxury)
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -2.5;
+    const rotateY = ((x - centerX) / centerX) * 2.5;
+
+    setCoords({ x, y, rotateX, rotateY });
     spawnRipple(x, y);
   };
 
@@ -104,12 +70,13 @@ export const WaterGlassCard: React.FC<WaterGlassCardProps> = ({
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    setCoords({ x, y });
+    setCoords({ x, y, rotateX: 0, rotateY: 0 });
     spawnRipple(x, y);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    setCoords({ x: 0, y: 0, rotateX: 0, rotateY: 0 });
   };
 
   return (
@@ -120,25 +87,30 @@ export const WaterGlassCard: React.FC<WaterGlassCardProps> = ({
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       style={{
-        transform: 'none'
+        transform: isHovered
+          ? `perspective(1000px) rotateX(${coords.rotateX}deg) rotateY(${coords.rotateY}deg) translateY(-4px)`
+          : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)',
+        transition: 'transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1)'
       }}
       className={`relative rounded-3xl overflow-hidden cursor-pointer select-none group/water transition-all duration-300
         /* Light mode: Pristine, clear frosted white glass */
-        bg-white/80 hover:bg-white/95 border border-slate-200/90 ${currentGlow.hoverBorderLight}
+        bg-white/80 hover:bg-white/95 border border-slate-200/90 hover:border-slate-300
         shadow-[0_8px_24px_-6px_rgba(0,0,0,0.05),inset_0_1px_2px_rgba(255,255,255,1)]
+        hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.08),inset_0_1px_2px_rgba(255,255,255,1)]
         backdrop-blur-xl
         /* Dark mode: Pristine, clear obsidian glass */
-        dark:bg-[#0b1222]/80 dark:hover:bg-[#10192e]/90 dark:border-white/[0.08] ${currentGlow.hoverBorderDark}
+        dark:bg-[#0c0e14]/65 dark:hover:bg-[#11141e]/80 dark:border-white/[0.08] dark:hover:border-white/[0.20]
         dark:shadow-[0_16px_36px_-12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.12)]
+        dark:hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.22)]
         ${className}`}
     >
-      {/* 1. Specular Light Sheen at Mouse Coordinates */}
+      {/* 1. Low-Intensity Specular Light Sheen at Mouse Coordinates (B&W Only) */}
       {/* Dark Mode Specular Spot */}
       <div
         className="pointer-events-none absolute inset-0 rounded-3xl transition-opacity duration-300 hidden dark:block"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(320px circle at ${coords.x}px ${coords.y}px, ${currentGlow.spotDark} 0%, transparent 70%)`
+          background: `radial-gradient(320px circle at ${coords.x}px ${coords.y}px, rgba(255, 255, 255, 0.06) 0%, transparent 70%)`
         }}
       />
       {/* Light Mode Specular Spot */}
@@ -146,14 +118,14 @@ export const WaterGlassCard: React.FC<WaterGlassCardProps> = ({
         className="pointer-events-none absolute inset-0 rounded-3xl transition-opacity duration-300 block dark:hidden"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(320px circle at ${coords.x}px ${coords.y}px, ${currentGlow.spotLight} 0%, transparent 70%)`
+          background: `radial-gradient(320px circle at ${coords.x}px ${coords.y}px, rgba(0, 0, 0, 0.025) 0%, transparent 70%)`
         }}
       />
 
-      {/* 2. Concentric Water Wave Ripple Rings Formed on Hover */}
+      {/* 2. Concentric B&W Water Wave Ripple Rings Formed on Hover */}
       {ripples.map((ripple) => (
         <React.Fragment key={ripple.id}>
-          {/* Dark Mode Ripple */}
+          {/* Dark Mode Monochrome Ripple */}
           <span
             className="water-ripple-ring-dark hidden dark:block"
             style={{
@@ -161,7 +133,7 @@ export const WaterGlassCard: React.FC<WaterGlassCardProps> = ({
               top: ripple.y
             }}
           />
-          {/* Light Mode Ripple */}
+          {/* Light Mode Monochrome Ripple */}
           <span
             className="water-ripple-ring-light block dark:hidden"
             style={{
@@ -172,7 +144,7 @@ export const WaterGlassCard: React.FC<WaterGlassCardProps> = ({
         </React.Fragment>
       ))}
 
-      {/* 3. Subtle Liquid Wave Drift on Hover */}
+      {/* 3. Subtle Liquid Wave Drift on Hover (Low Intensity, Pure B&W / Silver) */}
       <div 
         className="pointer-events-none absolute -inset-full opacity-0 group-hover/water:opacity-100 transition-opacity duration-700 hidden dark:block"
         style={{
@@ -190,19 +162,19 @@ export const WaterGlassCard: React.FC<WaterGlassCardProps> = ({
         }}
       />
 
-      {/* 4. Glass Surface Meniscus / Top Specular Hairline */}
+      {/* 4. Glass Surface Meniscus / Top Specular Hairline (Clear Refraction) */}
       <div 
         className="pointer-events-none absolute top-0 left-0 right-0 h-[1px] transition-opacity duration-300 hidden dark:block"
         style={{
           opacity: isHovered ? 1 : 0.6,
-          background: currentGlow.meniscusDark
+          background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%)'
         }}
       />
       <div 
         className="pointer-events-none absolute top-0 left-0 right-0 h-[1px] transition-opacity duration-300 block dark:hidden"
         style={{
           opacity: isHovered ? 1 : 0.6,
-          background: currentGlow.meniscusLight
+          background: 'linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.08) 50%, transparent 100%)'
         }}
       />
 

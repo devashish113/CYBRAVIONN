@@ -169,8 +169,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       boldOutcome: "Human Firewall Defense",
       outcome: "Build a security-first culture and reduce human-centric risks through engaging awareness programs and live phishing drills.",
       icon: ShieldCheck,
-      glow: "blue" as const,
-      image: "/images/services/training.jpg",
+      image: "/images/services/training.webp",
       topics: ["Phishing simulation & lure detection", "Social engineering & pretexting defense", "Zero-trust credential & password security", "Operational hygiene for remote workforces"],
       audience: "All corporate employees, executive staff, operations, and interns.",
       duration: "1 Day / Weekly Sprints",
@@ -182,8 +181,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       boldOutcome: "Upskill Your Defenders",
       outcome: "Hands-on mastery for security engineers and IT operations focusing on advanced exploit vectors and containment playbooks.",
       icon: Zap,
-      glow: "orange" as const,
-      image: "/images/services/offensive-sec.jpg",
+      image: "/images/services/offensive-sec.webp",
       topics: ["VAPT & API pentesting methodologies", "Multi-Cloud Security hardening (AWS & Azure)", "Active Directory & EDR evasion defense", "Container breakout & Kubernetes privilege escalation"],
       audience: "IT teams, security analysts, DevOps, and developers.",
       duration: "3-5 Days Intensive",
@@ -195,8 +193,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       boldOutcome: "Master Modern Frameworks",
       outcome: "Master the statutory standards that govern modern cybersecurity including ISO 27001:2022, DPDP Act 2023, and SOC 2 Type II.",
       icon: BookOpen,
-      glow: "purple" as const,
-      image: "/images/services/grc.jpg",
+      image: "/images/services/grc.webp",
       topics: ["ISO 27001:2022 ISMS internal auditor training", "DPDP Act 2023 Data Fiduciary compliance controls", "NIST CSF 2.0 governance & risk register mapping", "Third-Party Risk Management (TPRM) vendor auditing"],
       audience: "Compliance officers, DPOs, legal counsel, and risk managers.",
       duration: "2-4 Days Executive",
@@ -208,8 +205,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       boldOutcome: "Strategic Risk Leadership",
       outcome: "Strategic cyber risk governance for C-suite and board members to translate technical vulnerabilities into fiduciary resilience.",
       icon: Target,
-      glow: "cyan" as const,
-      image: "/images/services/ai-security.jpg",
+      image: "/images/services/ai-security.webp",
       topics: ["Board-level cyber risk quantification & reporting", "High-stakes ransomware crisis decision making", "Regulatory disclosures with CERT-In & legal counsel", "Cyber insurance policy alignment & liability mitigation"],
       audience: "CEOs, CISOs, CIOs, Board members, and Managing Directors.",
       duration: "Half-day Briefing",
@@ -226,8 +222,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       badge: "Architecture",
       category: "CLOUD",
       icon: Cloud,
-      glow: "cyan" as const,
-      image: "/images/services/cloud-sec.jpg",
+      image: "/images/services/cloud-sec.webp",
       topics: [
         "AWS, Azure & GCP zero-trust architectural blueprints",
         "IAM least-privilege matrix and automated permission boundaries",
@@ -245,8 +240,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       badge: "Offensive Ops",
       category: "OFFENSIVE",
       icon: Terminal,
-      glow: "orange" as const,
-      image: "/images/services/offensive-sec.jpg",
+      image: "/images/services/offensive-sec.webp",
       topics: [
         "OWASP Top 10 web and API offensive exploitation chaining",
         "Active Directory domain compromise and Kerberoasting attacks",
@@ -264,8 +258,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       badge: "Blue Team",
       category: "DEFENSIVE",
       icon: ShieldAlert,
-      glow: "blue" as const,
-      image: "/images/services/soc-triage.jpg",
+      image: "/images/services/soc-triage.webp",
       topics: [
         "SIEM rule engineering, threshold tuning and noise suppression",
         "MITRE ATT&CK framework event mapping and C2 hunting",
@@ -283,8 +276,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       badge: "GRC",
       category: "GOVERNANCE",
       icon: FileCheck,
-      glow: "purple" as const,
-      image: "/images/services/grc.jpg",
+      image: "/images/services/grc.webp",
       topics: [
         "ISO 27001:2022 Annex A controls implementation & SoA authoring",
         "DPDP Act 2023 Data Fiduciary compliance & consent flows",
@@ -302,8 +294,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       badge: "AI Defense",
       category: "AI",
       icon: Brain,
-      glow: "cyan" as const,
-      image: "/images/services/ai-security.jpg",
+      image: "/images/services/ai-security.webp",
       topics: [
         "OWASP Top 10 for Large Language Models deep dive",
         "Indirect prompt injection and jailbreak mitigation filters",
@@ -321,8 +312,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
       badge: "Leadership",
       category: "LEADERSHIP",
       icon: Award,
-      glow: "orange" as const,
-      image: "/images/services/training.jpg",
+      image: "/images/services/training.webp",
       topics: [
         "High-stakes ransomware negotiation and decision-making drills",
         "Board of Directors crisis communication and stakeholder briefing",
@@ -431,17 +421,14 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
         <section id="programs" className="py-20 md:py-28 border-t border-slate-200/80 dark:border-white/5 bg-slate-100/60 dark:bg-stone-950/40 relative z-10">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
             <div className="text-center mb-12 sm:mb-16 max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 dark:bg-blue-500/15 border border-blue-500/30 dark:border-blue-400/30 mb-4 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-                <span className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse" />
-                <span className="text-[11px] font-mono uppercase tracking-[0.22em] font-bold text-blue-600 dark:text-blue-400">
-                  Institutional Defense
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-slate-500 dark:text-neutral-400">
+                  Institutional Academy
                 </span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Flagship Training{' '}
-                <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 dark:from-sky-400 dark:via-blue-400 dark:to-orange-400 bg-clip-text text-transparent">
-                  Domains
-                </span>.
+              <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-slate-900 dark:text-white tracking-tight">
+                Flagship Training Domains.
               </h2>
               <p className="mt-4 text-slate-600 dark:text-stone-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
                 Four institutional defense tiers engineered to transform organizational culture from passive exposure to proactive cyber resilience.
@@ -462,7 +449,6 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
                   actionLabel=">"
                   onAction={() => handleCategoryClick(cat)}
                   isDarkMode={isDarkMode}
-                  glowColor={cat.glow}
                 />
               ))}
             </div>
@@ -473,17 +459,14 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
         <section id="tracks" className="py-20 md:py-28 bg-slate-50 dark:bg-stone-900/20 border-y border-slate-200/80 dark:border-white/5 relative z-10">
           <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
             <div className="text-center mb-12 sm:mb-16 max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 dark:bg-blue-500/15 border border-blue-500/30 dark:border-blue-400/30 mb-4 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-                <span className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse" />
-                <span className="text-[11px] font-mono uppercase tracking-[0.22em] font-bold text-blue-600 dark:text-blue-400">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-semibold text-slate-500 dark:text-stone-400">
                   Modular Syllabus
                 </span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Enterprise Curriculum{' '}
-                <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 dark:from-sky-400 dark:via-blue-400 dark:to-orange-400 bg-clip-text text-transparent">
-                  Tracks
-                </span>.
+              <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-slate-900 dark:text-white tracking-tight">
+                Enterprise Curriculum Tracks.
               </h2>
               <p className="mt-4 text-slate-600 dark:text-stone-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
                 Hands-on simulation environments and role-tailored technical pathways designed for enterprise teams and defense engineers.
@@ -493,7 +476,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
             {/* Interactive Controls: Category Filter & Layout Switcher */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 max-w-5xl mx-auto">
               {/* Category Filter Pills */}
-              <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
+              <div className="flex items-center gap-1.5 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] overflow-x-auto max-w-full">
                 {trackFilterCategories.map((filter) => (
                   <button
                     key={filter.id}
@@ -501,10 +484,10 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
                       cyberAudio.playClick();
                       setSelectedTrackFilter(filter.id);
                     }}
-                    className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                    className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
                       selectedTrackFilter === filter.id
-                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-200/50 dark:hover:bg-white/[0.06]'
+                        ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
                     }`}
                   >
                     {filter.label}
@@ -513,7 +496,7 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
               </div>
 
               {/* Layout Mode Pill Switcher */}
-              <div className="flex items-center gap-1 p-1 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] shrink-0">
+              <div className="flex items-center gap-1 p-1 rounded-full bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] shrink-0">
                 <button
                   onClick={() => {
                     cyberAudio.playClick();
@@ -521,10 +504,10 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
                   }}
                   title="Honeycomb Cluster Layout"
                   aria-label="Honeycomb Cluster Layout"
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                     trackLayoutMode === 'honeycomb'
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'
+                      ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                      : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
                   }`}
                 >
                   <Hexagon size={13} aria-hidden={true} />
@@ -537,10 +520,10 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
                   }}
                   title="Matrix Grid Layout"
                   aria-label="Matrix Grid Layout"
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                     trackLayoutMode === 'grid'
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.35)] border border-blue-400/30'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'
+                      ? 'bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-sm'
+                      : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
                   }`}
                 >
                   <LayoutGrid size={13} aria-hidden={true} />
@@ -567,7 +550,6 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
                       actionLabel=">"
                       onAction={() => handleTrackClick(track)}
                       isDarkMode={isDarkMode}
-                      glowColor={track.glow}
                     />
                   ))}
                 </div>
@@ -586,7 +568,6 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
                       actionLabel=">"
                       onAction={() => handleTrackClick(track)}
                       isDarkMode={isDarkMode}
-                      glowColor={track.glow}
                     />
                   ))}
                 </div>
@@ -605,7 +586,6 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
                       actionLabel=">"
                       onAction={() => handleTrackClick(track)}
                       isDarkMode={isDarkMode}
-                      glowColor={track.glow}
                     />
                   ))}
                 </div>
@@ -625,7 +605,6 @@ export const TrainingPage: React.FC<TrainingPageProps> = ({
                     actionLabel=">"
                     onAction={() => handleTrackClick(track)}
                     isDarkMode={isDarkMode}
-                    glowColor={track.glow}
                   />
                 ))}
               </div>

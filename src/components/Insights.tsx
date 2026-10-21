@@ -3,6 +3,7 @@ import {
   FileText, Download, ExternalLink, BookOpen,
   Shield, Cloud, Lock, Brain, AlertTriangle
 } from 'lucide-react';
+import { WaterGlassCard } from './WaterGlassCard';
 
 const articles = [
   {
@@ -19,7 +20,7 @@ const articles = [
     summary: "From misconfigured cloud environments to insider threats — the critical vulnerabilities that most startups overlook until it's too late.",
     icon: <AlertTriangle className="w-5 h-5" />,
     readTime: "5 min read",
-    color: "orange"
+    color: "purple"
   },
   {
     type: "Guide",
@@ -35,7 +36,7 @@ const articles = [
     summary: "A concise roadmap for early-stage startups to establish security foundations that satisfy investors and protect customer data.",
     icon: <Lock className="w-5 h-5" />,
     readTime: "8 min read",
-    color: "orange",
+    color: "purple",
     downloadable: true
   },
   {
@@ -53,7 +54,7 @@ const articles = [
     summary: "A side-by-side comparison of the two most requested compliance frameworks — helping you choose the right path for your organization.",
     icon: <BookOpen className="w-5 h-5" />,
     readTime: "7 min read",
-    color: "orange"
+    color: "purple"
   }
 ];
 
@@ -70,7 +71,7 @@ export const Insights = () => {
           <div className="max-w-2xl">
             <span className="text-xs md:text-sm uppercase tracking-[0.4em] text-blue-600 dark:text-blue-400 mb-4 block font-bold">Knowledge Hub</span>
             <h2 className="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight">
-              Insights & <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-orange-500 dark:from-blue-400 dark:via-white dark:to-orange-400 bg-clip-text text-transparent italic font-light">resources.</span>
+              Insights & <span className="text-slate-900 dark:text-white font-semibold">resources.</span>
             </h2>
           </div>
           <p className="text-slate-600 dark:text-stone-400 text-sm md:text-base max-w-xs leading-relaxed md:text-right font-light">
@@ -80,62 +81,52 @@ export const Insights = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {articles.map((article, i) => (
-            <motion.a
-              href="#contact"
+            <WaterGlassCard
               key={i}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -4 }}
-              className={`p-6 md:p-8 bg-white/90 dark:bg-white/[0.02] backdrop-blur-xl border rounded-2xl group cursor-pointer transition-all duration-300 flex flex-col shadow-sm hover:shadow-md ${
-                article.color === 'blue' 
-                  ? 'border-blue-500/20 hover:border-blue-500/50 shadow-blue-500/5' 
-                  : 'border-orange-500/20 hover:border-orange-500/50 shadow-orange-500/5'
-              }`}
+              className="p-6 md:p-8 flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between mb-5">
-                <div className={`p-2.5 rounded-xl ${article.color === 'blue' ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' : 'bg-orange-500/10 text-orange-600 dark:text-orange-400'}`}>
-                  {article.icon}
+              <div className="flex flex-col h-full justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-white/[0.06] border border-slate-200 dark:border-white/10 text-slate-800 dark:text-white">
+                      {article.icon}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] uppercase tracking-widest font-mono font-bold px-2.5 py-1 rounded-full border bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-stone-300">
+                        {article.type}
+                      </span>
+                    </div>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 leading-snug transition-colors">
+                    {article.title}
+                  </h3>
+                  
+                  <p className="text-slate-600 dark:text-stone-300 text-sm font-normal leading-relaxed mb-6 flex-grow">
+                    {article.summary}
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className={`text-[9px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-full border ${
-                    article.type === 'Whitepaper' 
-                      ? 'bg-blue-500/10 border-blue-500/30 text-blue-600 dark:text-blue-400' 
-                      : article.type === 'Guide' 
-                        ? 'bg-orange-500/10 border-orange-500/30 text-orange-600 dark:text-orange-400' 
-                        : 'bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-stone-400'
-                  }`}>
-                    {article.type}
-                  </span>
+
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-200/80 dark:border-white/10">
+                  <span className="text-[10px] uppercase font-mono tracking-wider text-slate-500 dark:text-stone-400 font-medium">{article.readTime}</span>
+                  {article.downloadable ? (
+                    <a 
+                      href="#contact"
+                      className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white hover:opacity-80 transition-opacity"
+                    >
+                      <Download size={14} /> Download
+                    </a>
+                  ) : (
+                    <a 
+                      href="#contact"
+                      className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white hover:opacity-80 transition-opacity"
+                    >
+                      Read <ExternalLink size={12} />
+                    </a>
+                  )}
                 </div>
               </div>
-
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                {article.title}
-              </h3>
-              
-              <p className="text-slate-600 dark:text-stone-400 text-sm font-light leading-relaxed mb-6 flex-grow">
-                {article.summary}
-              </p>
-
-              <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-white/5">
-                <span className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-stone-500 font-medium">{article.readTime}</span>
-                {article.downloadable ? (
-                  <div className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
-                    article.color === 'blue' ? 'text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300' : 'text-orange-600 dark:text-orange-400 group-hover:text-orange-700 dark:group-hover:text-orange-300'
-                  }`}>
-                    <Download size={14} /> Download
-                  </div>
-                ) : (
-                  <div className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${
-                    article.color === 'blue' ? 'text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300' : 'text-orange-600 dark:text-orange-400 group-hover:text-orange-700 dark:group-hover:text-orange-300'
-                  }`}>
-                    Read <ExternalLink size={12} />
-                  </div>
-                )}
-              </div>
-            </motion.a>
+            </WaterGlassCard>
           ))}
         </div>
 
@@ -146,8 +137,7 @@ export const Insights = () => {
           viewport={{ once: true }}
           className="mt-16 p-8 md:p-12 bg-white/90 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 rounded-3xl text-center relative overflow-hidden shadow-lg dark:shadow-none"
         >
-          <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-orange-500/10 rounded-full blur-[80px] pointer-events-none" />
+
           
           <div className="relative z-10">
             <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-4" />

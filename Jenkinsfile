@@ -28,29 +28,22 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Docker Images') {
             steps {
-                echo '⚡ Building image with Docker BuildKit & persistent cache mounts...'
+                echo '⚡ Building images with Docker BuildKit & persistent cache mounts...'
                 sh '''
                     export DOCKER_BUILDKIT=1
-                    docker build \
-                        --build-arg VITE_WEB3FORMS_ACCESS_KEY="${VITE_WEB3FORMS_ACCESS_KEY}" \
-                        -t ${APP_NAME}:latest .
+                    export COMPOSE_DOCKER_CLI_BUILD=1
+                    docker compose build --build-arg VITE_WEB3FORMS_ACCESS_KEY="${VITE_WEB3FORMS_ACCESS_KEY}"
                 '''
             }
         }
 
-        stage('Deploy Container') {
+        stage('Deploy Containers') {
             steps {
-                echo '⚡ Zero-downtime container rollout...'
+                echo '⚡ Orchestrated container rollout with Docker Compose...'
                 sh '''
-                    docker stop ${APP_NAME} 2>/dev/null || true
-                    docker rm ${APP_NAME} 2>/dev/null || true
-                    docker run -d \
-                        --name ${APP_NAME} \
-                        --restart unless-stopped \
-                        -p 127.0.0.1:3000:80 \
-                        ${APP_NAME}:latest
+                    docker compose up -d --remove-orphans
                 '''
             }
         }

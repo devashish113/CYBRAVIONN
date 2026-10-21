@@ -67,32 +67,46 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
       )}
 
       {/* 1. Hairline Radial Divider with Sovereign Kicker */}
-      {/* 1. Cyber Badge Kicker */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 dark:bg-blue-500/15 border border-blue-500/30 dark:border-blue-400/30 mb-6 sm:mb-8 shadow-[0_0_15px_rgba(59,130,246,0.15)] mx-auto"
+        className="flex flex-col items-center gap-2 mb-6 sm:mb-8 w-fit mx-auto"
       >
-        <span className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse" />
-        <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-bold text-blue-600 dark:text-blue-400">
+        <div 
+          className="w-36 sm:w-56 h-[1px]" 
+          style={{ 
+            background: isDarkMode 
+              ? 'radial-gradient(circle, rgba(245, 158, 11, 0.75) 0%, transparent 100%)' 
+              : 'radial-gradient(circle, rgba(217, 119, 6, 0.65) 0%, transparent 100%)' 
+          }} 
+        />
+        <p className="px-4 font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-amber-700 dark:text-amber-400 text-shadow-glow-amber">
           {kicker}
         </p>
+        <div 
+          className="w-36 sm:w-56 h-[1px]" 
+          style={{ 
+            background: isDarkMode 
+              ? 'radial-gradient(circle, rgba(245, 158, 11, 0.75) 0%, transparent 100%)' 
+              : 'radial-gradient(circle, rgba(217, 119, 6, 0.65) 0%, transparent 100%)' 
+          }} 
+        />
       </motion.div>
 
-      {/* 2. Authoritative Display Headline Aligned with Cybravions Brand */}
+      {/* 2. Authoritative Editorial Display Headline */}
       <motion.h1
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.08 }}
-        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] text-slate-900 dark:text-white mb-5 sm:mb-6 tracking-tight max-w-4xl mx-auto"
+        className="font-editorial text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.08] text-neutral-900 dark:text-white mb-5 sm:mb-6 tracking-tight max-w-4xl mx-auto text-shadow-ambient"
       >
         {title}
         {italicTitle && (
           <>
             {' '}
             <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-blue-600 via-sky-400 to-orange-500 dark:from-sky-400 dark:via-blue-400 dark:to-orange-400 bg-clip-text text-transparent">
+            <span className="italic font-light text-neutral-500 dark:text-neutral-400">
               {italicTitle}
             </span>
           </>
@@ -104,7 +118,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.14 }}
-        className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-stone-300 mb-8 sm:mb-10 max-w-2xl mx-auto font-normal leading-relaxed"
+        className="text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-400 mb-8 sm:mb-10 max-w-2xl mx-auto font-normal leading-relaxed"
       >
         {description}
       </motion.p>

@@ -1,28 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Search, 
   ShieldCheck, 
   Radar, 
   Lock, 
-  Globe, 
   Brain, 
   FileText, 
   Sun, 
   Moon, 
   ArrowRight, 
-  CornerDownLeft, 
   ExternalLink,
-  Zap,
   Sparkles,
-  Command,
   X,
   Phone,
   HelpCircle,
   Award,
   Gamepad2,
   MapPin,
-  Building2
+  Building2,
+  ShieldAlert,
+  BellRing,
+  Radio,
+  Cloud,
+  Scale
 } from 'lucide-react';
 import { cyberAudio } from '../utils/cyberAudio';
 
@@ -37,13 +38,16 @@ interface CommandPaletteProps {
 
 interface CommandItem {
   id: string;
-  category: string;
+  category: 'Platforms' | 'Services' | 'Tools' | 'Company';
   title: string;
   subtitle: string;
   icon: React.ComponentType<{ size?: number; className?: string }>;
-  badge?: string;
+  tag?: string;
   action: () => void;
 }
+
+const CATEGORIES = ['All', 'Platforms', 'Services', 'Tools', 'Company'] as const;
+type CategoryFilter = typeof CATEGORIES[number];
 
 export const CommandPalette: React.FC<CommandPaletteProps> = ({
   isOpen,
@@ -54,15 +58,18 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   onOpenAuditModal
 }) => {
   const [query, setQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState<CategoryFilter>('All');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
-  // Focus input and lock scroll / pause Lenis when opened
+  // Focus input and lock background scroll when opened
   useEffect(() => {
     if (isOpen) {
       setQuery('');
+      setActiveCategory('All');
       setSelectedIndex(0);
-      setTimeout(() => inputRef.current?.focus(), 50);
+      const timer = setTimeout(() => inputRef.current?.focus(), 60);
 
       const prevBodyOverflow = document.body.style.overflow;
       const prevHtmlOverflow = document.documentElement.style.overflow;
@@ -75,6 +82,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       }
 
       return () => {
+        clearTimeout(timer);
         document.body.style.overflow = prevBodyOverflow;
         document.documentElement.style.overflow = prevHtmlOverflow;
         if (lenis && typeof lenis.start === 'function') {
@@ -84,15 +92,175 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     }
   }, [isOpen]);
 
-  const items: CommandItem[] = [
-    // Capabilities & Services
+  const items: CommandItem[] = useMemo(() => [
+    // --- Platforms ---
+    {
+      id: 'threatforge',
+      category: 'Platforms',
+      title: 'ThreatForge Platform',
+      subtitle: 'Automated threat modeling, attack path trees & CVSS quantitative scoring',
+      icon: ShieldAlert,
+      tag: 'STRIDE / PASTA',
+      action: () => {
+        onClose();
+        setCurrentView('threatforge');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'soc-ai',
+      category: 'Platforms',
+      title: 'SOC AI Triage Engine',
+      subtitle: 'Autonomous SIEM alert investigation with explainable SHAP verdicts & playbooks',
+      icon: BellRing,
+      tag: 'SOAR Engine',
+      action: () => {
+        onClose();
+        setCurrentView('soc-ai');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'exception-mgr',
+      category: 'Platforms',
+      title: 'AI Exception Manager',
+      subtitle: 'Automated cyber risk waiver assessment, drift tracking & audit PDF workflows',
+      icon: ShieldCheck,
+      tag: 'AI Governance',
+      action: () => {
+        onClose();
+        setCurrentView('exception-manager');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'cyberverse',
+      category: 'Platforms',
+      title: 'CyberRange Arena',
+      subtitle: 'Gamified CyberQuest labs, cryptography puzzles & CISM scenarios',
+      icon: Gamepad2,
+      tag: 'CTF & CISM',
+      action: () => {
+        onClose();
+        setCurrentView('cyberverse');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'threat-collector',
+      category: 'Platforms',
+      title: 'Threat Intel Collector',
+      subtitle: 'Multi-source IOC ingestion, automated STIX 2.1 normalization & air-gap bundles',
+      icon: Radio,
+      tag: 'MISP & OTX',
+      action: () => {
+        onClose();
+        setCurrentView('threat-collector');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'sovereign-ai',
+      category: 'Platforms',
+      title: 'Cybravions AI',
+      subtitle: 'Air-gapped offline agentic AI in-a-box for enterprise private environments',
+      icon: Brain,
+      tag: 'Secure Core',
+      action: () => {
+        onClose();
+        setCurrentView('ai');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+
+    // --- Services ---
+    {
+      id: 'vapt',
+      category: 'Services',
+      title: 'VAPT & Offensive Security',
+      subtitle: 'Web, mobile, API & cloud network penetration testing with manual exploit proofs',
+      icon: Lock,
+      tag: 'CERT-In Aligned',
+      action: () => {
+        onClose();
+        setCurrentView('vapt');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'iso-27001',
+      category: 'Services',
+      title: 'ISO 27001:2022 Implementation',
+      subtitle: 'Turnkey ISMS implementation, Statement of Applicability & Stage 2 audit guarantee',
+      icon: Award,
+      tag: 'ISMS 2022',
+      action: () => {
+        onClose();
+        setCurrentView('iso-27001');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'soc-2',
+      category: 'Services',
+      title: 'SOC 2 Type I & Type II Compliance',
+      subtitle: 'Accelerate enterprise SaaS procurement with continuous audit evidence liaison',
+      icon: FileText,
+      tag: 'AICPA Trust',
+      action: () => {
+        onClose();
+        setCurrentView('soc-2');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'cloud-security',
+      category: 'Services',
+      title: 'Cloud Security & DevSecOps',
+      subtitle: 'AWS, Azure, GCP & Kubernetes CIS benchmark hardening and CI/CD gating',
+      icon: Cloud,
+      tag: 'Multi-Cloud',
+      action: () => {
+        onClose();
+        setCurrentView('cloud-security');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'ai-security',
+      category: 'Services',
+      title: 'AI Security & LLM Red Teaming',
+      subtitle: 'Prompt injection defenses, RAG poisoning audits, and enterprise safety testing',
+      icon: Brain,
+      tag: 'OWASP LLM',
+      action: () => {
+        onClose();
+        setCurrentView('ai-security');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'dpdp-compliance',
+      category: 'Services',
+      title: 'DPDP Act 2023 Compliance',
+      subtitle: 'Data Fiduciary advisory, consent architectures, and regulatory defense',
+      icon: Scale,
+      tag: 'Statutory Mandate',
+      action: () => {
+        onClose();
+        setCurrentView('dpdp-compliance');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+
+    // --- Interactive Tools & Demos ---
     {
       id: 'audit-tool',
-      category: 'Interactive Tools',
-      title: 'Launch Instant Security Posture Audit',
-      subtitle: 'Calculate cloud readiness score and remediation roadmap in 30 seconds',
+      category: 'Tools',
+      title: 'Security Posture Audit Calculator',
+      subtitle: 'Interactive assessment of cloud readiness and vulnerability exposure score',
       icon: Sparkles,
-      badge: 'Interactive',
+      tag: 'Diagnostic Tool',
       action: () => {
         onClose();
         onOpenAuditModal();
@@ -100,11 +268,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     },
     {
       id: 'radar-sim',
-      category: 'Interactive Tools',
+      category: 'Tools',
       title: '3D Threat Radar Simulation',
-      subtitle: 'Simulate red-team breach and inspect live packet defense telemetry',
+      subtitle: 'Simulate perimeter breach attempts and inspect live packet defense telemetry',
       icon: Radar,
-      badge: '3D Simulation',
+      tag: 'Live Telemetry',
       action: () => {
         onClose();
         setCurrentView('home');
@@ -113,139 +281,26 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       }
     },
     {
-      id: 'services',
-      category: 'Core Capabilities',
-      title: 'GRC (Governance, Risk & Compliance)',
-      subtitle: 'ISO 27001 & DPDP Act compliance, SOC 2 Type II, NIST CSF 2.0 readiness',
-      icon: ShieldCheck,
-      action: () => {
-        onClose();
-        setCurrentView('home');
-        const el = document.getElementById('services');
-        el?.scrollIntoView({ behavior: 'smooth' });
-      }
-    },
-    {
-      id: 'vapt',
-      category: 'Core Capabilities',
-      title: 'VAPT & Offensive Red Teaming',
-      subtitle: 'Penetration testing across web, mobile, APIs, and cloud networks',
-      icon: Lock,
-      action: () => {
-        onClose();
-        setCurrentView('home');
-        const el = document.getElementById('services');
-        el?.scrollIntoView({ behavior: 'smooth' });
-      }
-    },
-    {
-      id: 'cyberverse',
-      category: 'Sovereign Products',
-      title: 'Cybravions CyberRange (Gamified CyberSec & AI Platform)',
-      subtitle: '10 CyberSec Guilds, CTF Boss Fights, Adversarial AI labs & Inter-College Leagues',
-      icon: Gamepad2,
-      badge: 'Gamified RPG',
-      action: () => {
-        onClose();
-        setCurrentView('cyberverse');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
-    {
-      id: 'sovereign-ai',
-      category: 'Sovereign Products',
-      title: 'Cybravions AI (Sovereign In-a-Box)',
-      subtitle: '100% offline air-gapped agentic AI appliance for defense & critical infra',
-      icon: Brain,
-      badge: 'Appliance',
-      action: () => {
-        onClose();
-        setCurrentView('ai');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
-    {
-      id: 'exception-mgr',
-      category: 'Sovereign Products',
-      title: 'AI Exception Manager & Risk Governance',
-      subtitle: 'Deterministic risk engine, 100K+ precedent matching, and online ML retraining',
-      icon: ShieldCheck,
-      badge: 'Risk Engine',
-      action: () => {
-        onClose();
-        setCurrentView('exception-manager');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
-    {
       id: 'exception-mgr-live',
-      category: 'Live Cloud Portals',
-      title: 'Launch Live Exception Manager Portal (exceptionmgr.cybravions.com)',
-      subtitle: 'Open active production dashboard in new tab',
+      category: 'Tools',
+      title: 'Production Portal (exceptionmgr.cybravions.com)',
+      subtitle: 'Access the hosted enterprise exception management console',
       icon: ExternalLink,
-      badge: 'Live Portal',
+      tag: 'Cloud Portal',
       action: () => {
         window.open('https://exceptionmgr.cybravions.com', '_blank', 'noopener,noreferrer');
         onClose();
       }
     },
-    {
-      id: 'lifecycle',
-      category: 'Company Journey',
-      title: 'How We Partner With Enterprises (Engagement Lifecycle)',
-      subtitle: 'Step-by-step 4-phase onboarding, SLA guarantees, and board debriefs',
-      icon: Zap,
-      action: () => {
-        onClose();
-        setCurrentView('home');
-        const el = document.getElementById('lifecycle');
-        el?.scrollIntoView({ behavior: 'smooth' });
-      }
-    },
-    {
-      id: 'trust-standards',
-      category: 'Trust & Validation',
-      title: 'Certifications & Industry Standards',
-      subtitle: 'ISO 27001, SOC 2, NIST CSF 2.0, HIPAA, and partner integrations',
-      icon: Award,
-      action: () => {
-        onClose();
-        setCurrentView('home');
-        const el = document.getElementById('about');
-        el?.scrollIntoView({ behavior: 'smooth' });
-      }
-    },
-    {
-      id: 'compliance-page',
-      category: 'Specialized Centers',
-      title: 'Trust & Compliance Center',
-      subtitle: 'Internal security controls, NDA assurances, and data privacy policies',
-      icon: ShieldCheck,
-      action: () => {
-        onClose();
-        setCurrentView('compliance');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
-    {
-      id: 'training-page',
-      category: 'Specialized Centers',
-      title: 'Cybersecurity Training & Capability Development',
-      subtitle: 'Bespoke workforce workshops, red-team labs, and executive cyber literacy',
-      icon: Brain,
-      action: () => {
-        onClose();
-        setCurrentView('training');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
+
+    // --- Company & Information ---
     {
       id: 'about-page',
-      category: 'Company Profile',
-      title: 'About Us & Corporate Profile (CYBRAVION SOLUTIONS PVT LTD)',
-      subtitle: 'Official MCA Entity, CIN: U62099DL2026PTC470901, sovereign mission & leadership pillars',
+      category: 'Company',
+      title: 'About Cybravions Solutions Pvt Ltd',
+      subtitle: 'CIN: U62099DL2026PTC470901, leadership team, advisory board & enterprise mission',
       icon: Building2,
-      badge: 'About Us Page',
+      tag: 'Corporate Profile',
       action: () => {
         onClose();
         setCurrentView('about');
@@ -253,11 +308,38 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       }
     },
     {
+      id: 'training-page',
+      category: 'Company',
+      title: 'Cybersecurity Training & Workforce Academy',
+      subtitle: 'Customized engineering defense programs with actionable verified skills',
+      icon: Brain,
+      tag: 'Training Hub',
+      action: () => {
+        onClose();
+        setCurrentView('training');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
+      id: 'compliance-hub',
+      category: 'Company',
+      title: 'Global Compliance & GRC Automation Hub',
+      subtitle: 'Unified frameworks overview for ISO 27001, SOC 2, HIPAA, NIST & DPDP',
+      icon: ShieldCheck,
+      tag: 'Frameworks',
+      action: () => {
+        onClose();
+        setCurrentView('compliance');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    {
       id: 'contact',
-      category: 'Direct Engagement',
-      title: 'Initiate Confidential CISO Briefing',
-      subtitle: 'Direct engagement with lead security advisors under mutual NDA',
+      category: 'Company',
+      title: 'Consult Lead Security Advisor',
+      subtitle: 'Direct confidential consultation under mutual non-disclosure agreement',
       icon: Phone,
+      tag: 'Engagement',
       action: () => {
         onClose();
         setCurrentView('home');
@@ -267,11 +349,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     },
     {
       id: 'office-map',
-      category: 'Direct Engagement',
-      title: 'Registered Headquarters & Interactive Map',
+      category: 'Company',
+      title: 'Registered Headquarters & Location',
       subtitle: 'Saidulajab, Western Marg, New Delhi 110030 (GPS: 28.5194° N, 77.2011° E)',
       icon: MapPin,
-      badge: 'New Delhi HQ',
+      tag: 'New Delhi HQ',
       action: () => {
         onClose();
         setCurrentView('home');
@@ -281,10 +363,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     },
     {
       id: 'faq',
-      category: 'Company & Advisory',
+      category: 'Company',
       title: 'Frequently Asked Questions (FAQ)',
-      subtitle: 'Timelines, VAPT methodology, remediation support, and startup pricing',
+      subtitle: 'Engagement models, audit timelines, testing methodologies & pricing structure',
       icon: HelpCircle,
+      tag: 'Advisory',
       action: () => {
         onClose();
         setCurrentView('home');
@@ -294,37 +377,51 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     },
     {
       id: 'toggle-theme',
-      category: 'Preferences',
-      title: isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-      subtitle: 'Toggle theme display aesthetics',
+      category: 'Company',
+      title: isDarkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme',
+      subtitle: 'Toggle monochrome contrast aesthetics',
       icon: isDarkMode ? Sun : Moon,
+      tag: 'Theme Mode',
       action: () => {
         toggleDarkMode();
         onClose();
       }
-    },
-    {
-      id: 'llms-doc',
-      category: 'Documentation & AI Standards',
-      title: 'View Official LLM Context (llms.txt)',
-      subtitle: 'Standardized Markdown documentation for AI agents & crawlers',
-      icon: FileText,
-      badge: 'RFC/Standard',
-      action: () => {
-        window.open('/llms.txt', '_blank');
-        onClose();
+    }
+  ], [isDarkMode, onClose, onOpenAuditModal, setCurrentView, toggleDarkMode]);
+
+  // Filter items based on active category and query
+  const filteredItems = useMemo(() => {
+    return items.filter(item => {
+      const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
+      if (!matchesCategory) return false;
+
+      if (!query.trim()) return true;
+      const q = query.toLowerCase();
+      return (
+        item.title.toLowerCase().includes(q) ||
+        item.subtitle.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q) ||
+        (item.tag && item.tag.toLowerCase().includes(q))
+      );
+    });
+  }, [items, activeCategory, query]);
+
+  // Keep selected index within bounds
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [filteredItems.length, activeCategory]);
+
+  // Ensure selected item stays scrolled into view
+  useEffect(() => {
+    if (listRef.current) {
+      const activeEl = listRef.current.querySelector(`[data-index="${selectedIndex}"]`) as HTMLElement;
+      if (activeEl) {
+        activeEl.scrollIntoView({ block: 'nearest' });
       }
     }
-  ];
+  }, [selectedIndex]);
 
-  // Filter items by query
-  const filteredItems = items.filter(item => 
-    item.title.toLowerCase().includes(query.toLowerCase()) ||
-    item.subtitle.toLowerCase().includes(query.toLowerCase()) ||
-    item.category.toLowerCase().includes(query.toLowerCase())
-  );
-
-  // Handle keyboard navigation
+  // Keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -352,68 +449,102 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           cyberAudio.playClick();
           onClose();
         }}
-        className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/80 backdrop-blur-2xl cursor-pointer"
+        className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/65 backdrop-blur-md cursor-pointer transition-opacity"
         aria-label="Click background to close"
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: -10 }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Spotlight Search"
+          initial={{ opacity: 0, scale: 0.97, y: -8 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: -10 }}
-          transition={{ duration: 0.18 }}
+          exit={{ opacity: 0, scale: 0.97, y: -8 }}
+          transition={{ duration: 0.16, ease: 'easeOut' }}
           onClick={(e) => e.stopPropagation()}
-          className={`w-full max-w-2xl rounded-3xl border shadow-2xl overflow-hidden relative flex flex-col max-h-[75vh] cursor-default ${
+          className={`w-full max-w-2xl rounded-3xl border shadow-2xl overflow-hidden relative flex flex-col max-h-[80vh] cursor-default ${
             isDarkMode
-              ? 'bg-[#090d18]/95 border-stone-800 text-stone-100 shadow-[0_30px_90px_rgba(0,0,0,0.9)]'
-              : 'bg-white border-slate-200 text-slate-900 shadow-[0_30px_90px_rgba(0,0,0,0.2)]'
+              ? 'bg-[#0b0e14]/98 border-white/[0.12] text-slate-100 shadow-[0_28px_80px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.08)] backdrop-blur-2xl'
+              : 'bg-white/98 border-black/[0.08] text-slate-900 shadow-[0_28px_80px_rgba(0,0,0,0.18),0_10px_25px_rgba(0,0,0,0.08)] backdrop-blur-2xl'
           }`}
           onKeyDown={handleKeyDown}
         >
-          {/* Top Search Input Bar with Clear Go Back / Close Button */}
-          <div className="p-4 sm:p-5 flex items-center gap-3 border-b border-slate-200 dark:border-stone-800/90 relative">
-            <Search size={20} className="text-blue-500 shrink-0" />
+          {/* Spotlight Search Header */}
+          <div className="p-4 sm:p-5 flex items-center gap-3.5 border-b border-slate-200/80 dark:border-white/[0.08] relative">
+            <Search size={20} aria-hidden="true" className="text-slate-400 dark:text-slate-500 shrink-0" />
             <input
               ref={inputRef}
               type="text"
+              role="combobox"
+              aria-expanded="true"
+              aria-controls="spotlight-search-results"
+              aria-autocomplete="list"
+              aria-label="Search platforms, capabilities, and tools"
               value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setSelectedIndex(0);
-              }}
-              placeholder="Search capabilities, diagnostic tools, products, or standards..."
-              className="w-full bg-transparent text-sm sm:text-base outline-none placeholder:text-slate-400 dark:placeholder:text-stone-500"
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search platforms, services, frameworks, or tools..."
+              className="w-full bg-transparent text-base sm:text-[17px] font-medium tracking-tight outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 text-slate-900 dark:text-white"
             />
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery('')}
-                className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-stone-200"
-                aria-label="Clear search input"
+                className="p-1 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer transition-colors"
+                aria-label="Clear input"
               >
-                <X size={16} />
+                <X size={16} aria-hidden="true" />
               </button>
             )}
 
-            {/* Clear Go Back / Close Button */}
+            {/* Understated ESC Chip */}
             <button
               type="button"
               onClick={() => {
                 cyberAudio.playClick();
                 onClose();
               }}
-              className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-stone-800/90 dark:hover:bg-stone-750 text-slate-700 dark:text-stone-200 hover:text-red-600 dark:hover:text-orange-400 border border-slate-300 dark:border-stone-700 text-xs font-semibold tracking-wider transition-all cursor-pointer shrink-0 shadow-sm"
-              aria-label="Close and go back"
-              title="Close modal (Esc)"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white text-xs font-mono font-medium transition-colors cursor-pointer shrink-0 border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.04]"
+              title="Close (Esc)"
             >
-              <X size={16} className="text-red-500 dark:text-orange-400" />
-              <span>Go Back</span>
-              <kbd className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-200 dark:bg-stone-900 text-slate-600 dark:text-stone-400 border border-slate-300 dark:border-stone-700 ml-1">
-                ESC
-              </kbd>
+              <span>ESC</span>
             </button>
           </div>
 
-          {/* Results List */}
-          <div className="overflow-y-auto p-2 sm:p-3 space-y-1 flex-1">
+          {/* Quick Filter Pill Tabs */}
+          <div className="px-4 sm:px-5 py-2.5 border-b border-slate-200/60 dark:border-white/[0.06] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            {CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => {
+                    cyberAudio.playClick();
+                    setActiveCategory(cat);
+                  }}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                    isActive
+                      ? isDarkMode
+                        ? 'bg-white text-slate-950 shadow-sm'
+                        : 'bg-slate-950 text-white shadow-sm'
+                      : isDarkMode
+                        ? 'text-slate-400 hover:text-white hover:bg-white/[0.06]'
+                        : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Search Results List */}
+          <div 
+            ref={listRef}
+            id="spotlight-search-results"
+            role="listbox"
+            aria-label="Search results"
+            className="overflow-y-auto p-2 sm:p-3 space-y-1 flex-1 min-h-[260px] max-h-[440px]"
+          >
             {filteredItems.length > 0 ? (
               filteredItems.map((item, idx) => {
                 const isSelected = selectedIndex === idx;
@@ -421,90 +552,110 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 return (
                   <button
                     key={item.id}
+                    data-index={idx}
+                    id={`spotlight-option-${item.id}`}
+                    role="option"
+                    aria-selected={isSelected}
                     onClick={() => {
                       cyberAudio.playClick();
                       item.action();
                     }}
                     onMouseEnter={() => setSelectedIndex(idx)}
-                    className={`w-full p-3 rounded-2xl text-left flex items-center justify-between gap-3 transition-all cursor-pointer ${
+                    className={`w-full p-3 rounded-2xl text-left flex items-center justify-between gap-3.5 transition-all cursor-pointer border ${
                       isSelected
-                        ? 'bg-blue-600/10 dark:bg-blue-500/15 border border-blue-500/40 text-blue-600 dark:text-blue-400'
-                        : 'hover:bg-slate-100 dark:hover:bg-white/[0.03] border border-transparent text-slate-700 dark:text-stone-300'
+                        ? isDarkMode
+                          ? 'bg-[#181e2b] border-white/20 shadow-sm'
+                          : 'bg-slate-100/90 border-slate-300/80 shadow-sm'
+                        : 'bg-transparent hover:bg-slate-50 dark:hover:bg-white/[0.03] border-transparent'
                     }`}
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
-                      <div className={`p-2.5 rounded-xl shrink-0 ${
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all ${
                         isSelected 
-                          ? 'bg-blue-500 text-white shadow-sm' 
-                          : 'bg-slate-100 dark:bg-stone-800 text-slate-600 dark:text-stone-400'
+                          ? isDarkMode
+                            ? 'bg-white text-slate-950 shadow-sm'
+                            : 'bg-slate-950 text-white shadow-sm'
+                          : isDarkMode
+                            ? 'bg-white/[0.06] text-slate-300 border border-white/[0.08]'
+                            : 'bg-white text-slate-700 border border-slate-200/80 shadow-sm'
                       }`}>
-                        <ItemIcon size={18} />
+                        <ItemIcon size={19} />
                       </div>
                       <div className="min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs uppercase font-mono tracking-widest text-slate-400 dark:text-stone-500 text-[10px]">
-                            {item.category}
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="text-[13.5px] font-bold text-slate-900 dark:text-white truncate">
+                            {item.title}
                           </span>
-                          {item.badge && (
-                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-orange-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30">
-                              {item.badge}
+                          {item.tag && (
+                            <span className="text-[9.5px] font-mono font-semibold px-2 py-0.5 rounded-md bg-slate-200/70 dark:bg-white/[0.08] text-slate-700 dark:text-slate-300 shrink-0">
+                              {item.tag}
                             </span>
                           )}
                         </div>
-                        <div className="font-semibold text-sm text-slate-900 dark:text-white truncate">
-                          {item.title}
-                        </div>
-                        <div className="text-[11px] text-slate-500 dark:text-stone-400 truncate font-light">
+                        <div className="text-xs text-slate-500 dark:text-slate-400 truncate font-normal leading-relaxed">
                           {item.subtitle}
                         </div>
                       </div>
                     </div>
 
-                    <div className="hidden sm:flex items-center gap-1.5 shrink-0">
-                      {isSelected && (
-                        <span className="text-[10px] font-mono text-blue-500 flex items-center gap-1">
-                          <span>Select</span>
-                          <CornerDownLeft size={12} />
+                    <div className="hidden sm:flex items-center gap-1 shrink-0">
+                      {isSelected ? (
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-medium flex items-center gap-1 bg-slate-200 dark:bg-white/[0.12] text-slate-800 dark:text-slate-200">
+                          <span>Open</span>
+                          <span>↵</span>
                         </span>
+                      ) : (
+                        <ArrowRight size={14} className="text-slate-300 dark:text-slate-600 opacity-0 group-hover:opacity-100" />
                       )}
                     </div>
                   </button>
                 );
               })
             ) : (
-              <div className="text-center py-12 text-slate-400 dark:text-stone-500">
-                <Search size={32} className="mx-auto mb-3 opacity-40" />
-                <p className="text-sm font-semibold">No capabilities found for "{query}"</p>
-                <p className="text-xs mt-1 font-light">Try searching for "GRC", "VAPT", "Sovereign AI", or "Audit".</p>
+              <div className="text-center py-14 px-4 text-slate-400 dark:text-slate-500">
+                <Search size={32} className="mx-auto mb-3 opacity-30 text-slate-400" />
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  No matching results for &ldquo;{query}&rdquo;
+                </p>
+                <p className="text-xs mt-1 text-slate-400 dark:text-slate-500">
+                  Try searching for a platform, service, or diagnostic tool.
+                </p>
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                  {['ThreatForge', 'SOC AI', 'VAPT', 'ISO 27001', 'Audit Tool'].map((term) => (
+                    <button
+                      key={term}
+                      type="button"
+                      onClick={() => setQuery(term)}
+                      className="px-2.5 py-1 rounded-full text-xs font-mono bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/[0.12] transition-colors cursor-pointer"
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Footer Shortcuts & Dismiss Button */}
-          <div className="p-3 px-5 border-t border-slate-200 dark:border-stone-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-stone-500 font-mono">
+          {/* Minimalist Human-Crafted Footer */}
+          <div className="p-3 px-5 border-t border-slate-200/80 dark:border-white/[0.08] flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-stone-800 border border-slate-200 dark:border-stone-700">↑</kbd>
-                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-stone-800 border border-slate-200 dark:border-stone-700">↓</kbd>
-                Navigate
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08]">↑</kbd>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08]">↓</kbd>
+                <span className="ml-0.5">Navigate</span>
               </span>
               <span className="flex items-center gap-1">
-                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-stone-800 border border-slate-200 dark:border-stone-700">↵</kbd>
-                Execute
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08]">↵</kbd>
+                <span className="ml-0.5">Open</span>
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08]">ESC</kbd>
+                <span className="ml-0.5">Close</span>
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  cyberAudio.playClick();
-                  onClose();
-                }}
-                className="hover:text-red-500 dark:hover:text-orange-400 font-sans font-medium underline underline-offset-2 cursor-pointer transition-colors"
-              >
-                Cancel / Close
-              </button>
-              <span className="hidden sm:inline-block">CYBRAVION Command Engine</span>
+
+            <div className="flex items-center gap-2">
+              <span>{filteredItems.length} {filteredItems.length === 1 ? 'item' : 'items'}</span>
             </div>
           </div>
         </motion.div>
